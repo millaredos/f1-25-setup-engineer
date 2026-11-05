@@ -29,7 +29,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y php-cli php-zip php-curl
-          npm install --no-save playwright
+          npm install --no-save playwright@1.62.1
           npx playwright install --with-deps chromium
       - name: Check PHP and JavaScript
         run: |
