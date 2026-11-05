@@ -16,6 +16,8 @@ El flujo se ejecuta al abrir, reabrir o actualizar una PR de release del mismo r
 
 Un commit posterior deja obsoleta una ejecución anterior. Las instalaciones no reciben compilaciones fallidas o incompletas. Las PR de forks y las ramas que no son de release no pueden publicar mediante este flujo.
 
+La variable opcional del repositorio `ALPHA_BUILD_OFFSET` suma un entero no negativo al número de ejecución. Su valor predeterminado es cero. Permite continuar la numeración Alpha por encima de las versiones ya distribuidas al trasladar el proyecto a otro repositorio.
+
 ## Release estable
 
 Fusiona la PR cuando esté preparada. El flujo prueba el commit de fusión y prepara un borrador para `vX.Y.Z`, con:

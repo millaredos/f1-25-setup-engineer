@@ -14,6 +14,8 @@ The release pipeline runs when a same-repository release PR is opened, reopened 
 4. Upload the reproducible update ZIP and verify its GitHub digest.
 5. Publish the prerelease only if the PR is still open at the same commit.
 
+The optional `ALPHA_BUILD_OFFSET` repository variable adds a non-negative integer to the workflow run number. Its default is zero. Use it when moving to a new repository so Alpha versions continue above previously distributed builds.
+
 A newer commit supersedes an older run. Failed or incomplete builds are not offered to installations. Fork PRs and non-release branches cannot publish through this workflow.
 
 ## Stable release
