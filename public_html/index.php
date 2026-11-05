@@ -19,7 +19,7 @@ header('Referrer-Policy: same-origin');
 <body>
   <a class="skip" href="#navigation">Ir al menú</a>
   <header class="masthead">
-    <a class="brand" href="./"><span class="brand-mark" aria-hidden="true">25</span><span>SETUP ENGINEER<small>Tu taller de F1 25</small></span></a>
+    <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span><span>SETUP ENGINEER<small>Tu taller de F1 25</small></span></a>
   <nav id="navigation" class="app-nav" aria-label="Apartados">
     <a href="#inicio">Inicio</a><a href="#circuito">Circuito y referencia</a><a href="#taller">Taller</a><a href="#pruebas">Pruebas</a><a href="#versiones">Versiones</a><a href="update.php">Updates</a><a href="options.php">Options</a>
   </nav>

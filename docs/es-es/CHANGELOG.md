@@ -6,6 +6,7 @@
 
 ### 0.3.0
 
+- Logo proporcionado en la cabecera de la aplicación, incluidas Options y Updates.
 - Cabecera compacta con el menú entre la marca y la versión; navegación con desplazamiento horizontal en pantallas pequeñas.
 - Canales Alpha y Release seleccionables desde Options y guardados por instalación.
 - Consultas de GitHub en segundo plano, caché compartida, espera ante límites y descarga verificada sin contraseña del actualizador ni subida de ZIP.

@@ -3,7 +3,7 @@ declare(strict_types=1);
 ini_set('display_errors', '0');
 require dirname(__DIR__) . '/src/bootstrap.php';
 redirectForInstallation(false);
-header("Content-Security-Policy: default-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
+header("Content-Security-Policy: default-src 'self'; style-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
 header('X-Content-Type-Options: nosniff');
 session_name('f125_session');
 session_start(['use_strict_mode' => 1, 'cookie_httponly' => true, 'cookie_samesite' => 'Strict', 'cookie_secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off']);
@@ -30,7 +30,7 @@ function optionText(string $text): string { return htmlspecialchars($text, ENT_Q
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Options · F1 25</title><link rel="stylesheet" href="assets/app.css?v=<?= appVersion() ?>"></head>
 <body>
-<header class="masthead"><a class="brand" href="./">F1 25 SETUP ENGINEER</a><nav class="app-nav" aria-label="Sections"><a href="./">Home</a><a href="update.php">Updates</a><a href="options.php" aria-current="page">Options</a></nav><span class="driver">Version <?= appVersion() ?></span></header>
+<header class="masthead"><a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span><span>SETUP ENGINEER<small>Tu taller de F1 25</small></span></a><nav class="app-nav" aria-label="Sections"><a href="./">Home</a><a href="update.php">Updates</a><a href="options.php" aria-current="page">Options</a></nav><span class="driver">Version <?= appVersion() ?></span></header>
 <main class="installation"><h1>Options</h1>
 <?php if ($error): ?><p class="status error" role="alert"><?= optionText($error) ?></p><?php endif; ?>
 <?php if ($saved): ?><p class="status" role="status">Update channel saved.</p><?php endif; ?>
