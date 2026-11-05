@@ -116,8 +116,12 @@ const path = require('node:path');
       if (destination) { fs.mkdirSync(destination, { recursive: true }); await page.screenshot({ path: path.join(destination, `taller-${width}.png`), fullPage: true }); }
     }
     await nav('inicio');
-    await page.waitForFunction(() => document.documentElement.scrollHeight < 2000);
-    if (destination) await page.screenshot({ path: path.join(destination, 'inicio-390.png'), fullPage: true });
+    await page.locator('[data-page="inicio"]').waitFor({ state: 'visible' });
+    for (const width of [1440, 768, 390]) {
+      await page.setViewportSize({ width, height: 1050 });
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true, `home fits ${width}px`);
+      if (destination) await page.screenshot({ path: path.join(destination, `inicio-${width}.png`), fullPage: true });
+    }
     assert.deepEqual(errors, []);
     await page.locator('.app-nav a[href="options.php"]').click();
     await page.locator('#update-channel').selectOption('alpha');
