@@ -4,7 +4,7 @@ declare(strict_types=1);
 final class GitHubRetry extends RuntimeException
 {
     public int $retryAt;
-    public function __construct(int $retryAt) { parent::__construct('GitHub access was denied or its request limit was reached. Retry later.'); $this->retryAt = $retryAt; }
+    public function __construct(int $retryAt) { parent::__construct('GitHub request limit reached. Update checks are paused until the retry time.'); $this->retryAt = $retryAt; }
 }
 
 final class UpdateSettings
@@ -53,9 +53,23 @@ final class GitHubClient
                 continue;
             }
             if (in_array($response['status'], [403, 429], true)) {
-                $retry = $response['headers']['retry-after'] ?? '3600';
-                $reset = (int) ($response['headers']['x-ratelimit-reset'] ?? 0);
-                throw new GitHubRetry(max(time() + (preg_match('/^\d+$/D', (string) $retry) ? max(60, (int) $retry) : 3600), $reset));
+                $headers = $response['headers'] ?? [];
+                $remaining = (string) ($headers['x-ratelimit-remaining'] ?? '');
+                $rateLimited = $response['status'] === 429 || $remaining === '0'
+                    || isset($headers['retry-after']) || stripos($response['body'], 'rate limit') !== false;
+                if (!$rateLimited) {
+                    throw new RuntimeException('GitHub denied access (HTTP 403). Check the server token permissions if a token is configured.');
+                }
+                $retry = (string) ($headers['retry-after'] ?? '');
+                $reset = (string) ($headers['x-ratelimit-reset'] ?? '');
+                if (preg_match('/^\d+$/D', $retry)) {
+                    $retryAt = time() + max(1, (int) $retry);
+                } elseif ($remaining === '0' && preg_match('/^\d+$/D', $reset)) {
+                    $retryAt = max(time() + 1, (int) $reset);
+                } else {
+                    $retryAt = time() + 60;
+                }
+                throw new GitHubRetry($retryAt);
             }
             if (!in_array($response['status'], [200, 404], true)) { throw new RuntimeException('GitHub is unavailable. The installed application is unchanged.'); }
             return $response;
@@ -117,7 +131,7 @@ final class GitHubUpdates
         $previous = $cache[$key] ?? [];
         if (($previous['retryAt'] ?? 0) > time()) { return $previous; }
         $ttl = isset($previous['error']) ? 600 : ($channel === 'alpha' ? 300 : 21600);
-        if (isset($previous['checked']) && time() - $previous['checked'] < ($force ? 60 : $ttl)) { return $previous; }
+        if (!isset($previous['retryAt']) && isset($previous['checked']) && time() - $previous['checked'] < ($force ? 60 : $ttl)) { return $previous; }
         $lock = fopen($this->root . '/config/update-cache.lock', 'c');
         if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) { if ($lock) { fclose($lock); } return $previous ?: ['checked' => 0, 'error' => 'An update check is already running.']; }
         try {

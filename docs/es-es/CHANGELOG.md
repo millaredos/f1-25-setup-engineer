@@ -6,6 +6,7 @@
 
 ### 0.3.0
 
+- Respeta la hora de reinicio del límite de GitHub, distingue accesos denegados e indica cuándo reanudar las comprobaciones.
 - Inicio incorpora una introducción centrada, columnas equilibradas, títulos legibles y pasos numerados en escritorio y móvil.
 - Inicio sustituye las tarjetas del menú por una introducción, los límites de la app y una guía breve de cada apartado.
 - Logo proporcionado en la cabecera de la aplicación, incluidas Options y Updates.

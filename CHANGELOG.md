@@ -6,6 +6,7 @@
 
 ### 0.3.0
 
+- Respect GitHub rate-limit reset times, distinguish denied access, and show when update checks can resume.
 - Refine the home guide with a centered introduction, balanced columns, readable headings and numbered steps across desktop and mobile.
 - Replace duplicate home menu cards with an introduction, application limits and a short guide to each section.
 - Use the supplied logo in the application header, including Options and Updates.

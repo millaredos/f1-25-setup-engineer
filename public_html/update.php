@@ -40,6 +40,7 @@ try {
     $error = $e instanceof RuntimeException ? $e->getMessage() : 'Cannot complete the update. The installed application has been preserved.';
 }
 function updateText(string $text): string { return htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
+$retryAt = is_int($result['retryAt'] ?? null) && $result['retryAt'] > time() ? $result['retryAt'] : null;
 $newer = is_array($candidate) && version_compare($candidate['version'], appVersion(), '>');
 ?>
 <!doctype html>
@@ -51,7 +52,8 @@ $newer = is_array($candidate) && version_compare($candidate['version'], appVersi
 <p>Installed: <strong id="installed-version"><?= appVersion() ?></strong> · Channel: <strong id="current-channel"><?= updateText(ucfirst($channel)) ?></strong> · <a href="options.php">Change channel</a></p>
 <?php if ($message): ?><p class="status" role="status"><?= updateText($message) ?></p><?php endif; ?>
 <?php if ($error): ?><p class="status error" role="alert"><?= updateText($error) ?></p><?php endif; ?>
-<form method="post"><input type="hidden" name="csrf" value="<?= updateText($csrf) ?>"><button class="button secondary" name="action" value="check">Check for updates</button></form>
+<?php if ($retryAt !== null): ?><p class="status" role="status">Next check after <time datetime="<?= gmdate('Y-m-d\TH:i:s\Z', $retryAt) ?>"><?= gmdate('Y-m-d H:i:s', $retryAt) ?> UTC</time>. Reload this page after that time. Your installed application is unchanged.</p><?php endif; ?>
+<form method="post"><input type="hidden" name="csrf" value="<?= updateText($csrf) ?>"><button class="button secondary" name="action" value="check"<?= $retryAt !== null ? ' disabled' : '' ?>>Check for updates</button></form>
 <section class="panel">
 <?php if (is_array($candidate)): ?>
 <h2>Available: <span id="available-version"><?= updateText($candidate['version']) ?></span></h2>

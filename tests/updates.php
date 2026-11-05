@@ -58,12 +58,35 @@ try {
         $failed = new GitHubUpdates($errorRoot, new GitHubClient('', fixtureGitHub('', ['status' => $status], $errorLog)));
         $failedCheck = $failed->check('release');
         testUpdate(isset($failedCheck['error']), 'GitHub failure is reported without changing installation');
-        if ($status !== 500) {
+        if ($status === 429) {
             testUpdate($failedCheck['retryAt'] > time(), 'Rate-limit cooldown persisted');
             $failed->check('release', true);
             testUpdate(count($errorLog->requests) === 1, 'Manual checks respect rate-limit cooldown');
         }
     }
+    // Primary limits use the reset time; secondary limits use Retry-After.
+    foreach ([
+        [403, ['x-ratelimit-remaining' => '0', 'x-ratelimit-reset' => (string) (time() + 120)], 120],
+        [429, ['retry-after' => '30', 'x-ratelimit-reset' => (string) (time() + 3600)], 30],
+        [429, [], 60],
+    ] as [$status, $headers, $seconds]) {
+        $limited = new GitHubClient('', static fn() => ['status' => $status, 'headers' => $headers, 'body' => '']);
+        $started = time();
+        try { $limited->get('/repos/' . GitHubClient::REPOSITORY . '/releases/latest'); testUpdate(false, 'Rate limit must throw'); }
+        catch (GitHubRetry $error) {
+            testUpdate(abs($error->retryAt - ($started + $seconds)) <= 2, 'GitHub retry time honored without an extra hour');
+            testUpdate(str_contains($error->getMessage(), 'request limit'), 'Rate limit has a specific message');
+        }
+    }
+    $denied = new GitHubClient('', static fn() => ['status' => 403, 'headers' => [], 'body' => '{"message":"Resource not accessible"}']);
+    try { $denied->get('/repos/' . GitHubClient::REPOSITORY . '/releases/latest'); testUpdate(false, 'Denied access must throw'); }
+    catch (RuntimeException $error) { testUpdate(!$error instanceof GitHubRetry && str_contains($error->getMessage(), 'denied access'), 'Permission denial is not mislabeled as a rate limit'); }
+    $retryRoot = $root . '/expired-retry'; mkdir($retryRoot); mkdir($retryRoot . '/config');
+    $retryClient = new GitHubClient('', fixtureGitHub($root . '/package.zip'));
+    Updater::atomicJson($retryRoot . '/config/update-cache.json', [$retryClient->cacheKey() . ':alpha' =>
+        ['checked' => time(), 'retryAt' => time() - 1, 'error' => 'Previous rate limit', 'candidate' => null]]);
+    $retried = (new GitHubUpdates($retryRoot, $retryClient))->check('alpha');
+    testUpdate(($retried['candidate']['version'] ?? '') === '0.3.0-alpha.2', 'Expired cooldown retries immediately instead of waiting for the error cache');
     rejectUpdate(fn() => $service->install('alpha', str_repeat('0', 64), 'www'), 'Stale or forged selection rejected');
     $damaged = new GitHubUpdates($root, new GitHubClient('damaged-test', fixtureGitHub($root . '/package.zip', ['download' => 'altered'])));
     $damagedCandidate = $damaged->check('alpha')['candidate'];

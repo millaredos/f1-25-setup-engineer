@@ -15,6 +15,8 @@ The selection is stored on the server and applies to the installation. Switching
 
 The application checks in the background while open. GitHub results are cached for five minutes on Alpha and six hours on Release. **Check for updates** refreshes the cache, subject to a one-minute throttle and GitHub rate-limit backoff.
 
+GitHub permits 60 unauthenticated API requests per hour per server IP, shared with other applications using that IP. A check can make several requests. When limited, Updates shows the UTC retry time and pauses checks until then; refreshing cannot bypass that pause. An HTTP 403 without rate-limit evidence is reported as denied access instead.
+
 ## Server requirements
 
 - PHP ZIP and cURL extensions, HTTPS access to GitHub and working CA certificates.

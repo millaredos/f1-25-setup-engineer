@@ -15,6 +15,8 @@ La selección se guarda en el servidor y se aplica a la instalación. Cambiar de
 
 La aplicación comprueba las novedades en segundo plano mientras está abierta. La caché de GitHub dura cinco minutos en Alpha y seis horas en Release. **Check for updates** permite renovarla, con un intervalo mínimo de un minuto y respetando los límites de GitHub.
 
+GitHub permite 60 consultas sin autenticación por hora e IP del servidor, compartidas con otras aplicaciones que utilicen esa IP. Una comprobación puede hacer varias consultas. Si se alcanza el límite, Updates indica la hora UTC de reintento y pausa las consultas hasta entonces; recargar no evita esa espera. Un HTTP 403 sin indicios de límite se informa como acceso denegado.
+
 ## Requisitos del servidor
 
 - Extensiones ZIP y cURL de PHP, acceso HTTPS a GitHub y certificados CA válidos.
