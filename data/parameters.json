@@ -1,0 +1,928 @@
+{
+  "version": 1,
+  "game": "F1 25",
+  "status": "legacy-unverified",
+  "notice": "Rangos heredados del comparador; pendientes de confirmar en tu versión del juego. Los valores de las capturas son un ejemplo, no el reglaje asignado a un circuito.",
+  "parameters": [
+    {
+      "id": "ala_del",
+      "category": "Aerodinámica",
+      "name": "Alerón delantero",
+      "base": 23,
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "dec": 0,
+      "unit": "",
+      "phase": "Curvas rápidas / rectas",
+      "what": "Modifica la carga aerodinámica del eje delantero y el equilibrio con el alerón trasero.",
+      "up": "Más carga y giro delantero a media/alta velocidad; más resistencia y menos punta.",
+      "down": "Menos carga delantera y más tendencia al subviraje rápido; menor resistencia.",
+      "up_label": "Más alerón delantero",
+      "down_label": "Menos alerón delantero",
+      "up_imp": [
+        [
+          "↑",
+          "Carga delantera"
+        ],
+        [
+          "↑",
+          "Giro rápido"
+        ],
+        [
+          "↑",
+          "Resistencia"
+        ],
+        [
+          "↓",
+          "Velocidad punta"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Carga delantera"
+        ],
+        [
+          "↓",
+          "Giro rápido"
+        ],
+        [
+          "↓",
+          "Resistencia"
+        ],
+        [
+          "↑",
+          "Velocidad punta"
+        ]
+      ],
+      "note": "Importa la diferencia entre alerón delantero y trasero: no se interpreta de forma aislada."
+    },
+    {
+      "id": "ala_tra",
+      "category": "Aerodinámica",
+      "name": "Alerón trasero",
+      "base": 23,
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "dec": 0,
+      "unit": "",
+      "phase": "Curvas rápidas / rectas",
+      "what": "Modifica la carga del eje trasero; es una palanca importante de resistencia aerodinámica.",
+      "up": "Más agarre y estabilidad trasera en rápido; más resistencia y menos punta.",
+      "down": "Menos resistencia y más velocidad punta; más riesgo de sobreviraje rápido.",
+      "up_label": "Más alerón trasero",
+      "down_label": "Menos alerón trasero",
+      "up_imp": [
+        [
+          "↑",
+          "Carga trasera"
+        ],
+        [
+          "↑",
+          "Estabilidad rápida"
+        ],
+        [
+          "↑",
+          "Resistencia"
+        ],
+        [
+          "↓",
+          "Velocidad punta"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Carga trasera"
+        ],
+        [
+          "↓",
+          "Estabilidad rápida"
+        ],
+        [
+          "↓",
+          "Resistencia"
+        ],
+        [
+          "↑",
+          "Velocidad punta"
+        ]
+      ],
+      "note": "Subir solo el trasero desplaza el equilibrio aerodinámico hacia atrás."
+    },
+    {
+      "id": "dif_acc",
+      "category": "Transmisión",
+      "name": "Diferencial en aceleración",
+      "base": 30,
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "dec": 0,
+      "unit": "%",
+      "phase": "Salida de curva / con gas",
+      "what": "Porcentaje de bloqueo del diferencial cuando aceleras. Alto = ruedas traseras más solidarias.",
+      "up": "Más bloqueo; puede evitar patinaje interior y estabilizar la salida; más subviraje con gas.",
+      "down": "Más libertad de giro en salida; puede mejorar rotación, con riesgo de patinaje interior.",
+      "up_label": "Diferencial más bloqueado",
+      "down_label": "Diferencial más abierto",
+      "up_imp": [
+        [
+          "↑",
+          "Bloqueo"
+        ],
+        [
+          "↑",
+          "Tracción si patina la interior"
+        ],
+        [
+          "↑",
+          "Subviraje con gas"
+        ],
+        [
+          "↑",
+          "Exigencia del neumático"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Bloqueo"
+        ],
+        [
+          "↑",
+          "Rotación con gas"
+        ],
+        [
+          "↑",
+          "Riesgo de patinaje interior"
+        ],
+        [
+          "↓",
+          "Subviraje con gas"
+        ]
+      ],
+      "note": "La tracción no mejora siempre de forma monótona: depende del acelerador, curva y adherencia."
+    },
+    {
+      "id": "dif_dec",
+      "category": "Transmisión",
+      "name": "Diferencial en deceleración",
+      "base": 55,
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "dec": 0,
+      "unit": "%",
+      "phase": "Entrada / al soltar gas",
+      "what": "Porcentaje de bloqueo cuando no aceleras; influye sobre todo en la entrada en curva.",
+      "up": "Entrada más estable, pero menos rotación y mayor tendencia al subviraje.",
+      "down": "Mayor rotación al entrar; puede volver nerviosa la trasera.",
+      "up_label": "Diferencial más bloqueado",
+      "down_label": "Diferencial más abierto",
+      "up_imp": [
+        [
+          "↑",
+          "Estabilidad de entrada"
+        ],
+        [
+          "↑",
+          "Subviraje de entrada"
+        ],
+        [
+          "↓",
+          "Rotación de entrada"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Estabilidad de entrada"
+        ],
+        [
+          "↓",
+          "Subviraje de entrada"
+        ],
+        [
+          "↑",
+          "Rotación de entrada"
+        ]
+      ],
+      "note": "Se nota al levantar el acelerador y en la fase de giro inicial."
+    },
+    {
+      "id": "cam_del",
+      "category": "Geometría de suspensión",
+      "name": "Caída delantera",
+      "base": -3.4,
+      "min": -3.5,
+      "max": -2.5,
+      "step": 0.1,
+      "dec": 2,
+      "unit": "°",
+      "phase": "Apoyo lateral / frenada",
+      "what": "Inclinación vertical de las ruedas delanteras. Un valor más negativo implica más caída negativa.",
+      "up": "Caída menos negativa: favorece la frenada en recta, reduce margen de agarre lateral.",
+      "down": "Caída más negativa: favorece el apoyo lateral; puede perjudicar frenada/desgaste.",
+      "up_label": "Caída menos negativa",
+      "down_label": "Caída más negativa",
+      "up_imp": [
+        [
+          "↑",
+          "Apoyo en frenada recta"
+        ],
+        [
+          "↓",
+          "Agarre lateral delantero"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↑",
+          "Agarre lateral delantero"
+        ],
+        [
+          "↓",
+          "Apoyo en frenada recta"
+        ]
+      ],
+      "note": "Ejemplo: pasar de −3,40° a −3,50° disminuye el número, pero AUMENTA la caída negativa."
+    },
+    {
+      "id": "cam_tra",
+      "category": "Geometría de suspensión",
+      "name": "Caída trasera",
+      "base": -1.9,
+      "min": -2,
+      "max": -1,
+      "step": 0.1,
+      "dec": 2,
+      "unit": "°",
+      "phase": "Apoyo lateral / tracción",
+      "what": "Inclinación vertical de las ruedas traseras y compromiso entre apoyo lateral y tracción.",
+      "up": "Caída menos negativa: potencialmente más tracción al salir; menos rotación en apoyo.",
+      "down": "Caída más negativa: favorece rotación/agarre lateral; compromete tracción longitudinal.",
+      "up_label": "Caída menos negativa",
+      "down_label": "Caída más negativa",
+      "up_imp": [
+        [
+          "↑",
+          "Tracción longitudinal"
+        ],
+        [
+          "↓",
+          "Rotación en apoyo"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↑",
+          "Rotación en apoyo"
+        ],
+        [
+          "↓",
+          "Tracción longitudinal"
+        ]
+      ],
+      "note": "En muchos reglajes rápidos de F1 25 se usa la caída más negativa permitida."
+    },
+    {
+      "id": "toe_del",
+      "category": "Geometría de suspensión",
+      "name": "Divergencia delantera",
+      "base": 0.08,
+      "min": 0,
+      "max": 0.2,
+      "step": 0.01,
+      "dec": 2,
+      "unit": "°",
+      "phase": "Respuesta de giro / rectas",
+      "what": "Cuánto apuntan hacia fuera las ruedas delanteras vistas desde arriba.",
+      "up": "Dirección inicial más viva; más rozamiento del neumático y resistencia.",
+      "down": "Menos rozamiento y resistencia; dirección inicial algo menos agresiva.",
+      "up_label": "Más divergencia",
+      "down_label": "Menos divergencia",
+      "up_imp": [
+        [
+          "↑",
+          "Respuesta de giro"
+        ],
+        [
+          "↑",
+          "Rozamiento"
+        ],
+        [
+          "↑",
+          "Resistencia"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Respuesta de giro"
+        ],
+        [
+          "↓",
+          "Rozamiento"
+        ],
+        [
+          "↓",
+          "Resistencia"
+        ]
+      ],
+      "note": "El efecto sobre el desgaste real en F1 25 no está cuantificado."
+    },
+    {
+      "id": "toe_tra",
+      "category": "Geometría de suspensión",
+      "name": "Convergencia trasera",
+      "base": 0.18,
+      "min": 0.1,
+      "max": 0.25,
+      "step": 0.01,
+      "dec": 2,
+      "unit": "°",
+      "phase": "Estabilidad / rectas",
+      "what": "Cuánto apuntan hacia dentro las ruedas traseras vistas desde arriba.",
+      "up": "Trasera más estable; más rozamiento y resistencia al avance.",
+      "down": "Menos rozamiento y resistencia; trasera más móvil/nerviosa.",
+      "up_label": "Más convergencia",
+      "down_label": "Menos convergencia",
+      "up_imp": [
+        [
+          "↑",
+          "Estabilidad trasera"
+        ],
+        [
+          "↑",
+          "Rozamiento"
+        ],
+        [
+          "↑",
+          "Resistencia"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Estabilidad trasera"
+        ],
+        [
+          "↓",
+          "Rozamiento"
+        ],
+        [
+          "↓",
+          "Resistencia"
+        ]
+      ],
+      "note": "Es un compromiso entre estabilidad y resistencia, no una mejora gratuita."
+    },
+    {
+      "id": "muelle_del",
+      "category": "Suspensión",
+      "name": "Suspensión delantera",
+      "base": 37,
+      "min": 1,
+      "max": 41,
+      "step": 1,
+      "dec": 0,
+      "unit": "",
+      "phase": "Respuesta / pianos",
+      "what": "Rigidez vertical del eje delantero, que condiciona movimientos y contacto en irregularidades.",
+      "up": "Respuesta más directa y plataforma firme; peor absorción de baches y pianos.",
+      "down": "Mejor absorción y posible agarre mecánico delantero; respuesta menos seca.",
+      "up_label": "Más rígida",
+      "down_label": "Más blanda",
+      "up_imp": [
+        [
+          "↑",
+          "Precisión de respuesta"
+        ],
+        [
+          "↓",
+          "Absorción de pianos"
+        ],
+        [
+          "↓",
+          "Agarre en baches"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Precisión de respuesta"
+        ],
+        [
+          "↑",
+          "Absorción de pianos"
+        ],
+        [
+          "↑",
+          "Agarre en baches"
+        ]
+      ],
+      "note": "En asfalto liso, una plataforma firme puede resultar ventajosa aerodinámicamente."
+    },
+    {
+      "id": "muelle_tra",
+      "category": "Suspensión",
+      "name": "Suspensión trasera",
+      "base": 19,
+      "min": 1,
+      "max": 41,
+      "step": 1,
+      "dec": 0,
+      "unit": "",
+      "phase": "Tracción / salida / pianos",
+      "what": "Rigidez vertical del eje trasero, muy relevante para seguir el asfalto bajo aceleración.",
+      "up": "Más rotación y reacción; menos absorción y tracción en salidas bacheadas.",
+      "down": "Mejora apoyo/tracción trasera y pianos; respuesta más lenta.",
+      "up_label": "Más rígida",
+      "down_label": "Más blanda",
+      "up_imp": [
+        [
+          "↑",
+          "Rotación"
+        ],
+        [
+          "↓",
+          "Tracción sobre irregularidades"
+        ],
+        [
+          "↓",
+          "Absorción de pianos"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Rotación"
+        ],
+        [
+          "↑",
+          "Tracción sobre irregularidades"
+        ],
+        [
+          "↑",
+          "Absorción de pianos"
+        ]
+      ],
+      "note": "Si patina al acelerar, la suspensión trasera es una de las variables para probar."
+    },
+    {
+      "id": "barra_del",
+      "category": "Suspensión",
+      "name": "Barra estabilizadora delantera",
+      "base": 15,
+      "min": 1,
+      "max": 21,
+      "step": 1,
+      "dec": 0,
+      "unit": "",
+      "phase": "Apoyo / curvas lentas-medias",
+      "what": "Rigidez frente al balanceo del eje delantero.",
+      "up": "Respuesta más rápida; menor agarre mecánico delantero y más subviraje.",
+      "down": "Más agarre mecánico delantero y menos subviraje; respuesta menos inmediata.",
+      "up_label": "Barra más rígida",
+      "down_label": "Barra más blanda",
+      "up_imp": [
+        [
+          "↑",
+          "Respuesta inicial"
+        ],
+        [
+          "↑",
+          "Subviraje en apoyo"
+        ],
+        [
+          "↓",
+          "Agarre delantero mecánico"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Respuesta inicial"
+        ],
+        [
+          "↓",
+          "Subviraje en apoyo"
+        ],
+        [
+          "↑",
+          "Agarre delantero mecánico"
+        ]
+      ],
+      "note": "Las barras delanteras y traseras deben leerse como un par."
+    },
+    {
+      "id": "barra_tra",
+      "category": "Suspensión",
+      "name": "Barra estabilizadora trasera",
+      "base": 9,
+      "min": 1,
+      "max": 21,
+      "step": 1,
+      "dec": 0,
+      "unit": "",
+      "phase": "Apoyo / curvas lentas-medias",
+      "what": "Rigidez frente al balanceo del eje trasero.",
+      "up": "Más rotación en apoyo; menos agarre trasero y más riesgo de sobreviraje.",
+      "down": "Más agarre y estabilidad trasera; menos rotación.",
+      "up_label": "Barra más rígida",
+      "down_label": "Barra más blanda",
+      "up_imp": [
+        [
+          "↑",
+          "Rotación en apoyo"
+        ],
+        [
+          "↑",
+          "Riesgo de sobreviraje"
+        ],
+        [
+          "↓",
+          "Agarre trasero"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Rotación en apoyo"
+        ],
+        [
+          "↓",
+          "Riesgo de sobreviraje"
+        ],
+        [
+          "↑",
+          "Agarre trasero"
+        ]
+      ],
+      "note": "No asumir que más rigidez equivale siempre a más agarre."
+    },
+    {
+      "id": "altura_del",
+      "category": "Suspensión",
+      "name": "Altura del chasis delantero",
+      "base": 25,
+      "min": 15,
+      "max": 35,
+      "step": 1,
+      "dec": 0,
+      "unit": "",
+      "phase": "Suelo / curvas rápidas / pianos",
+      "what": "Separación del frontal del suelo: afecta el fondo aerodinámico y el margen contra los golpes.",
+      "up": "Mayor margen en baches/pianos; posible pérdida de eficiencia del fondo delantero.",
+      "down": "Potencial mejora de eficiencia aerodinámica; mayor riesgo de tocar suelo.",
+      "up_label": "Frontal más alto",
+      "down_label": "Frontal más bajo",
+      "up_imp": [
+        [
+          "↑",
+          "Margen sobre pianos"
+        ],
+        [
+          "↓",
+          "Potencial de carga del fondo"
+        ],
+        [
+          "↓",
+          "Riesgo de tocar suelo"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Margen sobre pianos"
+        ],
+        [
+          "↑",
+          "Potencial de carga del fondo"
+        ],
+        [
+          "↑",
+          "Riesgo de tocar suelo"
+        ]
+      ],
+      "note": "Bajar demasiado puede empeorar el tiempo por contactos con el asfalto."
+    },
+    {
+      "id": "altura_tra",
+      "category": "Suspensión",
+      "name": "Altura del chasis trasero",
+      "base": 50,
+      "min": 40,
+      "max": 60,
+      "step": 1,
+      "dec": 0,
+      "unit": "",
+      "phase": "Balance aero / recta / pianos",
+      "what": "Altura posterior; junto con la delantera determina la inclinación del coche (rake).",
+      "up": "Más rake y margen sobre pianos; equilibrio aero distinto, potencialmente más resistencia.",
+      "down": "Menos rake y potencialmente menos resistencia; cambia estabilidad y margen al suelo.",
+      "up_label": "Trasera más alta",
+      "down_label": "Trasera más baja",
+      "up_imp": [
+        [
+          "↑",
+          "Rake"
+        ],
+        [
+          "↑",
+          "Margen sobre pianos"
+        ],
+        [
+          "↔",
+          "Equilibrio aerodinámico"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Rake"
+        ],
+        [
+          "↓",
+          "Margen sobre pianos"
+        ],
+        [
+          "↔",
+          "Equilibrio aerodinámico"
+        ]
+      ],
+      "note": "El efecto no es lineal y depende de la altura delantera: verificar con vueltas."
+    },
+    {
+      "id": "freno_rep",
+      "category": "Frenos",
+      "name": "Reparto de frenada delantera",
+      "base": 58,
+      "min": 50,
+      "max": 70,
+      "step": 1,
+      "dec": 0,
+      "unit": "%",
+      "phase": "Frenada / entrada",
+      "what": "Porcentaje de fuerza que se envía al eje delantero; el resto actúa atrás.",
+      "up": "Frenada más estable; mayor riesgo de bloqueo delantero y subviraje al entrar.",
+      "down": "Más rotación en frenada; mayor riesgo de bloqueo trasero e inestabilidad.",
+      "up_label": "Más reparto delantero",
+      "down_label": "Más reparto trasero",
+      "up_imp": [
+        [
+          "↑",
+          "Estabilidad en frenada"
+        ],
+        [
+          "↑",
+          "Riesgo bloqueo delantero"
+        ],
+        [
+          "↓",
+          "Rotación de entrada"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Estabilidad en frenada"
+        ],
+        [
+          "↑",
+          "Riesgo bloqueo trasero"
+        ],
+        [
+          "↑",
+          "Rotación de entrada"
+        ]
+      ],
+      "note": "La ayuda ABS modifica cómo se manifiestan los bloqueos."
+    },
+    {
+      "id": "freno_pre",
+      "category": "Frenos",
+      "name": "Presión de frenos",
+      "base": 97,
+      "min": 80,
+      "max": 100,
+      "step": 1,
+      "dec": 0,
+      "unit": "%",
+      "phase": "Frenada / dosificación",
+      "what": "Ganancia/fuerza máxima del sistema de frenos frente a la orden del pedal.",
+      "up": "Más capacidad de frenada; mayor facilidad para bloquear si no dosificas.",
+      "down": "Más margen de dosificación; menor fuerza máxima disponible.",
+      "up_label": "Más presión de frenado",
+      "down_label": "Menos presión de frenado",
+      "up_imp": [
+        [
+          "↑",
+          "Fuerza de frenado"
+        ],
+        [
+          "↑",
+          "Riesgo de bloqueo"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↓",
+          "Fuerza de frenado"
+        ],
+        [
+          "↓",
+          "Riesgo de bloqueo"
+        ]
+      ],
+      "note": "Con ABS o buena modulación, 100 % puede ser viable. No equivale a frenar siempre más corto."
+    },
+    {
+      "id": "pres_dd",
+      "category": "Neumáticos",
+      "name": "Presión delantera derecha",
+      "base": 24.2,
+      "min": 22.5,
+      "max": 29.5,
+      "step": 0.1,
+      "dec": 1,
+      "unit": "psi",
+      "phase": "Temperatura / apoyo / desgaste",
+      "what": "Presión inicial de la rueda delantera derecha; afecta deformación, respuesta y ventana térmica.",
+      "up": "En F1 25 puede bajar la temperatura y mejorar respuesta; agarre y desgaste deben comprobarse.",
+      "down": "En F1 25 puede elevar temperatura; posible beneficio mecánico, pero riesgo de sobrecalentar.",
+      "up_label": "Más presión",
+      "down_label": "Menos presión",
+      "up_imp": [
+        [
+          "↓",
+          "Temperatura (tendencia en F1 25)"
+        ],
+        [
+          "↔",
+          "Agarre: verificar"
+        ],
+        [
+          "↔",
+          "Desgaste: verificar"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↑",
+          "Temperatura (tendencia en F1 25)"
+        ],
+        [
+          "↔",
+          "Agarre: verificar"
+        ],
+        [
+          "↔",
+          "Desgaste: verificar"
+        ]
+      ],
+      "note": "EA describe menos presión = más agarre y mayor presión = más duración; análisis comunitarios de F1 25 observan una relación distinta entre presión, temperatura y agarre. No es un resultado garantizado."
+    },
+    {
+      "id": "pres_di",
+      "category": "Neumáticos",
+      "name": "Presión delantera izquierda",
+      "base": 24.2,
+      "min": 22.5,
+      "max": 29.5,
+      "step": 0.1,
+      "dec": 1,
+      "unit": "psi",
+      "phase": "Temperatura / apoyo / desgaste",
+      "what": "Presión inicial de la rueda delantera izquierda; afecta deformación, respuesta y ventana térmica.",
+      "up": "En F1 25 puede bajar la temperatura y mejorar respuesta; agarre y desgaste deben comprobarse.",
+      "down": "En F1 25 puede elevar temperatura; posible beneficio mecánico, pero riesgo de sobrecalentar.",
+      "up_label": "Más presión",
+      "down_label": "Menos presión",
+      "up_imp": [
+        [
+          "↓",
+          "Temperatura (tendencia en F1 25)"
+        ],
+        [
+          "↔",
+          "Agarre: verificar"
+        ],
+        [
+          "↔",
+          "Desgaste: verificar"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↑",
+          "Temperatura (tendencia en F1 25)"
+        ],
+        [
+          "↔",
+          "Agarre: verificar"
+        ],
+        [
+          "↔",
+          "Desgaste: verificar"
+        ]
+      ],
+      "note": "EA describe menos presión = más agarre y mayor presión = más duración; análisis comunitarios de F1 25 observan una relación distinta entre presión, temperatura y agarre. No es un resultado garantizado."
+    },
+    {
+      "id": "pres_td",
+      "category": "Neumáticos",
+      "name": "Presión trasera derecha",
+      "base": 21.3,
+      "min": 20.5,
+      "max": 26.5,
+      "step": 0.1,
+      "dec": 1,
+      "unit": "psi",
+      "phase": "Temperatura / apoyo / desgaste",
+      "what": "Presión inicial de la rueda trasera derecha; afecta deformación, respuesta y ventana térmica.",
+      "up": "En F1 25 puede bajar la temperatura y mejorar respuesta; agarre y desgaste deben comprobarse.",
+      "down": "En F1 25 puede elevar temperatura; posible beneficio mecánico, pero riesgo de sobrecalentar.",
+      "up_label": "Más presión",
+      "down_label": "Menos presión",
+      "up_imp": [
+        [
+          "↓",
+          "Temperatura (tendencia en F1 25)"
+        ],
+        [
+          "↔",
+          "Agarre: verificar"
+        ],
+        [
+          "↔",
+          "Desgaste: verificar"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↑",
+          "Temperatura (tendencia en F1 25)"
+        ],
+        [
+          "↔",
+          "Agarre: verificar"
+        ],
+        [
+          "↔",
+          "Desgaste: verificar"
+        ]
+      ],
+      "note": "EA describe menos presión = más agarre y mayor presión = más duración; análisis comunitarios de F1 25 observan una relación distinta entre presión, temperatura y agarre. No es un resultado garantizado."
+    },
+    {
+      "id": "pres_ti",
+      "category": "Neumáticos",
+      "name": "Presión trasera izquierda",
+      "base": 21.3,
+      "min": 20.5,
+      "max": 26.5,
+      "step": 0.1,
+      "dec": 1,
+      "unit": "psi",
+      "phase": "Temperatura / apoyo / desgaste",
+      "what": "Presión inicial de la rueda trasera izquierda; afecta deformación, respuesta y ventana térmica.",
+      "up": "En F1 25 puede bajar la temperatura y mejorar respuesta; agarre y desgaste deben comprobarse.",
+      "down": "En F1 25 puede elevar temperatura; posible beneficio mecánico, pero riesgo de sobrecalentar.",
+      "up_label": "Más presión",
+      "down_label": "Menos presión",
+      "up_imp": [
+        [
+          "↓",
+          "Temperatura (tendencia en F1 25)"
+        ],
+        [
+          "↔",
+          "Agarre: verificar"
+        ],
+        [
+          "↔",
+          "Desgaste: verificar"
+        ]
+      ],
+      "down_imp": [
+        [
+          "↑",
+          "Temperatura (tendencia en F1 25)"
+        ],
+        [
+          "↔",
+          "Agarre: verificar"
+        ],
+        [
+          "↔",
+          "Desgaste: verificar"
+        ]
+      ],
+      "note": "EA describe menos presión = más agarre y mayor presión = más duración; análisis comunitarios de F1 25 observan una relación distinta entre presión, temperatura y agarre. No es un resultado garantizado."
+    }
+  ]
+}

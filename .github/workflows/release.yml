@@ -1,0 +1,67 @@
+name: Release pipeline
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize, closed]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: release-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'release/') &&
+      (github.event.action != 'closed' || github.event.pull_request.merged == true)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.merged == true && github.event.pull_request.merge_commit_sha || github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Install test tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y php-cli php-zip php-curl
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Check PHP and JavaScript
+        run: |
+          find src public_html tests -name '*.php' -print0 | xargs -0 -n1 php -l
+          node --check public_html/assets/app.js
+          php tests/run.php
+          php tests/updater.php
+          php tests/updates.php
+          python3 -m unittest discover -s tests -p 'test_*.py'
+      - name: Build a test package
+        run: python3 bin/package.py --pr 1 --branch "release/$(cut -d- -f1 src/VERSION)"
+      - name: Run isolated browser and update tests
+        env:
+          F125_TEST_BROWSER: chromium
+        run: |
+          export F125_TEST_ZIP_DIR="$(php -r 'echo ini_get("extension_dir");')"
+          export F125_TEST_PACKAGE="$PWD/dist/f125-update-$(cat src/VERSION).zip"
+          node tests/installation-browser.cjs
+          F125_TEST_BASE_PATH=/tools/setups/ F125_TEST_HOST=localhost F125_TEST_PUBLIC_NAME=www node tests/installation-browser.cjs
+
+  publish:
+    needs: test
+    permissions:
+      contents: write
+      pull-requests: read
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.merged == true && github.event.pull_request.merge_commit_sha || github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Publish Alpha or prepare stable draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 bin/publish-release.py

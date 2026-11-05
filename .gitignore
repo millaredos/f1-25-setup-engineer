@@ -1,0 +1,47 @@
+# Configuración privada
+.env
+.env.*
+!.env.example
+config/local.php
+config/installation.json
+config/installation.json.lock
+config/.installation-*
+config/update*.json
+config/update*.lock
+config/.update-*
+*.key
+*.pem
+
+# Datos y copias de seguridad
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.sqlite3-*
+*.db
+*.db-*
+/storage/
+/backups/
+*.sql
+*.log
+
+# Dependencias y herramientas locales
+/vendor/
+/node_modules/
+/.agents/
+/.codex/
+/.codegraph/
+/.idea/
+/.vscode/
+.phpunit.cache/
+.phpunit.result.cache
+Thumbs.db
+.DS_Store
+
+/dist/
+__pycache__/
+*.pyc
+/referencia/
+/AGENTS.md
+/docs/continuar.md
+/docs/publicacion.md
+**/.update-*

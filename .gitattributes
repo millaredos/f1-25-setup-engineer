@@ -1,0 +1,12 @@
+* text=auto
+*.md text eol=lf
+*.php text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+/.gitattributes text eol=lf
+/.gitignore text eol=lf
+/LICENSE text eol=lf
+/referencia/F1_25_comparador_reglajes.html -text
+/referencia/F1_25_guia_reglajes.txt -text
+/referencia/F1_25_reglaje.json -text
+/referencia/prompt.txt -text

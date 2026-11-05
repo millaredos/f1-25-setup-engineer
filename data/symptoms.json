@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "notice": "Hipótesis de trabajo, siempre teoría. Prueba una sola variable cada vez, una vuelta de adaptación y varias vueltas comparables. Conserva combustible, compuesto, clima y ayudas. Si no mejora, vuelve al punto de partida antes de probar otra variable. No se aplican cambios automáticamente.",
+  "sources": [
+    {"title":"EA · Guía de reglajes F1 25","url":"https://help.ea.com/es/articles/f1/f1-25/car-setups-guide/","accessedAt":"2026-11-04"},
+    {"title":"DriverDojo · Tendencias comunitarias, no validación propia","url":"https://driverdojo.app/f1-25-setup-guide.html","accessedAt":"2026-11-04"}
+  ],
+  "items": [
+    {
+      "id":"rear-entry", "label":"Se va de atrás al entrar", "phase":"Entrada / frenada", "check":"Distingue si bloqueas atrás al frenar o si el coche rota demasiado al soltar gas. Sin ABS, el bloqueo es una posibilidad; no se diagnostica automáticamente.",
+      "steps":[
+        {"id":"freno_rep","direction":"up","why":"Si coincide con bloqueo trasero, prueba un paso más de reparto delantero. Teóricamente descarga los frenos traseros.","cost":"Puede facilitar bloqueo delantero y reducir rotación."},
+        {"id":"dif_dec","direction":"up","why":"Si sucede al soltar gas y girar, prueba un paso más de bloqueo sin gas.","cost":"Puede estabilizar la entrada a costa de que gire menos."}
+      ],
+      "combined":"Solo si las pruebas individuales aportan mejora parcial en sus fases, combina los mínimos cambios útiles de reparto y diferencial sin gas. Si no, revisa frenada y momento de soltar el pedal."
+    },
+    {
+      "id":"rear-mid", "label":"Se va de atrás en mitad de curva", "phase":"Apoyo / lenta o media", "check":"Comprueba que sucede con el coche apoyado, no durante un golpe de gas o al pisar un piano.",
+      "steps":[
+        {"id":"barra_tra","direction":"down","why":"Prueba un paso menos de barra trasera: teóricamente aumenta el margen de agarre mecánico atrás.","cost":"Puede reducir la rotación y hacer que el coche abra trayectoria."},
+        {"id":"barra_del","direction":"up","why":"Como prueba alternativa, un paso más de barra delantera puede desplazar el equilibrio mecánico hacia una respuesta más estable atrás.","cost":"Puede perder agarre delantero y aumentar subviraje."}
+      ],
+      "combined":"Si ambos cambios resultaron útiles por separado, combina con moderación. Los dos desplazan el equilibrio en una dirección parecida; no hay que aplicarlos siempre juntos."
+    },
+    {
+      "id":"rear-exit", "label":"Se va de atrás al acelerar", "phase":"Salida / con gas", "check":"Distingue patinaje al dar gas, apoyo rápido y golpe sobre piano. Sin control de tracción, prueba también una entrega de acelerador más progresiva.",
+      "steps":[
+        {"id":"barra_tra","direction":"down","why":"Prueba un paso menos de barra trasera para buscar más margen mecánico en salida.","cost":"Puede perder agilidad y rotación en apoyo."},
+        {"id":"muelle_tra","direction":"down","why":"Si el problema aparece especialmente sobre irregularidades, prueba por separado un paso menos de suspensión trasera.","cost":"Plataforma menos firme; revisar margen al suelo."},
+        {"id":"dif_acc","direction":"inspect","why":"Después compara el diferencial con gas en pruebas separadas. Más bloqueo puede reducir patinaje interior; menos bloqueo permite más diferencia de giro. El síntoma por sí solo no determina la dirección correcta.","cost":"Más bloqueo puede aumentar subviraje con gas; menos puede permitir patinaje interior. No hay solución universal."}
+      ],
+      "combined":"Combina solo el cambio de barra o suspensión que ayudó con el ajuste de diferencial que hayas validado. No mezcles tres cambios de golpe."
+    },
+    {
+      "id":"under-entry", "label":"No gira al entrar", "phase":"Entrada / al soltar gas", "check":"Descarta entrar demasiado rápido o arrastrar bloqueo delantero. Distingue la falta de giro al soltar gas de la falta de apoyo rápido.",
+      "steps":[
+        {"id":"dif_dec","direction":"down","why":"Prueba un paso menos de bloqueo sin gas para buscar más rotación al entrar.","cost":"Puede volver nerviosa la parte trasera."},
+        {"id":"freno_rep","direction":"down","why":"Si el problema coincide con frenada y sobrecarga delantera, prueba por separado un paso menos de reparto delantero.","cost":"Sin ABS, vigila bloqueo trasero e inestabilidad."}
+      ],
+      "combined":"Solo combina cambios útiles si mantienes margen trasero. Ambos pueden aumentar la rotación en entrada; no hace falta acumularlos si uno basta."
+    },
+    {
+      "id":"under-mid", "label":"No gira en mitad de curva", "phase":"Apoyo / lenta o media", "check":"Confirma falta de giro en apoyo estable. Si es una curva rápida, utiliza el síntoma específico de alta velocidad.",
+      "steps":[
+        {"id":"barra_del","direction":"down","why":"Prueba un paso menos de barra delantera para buscar más agarre mecánico delante.","cost":"Respuesta inicial menos inmediata."},
+        {"id":"barra_tra","direction":"up","why":"Como alternativa, prueba un paso más de barra trasera para buscar rotación.","cost":"Reduce el margen trasero y puede causar sobreviraje."}
+      ],
+      "combined":"Si ayudan por separado, combina cambios pequeños. Ambos pueden aumentar rotación; detente si la trasera deja de ser predecible."
+    },
+    {
+      "id":"under-fast", "label":"No gira en curvas rápidas", "phase":"Apoyo / alta velocidad", "check":"Consulta la ficha del circuito y el compromiso entre curvas rápidas y rectas. No se calcula velocidad perdida.",
+      "steps":[
+        {"id":"ala_del","direction":"up","why":"Prueba un paso más de alerón delantero: teóricamente aumenta apoyo delantero en velocidad.","cost":"Más resistencia y un equilibrio relativamente más delantero."},
+        {"id":"ala_tra","direction":"down","why":"Como alternativa, un paso menos de alerón trasero puede desplazar el equilibrio relativo hacia delante.","cost":"Pierdes apoyo trasero; puede aparecer sobreviraje rápido."}
+      ],
+      "combined":"No presupongas que subir delante y bajar atrás cancelan resistencia o carga. Combínalos solo si cada prueba lo justifica y la trasera conserva margen."
+    },
+    {
+      "id":"rear-fast", "label":"Se va de atrás en curvas rápidas", "phase":"Apoyo / alta velocidad", "check":"Distingue pérdida de apoyo de un contacto con el suelo o piano. Cambiar alerones no garantiza resolver estos últimos.",
+      "steps":[
+        {"id":"ala_tra","direction":"up","why":"Prueba un paso más de alerón trasero para buscar estabilidad rápida.","cost":"Teóricamente aumenta resistencia y puede reducir velocidad punta."},
+        {"id":"ala_del","direction":"down","why":"Como alternativa, prueba un paso menos delante para desplazar el equilibrio relativo hacia atrás.","cost":"Pierdes apoyo delantero y puede dejar de girar."}
+      ],
+      "combined":"Combina únicamente si las pruebas individuales ayudan. Revisa primero la altura si el síntoma coincide con golpes del suelo."
+    },
+    {
+      "id":"kerbs", "label":"Se descoloca sobre los pianos", "phase":"Pianos / irregularidades", "check":"Identifica qué eje pierde apoyo y si hay contacto del suelo. No supongas que todas las inestabilidades se resuelven ablandando.",
+      "steps":[
+        {"id":"muelle_del","direction":"down","why":"Si el eje delantero rebota sobre el piano, prueba un paso menos de suspensión delantera; si es atrás, la prueba equivalente corresponde a suspensión trasera.","cost":"Menos firmeza de plataforma; puede aumentar recorrido y contacto con el suelo."},
+        {"id":"altura_del","direction":"up","why":"Si detectas contacto delantero con el suelo, prueba un paso más de altura delantera; si el contacto es trasero, revisa esa altura.","cost":"Cambia la plataforma aerodinámica. No se calcula cuánto apoyo pierdes."}
+      ],
+      "combined":"Solo combina suspensión y altura si has identificado ambas necesidades. Compara el mismo piano y trazada antes y después."
+    }
+  ]
+}
