@@ -4,6 +4,40 @@
 
 Use one `release/X.Y.Z` branch and one PR to `main` for the entire release. Add every Alpha increment to that PR. Keep its description current: it becomes the release notes.
 
+## Version policy
+
+Versions use `MAJOR.MINOR.PATCH`, with `-alpha.N` for test builds. The current release target is `0.3.0`; Alpha builds such as `0.3.0-alpha.5` belong to that target. Their build number is an identifier, not a readiness score.
+
+| Change after a stable release | Next target from `0.3.0` | Examples |
+| --- | --- | --- |
+| Compatible correction or small presentation adjustment | `0.3.1` | Fix a failed save, incorrect label or layout defect. |
+| New functionality or substantial interface/workflow redesign | `0.4.0` | Add session comparison or redesign how users prepare and test setups. |
+| Incompatible change | New minor while below `1.0.0`; new major from `1.0.0` onward | Change an import contract or require a migration. Document compatibility and recovery before publication. |
+| Documentation or development housekeeping only | No application version | Update a guide or remove ignored local notes. |
+
+A new minor resets PATCH to zero. Corrections made before the target's stable publication remain Alpha builds of that target. They do not turn `0.3.0-alpha.N` into `0.3.1`. Choose the next target before opening its release branch and PR. Work that belongs to a later target waits for that PR.
+
+The first `1.0.0` is an explicit milestone: the core workflow and supported data contracts are considered stable. It is not produced automatically after a particular number of minor releases. Packages requiring a database migration cannot be distributed by the current updater, which rejects a different schema version.
+
+## When an Alpha becomes stable
+
+Stable publication requires all of the following:
+
+1. The agreed scope is complete and there are no known blocking defects, including data loss, broken save/import or failed updates.
+2. Relevant automated checks pass on the final commit, and changed user flows have been exercised in a real installation. Review any remaining verification limits.
+3. The PR summary, changelog, English guides and Spanish counterparts describe the shipped behavior. State any upgrade or compatibility requirements.
+4. The maintainer explicitly approves closing the release and publishing it as stable. Time elapsed, a successful Alpha update or the number of Alpha builds does not constitute approval.
+
+After approval, merge the release PR. CI tests the merge commit and prepares a stable draft. Review the resulting package and publish the draft as the latest stable release. Only publication makes `0.3.0` available on the Release channel. The Alpha channel can also advance to that stable version; the selected channel stays unchanged.
+
+Keep the current PR open while testing `0.3.0-alpha.N`. After publishing `0.3.0`, use a new PR for `0.3.1-alpha.N` or `0.4.0-alpha.N`, according to the table. Do not merge a release PR just to publish another Alpha.
+
+## Changes that do not publish an Alpha
+
+Changes only to README, CHANGELOG, guides, repository housekeeping or ignored local files do not justify an application build. Batch documentation changes with the next application change. A mixture of application and documentation changes produces one Alpha after checks pass. User-visible application text is application code; changing the home screen's content can justify an Alpha.
+
+The current workflow reacts to every release PR update and does not yet filter documentation-only pushes. Until that filter is implemented, keep documentation-only work local for the next application push. Removing an ignored file requires no Git commit or push.
+
 ## Alpha
 
 The release pipeline runs when a same-repository release PR is opened, reopened or updated.

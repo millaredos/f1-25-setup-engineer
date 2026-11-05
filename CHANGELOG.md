@@ -6,6 +6,7 @@
 
 ### 0.3.0
 
+- Replace duplicate home menu cards with an introduction, application limits and a short guide to each section.
 - Use the supplied logo in the application header, including Options and Updates.
 - Compact single-row header with navigation between the brand and version; horizontally scrollable navigation on smaller screens.
 - Alpha and Release update channels, selected from web Options and stored per installation.

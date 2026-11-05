@@ -6,6 +6,7 @@
 
 ### 0.3.0
 
+- Inicio sustituye las tarjetas del menú por una introducción, los límites de la app y una guía breve de cada apartado.
 - Logo proporcionado en la cabecera de la aplicación, incluidas Options y Updates.
 - Cabecera compacta con el menú entre la marca y la versión; navegación con desplazamiento horizontal en pantallas pequeñas.
 - Canales Alpha y Release seleccionables desde Options y guardados por instalación.

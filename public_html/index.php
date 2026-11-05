@@ -26,16 +26,37 @@ header('Referrer-Policy: same-origin');
     <span class="driver">Versión <?= appVersion() ?><span>F1 25 Setup Engineer</span></span>
   </header>
   <main>
-    <section data-page="inicio" aria-labelledby="home-heading">
-      <p class="eyebrow">F1 25 SETUP ENGINEER</p><h1 id="home-heading">Tu punto de partida.</h1>
-      <p class="intro">Elige qué quieres preparar para tu próxima prueba en pista.</p>
-      <div class="home-grid">
-        <a class="panel home-link" href="#circuito"><h2>Circuito y referencia</h2><p>Importa la ficha y fija el reglaje del juego como punto de partida.</p></a>
-        <a class="panel home-link" href="#taller"><h2>Taller</h2><p>Edita los veinte ajustes y compara sus efectos teóricos.</p></a>
-        <a class="panel home-link" href="#pruebas"><h2>Pruebas</h2><p>Consulta propuestas según lo que notas en el coche.</p></a>
-        <a class="panel home-link" href="#versiones"><h2>Versiones</h2><p>Guarda, recupera y exporta tus reglajes.</p></a>
-        <a class="panel home-link" href="update.php"><h2>Updates</h2><p>Check the installed version and download the latest build for your channel.</p></a>
-      </div>
+    <section data-page="inicio" class="home-content" aria-labelledby="home-heading">
+      <p class="eyebrow">F1 25 SETUP ENGINEER</p>
+      <h1 id="home-heading">Entiende y compara tus reglajes.</h1>
+      <p class="home-intro">Una herramienta para editar reglajes de F1 25, conservar un punto de referencia y revisar qué has cambiado antes de probarlo en pista.</p>
+      <p>Parte del reglaje que te asigna el juego o de uno propio. Consulta el efecto habitual de cada ajuste, prepara pruebas según lo que notas en el coche y guarda versiones con tus observaciones.</p>
+      <p>La aplicación no calcula un reglaje óptimo ni simula el comportamiento físico del coche. Las explicaciones son orientativas: el resultado de cada cambio se comprueba conduciendo.</p>
+
+      <h2 class="home-guide-heading">Cómo utilizarla</h2>
+      <ol class="home-guide">
+        <li>
+          <h3><a href="#circuito">Circuito y referencia</a></h3>
+          <p>Importa la ficha del circuito y el reglaje inicial, o introduce sus valores en Taller. Indica las condiciones y fija los valores actuales como referencia: serán tu punto de comparación mientras editas.</p>
+        </li>
+        <li>
+          <h3><a href="#taller">Taller</a></h3>
+          <p>Modifica los veinte ajustes por categorías. Consulta sus explicaciones y el resumen de diferencias respecto a la referencia. Cambia pocas cosas cada vez para poder identificar su efecto.</p>
+        </li>
+        <li>
+          <h3><a href="#pruebas">Pruebas</a></h3>
+          <p>Selecciona el problema que notas al conducir y revisa las propuestas de ajustes y pruebas. Comprueba cada propuesta en pista antes de darla por válida.</p>
+        </li>
+        <li>
+          <h3><a href="#versiones">Versiones</a></h3>
+          <p>Guarda cada variante con un nombre y notas sobre el resultado. Puedes abrir una versión como borrador o exportarla en JSON. Cada guardado crea una versión nueva y conserva las anteriores.</p>
+        </li>
+        <li>
+          <h3><a href="options.php">Options</a> y <a href="update.php">Updates</a></h3>
+          <p>Elige el canal Alpha para probar novedades o Release para recibir versiones estables. En Updates puedes consultar e instalar una actualización disponible.</p>
+        </li>
+      </ol>
+      <p class="subtle">Cambiar de apartado conserva el borrador. Para guardar tu trabajo en la base de datos, crea una versión en Versiones.</p>
     </section>
     <div data-page="taller" hidden class="page-heading"><div><p class="eyebrow">OBSERVA. AJUSTA. PRUEBA.</p><h1>Entiende cada cambio.</h1><p class="intro">Parte del reglaje del juego. Ajusta con una idea, compruébala en pista.</p></div><span class="theory-badge">Siempre teoría<small>Sin predicciones de rendimiento</small></span></div>
     <p id="status" class="status" role="status" aria-live="polite">Cargando el taller…</p>
