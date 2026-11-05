@@ -6,6 +6,7 @@
 
 ### 0.3.0
 
+- Corregido: las consultas periódicas de actualización a la API de GitHub se sustituyen por el servicio propio de versiones.
 - Respeta la hora de reinicio del límite de GitHub, distingue accesos denegados e indica cuándo reanudar las comprobaciones.
 - Inicio incorpora una introducción centrada, columnas equilibradas, títulos legibles y pasos numerados en escritorio y móvil.
 - Inicio sustituye las tarjetas del menú por una introducción, los límites de la app y una guía breve de cada apartado.

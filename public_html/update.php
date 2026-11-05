@@ -63,6 +63,7 @@ $newer = is_array($candidate) && version_compare($candidate['version'], appVersi
 <form method="post" class="update-form"><input type="hidden" name="csrf" value="<?= updateText($csrf) ?>"><input type="hidden" name="identity" value="<?= updateText($candidate['identity']) ?>">
 <label><input type="checkbox" required> I have saved my draft and finished work in other tabs.</label><button class="button" name="action" value="install">Update</button></form>
 <?php else: ?><p>The channel has no newer build. Automatic downgrades are disabled.</p><?php endif; ?>
-<?php elseif (!$error): ?><p>No published build is available for this channel. For a private repository, check the server token configuration.</p><?php endif; ?>
+<?php elseif (!$error && is_string($result['available'] ?? null)): ?><p>The channel has no newer build. Automatic downgrades are disabled.</p>
+<?php elseif (!$error): ?><p>No published build is available for this channel.</p><?php endif; ?>
 <p class="subtle">Checks are cached for five minutes on Alpha and six hours on Release. Installation starts only when you click Update.</p>
 </section></main></body></html>

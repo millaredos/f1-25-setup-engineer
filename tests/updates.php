@@ -26,7 +26,7 @@ try {
     $service->check('alpha'); $service->check('alpha', true);
     testUpdate(count($log->requests) === $requests, 'Shared cache and forced-check throttle');
     $stable = $service->check('release');
-    testUpdate($stable['candidate']['version'] === '0.2.0', 'Release excludes alpha builds');
+    testUpdate($stable['candidate'] === null && $stable['available'] === '0.2.0', 'Older stable does not query GitHub or offer a downgrade');
     $candidate = $alpha['candidate'];
     $makeRelease = static function () use ($candidate): array {
         return ['id' => 2, 'tag_name' => 'v0.3.0-alpha.2', 'draft' => false, 'prerelease' => true, 'published_at' => '2026-11-05',
@@ -55,13 +55,13 @@ try {
     foreach ([403, 429, 500] as $status) {
         $errorRoot = $root . '/error-' . $status; mkdir($errorRoot); mkdir($errorRoot . '/config');
         $errorLog = (object) ['requests' => []];
-        $failed = new GitHubUpdates($errorRoot, new GitHubClient('', fixtureGitHub('', ['status' => $status], $errorLog)));
+        $failed = new GitHubUpdates($errorRoot, new GitHubClient('', fixtureGitHub('', ['status' => $status, 'stableVersion' => '0.3.0'], $errorLog)));
         $failedCheck = $failed->check('release');
         testUpdate(isset($failedCheck['error']), 'GitHub failure is reported without changing installation');
         if ($status === 429) {
             testUpdate($failedCheck['retryAt'] > time(), 'Rate-limit cooldown persisted');
             $failed->check('release', true);
-            testUpdate(count($errorLog->requests) === 1, 'Manual checks respect rate-limit cooldown');
+            testUpdate(count($errorLog->requests) === 2, 'Manual checks respect rate-limit cooldown');
         }
     }
     // Primary limits use the reset time; secondary limits use Retry-After.
@@ -84,9 +84,54 @@ try {
     $retryRoot = $root . '/expired-retry'; mkdir($retryRoot); mkdir($retryRoot . '/config');
     $retryClient = new GitHubClient('', fixtureGitHub($root . '/package.zip'));
     Updater::atomicJson($retryRoot . '/config/update-cache.json', [$retryClient->cacheKey() . ':alpha' =>
-        ['checked' => time(), 'retryAt' => time() - 1, 'error' => 'Previous rate limit', 'candidate' => null]]);
+        ['checked' => time(), 'installed' => appVersion(), 'retryAt' => time() - 1, 'error' => 'Previous rate limit', 'candidate' => null]]);
     $retried = (new GitHubUpdates($retryRoot, $retryClient))->check('alpha');
     testUpdate(($retried['candidate']['version'] ?? '') === '0.3.0-alpha.2', 'Expired cooldown retries immediately instead of waiting for the error cache');
+    testUpdate(GitHubClient::parseVersions("alpha=0.3.0-alpha.10\r\nrelease=\r\n") === ['alpha' => '0.3.0-alpha.10', 'release' => null], 'CRLF version service accepted');
+    foreach (["", "alpha=0.3.0-alpha.2\n", "alpha=0.3.0-alpha.2\nalpha=\n", "alpha=0.3.0\nrelease=\n",
+        "alpha=\nrelease=0.3.0-alpha.2\n", "alpha=0.3.0-alpha.02\nrelease=\n", "alpha=../bad\nrelease=\n",
+        "alpha=\nrelease=\nother=x\n", str_repeat('x', 2049)] as $badFeed) {
+        rejectUpdate(fn() => GitHubClient::parseVersions($badFeed), 'Malformed version service rejected');
+    }
+    $feedRoot = $root . '/feed'; mkdir($feedRoot); mkdir($feedRoot . '/config'); mkdir($feedRoot . '/src');
+    file_put_contents($feedRoot . '/src/VERSION', "0.3.0-alpha.2\n");
+    $feedLog = (object) ['requests' => []];
+    $feedClient = new GitHubClient('private-token', fixtureGitHub($root . '/package.zip', [], $feedLog));
+    $feedService = new GitHubUpdates($feedRoot, $feedClient);
+    $upToDate = $feedService->check('alpha');
+    testUpdate($upToDate['candidate'] === null && $upToDate['available'] === '0.3.0-alpha.2', 'Current installation reads only public versions');
+    testUpdate(count($feedLog->requests) === 1 && $feedLog->requests[0]['url'] === GitHubClient::VERSION_FEED, 'No GitHub API call when current');
+    testUpdate(!str_contains(implode(' ', $feedLog->requests[0]['headers']), 'private-token'), 'GitHub token never sent to version service');
+    $feedService->check('release');
+    testUpdate(count($feedLog->requests) === 2, 'Older release checks also make no GitHub call');
+    $cacheFile = $feedRoot . '/config/update-cache.json';
+    $oldKey = hash('sha256', GitHubClient::REPOSITORY . ':private-token') . ':alpha';
+    Updater::atomicJson($cacheFile, [$oldKey => ['checked' => time(), 'retryAt' => time() + 3600, 'error' => 'Old GitHub cooldown']]);
+    testUpdate(!isset($feedService->check('alpha')['error']), 'Migration ignores legacy API cooldown cache');
+    file_put_contents($feedRoot . '/src/VERSION', "0.3.0-alpha.1\n");
+    $newer = $feedService->check('alpha');
+    testUpdate($newer['candidate']['version'] === '0.3.0-alpha.2', 'New release resolved after installed-version change');
+    $apiRequests = array_values(array_filter($feedLog->requests, fn($request) => str_starts_with($request['url'], 'https://api.github.com/')));
+    testUpdate(count($apiRequests) === 1 && str_contains($apiRequests[0]['url'], '/releases/tags/v0.3.0-alpha.2'), 'Newer version needs one exact-release API lookup');
+    $cache = json_decode(file_get_contents($cacheFile), true); foreach ($cache as &$entry) { $entry['checked'] = time() - 301; } unset($entry);
+    Updater::atomicJson($cacheFile, $cache);
+    $beforeRefresh = count($feedLog->requests); $feedService->check('alpha');
+    testUpdate(count($feedLog->requests) === $beforeRefresh + 1, 'Known release metadata reused across version-feed refreshes');
+    foreach ([['feedStatus' => 503], ['feedStatus' => 302], ['feed' => "invalid\n"]] as $options) {
+        $failureRoot = $root . '/feed-failure-' . bin2hex(random_bytes(3)); mkdir($failureRoot); mkdir($failureRoot . '/config');
+        $failureLog = (object) ['requests' => []];
+        $failure = (new GitHubUpdates($failureRoot, new GitHubClient('', fixtureGitHub('', $options, $failureLog))))->check('alpha');
+        testUpdate(isset($failure['error']) && count($failureLog->requests) === 1, 'Feed outage/redirect/malformed response never falls back to GitHub polling');
+    }
+    $changedFeed = "alpha=0.3.0-alpha.2\nrelease=\n";
+    $baseTransport = fixtureGitHub($root . '/package.zip');
+    $switchingClient = new GitHubClient('switching', static function ($url, $headers, $limit) use (&$changedFeed, $baseTransport) {
+        return $url === GitHubClient::VERSION_FEED ? ['status' => 200, 'headers' => [], 'body' => $changedFeed] : $baseTransport($url, $headers, $limit);
+    });
+    $switching = new GitHubUpdates($feedRoot, $switchingClient);
+    $switchingCandidate = $switching->check('alpha')['candidate'];
+    $changedFeed = "alpha=0.3.0-alpha.3\nrelease=\n";
+    rejectUpdate(fn() => $switching->install('alpha', $switchingCandidate['identity'], 'www'), 'Superseded announcement rejected before installation');
     rejectUpdate(fn() => $service->install('alpha', str_repeat('0', 64), 'www'), 'Stale or forged selection rejected');
     $damaged = new GitHubUpdates($root, new GitHubClient('damaged-test', fixtureGitHub($root . '/package.zip', ['download' => 'altered'])));
     $damagedCandidate = $damaged->check('alpha')['candidate'];

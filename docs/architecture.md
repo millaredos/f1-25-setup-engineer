@@ -54,7 +54,7 @@ Each save inserts a new version. Its JSON contains the reference, current values
 - `install.php` checks requirements and prepares tables through `Store`.
 - `InstallationState` reads and writes `config/installation.json`.
 - `options.php` saves the installation-wide channel through `UpdateSettings`.
-- `GitHubUpdates` selects builds from the active release PR or published stable releases. `GitHubClient` restricts HTTPS requests to GitHub and strips credentials on storage redirects.
+- `GitHubUpdates` reads the published channel versions and resolves the exact GitHub release only when a newer version exists. `GitHubClient` keeps version discovery separate from authenticated GitHub requests and strips credentials on storage redirects.
 - `update.php` downloads the selected build and delegates package validation, backup and file replacement to `Updater`.
 - `Updater` uses an exclusive lock and a persistent recovery journal; bootstrap checks recovery before loading domain code.
 - `config/local.php` contains database credentials and an optional read-only GitHub token. Channel settings and caches are separate private JSON files.

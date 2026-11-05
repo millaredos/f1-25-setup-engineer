@@ -4,7 +4,7 @@
 
 ## Resultados de desarrollo de 0.3.0
 
-PHP 8.5.12: 194 comprobaciones de dominio y contratos, 34 de paquetes y 57 de canales, GitHub, integridad y recuperación. Python: ocho pruebas de empaquetado y publicación. Los recorridos de navegador comprueban selección web del canal, CSRF, descarga verificada, copias y conservación del estado privado, en raíz y bajo una subcarpeta con la carpeta pública renombrada a `www`. Options y Updates también se comprueban en ancho móvil.
+PHP 8.5.12: 194 comprobaciones de dominio y contratos, 34 de paquetes y 79 de canales, GitHub, integridad y recuperación. Python: ocho pruebas de empaquetado y publicación. Los recorridos de navegador comprueban selección web del canal, CSRF, descarga verificada, copias y conservación del estado privado, en raíz y bajo una subcarpeta con la carpeta pública renombrada a `www`. Options y Updates también se comprueban en ancho móvil.
 
 Las respuestas automatizadas de GitHub son fixtures; las pruebas no necesitan token ni modifican releases remotas. La interrupción se simula mediante un registro de recuperación y archivos parcialmente cambiados. No se han probado cortes eléctricos ni fallos de disco reales.
 

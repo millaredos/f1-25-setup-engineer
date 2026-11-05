@@ -4,7 +4,7 @@
 
 ## Version 0.3.0 development results
 
-PHP 8.5.12: 194 domain/contract checks, 34 package checks and 57 channel, GitHub, integrity and recovery checks. Python: eight package/publication tests. Browser flows cover web channel selection, CSRF, verified downloads, backups and preserved private state, both at the root and under a subdirectory with a renamed `www` public directory. Options and Updates are also checked at mobile width.
+PHP 8.5.12: 194 domain/contract checks, 34 package checks and 79 channel, GitHub, integrity and recovery checks. Python: eight package/publication tests. Browser flows cover web channel selection, CSRF, verified downloads, backups and preserved private state, both at the root and under a subdirectory with a renamed `www` public directory. Options and Updates are also checked at mobile width.
 
 Automated GitHub responses are fixtures; the tests do not need a token or modify a remote release. Interrupted replacement is simulated with a recovery journal and partial file changes. Hardware power loss and disk failure have not been tested.
 

@@ -29,7 +29,7 @@ try {
         try {
             $channel = (new UpdateSettings(dirname(__DIR__)))->channel();
             $update = appUpdates()->check($channel);
-            $available = $update['candidate']['version'] ?? null;
+            $available = $update['available'] ?? null;
             respond(['channel' => $channel, 'installed' => appVersion(), 'available' => $available,
                 'newer' => is_string($available) && version_compare($available, appVersion(), '>')]);
         } catch (Throwable $error) {

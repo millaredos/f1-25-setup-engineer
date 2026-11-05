@@ -86,7 +86,7 @@ Se admiten JSON `f125-setup-engineer` y del comparador anterior `f125-comparador
 
 ## Actualización
 
-Elige **Alpha** o **Release** en **Options → Updates → Channel**. Alpha recibe compilaciones correctas de la PR de la release activa; Release recibe estables publicadas. La aplicación comprueba las novedades en segundo plano. Pulsa **Update** para descargar, verificar e instalar, con copia privada y registro de recuperación.
+Elige **Alpha** o **Release** en **Options → Updates → Channel**. Alpha recibe compilaciones correctas de la PR de la release activa; Release recibe estables publicadas. La aplicación detecta las nuevas versiones cuando se publican y muestra las actualizaciones disponibles en segundo plano. Pulsa **Update** para descargar, verificar e instalar, con copia privada y registro de recuperación.
 
 Consulta la [guía de actualización](actualizacion.md). Los repositorios públicos no necesitan token; los privados requieren un token de lectura de GitHub configurado una vez en el servidor. No hay contraseña adicional del actualizador ni subida manual de ZIP.
 

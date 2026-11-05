@@ -13,13 +13,13 @@ Open **Options → Updates → Channel** and save:
 
 The selection is stored on the server and applies to the installation. Switching channels does not install anything. Older versions are never installed automatically; an Alpha installation can return to Release when a newer stable version is available.
 
-The application checks in the background while open. GitHub results are cached for five minutes on Alpha and six hours on Release. **Check for updates** refreshes the cache, subject to a one-minute throttle and GitHub rate-limit backoff.
+The application checks in the background while open. Version checks are cached for five minutes on Alpha and six hours on Release. **Check for updates** refreshes the cache, subject to a one-minute throttle and GitHub rate-limit backoff.
 
-GitHub permits 60 unauthenticated API requests per hour per server IP, shared with other applications using that IP. A check can make several requests. When limited, Updates shows the UTC retry time and pauses checks until then; refreshing cannot bypass that pause. An HTTP 403 without rate-limit evidence is reported as denied access instead.
+GitHub permits 60 unauthenticated API requests per hour per server IP, shared with other applications using that IP. This limit applies when resolving or downloading a new release; routine version checks use the application version service without querying the GitHub API. When limited, Updates shows the UTC retry time and pauses checks until then; refreshing cannot bypass that pause. An HTTP 403 without rate-limit evidence is reported as denied access instead.
 
 ## Server requirements
 
-- PHP ZIP and cURL extensions, HTTPS access to GitHub and working CA certificates.
+- PHP ZIP and cURL extensions, HTTPS access to the version service and GitHub, with working CA certificates.
 - Write access to application files, private `config/` state and `backups/`.
 - For a private repository, a fine-grained token with **Contents: read** and **Pull requests: read** for the repository. Set `github_token` in `config/local.php` or `F125_GITHUB_TOKEN` in the web PHP environment. A public repository needs no token.
 

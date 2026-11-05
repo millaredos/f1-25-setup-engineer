@@ -88,7 +88,7 @@ Both `f125-setup-engineer` and the previous comparator's `f125-comparador-v2` JS
 
 ## Updating
 
-Choose **Alpha** or **Release** in **Options → Updates → Channel**. Alpha receives successful builds from the active release PR; Release receives published stable versions. The application checks in the background and displays available updates. Click **Update** to download, verify and install a build, with a private backup and recovery journal.
+Choose **Alpha** or **Release** in **Options → Updates → Channel**. Alpha receives successful builds from the active release PR; Release receives published stable versions. The application detects new versions after publication and displays available updates in the background. Click **Update** to download, verify and install a build, with a private backup and recovery journal.
 
 See the [updating guide](docs/updating.md). Public repositories need no token; private repositories require a read-only GitHub token configured once on the server. There is no separate updater password or manual ZIP upload.
 

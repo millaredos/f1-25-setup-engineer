@@ -6,6 +6,7 @@
 
 ### 0.3.0
 
+- Fixed: replaced periodic GitHub API update checks with the application's version service.
 - Respect GitHub rate-limit reset times, distinguish denied access, and show when update checks can resume.
 - Refine the home guide with a centered introduction, balanced columns, readable headings and numbered steps across desktop and mobile.
 - Replace duplicate home menu cards with an introduction, application limits and a short guide to each section.

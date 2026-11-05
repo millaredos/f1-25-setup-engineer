@@ -13,13 +13,13 @@ Abre **Options → Updates → Channel** y guarda:
 
 La selección se guarda en el servidor y se aplica a la instalación. Cambiar de canal no instala nada. Nunca se instala automáticamente una versión anterior; una instalación Alpha puede volver a Release cuando haya una estable posterior.
 
-La aplicación comprueba las novedades en segundo plano mientras está abierta. La caché de GitHub dura cinco minutos en Alpha y seis horas en Release. **Check for updates** permite renovarla, con un intervalo mínimo de un minuto y respetando los límites de GitHub.
+La aplicación comprueba las novedades en segundo plano mientras está abierta. La caché de versiones dura cinco minutos en Alpha y seis horas en Release. **Check for updates** permite renovarla, con un intervalo mínimo de un minuto y respetando los límites de GitHub.
 
-GitHub permite 60 consultas sin autenticación por hora e IP del servidor, compartidas con otras aplicaciones que utilicen esa IP. Una comprobación puede hacer varias consultas. Si se alcanza el límite, Updates indica la hora UTC de reintento y pausa las consultas hasta entonces; recargar no evita esa espera. Un HTTP 403 sin indicios de límite se informa como acceso denegado.
+GitHub permite 60 consultas sin autenticación por hora e IP del servidor, compartidas con otras aplicaciones que utilicen esa IP. Este límite afecta a la consulta o descarga de una release nueva; las comprobaciones habituales usan el servicio de versiones de la app sin consultar la API de GitHub. Si se alcanza el límite, Updates indica la hora UTC de reintento y pausa las consultas hasta entonces; recargar no evita esa espera. Un HTTP 403 sin indicios de límite se informa como acceso denegado.
 
 ## Requisitos del servidor
 
-- Extensiones ZIP y cURL de PHP, acceso HTTPS a GitHub y certificados CA válidos.
+- Extensiones ZIP y cURL de PHP, acceso HTTPS al servicio de versiones y a GitHub, con certificados CA válidos.
 - Escritura en los archivos de la aplicación, el estado privado de `config/` y `backups/`.
 - Para un repositorio privado, un token de acceso detallado con **Contents: read** y **Pull requests: read** para ese repositorio. Configura `github_token` en `config/local.php` o `F125_GITHUB_TOKEN` en el entorno del PHP web. Un repositorio público no necesita token.
 

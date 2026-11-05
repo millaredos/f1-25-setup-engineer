@@ -54,7 +54,7 @@ Cada guardado inserta una versión nueva. Su JSON contiene referencia, valores a
 - `install.php` comprueba requisitos y prepara las tablas mediante `Store`.
 - `InstallationState` lee y escribe `config/installation.json`.
 - `options.php` guarda el canal de la instalación mediante `UpdateSettings`.
-- `GitHubUpdates` selecciona compilaciones de la PR de release activa o estables publicadas. `GitHubClient` limita las peticiones HTTPS a GitHub y retira las credenciales al redirigir hacia el almacenamiento.
+- `GitHubUpdates` lee las versiones publicadas por canal y consulta la release exacta de GitHub solo cuando existe una versión posterior. `GitHubClient` separa la detección de las peticiones autenticadas a GitHub y retira las credenciales al redirigir hacia el almacenamiento.
 - `update.php` descarga la compilación seleccionada y delega la validación, copia y sustitución de archivos en `Updater`.
 - `Updater` utiliza un bloqueo exclusivo y un registro persistente de recuperación; el arranque comprueba la recuperación antes de cargar el dominio.
 - `config/local.php` contiene las credenciales de la base y un token de lectura de GitHub opcional. El canal y la caché se guardan en otros JSON privados.

@@ -29,10 +29,11 @@ final class UpdateSettings
 final class GitHubClient
 {
     public const REPOSITORY = 'millaredos/f1-25-setup-engineer';
+    public const VERSION_FEED = 'https://git.millaredos.com/f125/versions.txt';
     private string $token;
     private $transport;
     public function __construct(string $token = '', ?callable $transport = null) { $this->token = $token; $this->transport = $transport; }
-    public function cacheKey(): string { return hash('sha256', self::REPOSITORY . ':' . $this->token); }
+    public function cacheKey(): string { return hash('sha256', 'version-feed-v1:' . self::REPOSITORY . ':' . self::VERSION_FEED . ':' . $this->token); }
 
     public function get(string $path, bool $binary = false): array
     {
@@ -77,9 +78,41 @@ final class GitHubClient
         throw new RuntimeException('Too many GitHub redirects.');
     }
 
+    /** Version discovery sends no GitHub credential and never follows redirects. */
+    public function versions(): array
+    {
+        $headers = ['Accept: text/plain', 'User-Agent: F125-Setup-Engineer'];
+        $response = $this->transport !== null
+            ? ($this->transport)(self::VERSION_FEED, $headers, 2048)
+            : $this->request(self::VERSION_FEED, $headers, 2048);
+        if (!is_array($response) || ($response['status'] ?? null) !== 200 || !is_string($response['body'] ?? null)) {
+            throw new RuntimeException('The version service is unavailable. Try again later.');
+        }
+        return self::parseVersions($response['body']);
+    }
+
+    public static function parseVersions(string $body): array
+    {
+        if (strlen($body) > 2048) { throw new RuntimeException('Invalid version service response.'); }
+        $lines = explode("\n", rtrim(str_replace("\r\n", "\n", $body), "\n"));
+        $versions = [];
+        if (count($lines) !== 2) { throw new RuntimeException('Invalid version service response.'); }
+        foreach ($lines as $line) {
+            if (!preg_match('/^(alpha|release)=(.*)$/D', $line, $match) || array_key_exists($match[1], $versions)) {
+                throw new RuntimeException('Invalid version service channels.');
+            }
+            $version = $match[2];
+            if ($version !== '' && (!Updater::validVersion($version) || str_contains($version, '-alpha.') !== ($match[1] === 'alpha'))) {
+                throw new RuntimeException('Invalid published version.');
+            }
+            $versions[$match[1]] = $version === '' ? null : $version;
+        }
+        return $versions;
+    }
+
     private function request(string $url, array $headers, int $limit): array
     {
-        if (!function_exists('curl_init')) { throw new RuntimeException('Enable the PHP cURL extension to check GitHub updates.'); }
+        if (!function_exists('curl_init')) { throw new RuntimeException('Enable the PHP cURL extension to check updates.'); }
         $curl = curl_init($url); $body = ''; $received = [];
         curl_setopt_array($curl, [
             CURLOPT_FOLLOWLOCATION => false, CURLOPT_CONNECTTIMEOUT => 5, CURLOPT_TIMEOUT => 30,
@@ -99,7 +132,7 @@ final class GitHubClient
             curl_setopt($curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
         }
         try {
-            if (curl_exec($curl) === false) { throw new RuntimeException('Cannot securely download from GitHub. Check network access and PHP CA certificates.'); }
+            if (curl_exec($curl) === false) { throw new RuntimeException('Cannot securely contact the update service. Check network access and PHP CA certificates.'); }
             return ['status' => curl_getinfo($curl, CURLINFO_RESPONSE_CODE), 'headers' => $received, 'body' => $body];
         } finally { unset($curl); }
     }
@@ -128,7 +161,9 @@ final class GitHubUpdates
         $cache = is_file($path) ? json_decode(file_get_contents($path), true) : [];
         if (!is_array($cache)) { $cache = []; }
         $key = $this->client->cacheKey() . ':' . $channel;
+        $installed = is_file($this->root . '/src/VERSION') ? trim(file_get_contents($this->root . '/src/VERSION')) : appVersion();
         $previous = $cache[$key] ?? [];
+        if (($previous['installed'] ?? null) !== $installed) { $previous = []; }
         if (($previous['retryAt'] ?? 0) > time()) { return $previous; }
         $ttl = isset($previous['error']) ? 600 : ($channel === 'alpha' ? 300 : 21600);
         if (!isset($previous['retryAt']) && isset($previous['checked']) && time() - $previous['checked'] < ($force ? 60 : $ttl)) { return $previous; }
@@ -137,9 +172,17 @@ final class GitHubUpdates
         try {
             // Another request may have refreshed the cache while this request started.
             $fresh = is_file($path) ? json_decode(file_get_contents($path), true) : [];
-            if (is_array($fresh) && isset($fresh[$key]['checked']) && $fresh[$key]['checked'] > ($previous['checked'] ?? 0)) { return $fresh[$key]; }
-            $result = ['checked' => time(), 'candidate' => null];
-            try { $result['candidate'] = $this->discover($channel); }
+            if (is_array($fresh) && ($fresh[$key]['installed'] ?? null) === $installed && isset($fresh[$key]['checked']) && $fresh[$key]['checked'] > ($previous['checked'] ?? 0)) { return $fresh[$key]; }
+            $result = ['checked' => time(), 'installed' => $installed, 'available' => null, 'candidate' => null];
+            try {
+                $version = $this->announced($channel);
+                $result['available'] = $version;
+                if ($version !== null && version_compare($version, $installed, '>')) {
+                    $known = $previous['candidate'] ?? null;
+                    $result['candidate'] = is_array($known) && ($known['version'] ?? null) === $version
+                        ? $known : $this->releaseForVersion($version);
+                }
+            }
             catch (Throwable $e) {
                 $result['error'] = $e instanceof RuntimeException ? $e->getMessage() : 'Cannot read GitHub update metadata.';
                 if ($e instanceof GitHubRetry) { $result['retryAt'] = $e->retryAt; }
@@ -152,40 +195,22 @@ final class GitHubUpdates
         } finally { flock($lock, LOCK_UN); fclose($lock); }
     }
 
-    private function discover(string $channel): ?array
+    private function announced(string $channel): ?string
     {
-        if ($channel === 'release') {
-            $release = $this->client->json($this->path('releases/latest'));
-            return $release === null ? null : $this->candidate($release, $channel);
-        }
-        $pulls = $this->client->json($this->path('pulls?state=open&base=main&per_page=100'));
-        if ($pulls === null) { throw new RuntimeException('The repository is private or unavailable. Configure a read-only GitHub token on this server if needed.'); }
-        $active = array_values(array_filter($pulls, static fn($pr) => is_array($pr) && ($pr['head']['repo']['full_name'] ?? '') === GitHubClient::REPOSITORY && preg_match('~^release/\d+\.\d+\.\d+$~D', $pr['head']['ref'] ?? '')));
-        if (count($active) > 1) { throw new RuntimeException('More than one release PR is open. Keep one active release PR for the Alpha channel.'); }
-        if (!$active) { return $this->stableFallback(); }
-        $pr = $active[0]; $best = null;
-        // A bounded scan prevents a malformed repository from producing unlimited requests.
-        for ($page = 1; $page <= 3; $page++) {
-            $releases = $this->client->json($this->path('releases?per_page=100&page=' . $page));
-            if ($releases === null) { throw new RuntimeException('Cannot list Alpha builds.'); }
-            foreach ($releases as $release) {
-                if (!is_array($release) || empty($release['prerelease']) || !empty($release['draft'])) { continue; }
-                try { $candidate = $this->candidate($release, 'alpha'); } catch (RuntimeException $e) { continue; }
-                if ($candidate['pr'] !== $pr['number'] || $candidate['branch'] !== $pr['head']['ref'] || explode('-alpha.', $candidate['version'])[0] !== substr($pr['head']['ref'], 8)) { continue; }
-                if ($best === null || version_compare($candidate['version'], $best['version'], '>')) { $best = $candidate; }
-            }
-            if (count($releases) < 100 || $best !== null) { break; }
-        }
-        $stable = $this->stableFallback();
-        return $stable !== null && ($best === null || version_compare($stable['version'], $best['version'], '>')) ? $stable : $best;
+        $versions = $this->client->versions();
+        $version = $versions[$channel];
+        $stable = $versions['release'];
+        return $channel === 'alpha' && $stable !== null && ($version === null || version_compare($stable, $version, '>'))
+            ? $stable : $version;
     }
 
-    private function stableFallback(): ?array
+    private function releaseForVersion(string $version): array
     {
-        $release = $this->client->json($this->path('releases/latest'));
-        if ($release === null) { return null; }
-        try { return $this->candidate($release, 'release'); }
-        catch (RuntimeException $error) { return null; }
+        $release = $this->client->json($this->path('releases/tags/v' . $version));
+        if ($release === null) { throw new RuntimeException('The announced release is not available on GitHub. Try again later.'); }
+        $candidate = $this->candidate($release, str_contains($version, '-alpha.') ? 'alpha' : 'release');
+        if ($candidate['version'] !== $version) { throw new RuntimeException('The announced version does not match the GitHub release.'); }
+        return $candidate;
     }
 
     public function candidate(array $release, string $channel): array
@@ -197,6 +222,7 @@ final class GitHubUpdates
         if (!preg_match('/<!-- f125-update (\{[^\r\n]+\}) -->/', $release['body'] ?? '', $match)) { throw new RuntimeException('The release has no application build metadata.'); }
         $build = json_decode($match[1], true, 16, JSON_THROW_ON_ERROR);
         if (!is_array($build) || ($build['channel'] ?? '') !== $channel || !preg_match('/^[a-f0-9]{40}$/D', $build['commit'] ?? '') || !is_int($build['pr'] ?? null) || $build['pr'] < 1 || !preg_match('~^release/\d+\.\d+\.\d+$~D', $build['branch'] ?? '')) { throw new RuntimeException('Invalid release build identity.'); }
+        if (substr($build['branch'], 8) !== explode('-alpha.', $version)[0]) { throw new RuntimeException('The release branch and version disagree.'); }
         $assets = array_values(array_filter($release['assets'] ?? [], static fn($asset) => ($asset['name'] ?? '') === 'f125-update-' . $version . '.zip'));
         if (count($assets) !== 1) { throw new RuntimeException('The release update package is missing or ambiguous.'); }
         $asset = $assets[0];
@@ -211,10 +237,10 @@ final class GitHubUpdates
         $cached = $this->check($channel);
         $selected = $cached['candidate'] ?? null;
         if (!is_array($selected) || !hash_equals($selected['identity'], $identity)) { throw new RuntimeException('The selected update changed. Check for updates again.'); }
-        // Re-discover the channel and re-fetch the exact release; never silently switch packages.
-        $latest = $this->discover($channel);
+        // Recheck the announcement and exact asset; never silently switch packages.
+        $latest = $this->announced($channel);
         $release = $this->client->json($this->path('releases/' . $selected['releaseId']));
-        if ($latest === null || !hash_equals($latest['identity'], $identity) || $release === null) { throw new RuntimeException('This build is no longer the current update. Check again.'); }
+        if ($latest !== $selected['version'] || $release === null) { throw new RuntimeException('This build is no longer the current update. Check again.'); }
         $candidate = $this->candidate($release, $selected['channel']);
         if (!hash_equals($candidate['identity'], $identity)) { throw new RuntimeException('The GitHub package changed. Check again.'); }
         $download = $this->client->get($this->path('releases/assets/' . $candidate['assetId']), true);
