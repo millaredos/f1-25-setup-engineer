@@ -17,7 +17,7 @@ Las versiones siguen `MAYOR.MENOR.PARCHE`, con `-alpha.N` para las compilaciones
 
 Una nueva menor reinicia PARCHE a cero. Las correcciones anteriores a la publicación estable siguen siendo Alpha del mismo objetivo. No convierten `0.3.0-alpha.N` en `0.3.1`. Se elige el siguiente objetivo antes de abrir su rama y PR de release. El trabajo destinado a otro objetivo espera a su PR.
 
-La primera `1.0.0` es un hito decidido expresamente: se consideran estables el flujo principal y los contratos de datos soportados. No aparece automáticamente tras un número de versiones menores. El actualizador actual rechaza esquemas distintos; no permite distribuir paquetes que necesiten migrar la base de datos.
+La primera `1.0.0` es un hito decidido expresamente: se consideran estables el flujo principal y los contratos de datos soportados. No aparece automáticamente tras un número de versiones menores. El actualizador rechaza versiones distintas del esquema base. Las migraciones compatibles que añaden catálogos se distribuyen en el paquete y se aplican por separado desde el navegador; consulta [migraciones de base de datos](migraciones-base-datos.md).
 
 ## Cuándo una Alpha pasa a estable
 

@@ -1,7 +1,7 @@
 import { t, tn, locale } from '../i18n.php';
 const $ = (selector) => document.querySelector(selector);
 const DRAFT_KEY = 'f125-engineer-draft-v1';
-const state = { catalog: [], symptoms: null, circuits: [], setups: [], current: {}, reference: null, circuit: null, referenceSource: 'unknown', csrf: '', ready: false, dirty: false };
+const state = { catalog: [], symptoms: null, circuits: [], setups: [], current: {}, reference: null, circuit: null, conditions: { surface: 'unknown', session: 'unknown' }, referenceSource: 'unknown', csrf: '', ready: false, dirty: false };
 let importMode = 'circuit';
 let preview = null;
 let compareSequence = 0;
@@ -43,7 +43,7 @@ function payload() {
     format: 'f125-setup-engineer', schemaVersion: 1,
     title: $('#setup-title').value.trim() || t('Reglaje sin nombre'), notes: $('#notes').value,
     circuit: state.circuit, reference: state.reference, current: state.current, referenceSource: state.referenceSource,
-    conditions: { surface: $('#surface').value, session: $('#session').value },
+    conditions: { ...state.conditions },
   };
 }
 
@@ -206,8 +206,10 @@ function refreshLists() {
   if (state.circuit && !list.some((c) => c.id === state.circuit.id)) list.push(state.circuit);
   list.forEach((c) => select.add(new Option(c.name, c.id)));
   select.value = state.circuit?.id || '';
-  const saved = $('#saved'); saved.replaceChildren(new Option(t('Selecciona una versión guardada'), ''));
-  state.setups.forEach((s) => saved.add(new Option(`${s.title} · ${s.circuit_id} · ${new Date(s.created_at).toLocaleString(locale)}`, s.id)));
+  const saved = $('#saved'); const selected = saved.value;
+  saved.replaceChildren(new Option(t('Selecciona una versión guardada'), ''));
+  state.setups.filter((s) => !state.circuit || s.circuit_id === state.circuit.id).forEach((s) => saved.add(new Option(`${s.title} · ${new Date(s.created_at).toLocaleString(locale)}`, s.id)));
+  saved.value = [...saved.options].some((option) => option.value === selected) ? selected : '';
 }
 
 function renderAdvice() {
@@ -239,7 +241,8 @@ function installDraft(data) {
   state.current = { ...data.current }; state.reference = data.reference ? { ...data.reference } : null;
   state.referenceSource = data.referenceSource || 'unknown'; state.circuit = data.circuit || null;
   $('#setup-title').value = data.title || ''; $('#notes').value = data.notes || '';
-  $('#surface').value = data.conditions?.surface || 'unknown'; $('#session').value = data.conditions?.session || 'unknown';
+  // Existing imports and saved versions keep their metadata; choosing a preset does not invent conditions.
+  state.conditions = { surface: data.conditions?.surface || 'unknown', session: data.conditions?.session || 'unknown' };
   $('#reference-source').value = state.referenceSource;
   syncControls(); refreshLists(); renderCircuit();
 }
@@ -349,12 +352,13 @@ function bindEvents() {
     state.circuit = next;
     if (previous) {
       state.current = blankValues(); state.reference = null; state.referenceSource = 'unknown';
+      state.conditions = { surface: 'unknown', session: 'unknown' };
       $('#reference-source').value = 'game-assigned'; $('#setup-title').value = ''; $('#notes').value = '';
     }
     syncControls(); refreshLists(); renderCircuit(); remember();
   });
   $('#symptom').addEventListener('change', renderAdvice);
-  ['#surface', '#session', '#setup-title', '#notes'].forEach((selector) => $(selector).addEventListener('input', remember));
+  ['#setup-title', '#notes'].forEach((selector) => $(selector).addEventListener('input', remember));
   $('#open-circuit').addEventListener('click', () => openImport('circuit'));
   $('#open-setup').addEventListener('click', () => openImport('setup'));
   $('#json-input').addEventListener('input', clearPreview);
@@ -404,13 +408,14 @@ function bindEvents() {
 async function start() {
   try {
     const data = await api('bootstrap');
+    $('#database-update').hidden = !data.databaseUpdateRequired;
     document.dispatchEvent(new Event('f125-ready'));
     state.csrf = data.csrf; state.catalog = data.catalog.parameters; state.symptoms = data.symptoms; state.circuits = data.circuits; state.setups = data.setups; state.ready = data.storageReady; state.current = blankValues();
     $('#catalog-notice').textContent = data.catalog.notice;
     state.symptoms.items.forEach((s) => $('#symptom').add(new Option(s.label, s.id)));
     renderControls(); refreshLists(); bindEvents();
     try { $('#recovery').hidden = !localStorage.getItem(DRAFT_KEY); } catch { /* El taller funciona sin caché local. */ }
-    status(state.ready ? t('Taller listo. Selecciona el circuito y aporta los valores que te asigna el juego.') : t('No se pudo conectar con la base de datos. Puedes seguir editando y exportar tu borrador mientras se recupera la conexión.'), !state.ready);
+    status(state.ready ? t('Taller listo. Elige un circuito o abre un reglaje guardado.') : t('No se pudo conectar con la base de datos. Puedes seguir editando y exportar tu borrador mientras se recupera la conexión.'), !state.ready);
     // Wait for bootstrap to establish the session cookie before background requests.
 
   } catch (error) { status(t('No se pudo cargar el taller: {error}', { error: error.message }), true); }
@@ -427,6 +432,9 @@ function showPage() {
     if (link.hash === `#${page}`) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
   });
+  const brand = document.querySelector('.brand');
+  if (page === 'inicio') brand.setAttribute('aria-current', 'page');
+  else brand.removeAttribute('aria-current');
   document.title = `${document.querySelector('.app-nav [aria-current]')?.textContent || t('Inicio')} · F1 25`;
 }
 window.addEventListener('hashchange', showPage);

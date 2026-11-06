@@ -38,15 +38,17 @@ try {
     }
     $domain = appDomain();
     if ($method === 'GET' && $action === 'bootstrap') {
-        $circuits = []; $setups = []; $storageReady = false;
+        $circuits = []; $setups = []; $storageReady = false; $databaseUpdateRequired = false;
         try {
             $store = new Store(appConfig());
             $store->ready();
-            $circuits = $store->circuits(); $setups = $store->setups(); $storageReady = true;
+            $circuits = $store->circuits(); $setups = $store->setups();
+            $databaseUpdateRequired = count($store->pendingMigrations()) > 0;
+            $storageReady = true;
         } catch (Throwable $e) {
             error_log('F125 storage: ' . $e->getMessage());
         }
-        respond(['csrf' => $_SESSION['csrf'], 'catalog' => $domain->catalog, 'symptoms' => $domain->symptoms, 'circuits' => $circuits, 'setups' => $setups, 'storageReady' => $storageReady]);
+        respond(['csrf' => $_SESSION['csrf'], 'catalog' => $domain->catalog, 'symptoms' => $domain->symptoms, 'circuits' => $circuits, 'setups' => $setups, 'storageReady' => $storageReady, 'databaseUpdateRequired' => $databaseUpdateRequired]);
     }
     if ($method !== 'POST') { respond(['error' => t('Método no admitido.')], 405); }
     if (!hash_equals($_SESSION['csrf'], $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '')) {

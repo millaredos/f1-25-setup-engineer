@@ -31,7 +31,7 @@ def source_messages():
                 if value.endswith('.') and ' ' in value and not value.startswith(('/', '~')):
                     entries.setdefault(value, '')
     # Messages supplied through a variable, rather than a literal t() argument.
-    for value in ['Inicio', 'Circuito y referencia', 'Taller', 'Pruebas', 'Versiones', 'Sesiones', 'Correcto', 'Pendiente', 'Alpha', 'Estable', 'Nombre', 'Notas', 'Fuente', 'Circuito', 'Trazado', 'Carga', 'Resumen', 'Superficie']:
+    for value in ['Inicio', 'Circuito y referencia', 'Taller', 'Pruebas', 'Versiones', 'Sesiones', 'Correcto', 'Pendiente', 'Alpha', 'Estable', 'Nombre', 'Notas', 'Fuente', 'Circuito', 'Trazado', 'Carga', 'Resumen', 'Superficie', 'Máxima carga aerodinámica', 'Mayor carga aerodinámica', 'Equilibrado', 'Mayor velocidad punta', 'Máxima velocidad punta']:
         entries.setdefault(value, '')
     fields = {'notice', 'category', 'name', 'phase', 'what', 'up', 'down', 'up_label', 'down_label', 'note', 'label', 'check', 'why', 'cost', 'combined'}
     def visit(data, parent=''):
@@ -54,7 +54,7 @@ def source_messages():
 
 def extract():
     source = ROOT / 'languages/es.po'
-    po = polib.pofile(str(source), encoding='utf-8')
+    po = polib.pofile(str(source), encoding='utf-8', wrapwidth=100)
     messages = source_messages()
     for message, plural in sorted(messages.items()):
         entry = po.find(message)

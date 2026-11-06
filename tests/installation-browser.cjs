@@ -79,6 +79,12 @@ const assert = require('node:assert/strict');
     response = await fetch(base + 'api.php?action=bootstrap');
     assert.equal((await response.json()).storageReady, false, 'fallo de conexión no cambia instalado');
     assert.equal(JSON.parse(fs.readFileSync(statePath, 'utf8')).installed, true);
+    response = await fetch(base + 'database.php');
+    assert.equal(response.status, 503, 'database outage does not reopen installer');
+    assert.match(await response.text(), /No se pudo preparar o completar/);
+    response = await fetch(base + 'database.php', { method: 'POST', body: new URLSearchParams({ csrf: 'incorrecto' }) });
+    assert.equal(response.status, 403, 'database migration requires valid CSRF');
+    assert.equal(JSON.parse(fs.readFileSync(statePath, 'utf8')).installed, true);
     const browser = spawnSync(process.execPath, [path.join(__dirname, 'browser.cjs')], { env: { ...env, F125_TEST_URL: base }, windowsHide: true, encoding: 'utf8' });
     process.stdout.write(browser.stdout || ''); process.stderr.write(browser.stderr || '');
     assert.equal(browser.status, 0, 'recorrido del taller con estado instalado');
@@ -140,6 +146,15 @@ const assert = require('node:assert/strict');
       assert.match(await response.text(), /No se vuelve autom/);
       console.log('OK: web channel options, CSRF, verified GitHub fixture download, backup and preserved private state.');
     }
+    // Substitute storage only after all real outage/package checks, inside the temporary site.
+    fs.copyFileSync(path.join(__dirname, 'fixtures/migration-store.php'), path.join(root, 'src/Store.php'));
+    response = await fetch(base + 'database.php');
+    assert.equal(response.status, 200);
+    assert.match(await response.text(), /Actualización pendiente/);
+    assert.equal(fs.existsSync(path.join(root, 'config/migration-applied')), false, 'GET does not apply migrations');
+    const databaseBrowser = spawnSync(process.execPath, [path.join(__dirname, 'database-browser.cjs')], { env: { ...env, F125_TEST_URL: base }, windowsHide: true, encoding: 'utf8' });
+    process.stdout.write(databaseBrowser.stdout || ''); process.stderr.write(databaseBrowser.stderr || '');
+    assert.equal(databaseBrowser.status, 0);
     console.log(`OK: estados, redirecciones, POST, API y caída de conexión; montaje ${mount}, host ${host}, puerto ${port}; sitio temporal aislado.`);
   } catch (error) {
     if (fs.existsSync(serverLog)) process.stderr.write(fs.readFileSync(serverLog, 'utf8').slice(-4000));

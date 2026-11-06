@@ -22,6 +22,7 @@ Desarrollada en PHP, MariaDB, JavaScript nativo y CSS puro.
 - Importación de fichas de circuito y reglajes en JSON.
 - Guardado de versiones con condiciones, notas y ficha del circuito.
 - Exportación JSON y recuperación del borrador del navegador.
+- Migraciones versionadas con cinco predeterminados del juego, 24 nombres oficiales de circuitos y las asignaciones confirmadas.
 
 Los circuitos se incorporan mediante fichas importadas. Las explicaciones son orientativas y deben comprobarse en el juego.
 
@@ -83,6 +84,8 @@ La [guía de instalación](instalacion.md) detalla los permisos, la configuraci�
 Abre el menú de la versión, arriba a la derecha, para acceder a **Opciones** y **Actualizaciones**. Un punto indica una versión posterior en el canal seleccionado. **Opciones → Idioma de la aplicación** ofrece actualmente **Español** y recuerda la selección en este navegador.
 
 Cambiar de apartado conserva el borrador. Cada guardado crea una versión nueva en MariaDB. El borrador del navegador se recupera por separado y no sustituye ese guardado.
+
+El logo abre Inicio sin recargar el borrador. Abre los reglajes guardados desde **Circuito y referencia**; seleccionar un circuito filtra esa lista. La pantalla de carga no atribuye clima ni tipos de sesión a los predeterminados del juego. Las condiciones existentes en importaciones y versiones guardadas se conservan en su JSON.
 
 Se admiten JSON `f125-setup-engineer` y del comparador anterior `f125-comparador-v2`. La importación incluye validación y vista previa.
 

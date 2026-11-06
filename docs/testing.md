@@ -4,7 +4,7 @@
 
 ## Version 0.3.0 development results
 
-PHP 8.5.12: 198 domain/contract checks, 44 package checks and 79 channel, GitHub, integrity and recovery checks. 19 translation checks; Python: 14 package/publication and translation tests. Browser flows cover web channel selection, CSRF, verified downloads, backups and preserved private state, both at the root and under a subdirectory with a renamed `www` public directory. Opciones and Actualizaciones are also checked at mobile width.
+PHP 8.5.12: 201 domain/contract checks, 50 package checks and 79 channel, GitHub, integrity and recovery checks. 19 translation checks and 20 migration checks with recording PDO objects; Python: 14 package/publication and translation tests. Browser flows cover web channel selection, CSRF, verified downloads, backups and preserved private state, both at the root and under a subdirectory with a renamed `www` public directory. Opciones, Actualizaciones and the database migration page are also checked at mobile width.
 
 Automated GitHub responses are fixtures; the tests do not need a token or modify a remote release. Interrupted replacement is simulated with a recovery journal and partial file changes. Hardware power loss and disk failure have not been tested.
 
@@ -17,6 +17,8 @@ Live verification also covered anonymous discovery and download from the public 
 ```sh
 python -m pip install -r requirements-dev.txt
 python bin/translations.py --check
+python bin/migrations.py --check
+php tests/migrations.php
 php tests/translations.php
 php tests/run.php
 php tests/updater.php
@@ -54,7 +56,9 @@ To run `tests/browser.cjs` separately against an existing test installation, set
 
 ## Persistence tests
 
-`tests/integration.php` checks saving, reopening, immutable versions, conflicts and rollback. It requires an explicitly configured empty MariaDB database:
+`tests/migrations.php` validates the 100 bundled values and migration sequencing using recording PDO objects. The migration-page browser checks use a storage fixture. These do not execute SQL against MariaDB.
+
+`tests/integration.php` checks saving, reopening, immutable versions, conflicts, catalog creation, repeat migration, preservation of existing setups, checksum rejection, failed seed rollback and retry. It requires an explicitly configured empty MariaDB database:
 
 ```text
 F125_TEST_DSN=mysql:host=HOST;dbname=TEST_DATABASE;charset=utf8mb4

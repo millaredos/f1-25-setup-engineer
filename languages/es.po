@@ -278,9 +278,6 @@ msgstr "Cargando el taller…"
 msgid "Cargar ejemplo de las capturas"
 msgstr "Cargar ejemplo de las capturas"
 
-msgid "Carrera"
-msgstr "Carrera"
-
 msgid "Caída delantera"
 msgstr "Caída delantera"
 
@@ -398,9 +395,6 @@ msgstr "Comprueba que sucede con el coche apoyado, no durante un golpe de gas o 
 msgid "Con ABS o buena modulación, 100 % puede ser viable. No equivale a frenar siempre más corto."
 msgstr "Con ABS o buena modulación, 100 % puede ser viable. No equivale a frenar siempre más corto."
 
-msgid "Condiciones"
-msgstr "Condiciones"
-
 msgid "Condiciones inválidas."
 msgstr "Condiciones inválidas."
 
@@ -426,9 +420,6 @@ msgstr "Contenido JSON"
 
 msgid "Contexto de {name}: {text}"
 msgstr "Contexto de {name}: {text}"
-
-msgid "Contrarreloj"
-msgstr "Contrarreloj"
 
 msgid "Convergencia trasera"
 msgstr "Convergencia trasera"
@@ -625,13 +616,6 @@ msgstr "Elige un idioma disponible."
 
 msgid "Elige un síntoma"
 msgstr "Elige un síntoma"
-
-msgid ""
-"Empieza con los valores del juego o un reglaje propio. La ficha del circuito y las condiciones dan"
-" contexto a tus pruebas."
-msgstr ""
-"Empieza con los valores del juego o un reglaje propio. La ficha del circuito y las condiciones dan"
-" contexto a tus pruebas."
 
 msgid ""
 "En F1 25 puede bajar la temperatura y mejorar respuesta; agarre y desgaste deben comprobarse."
@@ -881,13 +865,6 @@ msgstr "Idioma de la aplicación"
 msgid "Importa la diferencia entre alerón delantero y trasero: no se interpreta de forma aislada."
 msgstr "Importa la diferencia entre alerón delantero y trasero: no se interpreta de forma aislada."
 
-msgid ""
-"Importa la ficha y el reglaje inicial, o introduce sus valores en Taller. Indica las condiciones y"
-" fija la referencia que usarás para comparar."
-msgstr ""
-"Importa la ficha y el reglaje inicial, o introduce sus valores en Taller. Indica las condiciones y"
-" fija la referencia que usarás para comparar."
-
 msgid "Importar reglaje"
 msgstr "Importar reglaje"
 
@@ -982,9 +959,6 @@ msgstr "JSON del comparador anterior"
 
 msgid "JSON exportado. El archivo conserva referencia y actuales."
 msgstr "JSON exportado. El archivo conserva referencia y actuales."
-
-msgid "La aplicación se está actualizando o recuperando. Vuelve a intentarlo en unos instantes."
-msgstr "La aplicación se está actualizando o recuperando. Vuelve a intentarlo en unos instantes."
 
 msgid "La ayuda ABS modifica cómo se manifiestan los bloqueos."
 msgstr "La ayuda ABS modifica cómo se manifiestan los bloqueos."
@@ -1087,9 +1061,6 @@ msgstr "Modifica la carga aerodinámica del eje delantero y el equilibrio con el
 
 msgid "Modifica la carga del eje trasero; es una palanca importante de resistencia aerodinámica."
 msgstr "Modifica la carga del eje trasero; es una palanca importante de resistencia aerodinámica."
-
-msgid "Mojado"
-msgstr "Mojado"
 
 msgid "Más agarre mecánico delantero y menos subviraje; respuesta menos inmediata."
 msgstr "Más agarre mecánico delantero y menos subviraje; respuesta menos inmediata."
@@ -1644,9 +1615,6 @@ msgstr "Se va de atrás en curvas rápidas"
 msgid "Se va de atrás en mitad de curva"
 msgstr "Se va de atrás en mitad de curva"
 
-msgid "Seco"
-msgstr "Seco"
-
 msgid ""
 "Selecciona el problema que notas al conducir y revisa qué ajustes conviene ensayar. Prueba cada "
 "propuesta en pista."
@@ -1754,9 +1722,6 @@ msgstr "Sin ABS, vigila bloqueo trasero e inestabilidad."
 msgid "Sin cambios respecto a la referencia."
 msgstr "Sin cambios respecto a la referencia."
 
-msgid "Sin indicar"
-msgstr "Sin indicar"
-
 msgid "Sin predicciones de rendimiento"
 msgstr "Sin predicciones de rendimiento"
 
@@ -1813,9 +1778,6 @@ msgstr "No se permiten enlaces simbólicos en las rutas de actualización."
 
 msgid "Taller"
 msgstr "Taller"
-
-msgid "Taller listo. Selecciona el circuito y aporta los valores que te asigna el juego."
-msgstr "Taller listo. Selecciona el circuito y aporta los valores que te asigna el juego."
 
 msgid "Temperatura (tendencia en F1 25)"
 msgstr "Temperatura (tendencia en F1 25)"
@@ -1998,9 +1960,6 @@ msgstr "Velocidad punta"
 msgid "Versiones"
 msgstr "Versiones"
 
-msgid "Versiones guardadas"
-msgstr "Versiones guardadas"
-
 msgid "Versión abierta como borrador. Guardar creará otra versión."
 msgstr "Versión abierta como borrador. Guardar creará otra versión."
 
@@ -2090,3 +2049,151 @@ msgstr "¿Quieres más idiomas? Apoya el proyecto con una estrella en GitHub."
 
 msgid "¿Qué notas en el coche?"
 msgstr "¿Qué notas en el coche?"
+
+msgid "Cargar reglaje guardado"
+msgstr "Cargar reglaje guardado"
+
+msgid ""
+"Elige un circuito para consultar sus características y cargar su punto de partida, o abre uno de "
+"tus reglajes guardados."
+msgstr ""
+"Elige un circuito para consultar sus características y cargar su punto de partida, o abre uno de "
+"tus reglajes guardados."
+
+msgid ""
+"Empieza con los valores del juego o un reglaje propio. Las características del circuito dan "
+"contexto a tus pruebas."
+msgstr ""
+"Empieza con los valores del juego o un reglaje propio. Las características del circuito dan "
+"contexto a tus pruebas."
+
+msgid ""
+"Selecciona un circuito y consulta sus características, o abre un reglaje guardado. Conserva una "
+"referencia para comparar los cambios en Taller."
+msgstr ""
+"Selecciona un circuito y consulta sus características, o abre un reglaje guardado. Conserva una "
+"referencia para comparar los cambios en Taller."
+
+msgid "Taller listo. Elige un circuito o abre un reglaje guardado."
+msgstr "Taller listo. Elige un circuito o abre un reglaje guardado."
+
+msgid "Referencia e importación manual"
+msgstr "Referencia e importación manual"
+
+msgid ""
+"Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. Puedes "
+"importar fichas para añadir otros circuitos, incluidos los de mods."
+msgstr ""
+"Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. Puedes "
+"importar fichas para añadir otros circuitos, incluidos los de mods."
+
+msgid "Actualiza la base de datos para cargar el catálogo del juego."
+msgstr "Actualiza la base de datos para cargar el catálogo del juego."
+
+msgid "Actualización pendiente"
+msgstr "Actualización pendiente"
+
+msgid "Actualizar base de datos"
+msgstr "Actualizar base de datos"
+
+msgid ""
+"Añade los cinco predeterminados del juego, los 24 circuitos oficiales y la asignación de Albert "
+"Park al predeterminado 3. Los reglajes personales se conservan."
+msgstr ""
+"Añade los cinco predeterminados del juego, los 24 circuitos oficiales y la asignación de Albert "
+"Park al predeterminado 3. Los reglajes personales se conservan."
+
+msgid "Base de datos"
+msgstr "Base de datos"
+
+msgid "Base de datos actualizada."
+msgstr "Base de datos actualizada."
+
+msgid ""
+"Catálogo inicial: 24 circuitos oficiales. Albert Park utiliza el predeterminado 3; las demás "
+"asignaciones están pendientes."
+msgstr ""
+"Catálogo inicial: 24 circuitos oficiales. Albert Park utiliza el predeterminado 3; las demás "
+"asignaciones están pendientes."
+
+msgid "Guarda una copia de la base de datos desde tu panel de alojamiento antes de continuar."
+msgstr "Guarda una copia de la base de datos desde tu panel de alojamiento antes de continuar."
+
+msgid "Hay una actualización de la base de datos pendiente."
+msgstr "Hay una actualización de la base de datos pendiente."
+
+msgid ""
+"No se pudo preparar o completar la actualización. Revisa la conexión y los permisos de la base de "
+"datos y vuelve a intentarlo."
+msgstr ""
+"No se pudo preparar o completar la actualización. Revisa la conexión y los permisos de la base de "
+"datos y vuelve a intentarlo."
+
+msgid "Predeterminados del juego"
+msgstr "Predeterminados del juego"
+
+msgid "Volver al taller"
+msgstr "Volver al taller"
+
+msgid "Equilibrado"
+msgstr "Equilibrado"
+
+msgid "Mayor carga aerodinámica"
+msgstr "Mayor carga aerodinámica"
+
+msgid "Mayor velocidad punta"
+msgstr "Mayor velocidad punta"
+
+msgid "Máxima carga aerodinámica"
+msgstr "Máxima carga aerodinámica"
+
+msgid "Máxima velocidad punta"
+msgstr "Máxima velocidad punta"
+
+#~ msgid ""
+#~ "Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. La "
+#~ "asignación de cada circuito se incorporará cuando esté comprobada."
+#~ msgstr ""
+#~ "Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. La "
+#~ "asignación de cada circuito se incorporará cuando esté comprobada."
+
+#~ msgid "Carrera"
+#~ msgstr "Carrera"
+
+#~ msgid "Condiciones"
+#~ msgstr "Condiciones"
+
+#~ msgid "Contrarreloj"
+#~ msgstr "Contrarreloj"
+
+#~ msgid ""
+#~ "Empieza con los valores del juego o un reglaje propio. La ficha del circuito y las condiciones dan"
+#~ " contexto a tus pruebas."
+#~ msgstr ""
+#~ "Empieza con los valores del juego o un reglaje propio. La ficha del circuito y las condiciones dan"
+#~ " contexto a tus pruebas."
+
+#~ msgid ""
+#~ "Importa la ficha y el reglaje inicial, o introduce sus valores en Taller. Indica las condiciones y"
+#~ " fija la referencia que usarás para comparar."
+#~ msgstr ""
+#~ "Importa la ficha y el reglaje inicial, o introduce sus valores en Taller. Indica las condiciones y"
+#~ " fija la referencia que usarás para comparar."
+
+#~ msgid "La aplicación se está actualizando o recuperando. Vuelve a intentarlo en unos instantes."
+#~ msgstr "La aplicación se está actualizando o recuperando. Vuelve a intentarlo en unos instantes."
+
+#~ msgid "Mojado"
+#~ msgstr "Mojado"
+
+#~ msgid "Seco"
+#~ msgstr "Seco"
+
+#~ msgid "Sin indicar"
+#~ msgstr "Sin indicar"
+
+#~ msgid "Taller listo. Selecciona el circuito y aporta los valores que te asigna el juego."
+#~ msgstr "Taller listo. Selecciona el circuito y aporta los valores que te asigna el juego."
+
+#~ msgid "Versiones guardadas"
+#~ msgstr "Versiones guardadas"

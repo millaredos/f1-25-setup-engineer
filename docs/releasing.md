@@ -17,7 +17,7 @@ Versions use `MAJOR.MINOR.PATCH`, with `-alpha.N` for test builds. The current r
 
 A new minor resets PATCH to zero. Corrections made before the target's stable publication remain Alpha builds of that target. They do not turn `0.3.0-alpha.N` into `0.3.1`. Choose the next target before opening its release branch and PR. Work that belongs to a later target waits for that PR.
 
-The first `1.0.0` is an explicit milestone: the core workflow and supported data contracts are considered stable. It is not produced automatically after a particular number of minor releases. Packages requiring a database migration cannot be distributed by the current updater, which rejects a different schema version.
+The first `1.0.0` is an explicit milestone: the core workflow and supported data contracts are considered stable. It is not produced automatically after a particular number of minor releases. The updater rejects a different base schema version. Compatible additive catalog migrations are distributed in the package and applied separately through the browser; see [database migrations](database-migrations.md).
 
 ## When an Alpha becomes stable
 

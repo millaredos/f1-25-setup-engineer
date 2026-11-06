@@ -6,6 +6,12 @@
 
 ### 0.3.0
 
+- Añadir migraciones SQL versionadas, carga inicial automática y una página de actualización de la base con protección CSRF para instalaciones existentes.
+- Incluir cinco predeterminados del juego, 24 nombres oficiales de circuitos y la asignación confirmada Albert Park → predeterminado 3, separados de los reglajes personales.
+
+- Se retira el enlace duplicado Inicio; el logo abre esa pantalla sin recargar el borrador.
+- La carga de reglajes guardados pasa junto al selector de circuito y se filtra por el circuito elegido.
+- Se retiran los selectores de clima y sesión de la carga, conservando los metadatos existentes en importaciones y versiones guardadas.
 - Opciones y Actualizaciones pasan al desplegable compartido de la versión, con apertura por ratón, clic, toque y teclado y un punto de aviso de nueva versión.
 - Interfaz unificada en español y catálogos PO editables con traducciones PHP generadas y compartidas con JavaScript.
 - Selector de idioma visible en Opciones, inicialmente con Español y preferencia guardada por navegador.

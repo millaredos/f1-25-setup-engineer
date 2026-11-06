@@ -52,6 +52,7 @@ try {
 <p><?= h(t('Estable recibe versiones publicadas como estables. Alpha recibe versiones de prueba y puede incluir cambios sin terminar.')) ?></p>
 <p class="subtle"><?= h(t('Cambiar de canal no instala una actualización ni vuelve a una versión anterior.')) ?></p>
 <p><a href="update.php"><?= h(t('Buscar actualizaciones')) ?></a></p>
+<p><a href="database.php"><?= h(t('Actualizar base de datos')) ?></a></p>
 </section>
 <button class="button" type="submit"><?= h(t('Guardar opciones')) ?></button>
 </form>

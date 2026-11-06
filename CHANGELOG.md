@@ -6,6 +6,12 @@
 
 ### 0.3.0
 
+- Add versioned SQL catalog migrations, automatic initial seeding and a CSRF-protected database update page for existing installations.
+- Include five game presets, 24 official circuit names and the confirmed Albert Park → preset 3 assignment, separate from personal setups.
+
+- Remove the duplicate Inicio navigation link; the logo opens the home screen without reloading the draft.
+- Place saved-setup loading next to circuit selection and filter saved setups by the selected circuit.
+- Remove weather/session selectors from loading while preserving existing imported and saved metadata.
 - Move Opciones and Actualizaciones into a shared version dropdown with hover, click, touch and keyboard navigation, plus a new-version notification dot.
 - Unify the interface in Spanish and add editable PO catalogs with generated PHP translations shared by PHP and JavaScript.
 - Add a visible language selector in Opciones, initially offering Español and remembering the browser preference.

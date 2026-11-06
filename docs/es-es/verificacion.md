@@ -4,7 +4,7 @@
 
 ## Resultados de desarrollo de 0.3.0
 
-PHP 8.5.12: 198 comprobaciones de dominio y contratos, 44 de paquetes y 79 de canales, GitHub, integridad y recuperación. 19 comprobaciones de traducción; Python: 14 pruebas de empaquetado, publicación y traducción. Los recorridos de navegador comprueban selección web del canal, CSRF, descarga verificada, copias y conservación del estado privado, en raíz y bajo una subcarpeta con la carpeta pública renombrada a `www`. Opciones y Actualizaciones también se comprueban en ancho móvil.
+PHP 8.5.12: 201 comprobaciones de dominio y contratos, 50 de paquetes y 79 de canales, GitHub, integridad y recuperación. 19 comprobaciones de traducción y 20 de migraciones con objetos PDO que registran operaciones; Python: 14 pruebas de empaquetado, publicación y traducción. Los recorridos de navegador comprueban selección web del canal, CSRF, descarga verificada, copias y conservación del estado privado, en raíz y bajo una subcarpeta con la carpeta pública renombrada a `www`. Opciones, Actualizaciones y la página de migración también se comprueban en ancho móvil.
 
 Las respuestas automatizadas de GitHub son fixtures; las pruebas no necesitan token ni modifican releases remotas. La interrupción se simula mediante un registro de recuperación y archivos parcialmente cambiados. No se han probado cortes eléctricos ni fallos de disco reales.
 
@@ -17,6 +17,8 @@ La verificación real también incluyó detección y descarga sin autenticación
 ```sh
 python -m pip install -r requirements-dev.txt
 python bin/translations.py --check
+python bin/migrations.py --check
+php tests/migrations.php
 php tests/translations.php
 php tests/run.php
 php tests/updater.php
@@ -54,7 +56,9 @@ Para ejecutar `tests/browser.cjs` por separado contra una instalación de prueba
 
 ## Pruebas de persistencia
 
-`tests/integration.php` verifica guardado, reapertura, versiones inmutables, conflictos y rollback. Exige una base MariaDB vacía indicada explícitamente:
+`tests/migrations.php` valida los 100 valores distribuidos y el orden de las migraciones con objetos PDO que registran operaciones. Las pruebas de navegador de la página utilizan una simulación del almacenamiento. Estas pruebas no ejecutan SQL en MariaDB.
+
+`tests/integration.php` verifica guardado, reapertura, versiones inmutables, conflictos, creación del catálogo, repetición de migraciones, conservación de reglajes existentes, rechazo de huellas distintas, reversión de inserciones fallidas y reintento. Exige una base MariaDB vacía indicada explícitamente:
 
 ```text
 F125_TEST_DSN=mysql:host=HOST;dbname=BASE_DE_PRUEBAS;charset=utf8mb4

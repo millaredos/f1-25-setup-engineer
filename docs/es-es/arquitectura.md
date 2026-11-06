@@ -50,8 +50,13 @@ flowchart LR
 | `f125_schema_meta` | Versión del esquema. |
 | `f125_circuits` | Identificador y ficha del circuito en JSON. |
 | `f125_setups` | Identificador, circuito, nombre, fecha y reglaje en JSON. |
+| `f125_migrations` | Identificadores, huellas SQL y fechas de las migraciones aplicadas. |
+| `f125_game_presets` | Cinco predeterminados con veinte ajustes numéricos cada uno. |
+| `f125_game_circuits` | Nombres oficiales, orden y asignaciones de predeterminados confirmadas. |
 
 Cada guardado inserta una versión nueva. Su JSON contiene referencia, valores actuales, condiciones, notas y una copia de la ficha del circuito. El alta de una ficha junto con su reglaje se ejecuta en una transacción.
+
+El catálogo del juego está separado de las fichas importadas y los reglajes personales. Los nombres por sí solos no forman fichas técnicas. `Migrations` aplica SQL versionado con un bloqueo de la base y registra la huella de cada transacción de datos. Consulta [migraciones de base de datos](migraciones-base-datos.md).
 
 ## Instalación y actualización
 

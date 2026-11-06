@@ -22,6 +22,7 @@ Built with PHP, MariaDB, vanilla JavaScript and plain CSS.
 - JSON import for circuit profiles and setups.
 - Saved versions containing session conditions, notes and a circuit profile.
 - JSON export and browser draft recovery.
+- Versioned database migrations with five game presets, 24 official circuit names and confirmed preset assignments.
 
 Circuits are added through imported profiles. Setup explanations are guidance to test in the game.
 
@@ -85,6 +86,8 @@ The interface is currently in Spanish. The names below match its menus and butto
 Open the version menu at the top right for **Opciones** and **Actualizaciones**. A dot marks a newer version for the selected channel. **Opciones → Idioma de la aplicación** currently offers **Español** and remembers the selection in this browser.
 
 Switching sections keeps the draft. Each save creates a new version in MariaDB. Browser drafts are recovered separately and do not replace database saves.
+
+The logo opens the home screen without reloading the draft. Open saved setups from **Circuito y referencia**; selecting a circuit filters that list. The loading screen does not assign weather or session types to game presets. Existing imported or saved conditions remain in their JSON.
 
 Both `f125-setup-engineer` and the previous comparator's `f125-comparador-v2` JSON formats are supported. Imports include validation and a preview.
 

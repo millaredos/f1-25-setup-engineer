@@ -20,7 +20,7 @@ const path = require('node:path');
     const response = await page.goto(baseURL);
     assert.match(response.headers()['content-security-policy'], /style-src 'self'/);
     await page.locator('#settings input').first().waitFor({ state: 'attached' });
-    assert.equal(await page.locator('.app-nav a').count(), 5, 'only working sections in the central menu');
+    assert.equal(await page.locator('.app-nav a').count(), 4, 'home is reached through the logo');
     await page.locator('#version-toggle [data-update-dot]').waitFor({ state: 'visible' });
     await page.locator('#version-toggle').hover();
     await page.locator('#version-panel').waitFor({ state: 'visible' });
@@ -44,12 +44,20 @@ const path = require('node:path');
     await page.locator('#settings input').first().waitFor({ state: 'attached' });
     assert.equal(await page.locator('#version-toggle [data-update-dot]').isVisible(), false, 'no newer version means no dot');
     updateAvailable = true;
-    const nav = async (section) => { await page.locator(`.app-nav a[href="#${section}"]`).click(); };
+    const nav = async (section) => {
+      await page.locator(section === 'inicio' ? '.brand' : `.app-nav a[href="#${section}"]`).click();
+      await page.locator(`[data-page="${section}"]`).first().waitFor({ state: 'visible' });
+      if (section === 'circuito' && !await page.locator('#loading-tools').evaluate((node) => node.open)) {
+        await page.locator('#loading-tools > summary').click();
+      }
+    };
     assert.equal(await page.locator('[data-page="inicio"]').isVisible(), true);
     assert.equal(await page.locator('#editor').isVisible(), false);
     assert.match(await page.locator('.driver').innerText(), new RegExp(fs.readFileSync(path.join(__dirname, '../src/VERSION'), 'utf8').trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
     assert.doesNotMatch(await page.locator('.driver').innerText(), /MOZA/);
     await nav('circuito');
+    assert.equal(await page.locator('#surface, #session').count(), 0, 'preset loading does not ask for weather or session');
+    assert.equal(await page.locator('[data-page="circuito"] #saved').isVisible(), true, 'saved setups are loaded alongside circuits');
     assert.equal(await page.locator('#settings input').count(), 20);
     assert.equal(await page.locator('style,[style]').count(), 0);
     assert.equal(await page.locator('#value-ala_del').inputValue(), '');
@@ -59,6 +67,9 @@ const path = require('node:path');
     await page.locator('#value-ala_del').fill('22');
     await page.locator('#value-ala_tra').fill('24');
     await page.waitForFunction(() => document.querySelector('#change-count').textContent === '2 de 20 modificados');
+    await nav('inicio');
+    assert.equal(await page.locator('#value-ala_del').inputValue(), '22', 'logo navigation keeps the current draft');
+    await nav('taller');
     assert.match(await page.locator('#summary').innerText(), /Menos carga delantera/);
     assert.match(await page.locator('#summary').innerText(), /Más agarre/);
     await page.locator('#value-cam_del').fill('-3.5');
@@ -187,5 +198,41 @@ const path = require('node:path');
     await touchPage.waitForURL('**/update.php');
     assert.equal(await touchPage.locator('h1').innerText(), 'Actualizaciones');
     await touchContext.close();
+    const loadingContext = await browser.newContext({ acceptDownloads: true });
+    const circuit = { ...fixture.circuit, name: 'Circuito de prueba', layout: '', gameVersion: 'unknown', hypotheses: '', characteristics: { corners: 'Curvas rápidas', straights: '', braking: '', traction: '', kerbs: '', aero: 'Carga media' } };
+    const ownSetup = { ...exported, title: 'Mi reglaje', circuit, conditions: { surface: 'wet', session: 'race' } };
+    await loadingContext.route('**/api.php?action=bootstrap', async (route) => {
+      const original = await route.fetch();
+      await route.fulfill({ json: { ...await original.json(), circuits: [circuit], setups: [
+        { id: 'own', circuit_id: circuit.id, title: 'Mi reglaje', created_at: '2026-11-06T10:00:00Z' },
+        { id: 'other', circuit_id: 'another-track', title: 'Otro circuito', created_at: '2026-11-06T10:00:00Z' },
+      ] } });
+    });
+    await loadingContext.route('**/api.php?action=load-setup', (route) => route.fulfill({ json: ownSetup }));
+    const loadingPage = await loadingContext.newPage();
+    loadingPage.on('dialog', (dialog) => dialog.accept());
+    await loadingPage.goto(baseURL);
+    await loadingPage.locator('#settings input').first().waitFor({ state: 'attached' });
+    await loadingPage.locator('.app-nav a[href="#circuito"]').click();
+    await loadingPage.locator('#circuit').selectOption(circuit.id);
+    assert.equal(await loadingPage.locator('#saved option').count(), 2, 'saved list is filtered by selected circuit');
+    await loadingPage.locator('#saved').selectOption('own');
+    await loadingPage.locator('#load').click();
+    await loadingPage.waitForFunction(() => document.querySelector('#value-ala_del').value === '22');
+    assert.equal(await loadingPage.locator('#saved').inputValue(), 'own', 'loaded setup remains selected');
+    if (process.env.F125_SCREENSHOTS) {
+      for (const width of [1440, 390]) {
+        await loadingPage.setViewportSize({ width, height: 1000 });
+        assert.equal(await loadingPage.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true, 'loading layout fits viewport');
+        await loadingPage.screenshot({ path: path.join(process.env.F125_SCREENSHOTS, `cargar-${width}.png`), fullPage: true });
+      }
+    }
+    await loadingPage.locator('.app-nav a[href="#versiones"]').click();
+    const ownDownload = loadingPage.waitForEvent('download');
+    await loadingPage.locator('#export').click();
+    const ownExport = JSON.parse(fs.readFileSync(await (await ownDownload).path(), 'utf8'));
+    assert.deepEqual(ownExport.conditions, ownSetup.conditions, 'removing selectors preserves existing saved metadata');
+    assert.equal(ownExport.title, 'Mi reglaje');
+    await loadingContext.close();
   } finally { await browser.close(); }
 })().catch((error) => { console.error(error); process.exitCode = 1; });

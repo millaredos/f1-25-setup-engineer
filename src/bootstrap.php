@@ -52,6 +52,7 @@ function completeInstallation(Store $store, InstallationState $state): void
         // Si las tablas ya estaban preparadas, basta con finalizar el estado local.
         try { $store->ready(); } catch (Throwable $e) { $store->initialize(); }
         $store->ready();
+        $store->migrate();
         $state->markInstalled();
     });
 }

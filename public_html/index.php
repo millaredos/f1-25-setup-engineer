@@ -32,7 +32,7 @@ header('Referrer-Policy: same-origin');
         <section aria-labelledby="home-purpose">
           <h2 id="home-purpose"><?= h(t('Tu espacio de trabajo')) ?></h2>
           <p><?= h(t('Edita los veinte ajustes, compara sus diferencias y guarda variantes con tus observaciones.')) ?></p>
-          <p><?= h(t('Empieza con los valores del juego o un reglaje propio. La ficha del circuito y las condiciones dan contexto a tus pruebas.')) ?></p>
+          <p><?= h(t('Empieza con los valores del juego o un reglaje propio. Las características del circuito dan contexto a tus pruebas.')) ?></p>
         </section>
         <aside class="home-limits" aria-labelledby="home-limits-heading">
           <h2 id="home-limits-heading"><?= h(t('La prueba está en la pista')) ?></h2>
@@ -50,7 +50,7 @@ header('Referrer-Policy: same-origin');
           <li>
             <span class="home-step" aria-hidden="true">01</span>
             <div><h3><a href="#circuito"><?= h(t('Circuito y referencia')) ?></a></h3>
-            <p><?= h(t('Importa la ficha y el reglaje inicial, o introduce sus valores en Taller. Indica las condiciones y fija la referencia que usarás para comparar.')) ?></p></div>
+            <p><?= h(t('Selecciona un circuito y consulta sus características, o abre un reglaje guardado. Conserva una referencia para comparar los cambios en Taller.')) ?></p></div>
           </li>
           <li>
             <span class="home-step" aria-hidden="true">02</span>
@@ -79,18 +79,23 @@ header('Referrer-Policy: same-origin');
     <div data-page="taller" hidden class="page-heading"><div><p class="eyebrow"><?= h(t('OBSERVA. AJUSTA. PRUEBA.')) ?></p><h1><?= h(t('Entiende cada cambio.')) ?></h1><p class="intro"><?= h(t('Parte del reglaje del juego. Ajusta con una idea, compruébala en pista.')) ?></p></div><span class="theory-badge"><?= h(t('Siempre teoría')) ?><small><?= h(t('Sin predicciones de rendimiento')) ?></small></span></div>
     <p id="status" class="status" role="status" aria-live="polite"><?= h(t('Cargando el taller…')) ?></p>
     <noscript><p class="status error"><?= h(t('Activa JavaScript para utilizar el editor.')) ?></p></noscript>
+    <p id="database-update" class="notice" hidden><?= h(t('Hay una actualización de la base de datos pendiente.')) ?> <a href="database.php"><?= h(t('Actualizar base de datos')) ?></a></p>
     <div id="recovery" class="notice" hidden><?= h(t('Hay un borrador anterior en este navegador.')) ?> <button id="recover" class="text-button"><?= h(t('Recuperarlo')) ?></button> <button id="dismiss-recovery" class="text-button"><?= h(t('Descartarlo')) ?></button></div>
 
     <section data-page="circuito" hidden class="panel context-panel" aria-labelledby="context-heading">
-      <div class="section-heading"><div><p class="eyebrow"><?= h(t('01 / PUNTO DE PARTIDA')) ?></p><h2 id="context-heading"><?= h(t('Circuito y referencia')) ?></h2></div><button id="open-circuit" class="button secondary"><?= h(t('Pegar ficha de circuito')) ?></button></div>
-      <div class="context-fields">
+      <div class="section-heading"><div><p class="eyebrow"><?= h(t('01 / PUNTO DE PARTIDA')) ?></p><h2 id="context-heading"><?= h(t('Circuito y referencia')) ?></h2></div></div>
+      <p class="subtle"><?= h(t('Elige un circuito para consultar sus características y cargar su punto de partida, o abre uno de tus reglajes guardados.')) ?></p>
+      <div class="context-fields load-fields">
         <label><?= h(t('Circuito')) ?><select id="circuit"><option value=""><?= h(t('Selecciona o importa una ficha')) ?></option></select></label>
-        <label><?= h(t('Condiciones')) ?><select id="surface"><option value="unknown"><?= h(t('Sin indicar')) ?></option><option value="dry"><?= h(t('Seco')) ?></option><option value="wet"><?= h(t('Mojado')) ?></option></select></label>
-        <label><?= h(t('Sesión')) ?><select id="session"><option value="unknown"><?= h(t('Sin indicar')) ?></option><option value="race"><?= h(t('Carrera')) ?></option><option value="time-trial"><?= h(t('Contrarreloj')) ?></option></select></label>
+        <div class="saved-load"><label><?= h(t('Cargar reglaje guardado')) ?><select id="saved"><option value=""><?= h(t('Todavía no hay versiones guardadas')) ?></option></select></label><button id="load" class="button secondary"><?= h(t('Abrir como borrador')) ?></button></div>
       </div>
+      <p class="subtle"><?= h(t('Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. Puedes importar fichas para añadir otros circuitos, incluidos los de mods.')) ?></p>
       <div id="circuit-card" hidden></div>
+      <details id="loading-tools" class="loading-tools"><summary><?= h(t('Referencia e importación manual')) ?></summary>
+      <p><button id="open-circuit" class="button secondary"><?= h(t('Pegar ficha de circuito')) ?></button></p>
       <div class="reference-row"><div><strong id="reference-label"><?= h(t('Referencia pendiente')) ?></strong><p id="reference-help"><?= h(t('Introduce los veinte valores que te asigna el juego o importa un reglaje.')) ?></p></div><div class="actions"><button id="open-setup" class="button secondary"><?= h(t('Importar reglaje')) ?></button><button id="set-reference" class="button"><?= h(t('Fijar actuales como referencia')) ?></button></div></div>
       <div class="reference-options"><label><?= h(t('Origen de los valores que vas a fijar')) ?><select id="reference-source"><option value="game-assigned"><?= h(t('Asignados por el juego (aportados por mí)')) ?></option><option value="personal"><?= h(t('Reglaje personal')) ?></option><option value="capture"><?= h(t('Capturas')) ?></option><option value="unknown"><?= h(t('Desconocido')) ?></option></select></label><button id="example" class="text-button"><?= h(t('Cargar ejemplo de las capturas')) ?></button></div>
+      </details>
     </section>
 
     <div class="workspace separated-workspace">
@@ -117,7 +122,6 @@ header('Referrer-Policy: same-origin');
       <div><p class="eyebrow"><?= h(t('04 / CONSERVA EL PUNTO DE PARTIDA')) ?></p><h2 id="save-heading"><?= h(t('Guarda una versión.')) ?></h2><p class="subtle"><?= h(t('Cada guardado crea una copia nueva, con referencia, valores actuales y ficha del circuito.')) ?></p></div>
       <div class="save-fields"><label><?= h(t('Nombre del reglaje')) ?><input id="setup-title" maxlength="120" placeholder="<?= h(t('Ej.: primera prueba en seco')) ?>"></label><label><?= h(t('Notas')) ?><textarea id="notes" rows="3" maxlength="4000" placeholder="<?= h(t('Qué quieres comprobar, combustible, compuesto…')) ?>"></textarea></label></div>
       <div class="actions"><button id="save" class="button"><?= h(t('Guardar versión')) ?></button><button id="export" class="button secondary"><?= h(t('Exportar JSON')) ?></button><button id="export-legacy" class="text-button"><?= h(t('JSON del comparador anterior')) ?></button></div>
-      <div class="library"><label><?= h(t('Versiones guardadas')) ?><select id="saved"><option value=""><?= h(t('Todavía no hay versiones guardadas')) ?></option></select></label><button id="load" class="button secondary"><?= h(t('Abrir como borrador')) ?></button></div>
     </section>
     <footer>F1 25 SETUP ENGINEER <span><?= h(t('Un taller para comprender y experimentar.')) ?></span><p><?= h(t('Teoría orientativa. Las fuentes pueden discrepar, especialmente sobre presiones. Valida en tu juego y sesión.')) ?></p></footer>
   </main>

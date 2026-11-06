@@ -40,6 +40,8 @@ jobs:
           python3 bin/translations.py --check
           php tests/translations.php
           php tests/run.php
+          python3 bin/migrations.py --check
+          php tests/migrations.php
           php tests/updater.php
           php tests/updates.php
           python3 -m unittest discover -s tests -p 'test_*.py'

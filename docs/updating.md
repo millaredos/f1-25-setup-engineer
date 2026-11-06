@@ -34,7 +34,7 @@ There is no separate updater password or ZIP upload form. Downloads are restrict
 
 Before installation, the application rechecks the selected release, verifies the GitHub SHA-256 digest and matches its version, channel, PR and commit against the package manifest. PHP requirements and database schema compatibility are checked before replacing files.
 
-Configuration, channel settings, installation state and MariaDB data are preserved. Schema migrations are not supported; packages requiring a different schema are rejected.
+Configuration, channel settings, installation state and MariaDB data are preserved. Packages requiring a different base schema are rejected. Compatible catalog additions are applied separately after the file update: back up MariaDB, then open **Opciones → Actualizar base de datos**. See [database migrations](database-migrations.md).
 
 ## Initial upgrade from 0.2.x
 

@@ -9,7 +9,7 @@ if (!$dsn || getenv('F125_TEST_ALLOW_WRITE') !== 'yes') {
 }
 $config = ['dsn' => $dsn, 'username' => getenv('F125_TEST_DB_USER') ?: null, 'password' => getenv('F125_TEST_DB_PASSWORD') ?: null];
 $db = new PDO($dsn, $config['username'], $config['password'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-foreach (['f125_schema_meta', 'f125_circuits', 'f125_setups'] as $table) {
+foreach (['f125_schema_meta', 'f125_circuits', 'f125_setups', 'f125_migrations', 'f125_game_presets', 'f125_game_circuits'] as $table) {
     $stmt = $db->prepare('SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=DATABASE() AND table_name=?');
     $stmt->execute([$table]);
     if ($stmt->fetchColumn() != 0) { throw new RuntimeException('La base no está vacía de tablas f125_; no se tocará.'); }
@@ -20,6 +20,10 @@ $circuit = $domain->circuit(['id' => 'test', 'name' => 'Prueba ficticia', 'downf
 $setup = $domain->setup(['title' => 'Versión uno', 'circuit' => $circuit, 'reference' => $base, 'current' => $base]);
 try {
     $store = new Store($config); $store->initialize();
+    $game = $store->gameCatalog();
+    if (count($game['presets']) !== 5 || count($game['circuits']) !== 24 || $store->pendingMigrations()) { throw new RuntimeException('Incomplete game catalog.'); }
+    foreach ($game['presets'] as $preset) { $domain->values($preset['values']); }
+    if ($game['circuits'][0]['preset_id'] !== 3 || array_filter(array_slice($game['circuits'], 1), static fn($c) => $c['preset_id'] !== null)) { throw new RuntimeException('Unconfirmed assignment.'); }
     $first = $store->saveSetup($setup);
     $setup['current']['ala_tra']++;
     $second = $store->saveSetup($setup);
@@ -29,9 +33,38 @@ try {
     $bad = $setup; $bad['circuit']['summary'] = 'Otra revisión con el mismo ID';
     try { $store->saveSetup($bad); throw new RuntimeException('No rechazó conflicto.'); } catch (ValidationError $e) {}
     if (count($store->setups()) !== 2) { throw new RuntimeException('La transacción dejó una versión parcial.'); }
+    $store->migrate();
+    if ($store->gameCatalog() !== $game || count($store->setups()) !== 2) { throw new RuntimeException('Migration repeat changed existing data.'); }
+    // Simulate an existing schema-1 installation; personal versions must survive catalog migration.
+    $db->exec('DROP TABLE f125_game_circuits');
+    $db->exec('DROP TABLE f125_game_presets');
+    $db->exec('DROP TABLE f125_migrations');
+    $store->ready();
+    if (!$store->pendingMigrations()) { throw new RuntimeException('Missing migration not detected.'); }
+    $store->migrate();
+    if ($store->gameCatalog() !== $game || $reopened->loadSetup($first)['current']['ala_tra'] !== 23) { throw new RuntimeException('Existing installation migration damaged data.'); }
+    // Force a data failure after preset insertion; data and completion marker must roll back together.
+    $db->exec('DELETE FROM f125_game_circuits');
+    $db->exec('DELETE FROM f125_game_presets');
+    $db->exec('DELETE FROM f125_migrations');
+    $db->exec('ALTER TABLE f125_game_circuits ADD CONSTRAINT migration_failure CHECK (round_order < 2)');
+    try { $store->migrate(); throw new LogicException('Expected seed failure.'); } catch (PDOException $expected) {}
+    if ($db->query('SELECT COUNT(*) FROM f125_game_presets')->fetchColumn() != 0 || $db->query('SELECT COUNT(*) FROM f125_migrations')->fetchColumn() != 0) { throw new RuntimeException('Seed failure did not roll back.'); }
+    $db->exec('ALTER TABLE f125_game_circuits DROP CONSTRAINT migration_failure');
+    $store->migrate();
+    if ($store->gameCatalog() !== $game) { throw new RuntimeException('Migration retry failed.'); }
+    $ledger = $db->query('SELECT checksum FROM f125_migrations')->fetchColumn();
+    $db->exec("UPDATE f125_migrations SET checksum = REPEAT('0',64)");
+    $rejected = false;
+    try { $store->pendingMigrations(); } catch (RuntimeException $expected) { $rejected = true; }
+    if (!$rejected) { throw new RuntimeException('Expected checksum rejection.'); }
+    $restore = $db->prepare('UPDATE f125_migrations SET checksum=?'); $restore->execute([$ledger]);
     echo "OK: MariaDB, guardado, reapertura, versiones, duplicados y rollback.\n";
 } finally {
-    // Solo las tres tablas comprobadas como inexistentes al inicio.
+    // Solo las tablas comprobadas como inexistentes al inicio, en orden de dependencias.
+    $db->exec('DROP TABLE IF EXISTS f125_game_circuits');
+    $db->exec('DROP TABLE IF EXISTS f125_game_presets');
+    $db->exec('DROP TABLE IF EXISTS f125_migrations');
     $db->exec('DROP TABLE IF EXISTS f125_setups');
     $db->exec('DROP TABLE IF EXISTS f125_circuits');
     $db->exec('DROP TABLE IF EXISTS f125_schema_meta');

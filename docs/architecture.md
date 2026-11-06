@@ -50,8 +50,13 @@ flowchart LR
 | `f125_schema_meta` | Schema version. |
 | `f125_circuits` | Circuit identifier and profile as JSON. |
 | `f125_setups` | Identifier, circuit, name, date and setup as JSON. |
+| `f125_migrations` | Applied migration IDs, SQL checksums and dates. |
+| `f125_game_presets` | Five bundled presets with twenty numeric settings each. |
+| `f125_game_circuits` | Official circuit names, display order and confirmed preset assignments. |
 
 Each save inserts a new version. Its JSON contains the reference, current values, conditions, notes and a copy of the circuit profile. Creating a circuit profile together with its setup runs within a transaction.
+
+The game catalog is separate from imported circuit profiles and personal setups. Names alone do not constitute technical profiles. `Migrations` applies versioned SQL with a database-specific advisory lock and records each data transaction's checksum. See [database migrations](database-migrations.md).
 
 ## Installation and updates
 

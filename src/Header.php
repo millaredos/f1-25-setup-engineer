@@ -4,10 +4,10 @@ declare(strict_types=1);
 /** One navigation component for the workshop and maintenance pages. */
 function appHeader(string $current = ''): void
 {
-    $sections = ['inicio' => 'Inicio', 'circuito' => 'Circuito y referencia', 'taller' => 'Taller', 'pruebas' => 'Pruebas', 'versiones' => 'Versiones'];
+    $sections = ['circuito' => 'Circuito y referencia', 'taller' => 'Taller', 'pruebas' => 'Pruebas', 'versiones' => 'Versiones'];
     ?>
     <header class="masthead">
-      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span><span>SETUP ENGINEER<small><?= h(t('Tu taller de F1 25')) ?></small></span></a>
+      <a class="brand" href="<?= $current === '' ? '#inicio' : './#inicio' ?>"><span class="brand-mark" aria-hidden="true"></span><span>SETUP ENGINEER<small><?= h(t('Tu taller de F1 25')) ?></small></span></a>
       <nav id="navigation" class="app-nav" aria-label="<?= h(t('Apartados')) ?>">
         <?php foreach ($sections as $id => $label): ?>
           <a href="<?= $current === '' ? '#' : './#' ?><?= $id ?>"><?= h(t($label)) ?></a>

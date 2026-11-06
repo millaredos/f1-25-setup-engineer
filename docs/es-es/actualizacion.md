@@ -34,7 +34,7 @@ No hay una contraseña adicional del actualizador ni un formulario para subir ZI
 
 Antes de instalar, la aplicación vuelve a comprobar la release seleccionada, verifica el SHA-256 de GitHub y compara versión, canal, PR y commit con el manifiesto del paquete. Comprueba los requisitos de PHP y el esquema de la base de datos antes de sustituir archivos.
 
-Se conservan la configuración, el canal, el estado de instalación y los datos de MariaDB. No se admiten migraciones: se rechazan los paquetes que necesitan otro esquema.
+Se conservan la configuración, el canal, el estado de instalación y los datos de MariaDB. Se rechazan paquetes que requieran otro esquema base. Las ampliaciones compatibles del catálogo se aplican por separado después de actualizar los archivos: guarda una copia de MariaDB y abre **Opciones → Actualizar base de datos**. Consulta [migraciones de base de datos](migraciones-base-datos.md).
 
 ## Primera actualización desde 0.2.x
 

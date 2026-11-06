@@ -888,6 +888,13 @@ dialog label {
 .options-form .panel { margin:0; }
 .options-form label { display:block; margin:16px 0 12px; }
 .options-form > button { justify-self:start; }
+.load-fields { grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; }
+.load-fields > label:first-child { grid-column:auto; }
+.saved-load { display:grid; gap:12px; }
+.saved-load button { justify-self:start; }
+.loading-tools { margin-top:24px; padding-top:16px; border-top:1px solid var(--line); }
+.loading-tools > summary { color:var(--green); cursor:pointer; margin-bottom:16px; }
+@media (max-width:640px) { .load-fields { grid-template-columns:1fr; } }
 @media (max-width:1100px) { .driver .version-subtitle { display:none; } }
 @media (max-width:600px) {
   .version-toggle { padding:7px 5px; font-size:10px; letter-spacing:0; }
