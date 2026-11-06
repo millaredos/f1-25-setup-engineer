@@ -10,6 +10,7 @@ const assert = require('node:assert/strict');
   const repository = path.resolve(__dirname, '..');
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'f125-web-'));
   let server;
+  const serverLog = path.join(root, 'php-server.log');
   try {
     for (const directory of ['src', 'data', 'public_html']) fs.cpSync(path.join(repository, directory), path.join(root, directory), { recursive: true });
     fs.mkdirSync(path.join(root, 'config'));
@@ -32,7 +33,10 @@ const assert = require('node:assert/strict');
     const env = { ...process.env };
     for (const key of ['F125_DSN', 'F125_DB_USER', 'F125_DB_PASSWORD']) delete env[key];
     const zipArgs = process.env.F125_TEST_ZIP_DIR ? ['-d', `extension_dir=${process.env.F125_TEST_ZIP_DIR}`, '-d', 'extension=zip'] : [];
-    server = spawn(process.env.F125_TEST_PHP || 'php', ['-n', ...zipArgs, '-S', `127.0.0.1:${port}`, '-t', path.join(root, publicName), ...routerArgs], { cwd: root, env, windowsHide: true, stdio: 'ignore' });
+    // The child browser runs synchronously below. A pipe could fill while this event loop is blocked.
+    const logHandle = fs.openSync(serverLog, 'w');
+    server = spawn(process.env.F125_TEST_PHP || 'php', ['-n', ...zipArgs, '-S', `127.0.0.1:${port}`, '-t', path.join(root, publicName), ...routerArgs], { cwd: root, env, windowsHide: true, stdio: ['ignore', 'ignore', logHandle] });
+    fs.closeSync(logHandle);
     let launchError;
     server.on('error', (error) => { launchError = error; });
     const host = process.env.F125_TEST_HOST || '127.0.0.1';
@@ -75,6 +79,12 @@ const assert = require('node:assert/strict');
     response = await fetch(base + 'api.php?action=bootstrap');
     assert.equal((await response.json()).storageReady, false, 'fallo de conexión no cambia instalado');
     assert.equal(JSON.parse(fs.readFileSync(statePath, 'utf8')).installed, true);
+    response = await fetch(base + 'database.php');
+    assert.equal(response.status, 503, 'database outage does not reopen installer');
+    assert.match(await response.text(), /No se pudo preparar o completar/);
+    response = await fetch(base + 'database.php', { method: 'POST', body: new URLSearchParams({ csrf: 'incorrecto' }) });
+    assert.equal(response.status, 403, 'database migration requires valid CSRF');
+    assert.equal(JSON.parse(fs.readFileSync(statePath, 'utf8')).installed, true);
     const browser = spawnSync(process.execPath, [path.join(__dirname, 'browser.cjs')], { env: { ...env, F125_TEST_URL: base }, windowsHide: true, encoding: 'utf8' });
     process.stdout.write(browser.stdout || ''); process.stderr.write(browser.stderr || '');
     assert.equal(browser.status, 0, 'recorrido del taller con estado instalado');
@@ -91,12 +101,16 @@ const assert = require('node:assert/strict');
     const cookie = response.headers.get('set-cookie').split(';')[0];
     const csrf = optionsHtml.match(/name="csrf" value="([a-f0-9]+)"/)[1];
     const previousSettings = fs.readFileSync(path.join(root, 'config/update-settings.json'), 'utf8');
-    const post = (page, data) => fetch(base + page, { method: 'POST', headers: { Cookie: cookie }, body: new URLSearchParams(data), redirect: 'manual' });
+    const post = (page, data) => fetch(base + page, { method: 'POST', headers: { Cookie: cookie }, body: new URLSearchParams({ language: 'es', ...data }), redirect: 'manual' });
     response = await post('options.php', { csrf: 'invalid', channel: 'alpha' });
     assert.equal(response.status, 403, 'channel change requires CSRF');
     assert.equal(fs.readFileSync(path.join(root, 'config/update-settings.json'), 'utf8'), previousSettings);
     response = await post('options.php', { csrf, channel: 'main' });
     assert.equal(response.status, 422, 'invalid channel rejected');
+    response = await post('options.php', { csrf, channel: 'alpha', language: '../../outside' });
+    assert.equal(response.status, 422, 'invalid language rejected');
+    assert.equal(response.headers.get('set-cookie'), null, 'invalid language does not write a cookie');
+    assert.equal(fs.readFileSync(path.join(root, 'config/update-settings.json'), 'utf8'), previousSettings, 'invalid language does not change channel');
     response = await post('options.php', { csrf, channel: 'alpha' });
     assert.equal(response.status, 303);
     assert.equal(JSON.parse(fs.readFileSync(path.join(root, 'config/update-settings.json'))).channel, 'alpha');
@@ -118,7 +132,7 @@ const assert = require('node:assert/strict');
       response = await post('update.php', { csrf, action: 'install', identity: '0'.repeat(64) });
       assert.equal(response.status, 422, 'forged package identity rejected');
       response = await post('update.php', { csrf, action: 'install', identity: selected });
-      assert.equal(response.status, 303, 'verified GitHub fixture package installed');
+      assert.equal(response.status, 303, 'verified GitHub fixture package installed: ' + (response.status === 303 ? '' : await response.text()));
       assert.equal(response.headers.get('location'), 'update.php');
       assert.equal(fs.readFileSync(path.join(root, 'src/VERSION'), 'utf8').trim(), fs.readFileSync(path.join(repository, 'src/VERSION'), 'utf8').trim());
       assert.equal(fs.readFileSync(path.join(root, 'config/local.php'), 'utf8'), privateConfig);
@@ -129,10 +143,36 @@ const assert = require('node:assert/strict');
       response = await post('options.php', { csrf, channel: 'release' });
       assert.equal(response.status, 303);
       response = await fetch(base + 'update.php', { headers: { Cookie: cookie } });
-      assert.match(await response.text(), /Automatic downgrades are disabled/);
+      assert.match(await response.text(), /No se vuelve autom/);
       console.log('OK: web channel options, CSRF, verified GitHub fixture download, backup and preserved private state.');
     }
+    // Substitute storage only after all real outage/package checks, inside the temporary site.
+    fs.copyFileSync(path.join(__dirname, 'fixtures/migration-store.php'), path.join(root, 'src/Store.php'));
+    fs.copyFileSync(path.join(__dirname, 'fixtures/game-catalog.json'), path.join(root, 'config/game-catalog.json'));
+    // Restart PHP so its realpath cache cannot retain the previously loaded storage class.
+    server.kill();
+    await new Promise((resolve) => server.once('exit', resolve));
+    const fixtureLog = fs.openSync(serverLog, 'a');
+    server = spawn(process.env.F125_TEST_PHP || 'php', ['-n', ...zipArgs, '-S', `127.0.0.1:${port}`, '-t', path.join(root, publicName), ...routerArgs], { cwd: root, env, windowsHide: true, stdio: ['ignore', 'ignore', fixtureLog] });
+    fs.closeSync(fixtureLog);
+    for (let attempt = 0; attempt < 100; attempt++) {
+      try { response = await fetch(base + 'database.php'); break; }
+      catch { await new Promise((resolve) => setTimeout(resolve, 50)); }
+    }
+
+    assert.equal(response.status, 200);
+    assert.match(await response.text(), /Actualización pendiente/);
+    assert.equal(fs.existsSync(path.join(root, 'config/migration-applied')), false, 'GET does not apply migrations');
+    const databaseBrowser = spawnSync(process.execPath, [path.join(__dirname, 'database-browser.cjs')], { env: { ...env, F125_TEST_URL: base }, windowsHide: true, encoding: 'utf8' });
+    process.stdout.write(databaseBrowser.stdout || ''); process.stderr.write(databaseBrowser.stderr || '');
+    assert.equal(databaseBrowser.status, 0);
+    const catalogBrowser = spawnSync(process.execPath, [path.join(__dirname, 'catalog-browser.cjs')], { env: { ...env, F125_TEST_URL: base }, windowsHide: true, encoding: 'utf8' });
+    process.stdout.write(catalogBrowser.stdout || ''); process.stderr.write(catalogBrowser.stderr || '');
+    assert.equal(catalogBrowser.status, 0);
     console.log(`OK: estados, redirecciones, POST, API y caída de conexión; montaje ${mount}, host ${host}, puerto ${port}; sitio temporal aislado.`);
+  } catch (error) {
+    if (fs.existsSync(serverLog)) process.stderr.write(fs.readFileSync(serverLog, 'utf8').slice(-4000));
+    throw error;
   } finally {
     if (server && server.exitCode === null) {
       const stopped = new Promise((resolve) => server.once('exit', resolve));

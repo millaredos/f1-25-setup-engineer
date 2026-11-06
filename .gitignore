@@ -22,6 +22,8 @@ config/.update-*
 /storage/
 /backups/
 *.sql
+!/data/migrations/*.schema.sql
+!/data/migrations/*.data.sql
 *.log
 
 # Dependencias y herramientas locales

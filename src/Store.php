@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/Migrations.php';
+
 final class Store
 {
     private PDO $db;
@@ -25,6 +27,7 @@ final class Store
             $this->db->exec('INSERT INTO f125_schema_meta (version) VALUES (1)');
         }
         $this->ready();
+        $this->migrate();
     }
 
     public function ready(): void
@@ -39,6 +42,36 @@ final class Store
     public function circuits(): array
     {
         return array_map(static fn(array $row) => json_decode($row['payload'], true, 64, JSON_THROW_ON_ERROR), $this->db->query('SELECT payload FROM f125_circuits ORDER BY id')->fetchAll());
+    }
+
+    public function pendingMigrations(): array
+    {
+        return (new Migrations($this->db))->pending();
+    }
+
+    public function migrate(): void
+    {
+        $this->ready();
+        (new Migrations($this->db))->apply();
+    }
+
+    public function gameCatalog(): array
+    {
+        if ($this->pendingMigrations()) { throw new RuntimeException('Actualiza la base de datos para cargar el catálogo del juego.'); }
+        $presets = $this->db->query('SELECT * FROM f125_game_presets ORDER BY id')->fetchAll();
+        foreach ($presets as &$preset) {
+            $id = (int) $preset['id']; $name = $preset['name'];
+            unset($preset['id'], $preset['name']);
+            $values = array_map(static fn($value) => (float) $value, $preset);
+            $preset = ['id' => $id, 'name' => $name, 'values' => $values];
+        }
+        unset($preset);
+        $circuits = $this->db->query('SELECT id, round_order, location, name, preset_id FROM f125_game_circuits ORDER BY round_order')->fetchAll();
+        foreach ($circuits as &$circuit) {
+            $circuit['round_order'] = (int) $circuit['round_order'];
+            $circuit['preset_id'] = $circuit['preset_id'] === null ? null : (int) $circuit['preset_id'];
+        }
+        return ['presets' => $presets, 'circuits' => $circuits];
     }
 
     public function saveCircuit(array $circuit): void
@@ -82,7 +115,13 @@ final class Store
 
     public function setups(): array
     {
-        return $this->db->query('SELECT id,circuit_id,title,created_at FROM f125_setups ORDER BY created_at DESC,id DESC')->fetchAll();
+        $rows = $this->db->query('SELECT id,circuit_id,title,created_at,payload FROM f125_setups ORDER BY created_at DESC,id DESC')->fetchAll();
+        foreach ($rows as &$row) {
+            $payload = json_decode($row['payload'], true, 64, JSON_THROW_ON_ERROR);
+            $row['season'] = $payload['season'] ?? 'unknown';
+            unset($row['payload']);
+        }
+        return $rows;
     }
 
     public function loadSetup(string $id): array

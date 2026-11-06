@@ -39,6 +39,10 @@ flowchart LR
     Store -->|PDO_MYSQL| DB[("MariaDB")]
 ```
 
+## Translations
+
+`src/Translation.php` loads generated `src/locale_*.php` catalogs from editable PO sources in `languages/`. `public_html/i18n.php` serves the same messages to JavaScript. `src/Header.php` and `assets/navigation.js` share navigation and update notifications across installed pages. Language preference uses a browser cookie; no database schema change is needed. Polib is a development-only dependency for catalog generation. See [translations](translations.md).
+
 ## Storage
 
 | Table | Contents |
@@ -46,15 +50,22 @@ flowchart LR
 | `f125_schema_meta` | Schema version. |
 | `f125_circuits` | Circuit identifier and profile as JSON. |
 | `f125_setups` | Identifier, circuit, name, date and setup as JSON. |
+| `f125_migrations` | Applied migration IDs, SQL checksums and dates. |
+| `f125_game_presets` | Five bundled presets with twenty numeric settings each. |
+| `f125_game_circuits` | Official circuit names, display order and confirmed preset assignments. |
 
 Each save inserts a new version. Its JSON contains the reference, current values, conditions, notes and a copy of the circuit profile. Creating a circuit profile together with its setup runs within a transaction.
+
+The game catalog is separate from imported circuit profiles and personal setups. Names alone do not constitute technical profiles. `Migrations` applies versioned SQL with a database-specific advisory lock and records each data transaction's checksum. See [database migrations](database-migrations.md).
+
+Bootstrap serves catalog circuit identities and preset values alongside imported profiles and saved versions. `Domain` accepts a supplied circuit registry for identity validation while remaining independent of PDO. API saves resolve catalog snapshots against that registry; offline import/export validates their structure. Personal saves retain an identity snapshot in the existing circuit/setup tables.
 
 ## Installation and updates
 
 - `install.php` checks requirements and prepares tables through `Store`.
 - `InstallationState` reads and writes `config/installation.json`.
 - `options.php` saves the installation-wide channel through `UpdateSettings`.
-- `GitHubUpdates` selects builds from the active release PR or published stable releases. `GitHubClient` restricts HTTPS requests to GitHub and strips credentials on storage redirects.
+- `GitHubUpdates` reads the published channel versions and resolves the exact GitHub release only when a newer version exists. `GitHubClient` keeps version discovery separate from authenticated GitHub requests and strips credentials on storage redirects.
 - `update.php` downloads the selected build and delegates package validation, backup and file replacement to `Updater`.
 - `Updater` uses an exclusive lock and a persistent recovery journal; bootstrap checks recovery before loading domain code.
 - `config/local.php` contains database credentials and an optional read-only GitHub token. Channel settings and caches are separate private JSON files.

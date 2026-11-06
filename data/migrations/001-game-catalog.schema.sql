@@ -1,0 +1,35 @@
+-- statement
+CREATE TABLE IF NOT EXISTS f125_game_presets (
+    id TINYINT UNSIGNED PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    ala_del TINYINT UNSIGNED NOT NULL,
+    ala_tra TINYINT UNSIGNED NOT NULL,
+    dif_acc TINYINT UNSIGNED NOT NULL,
+    dif_dec TINYINT UNSIGNED NOT NULL,
+    cam_del DECIMAL(4,2) NOT NULL,
+    cam_tra DECIMAL(4,2) NOT NULL,
+    toe_del DECIMAL(3,2) NOT NULL,
+    toe_tra DECIMAL(3,2) NOT NULL,
+    muelle_del TINYINT UNSIGNED NOT NULL,
+    muelle_tra TINYINT UNSIGNED NOT NULL,
+    barra_del TINYINT UNSIGNED NOT NULL,
+    barra_tra TINYINT UNSIGNED NOT NULL,
+    altura_del TINYINT UNSIGNED NOT NULL,
+    altura_tra TINYINT UNSIGNED NOT NULL,
+    freno_rep TINYINT UNSIGNED NOT NULL,
+    freno_pre TINYINT UNSIGNED NOT NULL,
+    pres_di DECIMAL(3,1) NOT NULL,
+    pres_dd DECIMAL(3,1) NOT NULL,
+    pres_ti DECIMAL(3,1) NOT NULL,
+    pres_td DECIMAL(3,1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- statement
+CREATE TABLE IF NOT EXISTS f125_game_circuits (
+    id VARCHAR(80) COLLATE utf8mb4_bin PRIMARY KEY,
+    round_order TINYINT UNSIGNED NOT NULL UNIQUE,
+    location VARCHAR(80) NOT NULL,
+    name VARCHAR(120) NOT NULL,
+    preset_id TINYINT UNSIGNED NULL,
+    FOREIGN KEY (preset_id) REFERENCES f125_game_presets(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

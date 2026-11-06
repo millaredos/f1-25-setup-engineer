@@ -26,7 +26,7 @@ Create a MariaDB database and account using your server tools. Copy `config/loca
 
 Alternatively, set `F125_DSN`, `F125_DB_USER` and `F125_DB_PASSWORD` in the web PHP environment.
 
-The account needs CREATE during installation, and SELECT and INSERT for normal use. PHP must be able to read `src/` and `data/`, and write to `config/` to store the installation state. Restrict read access to `config/local.php` to the accounts that need it.
+The account needs CREATE during installation and additive database updates, and SELECT and INSERT for normal use. PHP must be able to read `src/` and `data/`, and write to `config/` to store the installation state. Restrict read access to `config/local.php` to the accounts that need it.
 
 Check the extensions in the PHP instance used by Apache. Set `display_errors=Off`, `log_errors=On` and `register_argc_argv=Off` in the server's PHP configuration.
 
@@ -36,7 +36,7 @@ Check the extensions in the PHP instance used by Apache. Set `display_errors=Off
 2. Review the requirements and connection.
 3. Click **Instalar**.
 
-The installer creates `f125_schema_meta`, `f125_circuits` and `f125_setups`. It then writes `installed: true` to `config/installation.json` and opens the home screen. Keep this file when updating.
+The installer creates the base tables and applies pending [database migrations](database-migrations.md), including the five game presets and initial circuit-name catalog. It then writes `installed: true` to `config/installation.json` and opens the home screen. Keep this file when updating. Existing installations apply pending migrations from **Opciones → Actualizar base de datos** after updating the application files.
 
 | State | Behavior |
 | --- | --- |
@@ -47,7 +47,7 @@ The installer creates `f125_schema_meta`, `f125_circuits` and `f125_setups`. It 
 
 ## Backup
 
-Export the structure and data of the three `f125_*` tables using a consistent InnoDB backup.
+Export the structure and data of all `f125_*` tables using a consistent InnoDB backup, including catalog tables and the migration ledger.
 
 Also save `config/`, `data/` and the code version in use. Keep backups outside the public directory and Git.
 

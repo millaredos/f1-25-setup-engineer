@@ -24,11 +24,18 @@ function fixtureGitHub(string $package = '', array $options = [], ?object $log =
     $pull = ['number' => $build['pr'], 'head' => ['ref' => $build['branch'], 'sha' => $build['commit'], 'repo' => ['full_name' => GitHubClient::REPOSITORY]]];
     return static function (string $url, array $headers, int $limit) use ($options, $alpha, $stable, $pull, $bytes, $log): array {
         if ($log !== null) { $log->requests[] = ['url' => $url, 'headers' => $headers]; }
+        if (defined('GitHubClient::VERSION_FEED') && $url === GitHubClient::VERSION_FEED) {
+            $feed = 'alpha=' . ($alpha['prerelease'] && str_contains($alpha['tag_name'], '-alpha.') ? substr($alpha['tag_name'], 1) : '')
+                . "\nrelease=" . substr($stable['tag_name'], 1) . "\n";
+            return ['status' => $options['feedStatus'] ?? 200, 'body' => $options['feed'] ?? $feed, 'headers' => []];
+        }
         if (isset($options['status'])) { return ['status' => $options['status'], 'body' => '', 'headers' => []]; }
         $path = substr($url, strlen('https://api.github.com/repos/' . GitHubClient::REPOSITORY . '/'));
         if ($path === 'releases/latest') { $body = $options['stable'] ?? $stable; }
         elseif (str_starts_with($path, 'pulls?')) { $body = $options['pulls'] ?? [$pull]; }
         elseif (str_starts_with($path, 'releases?')) { $body = $options['releases'] ?? [$alpha, $stable]; }
+        elseif ($path === 'releases/tags/' . $alpha['tag_name'] && str_contains($alpha['tag_name'], '-alpha.')) { $body = $options['alpha'] ?? $alpha; }
+        elseif ($path === 'releases/tags/' . $stable['tag_name']) { $body = $options['stable'] ?? $stable; }
         elseif ($path === 'releases/2') { $body = $options['alpha'] ?? $alpha; }
         elseif ($path === 'releases/1') { $body = $stable; }
         elseif (in_array($path, ['releases/assets/101', 'releases/assets/102'], true)) { return ['status' => 200, 'headers' => [], 'body' => $options['download'] ?? $bytes]; }

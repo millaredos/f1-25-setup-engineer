@@ -20,6 +20,11 @@ function rejects(callable $operation, string $message): void
 }
 
 check(count($domain->catalog['parameters']) === 20, 'veinte parámetros');
+$gameDomain = appDomain([['id' => 'australia-albert-park', 'name' => 'Albert Park Circuit', 'location' => 'Australia']]);
+$gameCircuit = $gameDomain->circuit(['id' => 'australia-albert-park', 'origin' => 'game-catalog', 'name' => 'Untrusted name', 'downforce' => 'high']);
+check($gameCircuit['name'] === 'Albert Park Circuit' && $gameCircuit['downforce'] === 'unknown' && $gameCircuit['sources'] === [], 'catálogo resuelve identidad sin inventar características');
+rejects(static fn() => $gameDomain->circuit(['id' => 'unknown', 'origin' => 'game-catalog']), 'catálogo rechaza identificadores desconocidos');
+check($domain->circuit($gameCircuit) === $gameCircuit, 'snapshot del catálogo permite recuperación sin conexión');
 check($domain->values($base) == $base, 'el JSON heredado conserva sus valores');
 check($domain->compare($base, $base)['changes'] === [], 'comparar sin cambios');
 $current = $base; $current['cam_del'] = -3.5;
@@ -52,6 +57,9 @@ foreach ([$legacy, ['values' => $base], $base, ['base' => $base, 'current' => $c
 }
 rejects(fn() => $domain->importSetup(['format' => 'otro', 'current' => $base]), 'formato desconocido');
 rejects(fn() => $domain->importSetup(['format' => 'f125-setup-engineer', 'schemaVersion' => 2, 'current' => $base]), 'versión futura');
+check($domain->importSetup(['current' => $base, 'season' => '2025'])['season'] === '2025', 'la temporada se conserva');
+check($domain->importSetup(['current' => $base])['season'] === 'unknown', 'la temporada ausente no se inventa');
+rejects(fn() => $domain->importSetup(['current' => $base, 'season' => '2024']), 'temporada inválida');
 rejects(fn() => $domain->importSetup(array_replace($legacy, ['referenceIsCapture' => 'sí'])), 'booleano heredado');
 $circuit = [
     'id' => 'circuito-de-prueba', 'name' => 'Circuito de prueba', 'layout' => 'Ficticio', 'downforce' => 'mixed',

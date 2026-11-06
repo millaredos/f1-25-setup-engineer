@@ -39,6 +39,10 @@ flowchart LR
     Store -->|PDO_MYSQL| DB[("MariaDB")]
 ```
 
+## Traducciones
+
+`src/Translation.php` carga los catálogos generados `src/locale_*.php` desde los PO editables de `languages/`. `public_html/i18n.php` sirve los mismos mensajes a JavaScript. `src/Header.php` y `assets/navigation.js` comparten navegación y avisos de actualización entre las pantallas instaladas. El idioma se guarda en una cookie del navegador; no cambia el esquema de la base. Polib es una dependencia exclusiva de desarrollo para generar catálogos. Consulta [traducciones](traducciones.md).
+
 ## Almacenamiento
 
 | Tabla | Contenido |
@@ -46,15 +50,22 @@ flowchart LR
 | `f125_schema_meta` | Versión del esquema. |
 | `f125_circuits` | Identificador y ficha del circuito en JSON. |
 | `f125_setups` | Identificador, circuito, nombre, fecha y reglaje en JSON. |
+| `f125_migrations` | Identificadores, huellas SQL y fechas de las migraciones aplicadas. |
+| `f125_game_presets` | Cinco predeterminados con veinte ajustes numéricos cada uno. |
+| `f125_game_circuits` | Nombres oficiales, orden y asignaciones de predeterminados confirmadas. |
 
 Cada guardado inserta una versión nueva. Su JSON contiene referencia, valores actuales, condiciones, notas y una copia de la ficha del circuito. El alta de una ficha junto con su reglaje se ejecuta en una transacción.
+
+El catálogo del juego está separado de las fichas importadas y los reglajes personales. Los nombres por sí solos no forman fichas técnicas. `Migrations` aplica SQL versionado con un bloqueo de la base y registra la huella de cada transacción de datos. Consulta [migraciones de base de datos](migraciones-base-datos.md).
+
+El arranque sirve identidades del catálogo y valores de predeterminados junto a fichas importadas y versiones guardadas. `Domain` acepta un registro de circuitos para validar su identidad y sigue siendo independiente de PDO. El guardado en la API resuelve las copias del catálogo contra ese registro; la importación y exportación sin conexión validan su estructura. Los guardados personales conservan una copia de identidad en las tablas existentes de circuitos y reglajes.
 
 ## Instalación y actualización
 
 - `install.php` comprueba requisitos y prepara las tablas mediante `Store`.
 - `InstallationState` lee y escribe `config/installation.json`.
 - `options.php` guarda el canal de la instalación mediante `UpdateSettings`.
-- `GitHubUpdates` selecciona compilaciones de la PR de release activa o estables publicadas. `GitHubClient` limita las peticiones HTTPS a GitHub y retira las credenciales al redirigir hacia el almacenamiento.
+- `GitHubUpdates` lee las versiones publicadas por canal y consulta la release exacta de GitHub solo cuando existe una versión posterior. `GitHubClient` separa la detección de las peticiones autenticadas a GitHub y retira las credenciales al redirigir hacia el almacenamiento.
 - `update.php` descarga la compilación seleccionada y delega la validación, copia y sustitución de archivos en `Updater`.
 - `Updater` utiliza un bloqueo exclusivo y un registro persistente de recuperación; el arranque comprueba la recuperación antes de cargar el dominio.
 - `config/local.php` contiene las credenciales de la base y un token de lectura de GitHub opcional. El canal y la caché se guardan en otros JSON privados.

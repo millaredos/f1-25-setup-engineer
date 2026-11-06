@@ -27,15 +27,21 @@ jobs:
           persist-credentials: false
       - name: Install test tools
         run: |
+          python3 -m pip install -r requirements-dev.txt
           sudo apt-get update -qq
           sudo apt-get install -y php-cli php-zip php-curl
-          npm install --no-save playwright
+          npm install --no-save playwright@1.62.1
           npx playwright install --with-deps chromium
       - name: Check PHP and JavaScript
         run: |
           find src public_html tests -name '*.php' -print0 | xargs -0 -n1 php -l
           node --check public_html/assets/app.js
+          node --check public_html/assets/navigation.js
+          python3 bin/translations.py --check
+          php tests/translations.php
           php tests/run.php
+          python3 bin/migrations.py --check
+          php tests/migrations.php
           php tests/updater.php
           php tests/updates.php
           python3 -m unittest discover -s tests -p 'test_*.py'
@@ -64,4 +70,7 @@ jobs:
       - name: Publish Alpha or prepare stable draft
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python3 bin/publish-release.py
+          ALPHA_BUILD_OFFSET: ${{ vars.ALPHA_BUILD_OFFSET || '0' }}
+        run: |
+          python3 -m pip install -r requirements-dev.txt
+          GITHUB_RUN_NUMBER=$((GITHUB_RUN_NUMBER + ALPHA_BUILD_OFFSET)) python3 bin/publish-release.py

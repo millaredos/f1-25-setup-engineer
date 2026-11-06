@@ -1,0 +1,2465 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: F1 25 Setup Engineer\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid ". Recarga esta página después de esa hora. La versión instalada se conserva."
+msgstr ". Recarga esta página después de esa hora. La versión instalada se conserva."
+
+msgid "02 / REGLAJES"
+msgstr "02 / REGLAJES"
+
+msgid "03 / LECTURA DE LOS CAMBIOS"
+msgstr "03 / LECTURA DE LOS CAMBIOS"
+
+msgid "04 / CONSERVA EL PUNTO DE PARTIDA"
+msgstr "04 / CONSERVA EL PUNTO DE PARTIDA"
+
+msgid "ASISTENTE DE PRUEBAS · SIN IA"
+msgstr "ASISTENTE DE PRUEBAS · SIN IA"
+
+msgid "Abrir como borrador"
+msgstr "Abrir como borrador"
+
+msgid "Abrir esta versión sustituirá el borrador en pantalla. ¿Continuar?"
+msgstr "Abrir esta versión sustituirá el borrador en pantalla. ¿Continuar?"
+
+msgid "Absorción de pianos"
+msgstr "Absorción de pianos"
+
+msgid "Acción desconocida."
+msgstr "Acción desconocida."
+
+msgid "Activa JavaScript para utilizar el editor."
+msgstr "Activa JavaScript para utilizar el editor."
+
+msgid "Actual"
+msgstr "Actual"
+
+msgid "Actualizaciones"
+msgstr "Actualizaciones"
+
+msgid "Actualización instalada. Archivos anteriores: {backup}."
+msgstr "Actualización instalada. Archivos anteriores: {backup}."
+
+msgid "Actualizando la lectura teórica de los valores actuales…"
+msgstr "Actualizando la lectura teórica de los valores actuales…"
+
+msgid "Actualizar"
+msgstr "Actualizar"
+
+msgid ""
+"Admite el JSON del comparador anterior, mapas de veinte valores y el formato nuevo. Revisa la "
+"referencia antes de aplicar."
+msgstr ""
+"Admite el JSON del comparador anterior, mapas de veinte valores y el formato nuevo. Revisa la "
+"referencia antes de aplicar."
+
+msgid "Aerodinámica"
+msgstr "Aerodinámica"
+
+msgid "Agarre delantero mecánico"
+msgstr "Agarre delantero mecánico"
+
+msgid "Agarre en baches"
+msgstr "Agarre en baches"
+
+msgid "Agarre lateral delantero"
+msgstr "Agarre lateral delantero"
+
+msgid "Agarre trasero"
+msgstr "Agarre trasero"
+
+msgid "Agarre: verificar"
+msgstr "Agarre: verificar"
+
+msgid "Al bajar el número: {effect}"
+msgstr "Al bajar el número: {effect}"
+
+msgid "Al cambiar de circuito se vaciará el borrador para no atribuirle otro reglaje. ¿Continuar?"
+msgstr "Al cambiar de circuito se vaciará el borrador para no atribuirle otro reglaje. ¿Continuar?"
+
+msgid "Al subir el número: {effect}"
+msgstr "Al subir el número: {effect}"
+
+msgid "Alerón delantero"
+msgstr "Alerón delantero"
+
+msgid "Alerón trasero"
+msgstr "Alerón trasero"
+
+msgid "Alpha"
+msgstr "Alpha"
+
+msgid "Altura del chasis delantero"
+msgstr "Altura del chasis delantero"
+
+msgid "Altura del chasis trasero"
+msgstr "Altura del chasis trasero"
+
+msgid "Altura posterior; junto con la delantera determina la inclinación del coche (rake)."
+msgstr "Altura posterior; junto con la delantera determina la inclinación del coche (rake)."
+
+msgid "An update check is already running."
+msgstr "Ya hay una comprobación de actualizaciones en curso."
+
+msgid "An update is in progress. Try again shortly."
+msgstr "Hay una actualización en curso. Vuelve a intentarlo en unos instantes."
+
+msgid "Apartados"
+msgstr "Apartados"
+
+msgid "Aplicar importación"
+msgstr "Aplicar importación"
+
+msgid "Apoyo / alta velocidad"
+msgstr "Apoyo / alta velocidad"
+
+msgid "Apoyo / curvas lentas-medias"
+msgstr "Apoyo / curvas lentas-medias"
+
+msgid "Apoyo / lenta o media"
+msgstr "Apoyo / lenta o media"
+
+msgid "Apoyo en frenada recta"
+msgstr "Apoyo en frenada recta"
+
+msgid "Apoyo lateral / frenada"
+msgstr "Apoyo lateral / frenada"
+
+msgid "Apoyo lateral / tracción"
+msgstr "Apoyo lateral / tracción"
+
+msgid "Application file replacement failed."
+msgstr "No se pudieron sustituir los archivos de la aplicación."
+
+msgid "Asocia primero una ficha de circuito al reglaje."
+msgstr "Asocia primero una ficha de circuito al reglaje."
+
+msgid "Aumentar {name}"
+msgstr "Aumentar {name}"
+
+msgid "Bajar demasiado puede empeorar el tiempo por contactos con el asfalto."
+msgstr "Bajar demasiado puede empeorar el tiempo por contactos con el asfalto."
+
+msgid "Balance aero / recta / pianos"
+msgstr "Balance aero / recta / pianos"
+
+msgid "Barra estabilizadora delantera"
+msgstr "Barra estabilizadora delantera"
+
+msgid "Barra estabilizadora trasera"
+msgstr "Barra estabilizadora trasera"
+
+msgid "Barra más blanda"
+msgstr "Barra más blanda"
+
+msgid "Barra más rígida"
+msgstr "Barra más rígida"
+
+msgid "Base de datos configurada:"
+msgstr "Base de datos configurada:"
+
+msgid "Bloqueo"
+msgstr "Bloqueo"
+
+msgid "Borrador recuperado; todavía no es una versión guardada en MariaDB."
+msgstr "Borrador recuperado; todavía no es una versión guardada en MariaDB."
+
+msgid "Buscar actualizaciones"
+msgstr "Buscar actualizaciones"
+
+msgid "Cada guardado crea una copia nueva, con referencia, valores actuales y ficha del circuito."
+msgstr "Cada guardado crea una copia nueva, con referencia, valores actuales y ficha del circuito."
+
+msgid "Cambia la plataforma aerodinámica. No se calcula cuánto apoyo pierdes."
+msgstr "Cambia la plataforma aerodinámica. No se calcula cuánto apoyo pierdes."
+
+msgid "Cambia pocas variables y comprueba el resultado conduciendo en las mismas condiciones."
+msgstr "Cambia pocas variables y comprueba el resultado conduciendo en las mismas condiciones."
+
+msgid "Cambiar canal"
+msgstr "Cambiar canal"
+
+msgid "Cambiar de canal no instala una actualización ni vuelve a una versión anterior."
+msgstr "Cambiar de canal no instala una actualización ni vuelve a una versión anterior."
+
+msgid "Canal"
+msgstr "Canal"
+
+msgid "Cannot back up application files."
+msgstr "No se pudo crear la copia de los archivos de la aplicación."
+
+msgid "Cannot complete the update. The installed application has been preserved."
+msgstr "No se pudo completar la actualización. Se ha conservado la aplicación instalada."
+
+msgid "Cannot complete update recovery."
+msgstr "No se pudo completar la recuperación de la actualización."
+
+msgid "Cannot create the update backup."
+msgstr "No se pudo crear la copia de seguridad de la actualización."
+
+msgid "Cannot prepare private update state."
+msgstr "No se pudo preparar el estado privado de la actualización."
+
+msgid "Cannot prepare the download."
+msgstr "No se pudo preparar la descarga."
+
+msgid "Cannot prepare the private backup directory."
+msgstr "No se pudo preparar la carpeta privada de copias de seguridad."
+
+msgid "Cannot read GitHub update metadata."
+msgstr "No se pudieron leer los datos de la actualización en GitHub."
+
+msgid "Cannot remove an interrupted update file."
+msgstr "No se pudo retirar un archivo de la actualización interrumpida."
+
+msgid "Cannot restore an update backup."
+msgstr "No se pudo restaurar la copia de seguridad de la actualización."
+
+msgid "Cannot save private update state."
+msgstr "No se pudo guardar el estado privado de la actualización."
+
+msgid "Cannot save the download."
+msgstr "No se pudo guardar la descarga."
+
+msgid "Cannot securely contact the update service. Check network access and PHP CA certificates."
+msgstr ""
+"No se pudo conectar de forma segura con el servicio de actualizaciones. Revisa la conexión y los "
+"certificados CA de PHP."
+
+msgid "Cannot stage an application file."
+msgstr "No se pudo preparar un archivo de la aplicación."
+
+msgid "Cannot stage update recovery."
+msgstr "No se pudo preparar la recuperación de la actualización."
+
+msgid "Características debe ser un objeto."
+msgstr "Características debe ser un objeto."
+
+msgid "Carga"
+msgstr "Carga"
+
+msgid "Carga alta"
+msgstr "Carga alta"
+
+msgid "Carga baja"
+msgstr "Carga baja"
+
+msgid "Carga delantera"
+msgstr "Carga delantera"
+
+msgid "Carga media"
+msgstr "Carga media"
+
+msgid "Carga trasera"
+msgstr "Carga trasera"
+
+msgid "Caída delantera"
+msgstr "Caída delantera"
+
+msgid "Caída menos negativa"
+msgstr "Caída menos negativa"
+
+msgid "Caída menos negativa: favorece la frenada en recta, reduce margen de agarre lateral."
+msgstr "Caída menos negativa: favorece la frenada en recta, reduce margen de agarre lateral."
+
+msgid "Caída menos negativa: potencialmente más tracción al salir; menos rotación en apoyo."
+msgstr "Caída menos negativa: potencialmente más tracción al salir; menos rotación en apoyo."
+
+msgid "Caída más negativa"
+msgstr "Caída más negativa"
+
+msgid "Caída más negativa: favorece el apoyo lateral; puede perjudicar frenada/desgaste."
+msgstr "Caída más negativa: favorece el apoyo lateral; puede perjudicar frenada/desgaste."
+
+msgid "Caída más negativa: favorece rotación/agarre lateral; compromete tracción longitudinal."
+msgstr "Caída más negativa: favorece rotación/agarre lateral; compromete tracción longitudinal."
+
+msgid "Caída trasera"
+msgstr "Caída trasera"
+
+msgid "Cerrar importación"
+msgstr "Cerrar importación"
+
+msgid "Cerrar ×"
+msgstr "Cerrar ×"
+
+msgid "Check application file write permissions."
+msgstr "Revisa los permisos de escritura de los archivos de la aplicación."
+
+msgid "Check for an available build first."
+msgstr "Busca primero una versión disponible."
+
+msgid "Choose Alpha or Release."
+msgstr "Elige Alpha o Estable."
+
+msgid "Circuito"
+msgstr "Circuito"
+
+msgid "Circuito y referencia"
+msgstr "Circuito y referencia"
+
+msgid ""
+"Combina solo el cambio de barra o suspensión que ayudó con el ajuste de diferencial que hayas "
+"validado. No mezcles tres cambios de golpe."
+msgstr ""
+"Combina solo el cambio de barra o suspensión que ayudó con el ajuste de diferencial que hayas "
+"validado. No mezcles tres cambios de golpe."
+
+msgid ""
+"Combina únicamente si las pruebas individuales ayudan. Revisa primero la altura si el síntoma "
+"coincide con golpes del suelo."
+msgstr ""
+"Combina únicamente si las pruebas individuales ayudan. Revisa primero la altura si el síntoma "
+"coincide con golpes del suelo."
+
+msgid ""
+"Como alternativa, prueba un paso menos delante para desplazar el equilibrio relativo hacia atrás."
+msgstr ""
+"Como alternativa, prueba un paso menos delante para desplazar el equilibrio relativo hacia atrás."
+
+msgid "Como alternativa, prueba un paso más de barra trasera para buscar rotación."
+msgstr "Como alternativa, prueba un paso más de barra trasera para buscar rotación."
+
+msgid ""
+"Como alternativa, un paso menos de alerón trasero puede desplazar el equilibrio relativo hacia "
+"delante."
+msgstr ""
+"Como alternativa, un paso menos de alerón trasero puede desplazar el equilibrio relativo hacia "
+"delante."
+
+msgid ""
+"Como prueba alternativa, un paso más de barra delantera puede desplazar el equilibrio mecánico "
+"hacia una respuesta más estable atrás."
+msgstr ""
+"Como prueba alternativa, un paso más de barra delantera puede desplazar el equilibrio mecánico "
+"hacia una respuesta más estable atrás."
+
+msgid "Comparando…"
+msgstr "Comparando…"
+
+msgid "Completa la conexión en config/local.php."
+msgstr "Completa la conexión en config/local.php."
+
+msgid "Completa la instalación abriendo la aplicación."
+msgstr "Completa la instalación abriendo la aplicación."
+
+msgid "Completa los requisitos antes de instalar."
+msgstr "Completa los requisitos antes de instalar."
+
+msgid "Completa los veinte valores dentro de sus rangos y pasos para obtener el resumen."
+msgstr "Completa los veinte valores dentro de sus rangos y pasos para obtener el resumen."
+
+msgid "Comportamiento"
+msgstr "Comportamiento"
+
+msgid "Comprobaciones previas"
+msgstr "Comprobaciones previas"
+
+msgid "Compromiso aerodinámico"
+msgstr "Compromiso aerodinámico"
+
+msgid "Compromiso: {cost}"
+msgstr "Compromiso: {cost}"
+
+msgid "Compromisos y límites"
+msgstr "Compromisos y límites"
+
+msgid "Comprueba que sucede con el coche apoyado, no durante un golpe de gas o al pisar un piano."
+msgstr "Comprueba que sucede con el coche apoyado, no durante un golpe de gas o al pisar un piano."
+
+msgid "Con ABS o buena modulación, 100 % puede ser viable. No equivale a frenar siempre más corto."
+msgstr "Con ABS o buena modulación, 100 % puede ser viable. No equivale a frenar siempre más corto."
+
+msgid "Condiciones inválidas."
+msgstr "Condiciones inválidas."
+
+msgid "Configura MariaDB mediante PDO_MYSQL en config/local.php."
+msgstr "Configura MariaDB mediante PDO_MYSQL en config/local.php."
+
+msgid ""
+"Confirma falta de giro en apoyo estable. Si es una curva rápida, utiliza el síntoma específico de "
+"alta velocidad."
+msgstr ""
+"Confirma falta de giro en apoyo estable. Si es una curva rápida, utiliza el síntoma específico de "
+"alta velocidad."
+
+msgid ""
+"Consulta la ficha del circuito y el compromiso entre curvas rápidas y rectas. No se calcula "
+"velocidad perdida."
+msgstr ""
+"Consulta la ficha del circuito y el compromiso entre curvas rápidas y rectas. No se calcula "
+"velocidad perdida."
+
+msgid "Contenido JSON"
+msgstr "Contenido JSON"
+
+msgid "Contexto de {name}: {text}"
+msgstr "Contexto de {name}: {text}"
+
+msgid "Convergencia trasera"
+msgstr "Convergencia trasera"
+
+msgid "Correcto"
+msgstr "Correcto"
+
+msgid "Curvas"
+msgstr "Curvas"
+
+msgid "Curvas rápidas / rectas"
+msgstr "Curvas rápidas / rectas"
+
+msgid "Cuánto apuntan hacia dentro las ruedas traseras vistas desde arriba."
+msgstr "Cuánto apuntan hacia dentro las ruedas traseras vistas desde arriba."
+
+msgid "Cuánto apuntan hacia fuera las ruedas delanteras vistas desde arriba."
+msgstr "Cuánto apuntan hacia fuera las ruedas delanteras vistas desde arriba."
+
+msgid "DESPUÉS, SI PROCEDE"
+msgstr "DESPUÉS, SI PROCEDE"
+
+msgid "Del reglaje inicial a tu siguiente prueba"
+msgstr "Del reglaje inicial a tu siguiente prueba"
+
+msgid ""
+"Descarta entrar demasiado rápido o arrastrar bloqueo delantero. Distingue la falta de giro al "
+"soltar gas de la falta de apoyo rápido."
+msgstr ""
+"Descarta entrar demasiado rápido o arrastrar bloqueo delantero. Distingue la falta de giro al "
+"soltar gas de la falta de apoyo rápido."
+
+msgid "Descartarlo"
+msgstr "Descartarlo"
+
+msgid "Desgaste: verificar"
+msgstr "Desgaste: verificar"
+
+msgid ""
+"Después compara el diferencial con gas en pruebas separadas. Más bloqueo puede reducir patinaje "
+"interior; menos bloqueo permite más diferencia de giro. El síntoma por sí solo no determina la "
+"dirección correcta."
+msgstr ""
+"Después compara el diferencial con gas en pruebas separadas. Más bloqueo puede reducir patinaje "
+"interior; menos bloqueo permite más diferencia de giro. El síntoma por sí solo no determina la "
+"dirección correcta."
+
+msgid "Diferencial en aceleración"
+msgstr "Diferencial en aceleración"
+
+msgid "Diferencial en deceleración"
+msgstr "Diferencial en deceleración"
+
+msgid "Diferencial más abierto"
+msgstr "Diferencial más abierto"
+
+msgid "Diferencial más bloqueado"
+msgstr "Diferencial más bloqueado"
+
+msgid "Dirección inicial más viva; más rozamiento del neumático y resistencia."
+msgstr "Dirección inicial más viva; más rozamiento del neumático y resistencia."
+
+msgid "Disallowed application path."
+msgstr "La ruta de la aplicación no está permitida."
+
+msgid "Disminuir {name}"
+msgstr "Disminuir {name}"
+
+msgid "Disponible:"
+msgstr "Disponible:"
+
+msgid ""
+"Distingue patinaje al dar gas, apoyo rápido y golpe sobre piano. Sin control de tracción, prueba "
+"también una entrega de acelerador más progresiva."
+msgstr ""
+"Distingue patinaje al dar gas, apoyo rápido y golpe sobre piano. Sin control de tracción, prueba "
+"también una entrega de acelerador más progresiva."
+
+msgid ""
+"Distingue pérdida de apoyo de un contacto con el suelo o piano. Cambiar alerones no garantiza "
+"resolver estos últimos."
+msgstr ""
+"Distingue pérdida de apoyo de un contacto con el suelo o piano. Cambiar alerones no garantiza "
+"resolver estos últimos."
+
+msgid ""
+"Distingue si bloqueas atrás al frenar o si el coche rota demasiado al soltar gas. Sin ABS, el "
+"bloqueo es una posibilidad; no se diagnostica automáticamente."
+msgstr ""
+"Distingue si bloqueas atrás al frenar o si el coche rota demasiado al soltar gas. Sin ABS, el "
+"bloqueo es una posibilidad; no se diagnostica automáticamente."
+
+msgid "Divergencia delantera"
+msgstr "Divergencia delantera"
+
+msgid "Duplicate or oversized package file."
+msgstr "El paquete contiene un archivo duplicado o demasiado grande."
+
+msgid ""
+"EA describe menos presión = más agarre y mayor presión = más duración; análisis comunitarios de F1"
+" 25 observan una relación distinta entre presión, temperatura y agarre. No es un resultado "
+"garantizado."
+msgstr ""
+"EA describe menos presión = más agarre y mayor presión = más duración; análisis comunitarios de F1"
+" 25 observan una relación distinta entre presión, temperatura y agarre. No es un resultado "
+"garantizado."
+
+msgid "EFECTO TEÓRICO"
+msgstr "EFECTO TEÓRICO"
+
+msgid ""
+"Edita los veinte ajustes por categorías. Consulta sus efectos habituales y el resumen de cambios "
+"respecto a tu referencia."
+msgstr ""
+"Edita los veinte ajustes por categorías. Consulta sus efectos habituales y el resumen de cambios "
+"respecto a tu referencia."
+
+msgid "Edita los veinte ajustes, compara sus diferencias y guarda variantes con tus observaciones."
+msgstr "Edita los veinte ajustes, compara sus diferencias y guarda variantes con tus observaciones."
+
+msgid "Ej.: primera prueba en seco"
+msgstr "Ej.: primera prueba en seco"
+
+msgid "Ejemplo: pasar de −3,40° a −3,50° disminuye el número, pero AUMENTA la caída negativa."
+msgstr "Ejemplo: pasar de −3,40° a −3,50° disminuye el número, pero AUMENTA la caída negativa."
+
+msgid "El ID del circuito admite minúsculas, números y guiones (máximo 80)."
+msgstr "El ID del circuito admite minúsculas, números y guiones (máximo 80)."
+
+msgid "El JSON no es válido. Revisa su sintaxis y codificación UTF-8."
+msgstr "El JSON no es válido. Revisa su sintaxis y codificación UTF-8."
+
+msgid "El JSON supera 256 KiB."
+msgstr "El JSON supera 256 KiB."
+
+msgid ""
+"El archivo no tiene referencia: se propone una copia de los valores importados, sin atribuirla al "
+"juego."
+msgstr ""
+"El archivo no tiene referencia: se propone una copia de los valores importados, sin atribuirla al "
+"juego."
+
+msgid ""
+"El borrador se conserva al cambiar de apartado. Guárdalo en Versiones para conservarlo en la base "
+"de datos."
+msgstr ""
+"El borrador se conserva al cambiar de apartado. Guárdalo en Versiones para conservarlo en la base "
+"de datos."
+
+msgid ""
+"El canal no tiene una versión posterior. No se vuelve automáticamente a una versión anterior."
+msgstr ""
+"El canal no tiene una versión posterior. No se vuelve automáticamente a una versión anterior."
+
+msgid "El efecto no es lineal y depende de la altura delantera: verificar con vueltas."
+msgstr "El efecto no es lineal y depende de la altura delantera: verificar con vueltas."
+
+msgid "El efecto sobre el desgaste real en F1 25 no está cuantificado."
+msgstr "El efecto sobre el desgaste real en F1 25 no está cuantificado."
+
+msgid "El estado de instalación no es válido."
+msgstr "El estado de instalación no es válido."
+
+msgid "El idioma se guarda en este navegador."
+msgstr "El idioma se guarda en este navegador."
+
+msgid "El reglaje debe ser un objeto JSON."
+msgstr "El reglaje debe ser un objeto JSON."
+
+msgid "El servidor no ha devuelto JSON válido. Revisa PHP y el registro de errores."
+msgstr "El servidor no ha devuelto JSON válido. Revisa PHP y el registro de errores."
+
+msgid ""
+"Elige Alpha para probar novedades o Estable para versiones estables. Accede a Opciones y "
+"Actualizaciones desde el menú de la versión, arriba a la derecha."
+msgstr ""
+"Elige Alpha para probar novedades o Estable para versiones estables. Accede a Opciones y "
+"Actualizaciones desde el menú de la versión, arriba a la derecha."
+
+msgid "Elige un canal de actualización."
+msgstr "Elige un canal de actualización."
+
+msgid "Elige un idioma disponible."
+msgstr "Elige un idioma disponible."
+
+msgid "Elige un síntoma"
+msgstr "Elige un síntoma"
+
+msgid ""
+"En F1 25 puede bajar la temperatura y mejorar respuesta; agarre y desgaste deben comprobarse."
+msgstr ""
+"En F1 25 puede bajar la temperatura y mejorar respuesta; agarre y desgaste deben comprobarse."
+
+msgid "En F1 25 puede elevar temperatura; posible beneficio mecánico, pero riesgo de sobrecalentar."
+msgstr ""
+"En F1 25 puede elevar temperatura; posible beneficio mecánico, pero riesgo de sobrecalentar."
+
+msgid "En asfalto liso, una plataforma firme puede resultar ventajosa aerodinámicamente."
+msgstr "En asfalto liso, una plataforma firme puede resultar ventajosa aerodinámicamente."
+
+msgid "En muchos reglajes rápidos de F1 25 se usa la caída más negativa permitida."
+msgstr "En muchos reglajes rápidos de F1 25 se usa la caída más negativa permitida."
+
+msgid "En teoría: {effect}"
+msgstr "En teoría: {effect}"
+
+msgid "Enable the PHP ZIP extension to update."
+msgstr "Activa la extensión ZIP de PHP para actualizar."
+
+msgid "Enable the PHP cURL extension to check updates."
+msgstr "Activa la extensión cURL de PHP para buscar actualizaciones."
+
+msgid "Entiende cada cambio."
+msgstr "Entiende cada cambio."
+
+msgid "Entrada / al soltar gas"
+msgstr "Entrada / al soltar gas"
+
+msgid "Entrada / frenada"
+msgstr "Entrada / frenada"
+
+msgid "Entrada más estable, pero menos rotación y mayor tendencia al subviraje."
+msgstr "Entrada más estable, pero menos rotación y mayor tendencia al subviraje."
+
+msgid "Equilibrio aerodinámico"
+msgstr "Equilibrio aerodinámico"
+
+msgid "Es un compromiso entre estabilidad y resistencia, no una mejora gratuita."
+msgstr "Es un compromiso entre estabilidad y resistencia, no una mejora gratuita."
+
+msgid "Ese ID corresponde a otra ficha del circuito. Usa un ID nuevo para la revisión."
+msgstr "Ese ID corresponde a otra ficha del circuito. Usa un ID nuevo para la revisión."
+
+msgid "Esta importación sustituirá el borrador en pantalla. ¿Continuar?"
+msgstr "Esta importación sustituirá el borrador en pantalla. ¿Continuar?"
+
+msgid "Estabilidad / rectas"
+msgstr "Estabilidad / rectas"
+
+msgid "Estabilidad de entrada"
+msgstr "Estabilidad de entrada"
+
+msgid "Estabilidad en frenada"
+msgstr "Estabilidad en frenada"
+
+msgid "Estabilidad rápida"
+msgstr "Estabilidad rápida"
+
+msgid "Estabilidad trasera"
+msgstr "Estabilidad trasera"
+
+msgid "Estable"
+msgstr "Estable"
+
+msgid ""
+"Estable recibe versiones publicadas como estables. Alpha recibe versiones de prueba y puede "
+"incluir cambios sin terminar."
+msgstr ""
+"Estable recibe versiones publicadas como estables. Alpha recibe versiones de prueba y puede "
+"incluir cambios sin terminar."
+
+msgid "Este JSON no incluye circuito. Al aplicar lo asociarás a la ficha seleccionada: {name}."
+msgstr "Este JSON no incluye circuito. Al aplicar lo asociarás a la ficha seleccionada: {name}."
+
+msgid "Este JSON no incluye circuito: tendrás que asociar una ficha antes de guardar."
+msgstr "Este JSON no incluye circuito: tendrás que asociar una ficha antes de guardar."
+
+msgid "Exigencia del neumático"
+msgstr "Exigencia del neumático"
+
+msgid "Exportar JSON"
+msgstr "Exportar JSON"
+
+msgid "Falta la ficha del circuito."
+msgstr "Falta la ficha del circuito."
+
+msgid "Fecha de fuente inválida: utiliza AAAA-MM-DD."
+msgstr "Fecha de fuente inválida: utiliza AAAA-MM-DD."
+
+msgid "Ficha guardada en MariaDB. Introduce ahora los valores que el juego asigna a este circuito."
+msgstr "Ficha guardada en MariaDB. Introduce ahora los valores que el juego asigna a este circuito."
+
+msgid "Fija una referencia antes de exportar."
+msgstr "Fija una referencia antes de exportar."
+
+msgid "Fija una referencia antes de guardar."
+msgstr "Fija una referencia antes de guardar."
+
+msgid "Fija una referencia para comparar."
+msgstr "Fija una referencia para comparar."
+
+msgid "Fija una referencia y completa los valores actuales antes de guardar."
+msgstr "Fija una referencia y completa los valores actuales antes de guardar."
+
+msgid "Formato de reglaje desconocido."
+msgstr "Formato de reglaje desconocido."
+
+msgid "Formato heredado: circuito y condiciones no se deducen del archivo."
+msgstr "Formato heredado: circuito y condiciones no se deducen del archivo."
+
+msgid "Frenada / dosificación"
+msgstr "Frenada / dosificación"
+
+msgid "Frenada / entrada"
+msgstr "Frenada / entrada"
+
+msgid "Frenada más estable; mayor riesgo de bloqueo delantero y subviraje al entrar."
+msgstr "Frenada más estable; mayor riesgo de bloqueo delantero y subviraje al entrar."
+
+msgid "Frenadas"
+msgstr "Frenadas"
+
+msgid "Frenos"
+msgstr "Frenos"
+
+msgid "Frontal más alto"
+msgstr "Frontal más alto"
+
+msgid "Frontal más bajo"
+msgstr "Frontal más bajo"
+
+msgid "Fuente"
+msgstr "Fuente"
+
+msgid "Fuente inválida."
+msgstr "Fuente inválida."
+
+msgid "Fuentes y fecha de consulta"
+msgstr "Fuentes y fecha de consulta"
+
+msgid "Fuerza de frenado"
+msgstr "Fuerza de frenado"
+
+msgid "Ganancia/fuerza máxima del sistema de frenos frente a la orden del pedal."
+msgstr "Ganancia/fuerza máxima del sistema de frenos frente a la orden del pedal."
+
+msgid "Geometría de suspensión"
+msgstr "Geometría de suspensión"
+
+msgid "Giro rápido"
+msgstr "Giro rápido"
+
+msgid ""
+"GitHub denied access (HTTP 403). Check the server token permissions if a token is configured."
+msgstr ""
+"GitHub ha denegado el acceso (HTTP 403). Revisa los permisos del token del servidor si has "
+"configurado uno."
+
+msgid "GitHub is unavailable. The installed application is unchanged."
+msgstr "GitHub no está disponible. Se conserva la aplicación instalada."
+
+msgid "GitHub request limit reached. Update checks are paused until the retry time."
+msgstr ""
+"Se ha alcanzado el límite de consultas a GitHub. Las comprobaciones quedan en pausa hasta la hora "
+"indicada."
+
+msgid "GitHub returned an unsupported download location."
+msgstr "GitHub ha devuelto una dirección de descarga no admitida."
+
+msgid "Guarda una versión."
+msgstr "Guarda una versión."
+
+msgid ""
+"Guarda variantes con nombre y notas, abre una versión como borrador o expórtala en JSON. Cada "
+"guardado conserva las versiones anteriores."
+msgstr ""
+"Guarda variantes con nombre y notas, abre una versión como borrador o expórtala en JSON. Cada "
+"guardado conserva las versiones anteriores."
+
+msgid "Guardar estado de instalación"
+msgstr "Guardar estado de instalación"
+
+msgid "Guardar ficha y seleccionar circuito"
+msgstr "Guardar ficha y seleccionar circuito"
+
+msgid "Guardar opciones"
+msgstr "Guardar opciones"
+
+msgid "Guardar versión"
+msgstr "Guardar versión"
+
+msgid "Hay identificadores de parámetros desconocidos."
+msgstr "Hay identificadores de parámetros desconocidos."
+
+msgid "Hay otra instalación en curso."
+msgstr "Hay otra instalación en curso."
+
+msgid "Hay un borrador anterior en este navegador."
+msgstr "Hay un borrador anterior en este navegador."
+
+msgid "He guardado mi borrador y terminado el trabajo en otras pestañas."
+msgstr "He guardado mi borrador y terminado el trabajo en otras pestañas."
+
+msgid "Hipótesis"
+msgstr "Hipótesis"
+
+msgid ""
+"Hipótesis de trabajo, siempre teoría. Prueba una sola variable cada vez, una vuelta de adaptación "
+"y varias vueltas comparables. Conserva combustible, compuesto, clima y ayudas. Si no mejora, "
+"vuelve al punto de partida antes de probar otra variable. No se aplican cambios automáticamente."
+msgstr ""
+"Hipótesis de trabajo, siempre teoría. Prueba una sola variable cada vez, una vuelta de adaptación "
+"y varias vueltas comparables. Conserva combustible, compuesto, clima y ayudas. Si no mejora, "
+"vuelve al punto de partida antes de probar otra variable. No se aplican cambios automáticamente."
+
+msgid "Hipótesis y límites: {text}"
+msgstr "Hipótesis y límites: {text}"
+
+msgid "ID inválido."
+msgstr "ID inválido."
+
+msgid "IMPORTACIÓN CON VISTA PREVIA"
+msgstr "IMPORTACIÓN CON VISTA PREVIA"
+
+msgid ""
+"Identifica qué eje pierde apoyo y si hay contacto del suelo. No supongas que todas las "
+"inestabilidades se resuelven ablandando."
+msgstr ""
+"Identifica qué eje pierde apoyo y si hay contacto del suelo. No supongas que todas las "
+"inestabilidades se resuelven ablandando."
+
+msgid "Idioma"
+msgstr "Idioma"
+
+msgid "Idioma de la aplicación"
+msgstr "Idioma de la aplicación"
+
+msgid "Importa la diferencia entre alerón delantero y trasero: no se interpreta de forma aislada."
+msgstr "Importa la diferencia entre alerón delantero y trasero: no se interpreta de forma aislada."
+
+msgid "Importar reglaje"
+msgstr "Importar reglaje"
+
+msgid ""
+"Inclinación vertical de las ruedas delanteras. Un valor más negativo implica más caída negativa."
+msgstr ""
+"Inclinación vertical de las ruedas delanteras. Un valor más negativo implica más caída negativa."
+
+msgid "Inclinación vertical de las ruedas traseras y compromiso entre apoyo lateral y tracción."
+msgstr "Inclinación vertical de las ruedas traseras y compromiso entre apoyo lateral y tracción."
+
+msgid "Inicio"
+msgstr "Inicio"
+
+msgid "Instalación"
+msgstr "Instalación"
+
+msgid "Instalada:"
+msgstr "Instalada:"
+
+msgid "Instalar"
+msgstr "Instalar"
+
+msgid "Introduce los valores iniciales y fija la referencia para comparar."
+msgstr "Introduce los valores iniciales y fija la referencia para comparar."
+
+msgid "Introduce los veinte valores que te asigna el juego o importa un reglaje."
+msgstr "Introduce los veinte valores que te asigna el juego o importa un reglaje."
+
+msgid "Invalid GitHub metadata."
+msgstr "Los metadatos de GitHub no son válidos."
+
+msgid "Invalid GitHub redirect."
+msgstr "La redirección de GitHub no es válida."
+
+msgid "Invalid GitHub resource."
+msgstr "El recurso de GitHub no es válido."
+
+msgid "Invalid GitHub response."
+msgstr "La respuesta de GitHub no es válida."
+
+msgid "Invalid ZIP package."
+msgstr "El paquete ZIP no es válido."
+
+msgid "Invalid application directory."
+msgstr "La carpeta de la aplicación no es válida."
+
+msgid "Invalid backup path."
+msgstr "La ruta de la copia de seguridad no es válida."
+
+msgid "Invalid package file count."
+msgstr "El número de archivos del paquete no es válido."
+
+msgid "Invalid package file record."
+msgstr "El registro de un archivo del paquete no es válido."
+
+msgid "Invalid published version."
+msgstr "La versión publicada no es válida."
+
+msgid "Invalid recovery file record."
+msgstr "El registro de un archivo de recuperación no es válido."
+
+msgid "Invalid release build identity."
+msgstr "La identidad de la versión publicada no es válida."
+
+msgid "Invalid update channel settings."
+msgstr "La configuración del canal de actualización no es válida."
+
+msgid "Invalid update channel."
+msgstr "El canal de actualización no es válido."
+
+msgid "Invalid update manifest."
+msgstr "El manifiesto de actualización no es válido."
+
+msgid "Invalid update recovery journal."
+msgstr "El registro de recuperación de la actualización no es válido."
+
+msgid "Invalid version service channels."
+msgstr "Los canales del servicio de versiones no son válidos."
+
+msgid "Invalid version service response."
+msgstr "La respuesta del servicio de versiones no es válida."
+
+msgid "Ir al menú"
+msgstr "Ir al menú"
+
+msgid "JSON del comparador anterior"
+msgstr "JSON del comparador anterior"
+
+msgid "JSON exportado. El archivo conserva referencia y actuales."
+msgstr "JSON exportado. El archivo conserva referencia y actuales."
+
+msgid "La ayuda ABS modifica cómo se manifiestan los bloqueos."
+msgstr "La ayuda ABS modifica cómo se manifiestan los bloqueos."
+
+msgid "La ficha necesita entre una y veinte fuentes."
+msgstr "La ficha necesita entre una y veinte fuentes."
+
+msgid "La fuente necesita una URL HTTP o HTTPS válida."
+msgstr "La fuente necesita una URL HTTP o HTTPS válida."
+
+msgid "La prueba está en la pista"
+msgstr "La prueba está en la pista"
+
+msgid "La referencia se conserva al editar. Solo cambia mediante una acción explícita."
+msgstr "La referencia se conserva al editar. Solo cambia mediante una acción explícita."
+
+msgid "La sesión del formulario no es válida. Recarga esta página e inténtalo de nuevo."
+msgstr "La sesión del formulario no es válida. Recarga esta página e inténtalo de nuevo."
+
+msgid "La sesión del formulario no es válida. Recarga la página."
+msgstr "La sesión del formulario no es válida. Recarga la página."
+
+msgid "La tracción no mejora siempre de forma monótona: depende del acelerador, curva y adherencia."
+msgstr ""
+"La tracción no mejora siempre de forma monótona: depende del acelerador, curva y adherencia."
+
+msgid "Las barras delanteras y traseras deben leerse como un par."
+msgstr "Las barras delanteras y traseras deben leerse como un par."
+
+msgid ""
+"Las comprobaciones se conservan cinco minutos en Alpha y seis horas en Estable. La instalación "
+"empieza al pulsar Actualizar."
+msgstr ""
+"Las comprobaciones se conservan cinco minutos en Alpha y seis horas en Estable. La instalación "
+"empieza al pulsar Actualizar."
+
+msgid ""
+"Las explicaciones y propuestas son orientativas. La app no calcula un reglaje óptimo ni simula la "
+"física del coche."
+msgstr ""
+"Las explicaciones y propuestas son orientativas. La app no calcula un reglaje óptimo ni simula la "
+"física del coche."
+
+msgid "Lo que has cambiado, en teoría."
+msgstr "Lo que has cambiado, en teoría."
+
+msgid "Margen sobre pianos"
+msgstr "Margen sobre pianos"
+
+msgid "Mayor margen en baches/pianos; posible pérdida de eficiencia del fondo delantero."
+msgstr "Mayor margen en baches/pianos; posible pérdida de eficiencia del fondo delantero."
+
+msgid "Mayor rotación al entrar; puede volver nerviosa la trasera."
+msgstr "Mayor rotación al entrar; puede volver nerviosa la trasera."
+
+msgid "Mejor absorción y posible agarre mecánico delantero; respuesta menos seca."
+msgstr "Mejor absorción y posible agarre mecánico delantero; respuesta menos seca."
+
+msgid "Mejora apoyo/tracción trasera y pianos; respuesta más lenta."
+msgstr "Mejora apoyo/tracción trasera y pianos; respuesta más lenta."
+
+msgid "Menos alerón delantero"
+msgstr "Menos alerón delantero"
+
+msgid "Menos alerón trasero"
+msgstr "Menos alerón trasero"
+
+msgid "Menos carga delantera y más tendencia al subviraje rápido; menor resistencia."
+msgstr "Menos carga delantera y más tendencia al subviraje rápido; menor resistencia."
+
+msgid "Menos convergencia"
+msgstr "Menos convergencia"
+
+msgid "Menos divergencia"
+msgstr "Menos divergencia"
+
+msgid "Menos firmeza de plataforma; puede aumentar recorrido y contacto con el suelo."
+msgstr "Menos firmeza de plataforma; puede aumentar recorrido y contacto con el suelo."
+
+msgid "Menos presión"
+msgstr "Menos presión"
+
+msgid "Menos presión de frenado"
+msgstr "Menos presión de frenado"
+
+msgid "Menos rake y potencialmente menos resistencia; cambia estabilidad y margen al suelo."
+msgstr "Menos rake y potencialmente menos resistencia; cambia estabilidad y margen al suelo."
+
+msgid "Menos resistencia y más velocidad punta; más riesgo de sobreviraje rápido."
+msgstr "Menos resistencia y más velocidad punta; más riesgo de sobreviraje rápido."
+
+msgid "Menos rozamiento y resistencia; dirección inicial algo menos agresiva."
+msgstr "Menos rozamiento y resistencia; dirección inicial algo menos agresiva."
+
+msgid "Menos rozamiento y resistencia; trasera más móvil/nerviosa."
+msgstr "Menos rozamiento y resistencia; trasera más móvil/nerviosa."
+
+msgid "Modifica la carga aerodinámica del eje delantero y el equilibrio con el alerón trasero."
+msgstr "Modifica la carga aerodinámica del eje delantero y el equilibrio con el alerón trasero."
+
+msgid "Modifica la carga del eje trasero; es una palanca importante de resistencia aerodinámica."
+msgstr "Modifica la carga del eje trasero; es una palanca importante de resistencia aerodinámica."
+
+msgid "Más agarre mecánico delantero y menos subviraje; respuesta menos inmediata."
+msgstr "Más agarre mecánico delantero y menos subviraje; respuesta menos inmediata."
+
+msgid "Más agarre y estabilidad trasera en rápido; más resistencia y menos punta."
+msgstr "Más agarre y estabilidad trasera en rápido; más resistencia y menos punta."
+
+msgid "Más agarre y estabilidad trasera; menos rotación."
+msgstr "Más agarre y estabilidad trasera; menos rotación."
+
+msgid "Más alerón delantero"
+msgstr "Más alerón delantero"
+
+msgid "Más alerón trasero"
+msgstr "Más alerón trasero"
+
+msgid "Más blanda"
+msgstr "Más blanda"
+
+msgid ""
+"Más bloqueo puede aumentar subviraje con gas; menos puede permitir patinaje interior. No hay "
+"solución universal."
+msgstr ""
+"Más bloqueo puede aumentar subviraje con gas; menos puede permitir patinaje interior. No hay "
+"solución universal."
+
+msgid "Más bloqueo; puede evitar patinaje interior y estabilizar la salida; más subviraje con gas."
+msgstr "Más bloqueo; puede evitar patinaje interior y estabilizar la salida; más subviraje con gas."
+
+msgid "Más capacidad de frenada; mayor facilidad para bloquear si no dosificas."
+msgstr "Más capacidad de frenada; mayor facilidad para bloquear si no dosificas."
+
+msgid "Más carga y giro delantero a media/alta velocidad; más resistencia y menos punta."
+msgstr "Más carga y giro delantero a media/alta velocidad; más resistencia y menos punta."
+
+msgid "Más convergencia"
+msgstr "Más convergencia"
+
+msgid "Más divergencia"
+msgstr "Más divergencia"
+
+msgid "Más libertad de giro en salida; puede mejorar rotación, con riesgo de patinaje interior."
+msgstr "Más libertad de giro en salida; puede mejorar rotación, con riesgo de patinaje interior."
+
+msgid "Más margen de dosificación; menor fuerza máxima disponible."
+msgstr "Más margen de dosificación; menor fuerza máxima disponible."
+
+msgid "Más presión"
+msgstr "Más presión"
+
+msgid "Más presión de frenado"
+msgstr "Más presión de frenado"
+
+msgid "Más rake y margen sobre pianos; equilibrio aero distinto, potencialmente más resistencia."
+msgstr "Más rake y margen sobre pianos; equilibrio aero distinto, potencialmente más resistencia."
+
+msgid "Más reparto delantero"
+msgstr "Más reparto delantero"
+
+msgid "Más reparto trasero"
+msgstr "Más reparto trasero"
+
+msgid "Más resistencia y un equilibrio relativamente más delantero."
+msgstr "Más resistencia y un equilibrio relativamente más delantero."
+
+msgid "Más rotación en apoyo; menos agarre trasero y más riesgo de sobreviraje."
+msgstr "Más rotación en apoyo; menos agarre trasero y más riesgo de sobreviraje."
+
+msgid "Más rotación en frenada; mayor riesgo de bloqueo trasero e inestabilidad."
+msgstr "Más rotación en frenada; mayor riesgo de bloqueo trasero e inestabilidad."
+
+msgid "Más rotación y reacción; menos absorción y tracción en salidas bacheadas."
+msgstr "Más rotación y reacción; menos absorción y tracción en salidas bacheadas."
+
+msgid "Más rígida"
+msgstr "Más rígida"
+
+msgid "Método no admitido."
+msgstr "Método no admitido."
+
+msgid "Neumáticos"
+msgstr "Neumáticos"
+
+msgid "No asumir que más rigidez equivale siempre a más agarre."
+msgstr "No asumir que más rigidez equivale siempre a más agarre."
+
+msgid "No existe ese reglaje guardado."
+msgstr "No existe ese reglaje guardado."
+
+msgid "No gira al entrar"
+msgstr "No gira al entrar"
+
+msgid "No gira en curvas rápidas"
+msgstr "No gira en curvas rápidas"
+
+msgid "No gira en mitad de curva"
+msgstr "No gira en mitad de curva"
+
+msgid "No hay una versión publicada para este canal."
+msgstr "No hay una versión publicada para este canal."
+
+msgid ""
+"No presupongas que subir delante y bajar atrás cancelan resistencia o carga. Combínalos solo si "
+"cada prueba lo justifica y la trasera conserva margen."
+msgstr ""
+"No presupongas que subir delante y bajar atrás cancelan resistencia o carga. Combínalos solo si "
+"cada prueba lo justifica y la trasera conserva margen."
+
+msgid "No se pudieron leer o guardar las opciones."
+msgstr "No se pudieron leer o guardar las opciones."
+
+msgid ""
+"No se pudo acceder al almacenamiento. Revisa configuración, inicialización y permisos; el borrador"
+" sigue en pantalla."
+msgstr ""
+"No se pudo acceder al almacenamiento. Revisa configuración, inicialización y permisos; el borrador"
+" sigue en pantalla."
+
+msgid "No se pudo bloquear la instalación."
+msgstr "No se pudo bloquear la instalación."
+
+msgid "No se pudo cargar el taller: {error}"
+msgstr "No se pudo cargar el taller: {error}"
+
+msgid ""
+"No se pudo completar la instalación. Revisa los permisos de la base y de config/ e inténtalo de "
+"nuevo."
+msgstr ""
+"No se pudo completar la instalación. Revisa los permisos de la base y de config/ e inténtalo de "
+"nuevo."
+
+msgid "No se pudo completar la operación."
+msgstr "No se pudo completar la operación."
+
+msgid ""
+"No se pudo conectar con la base de datos. Puedes seguir editando y exportar tu borrador mientras "
+"se recupera la conexión."
+msgstr ""
+"No se pudo conectar con la base de datos. Puedes seguir editando y exportar tu borrador mientras "
+"se recupera la conexión."
+
+msgid "No se pudo conectar. Revisa los datos de config/local.php."
+msgstr "No se pudo conectar. Revisa los datos de config/local.php."
+
+msgid "No se pudo conservar el borrador en este navegador. Exporta JSON para conservarlo."
+msgstr "No se pudo conservar el borrador en este navegador. Exporta JSON para conservarlo."
+
+msgid "No se pudo guardar el estado de instalación."
+msgstr "No se pudo guardar el estado de instalación."
+
+msgid "No se pudo leer el estado de instalación."
+msgstr "No se pudo leer el estado de instalación."
+
+msgid "No se pudo leer el estado de instalación. Revisa config/installation.json."
+msgstr "No se pudo leer el estado de instalación. Revisa config/installation.json."
+
+msgid "No se pudo preparar el estado de instalación."
+msgstr "No se pudo preparar el estado de instalación."
+
+msgid "No se pudo recuperar el borrador: {error}"
+msgstr "No se pudo recuperar el borrador: {error}"
+
+msgid ""
+"No sumamos alerones como si fueran fuerzas equivalentes. Cada ajuste tiene su compromiso y los "
+"cambios pueden interactuar."
+msgstr ""
+"No sumamos alerones como si fueran fuerzas equivalentes. Cada ajuste tiene su compromiso y los "
+"cambios pueden interactuar."
+
+msgid "Nombre"
+msgstr "Nombre"
+
+msgid "Nombre del reglaje"
+msgstr "Nombre del reglaje"
+
+msgid "Notas"
+msgstr "Notas"
+
+msgid "Nueva versión disponible: {version}"
+msgstr "Nueva versión disponible: {version}"
+
+msgid "Nueva versión guardada en MariaDB. La referencia y las versiones anteriores se conservan."
+msgstr "Nueva versión guardada en MariaDB. La referencia y las versiones anteriores se conservan."
+
+msgid "OBSERVA. AJUSTA. PRUEBA."
+msgstr "OBSERVA. AJUSTA. PRUEBA."
+
+msgid "Opciones"
+msgstr "Opciones"
+
+msgid "Opciones guardadas."
+msgstr "Opciones guardadas."
+
+msgid "Origen de referencia"
+msgstr "Origen de referencia"
+
+msgid "PDO_MYSQL para MariaDB"
+msgstr "PDO_MYSQL para MariaDB"
+
+msgid "PHP 8.0 o posterior"
+msgstr "PHP 8.0 o posterior"
+
+msgid "PHP necesita permiso de escritura en config/ para guardar el estado."
+msgstr "PHP necesita permiso de escritura en config/ para guardar el estado."
+
+msgid "Package contains disallowed content."
+msgstr "El paquete contiene archivos no permitidos."
+
+msgid "Package content does not match the manifest."
+msgstr "El contenido del paquete no coincide con el manifiesto."
+
+msgid "Package identity does not match the selected GitHub build."
+msgstr "La identidad del paquete no coincide con la versión elegida en GitHub."
+
+msgid "Package versions do not agree."
+msgstr "Las versiones del paquete no coinciden."
+
+msgid ""
+"Parte de un reglaje, conserva una referencia y entiende cada cambio antes de probarlo en pista."
+msgstr ""
+"Parte de un reglaje, conserva una referencia y entiende cada cambio antes de probarlo en pista."
+
+msgid "Parte del reglaje del juego. Ajusta con una idea, compruébala en pista."
+msgstr "Parte del reglaje del juego. Ajusta con una idea, compruébala en pista."
+
+msgid "Parámetro"
+msgstr "Parámetro"
+
+msgid ""
+"Pega el bloque f125-circuit preparado en la conversación. Se validará antes de guardarlo en "
+"MariaDB."
+msgstr ""
+"Pega el bloque f125-circuit preparado en la conversación. Se validará antes de guardarlo en "
+"MariaDB."
+
+msgid "Pegar JSON"
+msgstr "Pegar JSON"
+
+msgid "Pegar ficha de circuito"
+msgstr "Pegar ficha de circuito"
+
+msgid "Pendiente"
+msgstr "Pendiente"
+
+msgid "Perfil mixto"
+msgstr "Perfil mixto"
+
+msgid "Pianos / irregularidades"
+msgstr "Pianos / irregularidades"
+
+msgid "Pianos y baches"
+msgstr "Pianos y baches"
+
+msgid "Pierdes apoyo delantero y puede dejar de girar."
+msgstr "Pierdes apoyo delantero y puede dejar de girar."
+
+msgid "Pierdes apoyo trasero; puede aparecer sobreviraje rápido."
+msgstr "Pierdes apoyo trasero; puede aparecer sobreviraje rápido."
+
+msgid "Plataforma menos firme; revisar margen al suelo."
+msgstr "Plataforma menos firme; revisar margen al suelo."
+
+msgid "Porcentaje de bloqueo cuando no aceleras; influye sobre todo en la entrada en curva."
+msgstr "Porcentaje de bloqueo cuando no aceleras; influye sobre todo en la entrada en curva."
+
+msgid ""
+"Porcentaje de bloqueo del diferencial cuando aceleras. Alto = ruedas traseras más solidarias."
+msgstr ""
+"Porcentaje de bloqueo del diferencial cuando aceleras. Alto = ruedas traseras más solidarias."
+
+msgid "Porcentaje de fuerza que se envía al eje delantero; el resto actúa atrás."
+msgstr "Porcentaje de fuerza que se envía al eje delantero; el resto actúa atrás."
+
+msgid "Potencial de carga del fondo"
+msgstr "Potencial de carga del fondo"
+
+msgid "Potencial mejora de eficiencia aerodinámica; mayor riesgo de tocar suelo."
+msgstr "Potencial mejora de eficiencia aerodinámica; mayor riesgo de tocar suelo."
+
+msgid "Precisión de respuesta"
+msgstr "Precisión de respuesta"
+
+msgid "Prepara y compara tus reglajes"
+msgstr "Prepara y compara tus reglajes"
+
+msgid "Presión de frenos"
+msgstr "Presión de frenos"
+
+msgid "Presión delantera derecha"
+msgstr "Presión delantera derecha"
+
+msgid "Presión delantera izquierda"
+msgstr "Presión delantera izquierda"
+
+msgid ""
+"Presión inicial de la rueda delantera derecha; afecta deformación, respuesta y ventana térmica."
+msgstr ""
+"Presión inicial de la rueda delantera derecha; afecta deformación, respuesta y ventana térmica."
+
+msgid ""
+"Presión inicial de la rueda delantera izquierda; afecta deformación, respuesta y ventana térmica."
+msgstr ""
+"Presión inicial de la rueda delantera izquierda; afecta deformación, respuesta y ventana térmica."
+
+msgid ""
+"Presión inicial de la rueda trasera derecha; afecta deformación, respuesta y ventana térmica."
+msgstr ""
+"Presión inicial de la rueda trasera derecha; afecta deformación, respuesta y ventana térmica."
+
+msgid ""
+"Presión inicial de la rueda trasera izquierda; afecta deformación, respuesta y ventana térmica."
+msgstr ""
+"Presión inicial de la rueda trasera izquierda; afecta deformación, respuesta y ventana térmica."
+
+msgid "Presión trasera derecha"
+msgstr "Presión trasera derecha"
+
+msgid "Presión trasera izquierda"
+msgstr "Presión trasera izquierda"
+
+msgid "Primero identifica en qué fase aparece. Entrada, apoyo y salida no piden las mismas pruebas."
+msgstr ""
+"Primero identifica en qué fase aparece. Entrada, apoyo y salida no piden las mismas pruebas."
+
+msgid "Prueba un paso menos de barra delantera para buscar más agarre mecánico delante."
+msgstr "Prueba un paso menos de barra delantera para buscar más agarre mecánico delante."
+
+msgid "Prueba un paso menos de barra trasera para buscar más margen mecánico en salida."
+msgstr "Prueba un paso menos de barra trasera para buscar más margen mecánico en salida."
+
+msgid ""
+"Prueba un paso menos de barra trasera: teóricamente aumenta el margen de agarre mecánico atrás."
+msgstr ""
+"Prueba un paso menos de barra trasera: teóricamente aumenta el margen de agarre mecánico atrás."
+
+msgid "Prueba un paso menos de bloqueo sin gas para buscar más rotación al entrar."
+msgstr "Prueba un paso menos de bloqueo sin gas para buscar más rotación al entrar."
+
+msgid "Prueba un paso más de alerón delantero: teóricamente aumenta apoyo delantero en velocidad."
+msgstr "Prueba un paso más de alerón delantero: teóricamente aumenta apoyo delantero en velocidad."
+
+msgid "Prueba un paso más de alerón trasero para buscar estabilidad rápida."
+msgstr "Prueba un paso más de alerón trasero para buscar estabilidad rápida."
+
+msgid "Pruebas"
+msgstr "Pruebas"
+
+msgid "Próxima comprobación a partir de"
+msgstr "Próxima comprobación a partir de"
+
+msgid "Puede estabilizar la entrada a costa de que gire menos."
+msgstr "Puede estabilizar la entrada a costa de que gire menos."
+
+msgid "Puede facilitar bloqueo delantero y reducir rotación."
+msgstr "Puede facilitar bloqueo delantero y reducir rotación."
+
+msgid "Puede perder agarre delantero y aumentar subviraje."
+msgstr "Puede perder agarre delantero y aumentar subviraje."
+
+msgid "Puede perder agilidad y rotación en apoyo."
+msgstr "Puede perder agilidad y rotación en apoyo."
+
+msgid "Puede reducir la rotación y hacer que el coche abra trayectoria."
+msgstr "Puede reducir la rotación y hacer que el coche abra trayectoria."
+
+msgid "Puede volver nerviosa la parte trasera."
+msgstr "Puede volver nerviosa la parte trasera."
+
+msgid "Qué implica subir o bajar"
+msgstr "Qué implica subir o bajar"
+
+msgid "Qué quieres comprobar, combustible, compuesto…"
+msgstr "Qué quieres comprobar, combustible, compuesto…"
+
+msgid "Rake"
+msgstr "Rake"
+
+msgid ""
+"Rangos heredados del comparador; pendientes de confirmar en tu versión del juego. Los valores de "
+"las capturas son un ejemplo, no el reglaje asignado a un circuito."
+msgstr ""
+"Rangos heredados del comparador; pendientes de confirmar en tu versión del juego. Los valores de "
+"las capturas son un ejemplo, no el reglaje asignado a un circuito."
+
+msgid "Rectas"
+msgstr "Rectas"
+
+msgid "Recuperarlo"
+msgstr "Recuperarlo"
+
+msgid "Reduce el margen trasero y puede causar sobreviraje."
+msgstr "Reduce el margen trasero y puede causar sobreviraje."
+
+msgid "Ref. {value}"
+msgstr "Ref. {value}"
+
+msgid "Ref. —"
+msgstr "Ref. —"
+
+msgid "Referencia"
+msgstr "Referencia"
+
+msgid "Referencia fijada. Los siguientes cambios se compararán con estos valores."
+msgstr "Referencia fijada. Los siguientes cambios se compararán con estos valores."
+
+msgid "Referencia pendiente"
+msgstr "Referencia pendiente"
+
+msgid "Referencia: {source}"
+msgstr "Referencia: {source}"
+
+msgid "Reglaje importado"
+msgstr "Reglaje importado"
+
+msgid "Reglaje importado como borrador. Revisa origen de referencia, circuito y condiciones."
+msgstr "Reglaje importado como borrador. Revisa origen de referencia, circuito y condiciones."
+
+msgid "Reglaje inválido."
+msgstr "Reglaje inválido."
+
+msgid "Reglaje sin nombre"
+msgstr "Reglaje sin nombre"
+
+msgid "Reparto de frenada delantera"
+msgstr "Reparto de frenada delantera"
+
+msgid "Resistencia"
+msgstr "Resistencia"
+
+msgid "Respuesta / pianos"
+msgstr "Respuesta / pianos"
+
+msgid "Respuesta de giro"
+msgstr "Respuesta de giro"
+
+msgid "Respuesta de giro / rectas"
+msgstr "Respuesta de giro / rectas"
+
+msgid "Respuesta inicial"
+msgstr "Respuesta inicial"
+
+msgid "Respuesta inicial menos inmediata."
+msgstr "Respuesta inicial menos inmediata."
+
+msgid "Respuesta más directa y plataforma firme; peor absorción de baches y pianos."
+msgstr "Respuesta más directa y plataforma firme; peor absorción de baches y pianos."
+
+msgid "Respuesta más rápida; menor agarre mecánico delantero y más subviraje."
+msgstr "Respuesta más rápida; menor agarre mecánico delantero y más subviraje."
+
+msgid "Resuelve los puntos pendientes y recarga la página."
+msgstr "Resuelve los puntos pendientes y recarga la página."
+
+msgid "Resumen"
+msgstr "Resumen"
+
+msgid "Resumen no disponible"
+msgstr "Resumen no disponible"
+
+msgid "Revisa los valores"
+msgstr "Revisa los valores"
+
+msgid "Riesgo bloqueo delantero"
+msgstr "Riesgo bloqueo delantero"
+
+msgid "Riesgo bloqueo trasero"
+msgstr "Riesgo bloqueo trasero"
+
+msgid "Riesgo de bloqueo"
+msgstr "Riesgo de bloqueo"
+
+msgid "Riesgo de patinaje interior"
+msgstr "Riesgo de patinaje interior"
+
+msgid "Riesgo de sobreviraje"
+msgstr "Riesgo de sobreviraje"
+
+msgid "Riesgo de tocar suelo"
+msgstr "Riesgo de tocar suelo"
+
+msgid "Rigidez frente al balanceo del eje delantero."
+msgstr "Rigidez frente al balanceo del eje delantero."
+
+msgid "Rigidez frente al balanceo del eje trasero."
+msgstr "Rigidez frente al balanceo del eje trasero."
+
+msgid ""
+"Rigidez vertical del eje delantero, que condiciona movimientos y contacto en irregularidades."
+msgstr ""
+"Rigidez vertical del eje delantero, que condiciona movimientos y contacto en irregularidades."
+
+msgid "Rigidez vertical del eje trasero, muy relevante para seguir el asfalto bajo aceleración."
+msgstr "Rigidez vertical del eje trasero, muy relevante para seguir el asfalto bajo aceleración."
+
+msgid "Rotación"
+msgstr "Rotación"
+
+msgid "Rotación con gas"
+msgstr "Rotación con gas"
+
+msgid "Rotación de entrada"
+msgstr "Rotación de entrada"
+
+msgid "Rotación en apoyo"
+msgstr "Rotación en apoyo"
+
+msgid "Rozamiento"
+msgstr "Rozamiento"
+
+msgid "Salida / con gas"
+msgstr "Salida / con gas"
+
+msgid "Salida de curva / con gas"
+msgstr "Salida de curva / con gas"
+
+msgid "Se descoloca sobre los pianos"
+msgstr "Se descoloca sobre los pianos"
+
+msgid "Se importarán referencia y actuales. No se sobrescribe ninguna versión guardada."
+msgstr "Se importarán referencia y actuales. No se sobrescribe ninguna versión guardada."
+
+msgid "Se necesita contenido application/json."
+msgstr "Se necesita contenido application/json."
+
+msgid "Se necesita format f125-circuit y schemaVersion 1."
+msgstr "Se necesita format f125-circuit y schemaVersion 1."
+
+msgid "Se necesita un mapa con los veinte parámetros."
+msgstr "Se necesita un mapa con los veinte parámetros."
+
+msgid "Se necesita un objeto JSON."
+msgstr "Se necesita un objeto JSON."
+
+msgid "Se nota al levantar el acelerador y en la fase de giro inicial."
+msgstr "Se nota al levantar el acelerador y en la fase de giro inicial."
+
+msgid "Se va de atrás al acelerar"
+msgstr "Se va de atrás al acelerar"
+
+msgid "Se va de atrás al entrar"
+msgstr "Se va de atrás al entrar"
+
+msgid "Se va de atrás en curvas rápidas"
+msgstr "Se va de atrás en curvas rápidas"
+
+msgid "Se va de atrás en mitad de curva"
+msgstr "Se va de atrás en mitad de curva"
+
+msgid ""
+"Selecciona el problema que notas al conducir y revisa qué ajustes conviene ensayar. Prueba cada "
+"propuesta en pista."
+msgstr ""
+"Selecciona el problema que notas al conducir y revisa qué ajustes conviene ensayar. Prueba cada "
+"propuesta en pista."
+
+msgid "Selecciona un síntoma. Son pruebas teóricas, no un diagnóstico."
+msgstr "Selecciona un síntoma. Son pruebas teóricas, no un diagnóstico."
+
+msgid "Selecciona una versión guardada"
+msgstr "Selecciona una versión guardada"
+
+msgid "Selecciona una versión guardada."
+msgstr "Selecciona una versión guardada."
+
+msgid "Seleccionar archivo JSON"
+msgstr "Seleccionar archivo JSON"
+
+msgid ""
+"Separación del frontal del suelo: afecta el fondo aerodinámico y el margen contra los golpes."
+msgstr ""
+"Separación del frontal del suelo: afecta el fondo aerodinámico y el margen contra los golpes."
+
+msgid "Sesiones"
+msgstr "Sesiones"
+
+msgid "Sesión"
+msgstr "Sesión"
+
+msgid "Sesión caducada. Recarga antes de continuar; exporta tu borrador si lo necesitas."
+msgstr "Sesión caducada. Recarga antes de continuar; exporta tu borrador si lo necesitas."
+
+msgid ""
+"Si ambos cambios resultaron útiles por separado, combina con moderación. Los dos desplazan el "
+"equilibrio en una dirección parecida; no hay que aplicarlos siempre juntos."
+msgstr ""
+"Si ambos cambios resultaron útiles por separado, combina con moderación. Los dos desplazan el "
+"equilibrio en una dirección parecida; no hay que aplicarlos siempre juntos."
+
+msgid ""
+"Si ayudan por separado, combina cambios pequeños. Ambos pueden aumentar rotación; detente si la "
+"trasera deja de ser predecible."
+msgstr ""
+"Si ayudan por separado, combina cambios pequeños. Ambos pueden aumentar rotación; detente si la "
+"trasera deja de ser predecible."
+
+msgid ""
+"Si coincide con bloqueo trasero, prueba un paso más de reparto delantero. Teóricamente descarga "
+"los frenos traseros."
+msgstr ""
+"Si coincide con bloqueo trasero, prueba un paso más de reparto delantero. Teóricamente descarga "
+"los frenos traseros."
+
+msgid ""
+"Si detectas contacto delantero con el suelo, prueba un paso más de altura delantera; si el "
+"contacto es trasero, revisa esa altura."
+msgstr ""
+"Si detectas contacto delantero con el suelo, prueba un paso más de altura delantera; si el "
+"contacto es trasero, revisa esa altura."
+
+msgid ""
+"Si el eje delantero rebota sobre el piano, prueba un paso menos de suspensión delantera; si es "
+"atrás, la prueba equivalente corresponde a suspensión trasera."
+msgstr ""
+"Si el eje delantero rebota sobre el piano, prueba un paso menos de suspensión delantera; si es "
+"atrás, la prueba equivalente corresponde a suspensión trasera."
+
+msgid ""
+"Si el problema aparece especialmente sobre irregularidades, prueba por separado un paso menos de "
+"suspensión trasera."
+msgstr ""
+"Si el problema aparece especialmente sobre irregularidades, prueba por separado un paso menos de "
+"suspensión trasera."
+
+msgid ""
+"Si el problema coincide con frenada y sobrecarga delantera, prueba por separado un paso menos de "
+"reparto delantero."
+msgstr ""
+"Si el problema coincide con frenada y sobrecarga delantera, prueba por separado un paso menos de "
+"reparto delantero."
+
+msgid "Si patina al acelerar, la suspensión trasera es una de las variables para probar."
+msgstr "Si patina al acelerar, la suspensión trasera es una de las variables para probar."
+
+msgid "Si sucede al soltar gas y girar, prueba un paso más de bloqueo sin gas."
+msgstr "Si sucede al soltar gas y girar, prueba un paso más de bloqueo sin gas."
+
+msgid "Siempre teoría"
+msgstr "Siempre teoría"
+
+msgid ""
+"Siempre teoría: se describe cada cambio, sin sumar sus efectos ni predecir agarre, carga física o "
+"tiempos. Cambios opuestos pueden compensarse parcialmente; no se calcula cuánto."
+msgstr ""
+"Siempre teoría: se describe cada cambio, sin sumar sus efectos ni predecir agarre, carga física o "
+"tiempos. Cambios opuestos pueden compensarse parcialmente; no se calcula cuánto."
+
+msgid "Sin ABS, vigila bloqueo trasero e inestabilidad."
+msgstr "Sin ABS, vigila bloqueo trasero e inestabilidad."
+
+msgid "Sin cambios respecto a la referencia."
+msgstr "Sin cambios respecto a la referencia."
+
+msgid "Sin predicciones de rendimiento"
+msgstr "Sin predicciones de rendimiento"
+
+msgid ""
+"Solo combina cambios útiles si mantienes margen trasero. Ambos pueden aumentar la rotación en "
+"entrada; no hace falta acumularlos si uno basta."
+msgstr ""
+"Solo combina cambios útiles si mantienes margen trasero. Ambos pueden aumentar la rotación en "
+"entrada; no hace falta acumularlos si uno basta."
+
+msgid ""
+"Solo combina suspensión y altura si has identificado ambas necesidades. Compara el mismo piano y "
+"trazada antes y después."
+msgstr ""
+"Solo combina suspensión y altura si has identificado ambas necesidades. Compara el mismo piano y "
+"trazada antes y después."
+
+msgid ""
+"Solo si las pruebas individuales aportan mejora parcial en sus fases, combina los mínimos cambios "
+"útiles de reparto y diferencial sin gas. Si no, revisa frenada y momento de soltar el pedal."
+msgstr ""
+"Solo si las pruebas individuales aportan mejora parcial en sus fases, combina los mínimos cambios "
+"útiles de reparto y diferencial sin gas. Si no, revisa frenada y momento de soltar el pedal."
+
+msgid "Subir solo el trasero desplaza el equilibrio aerodinámico hacia atrás."
+msgstr "Subir solo el trasero desplaza el equilibrio aerodinámico hacia atrás."
+
+msgid "Subviraje con gas"
+msgstr "Subviraje con gas"
+
+msgid "Subviraje de entrada"
+msgstr "Subviraje de entrada"
+
+msgid "Subviraje en apoyo"
+msgstr "Subviraje en apoyo"
+
+msgid "Suelo / curvas rápidas / pianos"
+msgstr "Suelo / curvas rápidas / pianos"
+
+msgid "Superficie"
+msgstr "Superficie"
+
+msgid "Suspensión"
+msgstr "Suspensión"
+
+msgid "Suspensión delantera"
+msgstr "Suspensión delantera"
+
+msgid "Suspensión trasera"
+msgstr "Suspensión trasera"
+
+msgid "Symlinks are not allowed in update paths."
+msgstr "No se permiten enlaces simbólicos en las rutas de actualización."
+
+msgid "Taller"
+msgstr "Taller"
+
+msgid "Temperatura (tendencia en F1 25)"
+msgstr "Temperatura (tendencia en F1 25)"
+
+msgid "Temperatura / apoyo / desgaste"
+msgstr "Temperatura / apoyo / desgaste"
+
+msgid ""
+"Ten en cuenta las ayudas que utilizas. Mantén las mismas condiciones y prueba cada variable por "
+"separado."
+msgstr ""
+"Ten en cuenta las ayudas que utilizas. Mantén las mismas condiciones y prueba cada variable por "
+"separado."
+
+msgid "Teóricamente aumenta resistencia y puede reducir velocidad punta."
+msgstr "Teóricamente aumenta resistencia y puede reducir velocidad punta."
+
+msgid "The GitHub package changed. Check again."
+msgstr "El paquete de GitHub ha cambiado. Vuelve a buscar actualizaciones."
+
+msgid "The announced release is not available on GitHub. Try again later."
+msgstr "La versión anunciada no está disponible en GitHub. Vuelve a intentarlo más tarde."
+
+msgid "The announced version does not match the GitHub release."
+msgstr "La versión anunciada no coincide con la publicada en GitHub."
+
+msgid "The application is busy. Retry the update shortly."
+msgstr "La aplicación está ocupada. Vuelve a intentar la actualización en unos instantes."
+
+msgid "The available build is not newer. Automatic downgrades are disabled."
+msgstr "La versión disponible no es posterior. No se vuelve automáticamente a versiones anteriores."
+
+msgid "The downloaded package failed its integrity check."
+msgstr "El paquete descargado no ha superado la comprobación de integridad."
+
+msgid "The form session is invalid. Reload the page."
+msgstr "La sesión del formulario no es válida. Recarga la página."
+
+msgid "The package is damaged."
+msgstr "El paquete está dañado."
+
+msgid "The package must contain the complete application."
+msgstr "El paquete debe contener la aplicación completa."
+
+msgid "The release branch and version disagree."
+msgstr "La rama de publicación y la versión no coinciden."
+
+msgid "The release has no application build metadata."
+msgstr "La publicación no contiene los metadatos de la aplicación."
+
+msgid "The release is not a published build for this channel."
+msgstr "La versión no está publicada para este canal."
+
+msgid "The release package has no valid size or GitHub SHA-256 digest."
+msgstr "El paquete publicado no tiene un tamaño o una huella SHA-256 de GitHub válidos."
+
+msgid "The release update package is missing or ambiguous."
+msgstr "Falta el paquete de actualización o hay más de uno posible."
+
+msgid "The selected update changed. Check for updates again."
+msgstr "La actualización seleccionada ha cambiado. Vuelve a buscar actualizaciones."
+
+msgid "The update backup is incomplete."
+msgstr "La copia de seguridad de la actualización está incompleta."
+
+msgid "The version service is unavailable. Try again later."
+msgstr "El servicio de versiones no está disponible. Vuelve a intentarlo más tarde."
+
+msgid "This build is no longer the current update. Check again."
+msgstr "Esta versión ya no es la actualización vigente. Vuelve a buscar actualizaciones."
+
+msgid "This package needs a different PHP version or database schema."
+msgstr "Este paquete necesita otra versión de PHP o del esquema de la base de datos."
+
+msgid "Todavía no has fijado una referencia."
+msgstr "Todavía no has fijado una referencia."
+
+msgid "Todavía no hay versiones guardadas"
+msgstr "Todavía no hay versiones guardadas"
+
+msgid "Too many GitHub redirects."
+msgstr "GitHub ha devuelto demasiadas redirecciones."
+
+msgid "Tracción"
+msgstr "Tracción"
+
+msgid "Tracción / salida / pianos"
+msgstr "Tracción / salida / pianos"
+
+msgid "Tracción longitudinal"
+msgstr "Tracción longitudinal"
+
+msgid "Tracción si patina la interior"
+msgstr "Tracción si patina la interior"
+
+msgid "Tracción sobre irregularidades"
+msgstr "Tracción sobre irregularidades"
+
+msgid "Transmisión"
+msgstr "Transmisión"
+
+msgid "Trasera más alta"
+msgstr "Trasera más alta"
+
+msgid "Trasera más baja"
+msgstr "Trasera más baja"
+
+msgid "Trasera más estable; más rozamiento y resistencia al avance."
+msgstr "Trasera más estable; más rozamiento y resistencia al avance."
+
+msgid "Trazado"
+msgstr "Trazado"
+
+msgid "Trazado sin indicar"
+msgstr "Trazado sin indicar"
+
+msgid "Trazado: {layout} · Versión del juego: {version}"
+msgstr "Trazado: {layout} · Versión del juego: {version}"
+
+msgid "Tu espacio de trabajo"
+msgstr "Tu espacio de trabajo"
+
+msgid "Un paso desde tu valor actual: {before} → {after}. Tú decides si probarlo."
+msgstr "Un paso desde tu valor actual: {before} → {after}. Tú decides si probarlo."
+
+msgid "Un recorrido por las herramientas de la aplicación."
+msgstr "Un recorrido por las herramientas de la aplicación."
+
+msgid "Una variable, una idea."
+msgstr "Una variable, una idea."
+
+msgid "Unknown update action."
+msgstr "La acción de actualización no es válida."
+
+msgid "Update recovery is in progress."
+msgstr "La recuperación de la actualización está en curso."
+
+msgid "Update recovery is incomplete. Keep the backup and retry recovery."
+msgstr ""
+"La recuperación está incompleta. Conserva la copia de seguridad y vuelve a intentar la "
+"recuperación."
+
+msgid "Update recovery needs attention. Restore the private backup before retrying."
+msgstr ""
+"La recuperación requiere intervención. Restaura la copia de seguridad privada antes de volver a "
+"intentarlo."
+
+msgid "Usar como borrador"
+msgstr "Usar como borrador"
+
+msgid "Validar y previsualizar"
+msgstr "Validar y previsualizar"
+
+msgid "Valores actuales restaurados desde la referencia."
+msgstr "Valores actuales restaurados desde la referencia."
+
+msgid ""
+"Vas a sustituir la referencia del borrador por los valores actuales. Las versiones guardadas se "
+"conservan. ¿Continuar?"
+msgstr ""
+"Vas a sustituir la referencia del borrador por los valores actuales. Las versiones guardadas se "
+"conservan. ¿Continuar?"
+
+msgid "Velocidad punta"
+msgstr "Velocidad punta"
+
+msgid "Versiones"
+msgstr "Versiones"
+
+msgid "Versión de almacenamiento no compatible."
+msgstr "Versión de almacenamiento no compatible."
+
+msgid "Versión del esquema no admitida."
+msgstr "Versión del esquema no admitida."
+
+msgid "Versión del juego"
+msgstr "Versión del juego"
+
+msgid "Versión {version}"
+msgstr "Versión {version}"
+
+msgid "Volver a la referencia"
+msgstr "Volver a la referencia"
+
+msgid ""
+"Ya estás en el límite para esta dirección. No fuerces un valor fuera de rango; pasa a la siguiente"
+" prueba."
+msgstr ""
+"Ya estás en el límite para esta dirección. No fuerces un valor fuera de rango; pasa a la siguiente"
+" prueba."
+
+msgid "Ya existe ese ID de circuito. No se ha sobrescrito; usa otro ID para una ficha revisada."
+msgstr "Ya existe ese ID de circuito. No se ha sobrescrito; usa otro ID para una ficha revisada."
+
+msgid "capturas / ejemplo"
+msgstr "capturas / ejemplo"
+
+msgid "origen desconocido"
+msgstr "origen desconocido"
+
+msgid "referenceIsCapture debe ser booleano."
+msgstr "referenceIsCapture debe ser booleano."
+
+msgid "reglaje personal"
+msgstr "reglaje personal"
+
+msgid "y"
+msgstr "y"
+
+msgid "{count} de 20 modificado"
+msgid_plural "{count} de 20 modificados"
+msgstr[0] "{count} de 20 modificado"
+msgstr[1] "{count} de 20 modificados"
+
+msgid "{name}: introduce un número."
+msgstr "{name}: introduce un número."
+
+msgid "{name}: no coincide con el paso permitido ({step})."
+msgstr "{name}: no coincide con el paso permitido ({step})."
+
+msgid "{name}: opción inválida."
+msgstr "{name}: opción inválida."
+
+msgid "{name}: texto requerido o demasiado largo (máximo {max} bytes)."
+msgstr "{name}: texto requerido o demasiado largo (máximo {max} bytes)."
+
+msgid "{name}: valor fuera de rango."
+msgstr "{name}: valor fuera de rango."
+
+msgid "{name}: ya estás en el límite permitido."
+msgstr "{name}: ya estás en el límite permitido."
+
+msgid "· Canal:"
+msgstr "· Canal:"
+
+msgid "· Conexión con MariaDB"
+msgstr "· Conexión con MariaDB"
+
+msgid "¿Asociar los valores de este borrador a {name}? Comprueba que corresponden a ese circuito."
+msgstr "¿Asociar los valores de este borrador a {name}? Comprueba que corresponden a ese circuito."
+
+msgid "¿Descartar el borrador anterior de este navegador?"
+msgstr "¿Descartar el borrador anterior de este navegador?"
+
+msgid "¿Descartar los cambios de los veinte parámetros y volver a la referencia?"
+msgstr "¿Descartar los cambios de los veinte parámetros y volver a la referencia?"
+
+msgid "¿Quieres más idiomas? Apoya el proyecto con una estrella en GitHub."
+msgstr "¿Quieres más idiomas? Apoya el proyecto con una estrella en GitHub."
+
+msgid "¿Qué notas en el coche?"
+msgstr "¿Qué notas en el coche?"
+
+msgid ""
+"Empieza con los valores del juego o un reglaje propio. Las características del circuito dan "
+"contexto a tus pruebas."
+msgstr ""
+"Empieza con los valores del juego o un reglaje propio. Las características del circuito dan "
+"contexto a tus pruebas."
+
+msgid ""
+"Selecciona un circuito y consulta sus características, o abre un reglaje guardado. Conserva una "
+"referencia para comparar los cambios en Taller."
+msgstr ""
+"Selecciona un circuito y consulta sus características, o abre un reglaje guardado. Conserva una "
+"referencia para comparar los cambios en Taller."
+
+msgid "Actualiza la base de datos para cargar el catálogo del juego."
+msgstr "Actualiza la base de datos para cargar el catálogo del juego."
+
+msgid "Actualización pendiente"
+msgstr "Actualización pendiente"
+
+msgid "Actualizar base de datos"
+msgstr "Actualizar base de datos"
+
+msgid "Base de datos"
+msgstr "Base de datos"
+
+msgid "Base de datos actualizada."
+msgstr "Base de datos actualizada."
+
+msgid "Guarda una copia de la base de datos desde tu panel de alojamiento antes de continuar."
+msgstr "Guarda una copia de la base de datos desde tu panel de alojamiento antes de continuar."
+
+msgid "Hay una actualización de la base de datos pendiente."
+msgstr "Hay una actualización de la base de datos pendiente."
+
+msgid ""
+"No se pudo preparar o completar la actualización. Revisa la conexión y los permisos de la base de "
+"datos y vuelve a intentarlo."
+msgstr ""
+"No se pudo preparar o completar la actualización. Revisa la conexión y los permisos de la base de "
+"datos y vuelve a intentarlo."
+
+msgid "Predeterminados del juego"
+msgstr "Predeterminados del juego"
+
+msgid "Volver al taller"
+msgstr "Volver al taller"
+
+msgid "Equilibrado"
+msgstr "Equilibrado"
+
+msgid "Mayor carga aerodinámica"
+msgstr "Mayor carga aerodinámica"
+
+msgid "Mayor velocidad punta"
+msgstr "Mayor velocidad punta"
+
+msgid "Máxima carga aerodinámica"
+msgstr "Máxima carga aerodinámica"
+
+msgid "Máxima velocidad punta"
+msgstr "Máxima velocidad punta"
+
+msgid ""
+"Catálogo: 25 circuitos con su predeterminado asignado, incluidos los 24 del campeonato e Imola."
+msgstr ""
+"Catálogo: 25 circuitos con su predeterminado asignado, incluidos los 24 del campeonato e Imola."
+
+msgid ""
+"Incorpora cinco predeterminados y sus asignaciones a 25 circuitos: los 24 del campeonato e Imola. "
+"Los reglajes personales se conservan."
+msgstr ""
+"Incorpora cinco predeterminados y sus asignaciones a 25 circuitos: los 24 del campeonato e Imola. "
+"Los reglajes personales se conservan."
+
+msgid "Añadir circuito"
+msgstr "Añadir circuito"
+
+msgid "Ese circuito no está en el catálogo del juego."
+msgstr "Ese circuito no está en el catálogo del juego."
+
+msgid "Importar reglaje personal"
+msgstr "Importar reglaje personal"
+
+msgid "Predeterminado {number} · {name}"
+msgstr "Predeterminado {number} · {name}"
+
+msgid "Selecciona un circuito"
+msgstr "Selecciona un circuito"
+
+msgid "Selecciona un circuito con un predeterminado asignado."
+msgstr "Selecciona un circuito con un predeterminado asignado."
+
+msgid "Teoría orientativa. Valida los cambios en el juego."
+msgstr "Teoría orientativa. Valida los cambios en el juego."
+
+msgid "Usar actuales como referencia"
+msgstr "Usar actuales como referencia"
+
+msgid "predeterminado del juego"
+msgstr "predeterminado del juego"
+
+msgid "Ubicación"
+msgstr "Ubicación"
+
+msgid "No se pudo cargar el reglaje: {error}"
+msgstr "No se pudo cargar el reglaje: {error}"
+
+msgid "Reglaje"
+msgstr "Reglaje"
+
+msgid "Reglaje seleccionado"
+msgstr "Reglaje seleccionado"
+
+msgid "Selecciona un reglaje para ver sus valores."
+msgstr "Selecciona un reglaje para ver sus valores."
+
+msgid "Cargando reglaje…"
+msgstr "Cargando reglaje…"
+
+msgid "Categorías del reglaje"
+msgstr "Categorías del reglaje"
+
+msgid "Carga aerodinámica orientativa"
+msgstr "Carga aerodinámica orientativa"
+
+msgid "Curvas de velocidad variada, incluidas varias largas y rápidas."
+msgstr "Curvas de velocidad variada, incluidas varias largas y rápidas."
+
+msgid "Curvas enlazadas de velocidad baja y media y rectas relativamente cortas."
+msgstr "Curvas enlazadas de velocidad baja y media y rectas relativamente cortas."
+
+msgid "Curvas lentas y medias entre muros, con frenadas y cambios de dirección frecuentes."
+msgstr "Curvas lentas y medias entre muros, con frenadas y cambios de dirección frecuentes."
+
+msgid "Curvas medias y rápidas enlazadas y una larga recta principal."
+msgstr "Curvas medias y rápidas enlazadas y una larga recta principal."
+
+msgid "Curvas muy lentas y estrechas entre barreras, con tramos breves de aceleración."
+msgstr "Curvas muy lentas y estrechas entre barreras, con tramos breves de aceleración."
+
+msgid "Curvas rápidas enlazadas y frenadas para giros más lentos."
+msgstr "Curvas rápidas enlazadas y frenadas para giros más lentos."
+
+msgid "Curvas rápidas entre muros y algunas frenadas fuertes."
+msgstr "Curvas rápidas entre muros y algunas frenadas fuertes."
+
+msgid "Eses rápidas, cambios de dirección y una horquilla lenta."
+msgstr "Eses rápidas, cambios de dirección y una horquilla lenta."
+
+msgid "Eses rápidas, una recta larga y una sección final más lenta."
+msgstr "Eses rápidas, una recta larga y una sección final más lenta."
+
+msgid "Frenadas fuertes y curvas lentas alternan con tramos rápidos."
+msgstr "Frenadas fuertes y curvas lentas alternan con tramos rápidos."
+
+msgid "Frenadas fuertes y curvas lentas seguidas de curvas rápidas."
+msgstr "Frenadas fuertes y curvas lentas seguidas de curvas rápidas."
+
+msgid "Permanente"
+msgstr "Permanente"
+
+msgid "Recta larga, frenadas fuertes y una sección técnica de curvas lentas."
+msgstr "Recta larga, frenadas fuertes y una sección técnica de curvas lentas."
+
+msgid "Rectas largas y curvas lentas entre muros, incluida una zona estrecha."
+msgstr "Rectas largas y curvas lentas entre muros, incluida una zona estrecha."
+
+msgid "Rectas largas, curvas rápidas y cambios de altura, con una chicane lenta."
+msgstr "Rectas largas, curvas rápidas y cambios de altura, con una chicane lenta."
+
+msgid "Rectas largas, curvas rápidas y una sección lenta y estrecha."
+msgstr "Rectas largas, curvas rápidas y una sección lenta y estrecha."
+
+msgid "Rectas largas, frenadas para curvas lentas y una sección final de curvas enlazadas."
+msgstr "Rectas largas, frenadas para curvas lentas y una sección final de curvas enlazadas."
+
+msgid "Rectas muy largas y curvas lentas entre barreras."
+msgstr "Rectas muy largas y curvas lentas entre barreras."
+
+msgid "Secuencias de curvas rápidas y cambios de dirección, con algunas curvas lentas."
+msgstr "Secuencias de curvas rápidas y cambios de dirección, con algunas curvas lentas."
+
+msgid "Semipermanente"
+msgstr "Semipermanente"
+
+msgid "Tipo de circuito"
+msgstr "Tipo de circuito"
+
+msgid "Urbano"
+msgstr "Urbano"
+
+msgid "Chicanes de velocidad media y una horquilla lenta, separadas por rectas y frenadas."
+msgstr "Chicanes de velocidad media y una horquilla lenta, separadas por rectas y frenadas."
+
+msgid "Chicanes lentas y curvas rápidas, con cambios de altura y frenadas en bajada."
+msgstr "Chicanes lentas y curvas rápidas, con cambios de altura y frenadas en bajada."
+
+msgid "Curvas del trazado"
+msgstr "Curvas del trazado"
+
+msgid "Curvas largas de velocidad media y una horquilla lenta, junto a una recta extensa."
+msgstr "Curvas largas de velocidad media y una horquilla lenta, junto a una recta extensa."
+
+msgid ""
+"Curvas lentas en secciones estrechas y tramos rápidos, incluida la curva peraltada La Monumental. "
+"Requiere el paquete 2026 y sus coches."
+msgstr ""
+"Curvas lentas en secciones estrechas y tramos rápidos, incluida la curva peraltada La Monumental. "
+"Requiere el paquete 2026 y sus coches."
+
+msgid "Curvas lentas y medias enlazadas, cambios de altura y una subida prolongada hacia meta."
+msgstr "Curvas lentas y medias enlazadas, cambios de altura y una subida prolongada hacia meta."
+
+msgid "Curvas rápidas y chicanes lentas, con rectas largas y frenadas fuertes."
+msgstr "Curvas rápidas y chicanes lentas, con rectas largas y frenadas fuertes."
+
+msgid "Curvas rápidas y medias enlazadas, cambios de altura y dos curvas peraltadas."
+msgstr "Curvas rápidas y medias enlazadas, cambios de altura y dos curvas peraltadas."
+
+msgid "Curvas basadas en una guía de 2025; trazado de 2026 pendiente de contraste."
+msgstr "Curvas basadas en una guía de 2025; trazado de 2026 pendiente de contraste."
+
+msgid "Pendiente de contrastar para el coche de 2026"
+msgstr "Pendiente de contrastar para el coche de 2026"
+
+msgid "{location} · Predeterminado {number}: {name} · coche 2026"
+msgstr "{location} · Predeterminado {number}: {name} · coche 2026"
+
+msgid "Actualizaciones · F1 25 / 26"
+msgstr "Actualizaciones · F1 25 / 26"
+
+msgid "El borrador abierto corresponde a la temporada {season}."
+msgstr "El borrador abierto corresponde a la temporada {season}."
+
+msgid "El borrador abierto no tiene temporada indicada."
+msgstr "El borrador abierto no tiene temporada indicada."
+
+msgid "F1 25 / 26 · Taller de reglajes"
+msgstr "F1 25 / 26 · Taller de reglajes"
+
+msgid "Instalar · F1 25 / 26 Setup Engineer"
+msgstr "Instalar · F1 25 / 26 Setup Engineer"
+
+msgid "Los valores predeterminados de 2025 están pendientes de recopilar."
+msgstr "Los valores predeterminados de 2025 están pendientes de recopilar."
+
+msgid "Temporada"
+msgstr "Temporada"
+
+msgid "Temporada sin indicar"
+msgstr "Temporada sin indicar"
+
+msgid "Tu taller de F1 25 / 26"
+msgstr "Tu taller de F1 25 / 26"
+
+msgid "Predeterminado {number} · {name} (juego)"
+msgstr "Predeterminado {number} · {name} (juego)"
+
+msgid "Pendiente de contrastar para el coche de 2025"
+msgstr "Pendiente de contrastar para el coche de 2025"
+
+#~ msgid "Predeterminado {number} · {name} (juego, coche 2026)"
+#~ msgstr "Predeterminado {number} · {name} (juego, coche 2026)"
+
+#~ msgid "Actualizaciones · F1 25"
+#~ msgstr "Actualizaciones · F1 25"
+
+#~ msgid "F1 25 · Taller de reglajes"
+#~ msgstr "F1 25 · Taller de reglajes"
+
+#~ msgid "Instalar · F1 25 Setup Engineer"
+#~ msgstr "Instalar · F1 25 Setup Engineer"
+
+#~ msgid "Tu taller de F1 25"
+#~ msgstr "Tu taller de F1 25"
+
+#~ msgid "{location} · Predeterminado {number}: {name}"
+#~ msgstr "{location} · Predeterminado {number}: {name}"
+
+#~ msgid "Alta"
+#~ msgstr "Alta"
+
+#~ msgid "Baja"
+#~ msgstr "Baja"
+
+#~ msgid "Carga orientativa en seco; puede variar con el coche, las condiciones y el reglaje."
+#~ msgstr "Carga orientativa en seco; puede variar con el coche, las condiciones y el reglaje."
+
+#~ msgid "Media"
+#~ msgstr "Media"
+
+#~ msgid "Muy alta"
+#~ msgstr "Muy alta"
+
+#~ msgid "Pendiente de contrastar"
+#~ msgstr "Pendiente de contrastar"
+
+#~ msgid "Cambios de altura, curvas enlazadas y una subida prolongada hacia meta."
+#~ msgstr "Cambios de altura, curvas enlazadas y una subida prolongada hacia meta."
+
+#~ msgid "Chicanes, curvas rápidas, cambios de altura y frenadas en bajada."
+#~ msgstr "Chicanes, curvas rápidas, cambios de altura y frenadas en bajada."
+
+#~ msgid "Curvas enlazadas, cambios de altura y dos curvas peraltadas."
+#~ msgstr "Curvas enlazadas, cambios de altura y dos curvas peraltadas."
+
+#~ msgid "Curvas largas de radio variable, horquillas y una recta extensa."
+#~ msgstr "Curvas largas de radio variable, horquillas y una recta extensa."
+
+#~ msgid "Rectas largas, frenadas fuertes y chicanes, con curvas rápidas."
+#~ msgstr "Rectas largas, frenadas fuertes y chicanes, con curvas rápidas."
+
+#~ msgid "Rectas y frenadas para chicanes y una horquilla lenta."
+#~ msgstr "Rectas y frenadas para chicanes y una horquilla lenta."
+
+#~ msgid ""
+#~ "Secciones urbanas estrechas, tramos rápidos y la curva peraltada La Monumental. Requiere el "
+#~ "paquete 2026 y sus coches."
+#~ msgstr ""
+#~ "Secciones urbanas estrechas, tramos rápidos y la curva peraltada La Monumental. Requiere el "
+#~ "paquete 2026 y sus coches."
+
+#~ msgid "Cargando reglaje?"
+#~ msgstr "Cargando reglaje?"
+
+#~ msgid "Categor?as del reglaje"
+#~ msgstr "Categor?as del reglaje"
+
+#~ msgid "Cargar reglaje guardado"
+#~ msgstr "Cargar reglaje guardado"
+
+#~ msgid "01 / PUNTO DE PARTIDA"
+#~ msgstr "01 / PUNTO DE PARTIDA"
+
+#~ msgid "Asignados por el juego (aportados por mí)"
+#~ msgstr "Asignados por el juego (aportados por mí)"
+
+#~ msgid "Capturas"
+#~ msgstr "Capturas"
+
+#~ msgid "Cargando el taller…"
+#~ msgstr "Cargando el taller…"
+
+#~ msgid "Cargar ejemplo de las capturas"
+#~ msgstr "Cargar ejemplo de las capturas"
+
+#~ msgid "Desconocido"
+#~ msgstr "Desconocido"
+
+#~ msgid "Ejemplo de capturas cargado. No es el reglaje que el juego asigna al circuito."
+#~ msgstr "Ejemplo de capturas cargado. No es el reglaje que el juego asigna al circuito."
+
+#~ msgid "El ejemplo sustituirá los valores y la referencia del borrador. ¿Continuar?"
+#~ msgstr "El ejemplo sustituirá los valores y la referencia del borrador. ¿Continuar?"
+
+#~ msgid "Fijar actuales como referencia"
+#~ msgstr "Fijar actuales como referencia"
+
+#~ msgid "Origen de los valores que vas a fijar"
+#~ msgstr "Origen de los valores que vas a fijar"
+
+#~ msgid "Reglaje personal"
+#~ msgstr "Reglaje personal"
+
+#~ msgid "Selecciona o importa una ficha"
+#~ msgstr "Selecciona o importa una ficha"
+
+#~ msgid ""
+#~ "Teoría orientativa. Las fuentes pueden discrepar, especialmente sobre presiones. Valida en tu "
+#~ "juego y sesión."
+#~ msgstr ""
+#~ "Teoría orientativa. Las fuentes pueden discrepar, especialmente sobre presiones. Valida en tu "
+#~ "juego y sesión."
+
+#~ msgid "Un taller para comprender y experimentar."
+#~ msgstr "Un taller para comprender y experimentar."
+
+#~ msgid "Versión abierta como borrador. Guardar creará otra versión."
+#~ msgstr "Versión abierta como borrador. Guardar creará otra versión."
+
+#~ msgid "asignados por el juego, aportados por ti"
+#~ msgstr "asignados por el juego, aportados por ti"
+
+#~ msgid ""
+#~ "Elige un circuito para consultar sus características y cargar su punto de partida, o abre uno de "
+#~ "tus reglajes guardados."
+#~ msgstr ""
+#~ "Elige un circuito para consultar sus características y cargar su punto de partida, o abre uno de "
+#~ "tus reglajes guardados."
+
+#~ msgid "Taller listo. Elige un circuito o abre un reglaje guardado."
+#~ msgstr "Taller listo. Elige un circuito o abre un reglaje guardado."
+
+#~ msgid "Referencia e importación manual"
+#~ msgstr "Referencia e importación manual"
+
+#~ msgid ""
+#~ "Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. Puedes "
+#~ "importar fichas para añadir otros circuitos, incluidos los de mods."
+#~ msgstr ""
+#~ "Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. Puedes "
+#~ "importar fichas para añadir otros circuitos, incluidos los de mods."
+
+#~ msgid ""
+#~ "Catálogo inicial: 24 circuitos oficiales. Las asignaciones sin confirmar permanecen pendientes."
+#~ msgstr ""
+#~ "Catálogo inicial: 24 circuitos oficiales. Las asignaciones sin confirmar permanecen pendientes."
+
+#~ msgid ""
+#~ "Incorpora el catálogo de cinco predeterminados, los 24 circuitos oficiales y las asignaciones "
+#~ "confirmadas disponibles. Los reglajes personales se conservan."
+#~ msgstr ""
+#~ "Incorpora el catálogo de cinco predeterminados, los 24 circuitos oficiales y las asignaciones "
+#~ "confirmadas disponibles. Los reglajes personales se conservan."
+
+#~ msgid ""
+#~ "Añade los cinco predeterminados del juego, los 24 circuitos oficiales y la asignación de Albert "
+#~ "Park al predeterminado 3. Los reglajes personales se conservan."
+#~ msgstr ""
+#~ "Añade los cinco predeterminados del juego, los 24 circuitos oficiales y la asignación de Albert "
+#~ "Park al predeterminado 3. Los reglajes personales se conservan."
+
+#~ msgid ""
+#~ "Catálogo inicial: 24 circuitos oficiales. Albert Park utiliza el predeterminado 3; las demás "
+#~ "asignaciones están pendientes."
+#~ msgstr ""
+#~ "Catálogo inicial: 24 circuitos oficiales. Albert Park utiliza el predeterminado 3; las demás "
+#~ "asignaciones están pendientes."
+
+#~ msgid ""
+#~ "Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. La "
+#~ "asignación de cada circuito se incorporará cuando esté comprobada."
+#~ msgstr ""
+#~ "Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. La "
+#~ "asignación de cada circuito se incorporará cuando esté comprobada."
+
+#~ msgid "Carrera"
+#~ msgstr "Carrera"
+
+#~ msgid "Condiciones"
+#~ msgstr "Condiciones"
+
+#~ msgid "Contrarreloj"
+#~ msgstr "Contrarreloj"
+
+#~ msgid ""
+#~ "Empieza con los valores del juego o un reglaje propio. La ficha del circuito y las condiciones dan"
+#~ " contexto a tus pruebas."
+#~ msgstr ""
+#~ "Empieza con los valores del juego o un reglaje propio. La ficha del circuito y las condiciones dan"
+#~ " contexto a tus pruebas."
+
+#~ msgid ""
+#~ "Importa la ficha y el reglaje inicial, o introduce sus valores en Taller. Indica las condiciones y"
+#~ " fija la referencia que usarás para comparar."
+#~ msgstr ""
+#~ "Importa la ficha y el reglaje inicial, o introduce sus valores en Taller. Indica las condiciones y"
+#~ " fija la referencia que usarás para comparar."
+
+#~ msgid "La aplicación se está actualizando o recuperando. Vuelve a intentarlo en unos instantes."
+#~ msgstr "La aplicación se está actualizando o recuperando. Vuelve a intentarlo en unos instantes."
+
+#~ msgid "Mojado"
+#~ msgstr "Mojado"
+
+#~ msgid "Seco"
+#~ msgstr "Seco"
+
+#~ msgid "Sin indicar"
+#~ msgstr "Sin indicar"
+
+#~ msgid "Taller listo. Selecciona el circuito y aporta los valores que te asigna el juego."
+#~ msgstr "Taller listo. Selecciona el circuito y aporta los valores que te asigna el juego."
+
+#~ msgid "Versiones guardadas"
+#~ msgstr "Versiones guardadas"

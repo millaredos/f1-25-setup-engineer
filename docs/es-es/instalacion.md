@@ -26,7 +26,7 @@ Prepara una base y una cuenta MariaDB desde el panel del servidor. Copia `config
 
 También se pueden configurar las variables `F125_DSN`, `F125_DB_USER` y `F125_DB_PASSWORD` en el entorno del PHP web.
 
-La cuenta necesita CREATE para la instalación, y SELECT e INSERT para el uso habitual. PHP debe poder leer `src/` y `data/`, y escribir en `config/` para guardar el estado de instalación. Protege `config/local.php` para que solo puedan leerlo las cuentas que lo necesitan.
+La cuenta necesita CREATE para la instalación y las ampliaciones de la base, y SELECT e INSERT para el uso habitual. PHP debe poder leer `src/` y `data/`, y escribir en `config/` para guardar el estado de instalación. Protege `config/local.php` para que solo puedan leerlo las cuentas que lo necesitan.
 
 Comprueba las extensiones en el PHP utilizado por Apache. Configura `display_errors=Off`, `log_errors=On` y `register_argc_argv=Off` desde el panel del alojamiento.
 
@@ -36,7 +36,7 @@ Comprueba las extensiones en el PHP utilizado por Apache. Configura `display_err
 2. Revisa los requisitos y la conexión.
 3. Pulsa **Instalar**.
 
-El instalador crea las tablas `f125_schema_meta`, `f125_circuits` y `f125_setups`. Al terminar guarda `installed: true` en `config/installation.json` y abre Inicio. Conserva ese archivo al actualizar.
+El instalador crea las tablas base y aplica las [migraciones pendientes](migraciones-base-datos.md), incluidos los cinco predeterminados y el catálogo inicial de nombres de circuitos. Al terminar guarda `installed: true` en `config/installation.json` y abre Inicio. Conserva ese archivo al actualizar. Las instalaciones existentes aplican las migraciones desde **Opciones → Actualizar base de datos** después de actualizar los archivos de la aplicación.
 
 | Estado | Comportamiento |
 | --- | --- |
@@ -47,7 +47,7 @@ El instalador crea las tablas `f125_schema_meta`, `f125_circuits` y `f125_setups
 
 ## Backup
 
-Exporta la estructura y los datos de las tres tablas `f125_*` con una copia consistente para InnoDB.
+Exporta la estructura y los datos de todas las tablas `f125_*` con una copia consistente para InnoDB, incluidos los catálogos y el historial de migraciones.
 
 Guarda también `config/`, `data/` y la versión del código utilizada. Mantén las copias fuera del directorio público y de Git.
 

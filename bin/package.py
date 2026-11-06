@@ -6,11 +6,15 @@ import json
 import re
 import subprocess
 import zipfile
+from translations import build as build_translations
+from migrations import build as build_migrations
 
 ROOT = Path(__file__).resolve().parent.parent
 
 
 def build(version=None, channel=None, commit=None, pr=0, branch=None):
+    build_translations(check=True)
+    build_migrations(check=True)
     version = version or (ROOT / "src/VERSION").read_text().strip()
     if not re.fullmatch(r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-alpha\.(0|[1-9]\d*))?", version):
         raise ValueError("Invalid package version")

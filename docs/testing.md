@@ -4,50 +4,43 @@
 
 ## Version 0.3.0 development results
 
-PHP 8.5.12: 194 domain/contract checks, 34 package checks and 51 channel, GitHub, integrity and recovery checks. Python: eight package/publication tests. Browser flows cover web channel selection, CSRF, verified downloads, backups and preserved private state, both at the root and under a subdirectory with a renamed `www` public directory. Options and Updates are also checked at mobile width.
+PHP 8.5.12: 204 domain/contract checks, 50 package checks and 79 channel, GitHub, integrity and recovery checks. 19 translation checks and 56 migration checks with recording PDO objects; Python: 14 package/publication and translation tests. Browser flows cover web channel selection, CSRF, verified downloads, backups and preserved private state, both at the root and under a subdirectory with a renamed `www` public directory. Opciones, Actualizaciones and the database migration page are also checked at mobile width.
 
-GitHub responses are fixtures; the tests do not need a token or modify a remote release. Interrupted replacement is simulated with a recovery journal and partial file changes. Hardware power loss and disk failure have not been tested.
+Automated GitHub responses are fixtures; the tests do not need a token or modify a remote release. Interrupted replacement is simulated with a recovery journal and partial file changes. Hardware power loss and disk failure have not been tested.
 
-Additional commands:
+The browser suite also checks the twenty controls, reference comparison, symptoms, JSON import/export, draft recovery, navigation, XSS rejection, CSRF and responsive layout at 1440, 768 and 390 px. Tests use temporary copies without production credentials. Subdirectory simulation uses `tests/web-router.php`; it does not change Apache configuration.
+
+Live verification also covered anonymous discovery and download from the public GitHub repository, package integrity, and a successful web update on an existing installation. Interrupted replacement is simulated; full backup restoration remains unverified.
+
+## Run domain and update tests
 
 ```sh
+python -m pip install -r requirements-dev.txt
+python bin/translations.py --check
+python bin/migrations.py --check
+php tests/migrations.php
+php tests/translations.php
+php tests/run.php
+php tests/updater.php
 php tests/updates.php
 python -m unittest discover -s tests -p 'test_*.py'
 ```
 
-For browser tests with a package, build it with `python bin/package.py --pr 1 --branch release/0.3.0`. `F125_TEST_PUBLIC_NAME=www` tests a renamed directory; `F125_TEST_BROWSER=chromium` uses Chromium instead of installed Edge. The release workflow runs these checks before publishing an Alpha or preparing a stable draft.
+These tests do not require a database. The PHP updater tests require ZIP and write only to their own temporary directories.
 
-## Version 0.2.0 results
+The browser suite checks dropdown hover/click/keyboard behavior, notification presence and absence, the visible single-language selector, cookie persistence and invalid-language rejection.
 
-Verified with PHP 8.5.12:
-
-- Valid PHP and JavaScript syntax.
-- `php tests/run.php`: 192 domain and contract checks.
-- `php tests/updater.php`: 32 ZIP updater checks.
-- Headless Edge: twenty controls, sample values, editing, comparison, symptoms, export, draft recovery and import previews.
-- Rejection of executable HTML in data, POST requests without CSRF and unknown formats.
-- Section navigation preserves the draft; the version stays visible and the page has no horizontal overflow at 1440, 768 and 390 px.
-- HTTP and browser flows repeated at the root and under a subdirectory, with different hosts and ports.
-- Actual ZIP upload to a temporary installation: invalid keys, CSRF tokens and ZIPs rejected; valid package applied with a backup, preserving configuration and installation state.
-
-Web tests use temporary copies without production credentials. The subdirectory simulation uses `tests/web-router.php` in that copy; it does not install an Apache configuration.
-
-## Run domain tests
-
-```sh
-php tests/run.php
-php tests/updater.php
-```
-
-The first command does not require a database. The second requires the ZIP extension and writes only to its own temporary directory.
+Catalog loading tests use the real API with an isolated storage fixture: 25 circuit choices, assigned game presets, personal save/reload, template preservation, circuit filtering, cancelled replacement, snapshot recovery during a database outage, and rejection of fabricated catalog IDs. Desktop/mobile checks verify selector position and that the footer reaches the viewport bottom on short pages and follows content on long pages.
 
 ## Run browser tests
 
-PHP CLI, Node, Playwright and Microsoft Edge are required as development tools. They are not additional requirements for the production server.
+PHP CLI, Node, Playwright and either Microsoft Edge or Chromium are required as development tools. They are not additional requirements for the production server.
 
 ```sh
 node tests/installation-browser.cjs
 ```
+
+For the package download and installation checks, first build a fixture package with `python bin/package.py --pr 1 --branch release/0.3.0` and set `F125_TEST_PACKAGE` to its absolute path. Use `F125_TEST_PUBLIC_NAME=www` to test a renamed public directory or `F125_TEST_BROWSER=chromium` for Chromium. The release workflow runs these checks before publication.
 
 This test creates its own temporary site and also runs `tests/browser.cjs`. It checks missing, pending, completed and invalid installation states; redirects; CSRF rejection; API blocking before installation; and behavior when MariaDB is unavailable. It removes only its temporary copy when finished.
 
@@ -59,13 +52,15 @@ This test creates its own temporary site and also runs `tests/browser.cjs`. It c
 | `F125_TEST_BASE_PATH` | Simulated mount; for example `/tools/setups/`. |
 | `F125_TEST_HOST` | Test loopback host; for example `localhost`. |
 | `F125_TEST_ZIP_DIR` | Test PHP extension directory, used to load ZIP. |
-| `F125_TEST_PACKAGE` | Package generated by `python bin/package.py` for an actual upload test. |
+| `F125_TEST_PACKAGE` | Package generated by `python bin/package.py` for the fixture download and installation test. |
 
 To run `tests/browser.cjs` separately against an existing test installation, set its URL in `F125_TEST_URL`. Do not run it against an installation containing working data.
 
 ## Persistence tests
 
-`tests/integration.php` checks saving, reopening, immutable versions, conflicts and rollback. It requires an explicitly configured empty MariaDB database:
+`tests/migrations.php` validates the 100 bundled values and migration sequencing using recording PDO objects. The migration-page browser checks use a storage fixture. These do not execute SQL against MariaDB.
+
+`tests/integration.php` checks saving, reopening, immutable versions, conflicts, catalog creation, repeat migration, preservation of existing setups, checksum rejection, failed seed rollback and retry. It requires an explicitly configured empty MariaDB database:
 
 ```text
 F125_TEST_DSN=mysql:host=HOST;dbname=TEST_DATABASE;charset=utf8mb4
@@ -78,7 +73,7 @@ If any `f125_*` table already exists, the test refuses to run. In an empty test 
 
 ## Verification limits
 
-- Versions 0.2.0 and 0.3.0 have not been retested on PHP 8.0. The earlier version passed its domain and installation tests on PHP 8.0.30 and 8.5.12.
+- Domain and translation tests and PHP syntax were also checked on PHP 8.0; browser/package installation checks use PHP 8.5.12.
 - Automated integration against an isolated MariaDB database and a full backup restore are still pending.
 - Disk failures and hardware power loss during updates have not been forced.
 - Setting ranges and explanations need checking against the installed game version; there has been no on-track validation.
