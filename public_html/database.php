@@ -32,7 +32,7 @@ try {
 ?>
 <!doctype html>
 <html lang="<?= h(appTranslation()->language()) ?>">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title><?= h(t('Base de datos')) ?> · F1 25</title><link rel="stylesheet" href="assets/app.css?v=<?= appVersion() ?>"><script type="module" src="assets/navigation.js?v=<?= appVersion() ?>"></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title><?= h(t('Base de datos')) ?> · F1 25 / 26</title><link rel="stylesheet" href="assets/app.css?v=<?= appVersion() ?>"><script type="module" src="assets/navigation.js?v=<?= appVersion() ?>"></script></head>
 <body>
 <?php appHeader('database'); ?>
 <main class="installation"><h1><?= h(t('Base de datos')) ?></h1>

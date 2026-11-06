@@ -39,10 +39,12 @@ Formato `f125-circuit`, versión de esquema 1. Ejemplo con datos ficticios:
 
 Los veinte valores del reglaje se aportan por separado. Cada versión guardada conserva una copia de la ficha.
 
-Los circuitos distribuidos utilizan una copia de identidad con `origin: game-catalog`, `id`, `name` y `location`. La aplicación resuelve el identificador y el nombre en el catálogo instalado antes de guardar. Estas entradas usan `downforce: unknown`, campos técnicos vacíos y ninguna fuente externa mientras no haya una ficha técnica. La recuperación y exportación sin conexión validan la estructura de la copia sin tratar sus descripciones como física del circuito comprobada. Las fichas personalizadas importadas conservan el formato y los requisitos de fuentes anteriores.
+Los circuitos distribuidos utilizan una copia de identidad con `origin: game-catalog`, `id`, `name` y `location`. La aplicación resuelve el identificador y el nombre en el catálogo instalado antes de guardar. La copia conserva `downforce: unknown`, campos técnicos vacíos y ninguna fuente externa; las descripciones con fuentes se muestran por separado y no se incluyen en los reglajes guardados. La recuperación y exportación sin conexión validan la estructura de la copia. Las fichas personalizadas importadas conservan el formato y los requisitos de fuentes anteriores.
 
 ## Reglajes
 
 Nuevo: `format: f125-setup-engineer`, `schemaVersion: 1`, `reference`, `current`, `referenceSource`, `circuit`, `conditions`, `title`, `notes`. Mapas con veinte IDs heredados. Origen: `unknown`, `game-assigned`, `capture`, `personal`. Condiciones: `surface` (`unknown`, `dry`, `wet`) y `session` (`unknown`, `race`, `time-trial`). La aplicación exporta este formato.
+
+El campo opcional `season` admite `2025`, `2026` o `unknown`. Si falta, la temporada queda sin indicar. La exportación antigua `f125-comparador-v2` no conserva la temporada.
 
 También admite `f125-comparador-v2`, mapas planos, `values` y `base/current`. Si falta referencia, la vista previa propone copiar los valores importados y marca origen desconocido. No deduce circuito ni condiciones. Tipos, rangos, pasos y versiones incorrectos se rechazan sin corrección silenciosa.

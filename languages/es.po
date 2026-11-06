@@ -44,9 +44,6 @@ msgstr "Actual"
 msgid "Actualizaciones"
 msgstr "Actualizaciones"
 
-msgid "Actualizaciones · F1 25"
-msgstr "Actualizaciones · F1 25"
-
 msgid "Actualización instalada. Archivos anteriores: {backup}."
 msgstr "Actualización instalada. Archivos anteriores: {backup}."
 
@@ -678,9 +675,6 @@ msgstr "Exigencia del neumático"
 msgid "Exportar JSON"
 msgstr "Exportar JSON"
 
-msgid "F1 25 · Taller de reglajes"
-msgstr "F1 25 · Taller de reglajes"
-
 msgid "Falta la ficha del circuito."
 msgstr "Falta la ficha del circuito."
 
@@ -860,9 +854,6 @@ msgstr "Instalada:"
 
 msgid "Instalar"
 msgstr "Instalar"
-
-msgid "Instalar · F1 25 Setup Engineer"
-msgstr "Instalar · F1 25 Setup Engineer"
 
 msgid "Introduce los valores iniciales y fija la referencia para comparar."
 msgstr "Introduce los valores iniciales y fija la referencia para comparar."
@@ -1864,9 +1855,6 @@ msgstr "Trazado: {layout} · Versión del juego: {version}"
 msgid "Tu espacio de trabajo"
 msgstr "Tu espacio de trabajo"
 
-msgid "Tu taller de F1 25"
-msgstr "Tu taller de F1 25"
-
 msgid "Un paso desde tu valor actual: {before} → {after}. Tú decides si probarlo."
 msgstr "Un paso desde tu valor actual: {before} → {after}. Tú decides si probarlo."
 
@@ -2085,9 +2073,6 @@ msgstr "Importar reglaje personal"
 msgid "Predeterminado {number} · {name}"
 msgstr "Predeterminado {number} · {name}"
 
-msgid "Predeterminado {number} · {name} (juego)"
-msgstr "Predeterminado {number} · {name} (juego)"
-
 msgid "Selecciona un circuito"
 msgstr "Selecciona un circuito"
 
@@ -2102,9 +2087,6 @@ msgstr "Usar actuales como referencia"
 
 msgid "predeterminado del juego"
 msgstr "predeterminado del juego"
-
-msgid "{location} · Predeterminado {number}: {name}"
-msgstr "{location} · Predeterminado {number}: {name}"
 
 msgid "Ubicación"
 msgstr "Ubicación"
@@ -2126,6 +2108,206 @@ msgstr "Cargando reglaje…"
 
 msgid "Categorías del reglaje"
 msgstr "Categorías del reglaje"
+
+msgid "Carga aerodinámica orientativa"
+msgstr "Carga aerodinámica orientativa"
+
+msgid "Curvas de velocidad variada, incluidas varias largas y rápidas."
+msgstr "Curvas de velocidad variada, incluidas varias largas y rápidas."
+
+msgid "Curvas enlazadas de velocidad baja y media y rectas relativamente cortas."
+msgstr "Curvas enlazadas de velocidad baja y media y rectas relativamente cortas."
+
+msgid "Curvas lentas y medias entre muros, con frenadas y cambios de dirección frecuentes."
+msgstr "Curvas lentas y medias entre muros, con frenadas y cambios de dirección frecuentes."
+
+msgid "Curvas medias y rápidas enlazadas y una larga recta principal."
+msgstr "Curvas medias y rápidas enlazadas y una larga recta principal."
+
+msgid "Curvas muy lentas y estrechas entre barreras, con tramos breves de aceleración."
+msgstr "Curvas muy lentas y estrechas entre barreras, con tramos breves de aceleración."
+
+msgid "Curvas rápidas enlazadas y frenadas para giros más lentos."
+msgstr "Curvas rápidas enlazadas y frenadas para giros más lentos."
+
+msgid "Curvas rápidas entre muros y algunas frenadas fuertes."
+msgstr "Curvas rápidas entre muros y algunas frenadas fuertes."
+
+msgid "Eses rápidas, cambios de dirección y una horquilla lenta."
+msgstr "Eses rápidas, cambios de dirección y una horquilla lenta."
+
+msgid "Eses rápidas, una recta larga y una sección final más lenta."
+msgstr "Eses rápidas, una recta larga y una sección final más lenta."
+
+msgid "Frenadas fuertes y curvas lentas alternan con tramos rápidos."
+msgstr "Frenadas fuertes y curvas lentas alternan con tramos rápidos."
+
+msgid "Frenadas fuertes y curvas lentas seguidas de curvas rápidas."
+msgstr "Frenadas fuertes y curvas lentas seguidas de curvas rápidas."
+
+msgid "Permanente"
+msgstr "Permanente"
+
+msgid "Recta larga, frenadas fuertes y una sección técnica de curvas lentas."
+msgstr "Recta larga, frenadas fuertes y una sección técnica de curvas lentas."
+
+msgid "Rectas largas y curvas lentas entre muros, incluida una zona estrecha."
+msgstr "Rectas largas y curvas lentas entre muros, incluida una zona estrecha."
+
+msgid "Rectas largas, curvas rápidas y cambios de altura, con una chicane lenta."
+msgstr "Rectas largas, curvas rápidas y cambios de altura, con una chicane lenta."
+
+msgid "Rectas largas, curvas rápidas y una sección lenta y estrecha."
+msgstr "Rectas largas, curvas rápidas y una sección lenta y estrecha."
+
+msgid "Rectas largas, frenadas para curvas lentas y una sección final de curvas enlazadas."
+msgstr "Rectas largas, frenadas para curvas lentas y una sección final de curvas enlazadas."
+
+msgid "Rectas muy largas y curvas lentas entre barreras."
+msgstr "Rectas muy largas y curvas lentas entre barreras."
+
+msgid "Secuencias de curvas rápidas y cambios de dirección, con algunas curvas lentas."
+msgstr "Secuencias de curvas rápidas y cambios de dirección, con algunas curvas lentas."
+
+msgid "Semipermanente"
+msgstr "Semipermanente"
+
+msgid "Tipo de circuito"
+msgstr "Tipo de circuito"
+
+msgid "Urbano"
+msgstr "Urbano"
+
+msgid "Chicanes de velocidad media y una horquilla lenta, separadas por rectas y frenadas."
+msgstr "Chicanes de velocidad media y una horquilla lenta, separadas por rectas y frenadas."
+
+msgid "Chicanes lentas y curvas rápidas, con cambios de altura y frenadas en bajada."
+msgstr "Chicanes lentas y curvas rápidas, con cambios de altura y frenadas en bajada."
+
+msgid "Curvas del trazado"
+msgstr "Curvas del trazado"
+
+msgid "Curvas largas de velocidad media y una horquilla lenta, junto a una recta extensa."
+msgstr "Curvas largas de velocidad media y una horquilla lenta, junto a una recta extensa."
+
+msgid ""
+"Curvas lentas en secciones estrechas y tramos rápidos, incluida la curva peraltada La Monumental. "
+"Requiere el paquete 2026 y sus coches."
+msgstr ""
+"Curvas lentas en secciones estrechas y tramos rápidos, incluida la curva peraltada La Monumental. "
+"Requiere el paquete 2026 y sus coches."
+
+msgid "Curvas lentas y medias enlazadas, cambios de altura y una subida prolongada hacia meta."
+msgstr "Curvas lentas y medias enlazadas, cambios de altura y una subida prolongada hacia meta."
+
+msgid "Curvas rápidas y chicanes lentas, con rectas largas y frenadas fuertes."
+msgstr "Curvas rápidas y chicanes lentas, con rectas largas y frenadas fuertes."
+
+msgid "Curvas rápidas y medias enlazadas, cambios de altura y dos curvas peraltadas."
+msgstr "Curvas rápidas y medias enlazadas, cambios de altura y dos curvas peraltadas."
+
+msgid "Curvas basadas en una guía de 2025; trazado de 2026 pendiente de contraste."
+msgstr "Curvas basadas en una guía de 2025; trazado de 2026 pendiente de contraste."
+
+msgid "Pendiente de contrastar para el coche de 2026"
+msgstr "Pendiente de contrastar para el coche de 2026"
+
+msgid "{location} · Predeterminado {number}: {name} · coche 2026"
+msgstr "{location} · Predeterminado {number}: {name} · coche 2026"
+
+msgid "Actualizaciones · F1 25 / 26"
+msgstr "Actualizaciones · F1 25 / 26"
+
+msgid "El borrador abierto corresponde a la temporada {season}."
+msgstr "El borrador abierto corresponde a la temporada {season}."
+
+msgid "El borrador abierto no tiene temporada indicada."
+msgstr "El borrador abierto no tiene temporada indicada."
+
+msgid "F1 25 / 26 · Taller de reglajes"
+msgstr "F1 25 / 26 · Taller de reglajes"
+
+msgid "Instalar · F1 25 / 26 Setup Engineer"
+msgstr "Instalar · F1 25 / 26 Setup Engineer"
+
+msgid "Los valores predeterminados de 2025 están pendientes de recopilar."
+msgstr "Los valores predeterminados de 2025 están pendientes de recopilar."
+
+msgid "Temporada"
+msgstr "Temporada"
+
+msgid "Temporada sin indicar"
+msgstr "Temporada sin indicar"
+
+msgid "Tu taller de F1 25 / 26"
+msgstr "Tu taller de F1 25 / 26"
+
+msgid "Predeterminado {number} · {name} (juego)"
+msgstr "Predeterminado {number} · {name} (juego)"
+
+msgid "Pendiente de contrastar para el coche de 2025"
+msgstr "Pendiente de contrastar para el coche de 2025"
+
+#~ msgid "Predeterminado {number} · {name} (juego, coche 2026)"
+#~ msgstr "Predeterminado {number} · {name} (juego, coche 2026)"
+
+#~ msgid "Actualizaciones · F1 25"
+#~ msgstr "Actualizaciones · F1 25"
+
+#~ msgid "F1 25 · Taller de reglajes"
+#~ msgstr "F1 25 · Taller de reglajes"
+
+#~ msgid "Instalar · F1 25 Setup Engineer"
+#~ msgstr "Instalar · F1 25 Setup Engineer"
+
+#~ msgid "Tu taller de F1 25"
+#~ msgstr "Tu taller de F1 25"
+
+#~ msgid "{location} · Predeterminado {number}: {name}"
+#~ msgstr "{location} · Predeterminado {number}: {name}"
+
+#~ msgid "Alta"
+#~ msgstr "Alta"
+
+#~ msgid "Baja"
+#~ msgstr "Baja"
+
+#~ msgid "Carga orientativa en seco; puede variar con el coche, las condiciones y el reglaje."
+#~ msgstr "Carga orientativa en seco; puede variar con el coche, las condiciones y el reglaje."
+
+#~ msgid "Media"
+#~ msgstr "Media"
+
+#~ msgid "Muy alta"
+#~ msgstr "Muy alta"
+
+#~ msgid "Pendiente de contrastar"
+#~ msgstr "Pendiente de contrastar"
+
+#~ msgid "Cambios de altura, curvas enlazadas y una subida prolongada hacia meta."
+#~ msgstr "Cambios de altura, curvas enlazadas y una subida prolongada hacia meta."
+
+#~ msgid "Chicanes, curvas rápidas, cambios de altura y frenadas en bajada."
+#~ msgstr "Chicanes, curvas rápidas, cambios de altura y frenadas en bajada."
+
+#~ msgid "Curvas enlazadas, cambios de altura y dos curvas peraltadas."
+#~ msgstr "Curvas enlazadas, cambios de altura y dos curvas peraltadas."
+
+#~ msgid "Curvas largas de radio variable, horquillas y una recta extensa."
+#~ msgstr "Curvas largas de radio variable, horquillas y una recta extensa."
+
+#~ msgid "Rectas largas, frenadas fuertes y chicanes, con curvas rápidas."
+#~ msgstr "Rectas largas, frenadas fuertes y chicanes, con curvas rápidas."
+
+#~ msgid "Rectas y frenadas para chicanes y una horquilla lenta."
+#~ msgstr "Rectas y frenadas para chicanes y una horquilla lenta."
+
+#~ msgid ""
+#~ "Secciones urbanas estrechas, tramos rápidos y la curva peraltada La Monumental. Requiere el "
+#~ "paquete 2026 y sus coches."
+#~ msgstr ""
+#~ "Secciones urbanas estrechas, tramos rápidos y la curva peraltada La Monumental. Requiere el "
+#~ "paquete 2026 y sus coches."
 
 #~ msgid "Cargando reglaje?"
 #~ msgstr "Cargando reglaje?"

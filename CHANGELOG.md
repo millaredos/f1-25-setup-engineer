@@ -6,6 +6,12 @@
 
 ### Unreleased
 
+- Select the 2025 or 2026 season and preserve it in new saved setups; 2025 game presets are pending.
+- Show sourced circuit descriptions alongside the circuit name and identify the 2026 game presets.
+- Add a roadmap for proposed future features.
+
+### 0.3.0-alpha.17
+
 - View the selected setup values by category without opening it in the workshop.
 
 ### 0.3.0-alpha.16

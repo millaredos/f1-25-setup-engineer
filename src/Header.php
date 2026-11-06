@@ -7,7 +7,7 @@ function appHeader(string $current = ''): void
     $sections = ['circuito' => 'Circuito y referencia', 'taller' => 'Taller', 'pruebas' => 'Pruebas', 'versiones' => 'Versiones'];
     ?>
     <header class="masthead">
-      <a class="brand" href="<?= $current === '' ? '#inicio' : './#inicio' ?>"><span class="brand-mark" aria-hidden="true"></span><span>SETUP ENGINEER<small><?= h(t('Tu taller de F1 25')) ?></small></span></a>
+      <a class="brand" href="<?= $current === '' ? '#inicio' : './#inicio' ?>"><span class="brand-mark" aria-hidden="true"></span><span>SETUP ENGINEER<small><?= h(t('Tu taller de F1 25 / 26')) ?></small></span></a>
       <nav id="navigation" class="app-nav" aria-label="<?= h(t('Apartados')) ?>">
         <?php foreach ($sections as $id => $label): ?>
           <a href="<?= $current === '' ? '#' : './#' ?><?= $id ?>"><?= h(t($label)) ?></a>
@@ -16,7 +16,7 @@ function appHeader(string $current = ''): void
       <div class="version-menu">
         <button type="button" id="version-toggle" class="driver version-toggle" aria-expanded="false" aria-controls="version-panel">
           <span class="version-line"><?= h(t('Versión {version}', ['version' => appVersion()])) ?><span class="version-chevron" aria-hidden="true">▾</span><span class="update-dot" data-update-dot hidden aria-hidden="true"></span></span>
-          <span class="version-subtitle">F1 25 Setup Engineer</span>
+          <span class="version-subtitle">F1 25 / 26 Setup Engineer</span>
           <span class="sr-only" data-update-announcement></span>
         </button>
         <div id="version-panel" class="version-panel" hidden>

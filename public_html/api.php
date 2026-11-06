@@ -57,7 +57,8 @@ try {
         } catch (Throwable $e) {
             error_log('F125 storage: ' . $e->getMessage());
         }
-        respond(['csrf' => $_SESSION['csrf'], 'catalog' => $domain->catalog, 'symptoms' => $domain->symptoms, 'circuits' => $circuits, 'setups' => $setups, 'gameCatalog' => $gameCatalog, 'storageReady' => $storageReady, 'databaseUpdateRequired' => $databaseUpdateRequired]);
+        $circuitDescriptions = require dirname(__DIR__) . '/src/circuit_profiles.php';
+        respond(['csrf' => $_SESSION['csrf'], 'catalog' => $domain->catalog, 'symptoms' => $domain->symptoms, 'circuits' => $circuits, 'setups' => $setups, 'gameCatalog' => $gameCatalog, 'circuitDescriptions' => $circuitDescriptions, 'storageReady' => $storageReady, 'databaseUpdateRequired' => $databaseUpdateRequired]);
     }
     if ($method !== 'POST') { respond(['error' => t('Método no admitido.')], 405); }
     if (!hash_equals($_SESSION['csrf'], $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '')) {

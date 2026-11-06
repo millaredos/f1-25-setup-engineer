@@ -22,7 +22,7 @@ Desarrollada en PHP, MariaDB, JavaScript nativo y CSS puro.
 - Importación de fichas de circuito y reglajes en JSON.
 - Guardado de versiones con condiciones, notas y ficha del circuito.
 - Exportación JSON y recuperación del borrador del navegador.
-- Migraciones versionadas con cinco predeterminados del juego y asignaciones confirmadas para los 24 circuitos del campeonato e Imola.
+- Migraciones versionadas con cinco predeterminados del coche de 2026 y asignaciones confirmadas para los 24 circuitos del campeonato e Imola.
 
 El selector incluye el catálogo del juego y las fichas importadas para circuitos adicionales. Las explicaciones son orientativas y deben comprobarse en el juego.
 
@@ -74,7 +74,7 @@ La [guía de instalación](instalacion.md) detalla los permisos, la configuraci�
 
 ## Uso
 
-1. En **Circuito y referencia**, selecciona un circuito del catálogo del juego.
+1. En **Circuito y referencia**, selecciona la temporada y un circuito del catálogo del juego. Los valores predeterminados de 2025 aún no están disponibles.
 2. Elige su predeterminado o una versión personal en **Reglaje** y consulta sus valores por categoría. Para editarlo, pulsa **Abrir como borrador**.
 3. El predeterminado se abre con referencia y valores editables separados. Usa **Añadir circuito** para [fichas adicionales](formato-circuito.md), incluidos mods; importa JSON de reglajes personales desde **Versiones**.
 4. Edita los ajustes en **Taller** y consulta el resumen de cambios.
@@ -108,6 +108,7 @@ Para una copia completa, respalda también MariaDB y `config/`. Las instruccione
 | [Arquitectura](arquitectura.md) | Stack, capas, dependencias y almacenamiento. |
 | [Traducciones](traducciones.md) | Catálogos PO y alta de idiomas. |
 | [Pruebas](verificacion.md) | Ejecución, resultados y limitaciones. |
+| [Hoja de ruta](ROADMAP.md) | Ideas para el desarrollo futuro. |
 
 ## Desarrollo
 

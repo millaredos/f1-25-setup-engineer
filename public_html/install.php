@@ -74,12 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><?= h(t('Instalar · F1 25 Setup Engineer')) ?></title>
+  <title><?= h(t('Instalar · F1 25 / 26 Setup Engineer')) ?></title>
   <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
 <main class="installation">
-  <p class="eyebrow">F1 25 SETUP ENGINEER</p>
+  <p class="eyebrow">F1 25 / 26 SETUP ENGINEER</p>
   <h1><?= h(t('Instalación')) ?></h1>
   <?php if ($error !== ''): ?><p class="status error" role="alert"><?= escapeInstall($error) ?></p><?php endif; ?>
   <section class="panel">

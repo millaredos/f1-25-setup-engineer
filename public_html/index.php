@@ -12,7 +12,7 @@ header('Referrer-Policy: same-origin');
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title><?= h(t('F1 25 · Taller de reglajes')) ?></title>
+  <title><?= h(t('F1 25 / 26 · Taller de reglajes')) ?></title>
   <link rel="stylesheet" href="assets/app.css?v=<?= appVersion() ?>">
   <script type="module" src="assets/navigation.js?v=<?= appVersion() ?>"></script>
   <script type="module" src="assets/app.js?v=<?= appVersion() ?>"></script>
@@ -23,7 +23,7 @@ header('Referrer-Policy: same-origin');
   <main>
     <section data-page="inicio" class="home-content" aria-labelledby="home-heading">
       <header class="home-hero">
-        <p class="home-label">F1 25 Setup Engineer</p>
+        <p class="home-label">F1 25 / 26 Setup Engineer</p>
         <h1 id="home-heading"><?= h(t('Prepara y compara tus reglajes')) ?></h1>
         <p class="home-intro"><?= h(t('Parte de un reglaje, conserva una referencia y entiende cada cambio antes de probarlo en pista.')) ?></p>
       </header>
@@ -85,9 +85,11 @@ header('Referrer-Policy: same-origin');
     <section data-page="circuito" hidden class="panel context-panel" aria-labelledby="context-heading">
       <div class="section-heading"><h1 id="context-heading"><?= h(t('Circuito y referencia')) ?></h1><button id="open-circuit" class="text-button"><?= h(t('Añadir circuito')) ?></button></div>
       <div class="context-fields load-fields">
+        <label><?= h(t('Temporada')) ?><select id="season"><option value="2026">2026</option><option value="2025">2025</option></select></label>
         <label><?= h(t('Circuito')) ?><select id="circuit"><option value=""><?= h(t('Selecciona un circuito')) ?></option></select></label>
         <div class="saved-load"><label><?= h(t('Reglaje')) ?><select id="saved"><option value=""><?= h(t('Todavía no hay versiones guardadas')) ?></option></select></label><button id="load" class="button secondary"><?= h(t('Abrir como borrador')) ?></button></div>
       </div>
+      <p id="season-draft-note" class="source-note" hidden></p>
       <div id="circuit-card" hidden></div>
     </section>
 
@@ -123,7 +125,7 @@ header('Referrer-Policy: same-origin');
       <div class="actions"><button id="save" class="button"><?= h(t('Guardar versión')) ?></button><button id="open-setup" class="button secondary"><?= h(t('Importar reglaje personal')) ?></button><button id="export" class="button secondary"><?= h(t('Exportar JSON')) ?></button><button id="export-legacy" class="text-button"><?= h(t('JSON del comparador anterior')) ?></button></div>
     </section>
   </main>
-  <footer class="site-footer"><div><strong>F1 25 SETUP ENGINEER</strong><span>© 2026 millaredos · <a href="https://github.com/millaredos/f1-25-setup-engineer" target="_blank" rel="noopener noreferrer">GitHub</a></span></div><p><?= h(t('Teoría orientativa. Valida los cambios en el juego.')) ?></p></footer>
+  <footer class="site-footer"><div><strong>F1 25 / 26 SETUP ENGINEER</strong><span>© 2026 millaredos · <a href="https://github.com/millaredos/f1-25-setup-engineer" target="_blank" rel="noopener noreferrer">GitHub</a></span></div><p><?= h(t('Teoría orientativa. Valida los cambios en el juego.')) ?></p></footer>
 
   <dialog id="import-dialog" aria-labelledby="import-title">
     <form method="dialog"><button class="dialog-close text-button" aria-label="<?= h(t('Cerrar importación')) ?>"><?= h(t('Cerrar ×')) ?></button></form>

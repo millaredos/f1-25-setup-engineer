@@ -45,7 +45,7 @@ try {
         expectUpdate($rejected, 'rechazar paquete con rutas adicionales');
         expectUpdate(trim(file_get_contents($root . '/src/VERSION')) === '0.1.0', 'rechazo sin cambiar versión');
     }
-    foreach (['src/Translation.php', 'src/Header.php', 'src/locale_es.php', 'public_html/i18n.php', 'public_html/assets/navigation.js', 'src/Migrations.php', 'src/migration_catalog.php', 'public_html/database.php'] as $required) {
+    foreach (['src/Translation.php', 'src/Header.php', 'src/locale_es.php', 'public_html/i18n.php', 'public_html/assets/navigation.js', 'src/Migrations.php', 'src/migration_catalog.php', 'src/circuit_profiles.php', 'public_html/database.php'] as $required) {
         writePackage($root . '/package.zip', array_diff_key($contents, [$required => true]));
         $rejected = false;
         try { $updater->apply($root . '/package.zip'); } catch (RuntimeException $e) { $rejected = true; }

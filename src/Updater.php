@@ -153,7 +153,7 @@ final class Updater
             }
             $files = $manifest['files'];
             if (count($files) + 1 !== count($entries)) { throw new RuntimeException('Package content does not match the manifest.'); }
-            foreach (['src/VERSION', 'src/Updater.php', 'src/Updates.php', 'src/bootstrap.php', 'src/Domain.php', 'src/Store.php', 'src/Migrations.php', 'src/migration_catalog.php', 'src/InstallationState.php', 'src/Translation.php', 'src/Header.php', 'src/locale_es.php', 'public_html/index.php', 'public_html/api.php', 'public_html/install.php', 'public_html/update.php', 'public_html/options.php', 'public_html/database.php', 'public_html/i18n.php', 'data/parameters.json', 'data/symptoms.json', 'public_html/assets/app.js', 'public_html/assets/app.css', 'public_html/assets/navigation.js'] as $required) {
+            foreach (['src/VERSION', 'src/Updater.php', 'src/Updates.php', 'src/bootstrap.php', 'src/Domain.php', 'src/Store.php', 'src/Migrations.php', 'src/migration_catalog.php', 'src/circuit_profiles.php', 'src/InstallationState.php', 'src/Translation.php', 'src/Header.php', 'src/locale_es.php', 'public_html/index.php', 'public_html/api.php', 'public_html/install.php', 'public_html/update.php', 'public_html/options.php', 'public_html/database.php', 'public_html/i18n.php', 'data/parameters.json', 'data/symptoms.json', 'public_html/assets/app.js', 'public_html/assets/app.css', 'public_html/assets/navigation.js'] as $required) {
                 if (!isset($files[$required])) { throw new RuntimeException('The package must contain the complete application.'); }
             }
             $current = trim(file_get_contents($this->root . '/src/VERSION'));

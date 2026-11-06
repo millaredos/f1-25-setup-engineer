@@ -126,6 +126,7 @@ final class Domain
             'format' => 'f125-setup-engineer', 'schemaVersion' => 1,
             'reference' => $reference, 'current' => $current,
             'referenceSource' => $this->choice($source, ['unknown', 'game-assigned', 'capture', 'personal'], $this->tr('Origen de referencia')),
+            'season' => $this->choice($input['season'] ?? 'unknown', ['unknown', '2025', '2026'], $this->tr('Temporada')),
             'circuit' => isset($input['circuit']) ? $this->circuit($input['circuit']) : null,
             'conditions' => $this->conditions($input['conditions'] ?? []),
             'title' => $this->text($input['title'] ?? $this->tr('Reglaje importado'), 'Nombre', 120),

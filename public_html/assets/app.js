@@ -3,6 +3,8 @@ const $ = (selector) => document.querySelector(selector);
 const DRAFT_KEY = 'f125-engineer-draft-v1';
 const state = { catalog: [], symptoms: null, circuits: [], setups: [], current: {}, reference: null, circuit: null, conditions: { surface: 'unknown', session: 'unknown' }, referenceSource: 'unknown', csrf: '', ready: false, dirty: false };
 state.gameCatalog = { circuits: [], presets: [] };
+state.season = '2026';
+state.draftSeason = '2026';
 let importMode = 'circuit';
 let preview = null;
 let compareSequence = 0;
@@ -45,7 +47,7 @@ function payload() {
     format: 'f125-setup-engineer', schemaVersion: 1,
     title: $('#setup-title').value.trim() || t('Reglaje sin nombre'), notes: $('#notes').value,
     circuit: state.circuit, reference: state.reference, current: state.current, referenceSource: state.referenceSource,
-    conditions: { ...state.conditions },
+    conditions: { ...state.conditions }, season: state.draftSeason,
   };
 }
 
@@ -180,7 +182,17 @@ function circuitContent(circuit) {
     block.append(element('h3', '', circuit.name));
     const record = state.gameCatalog.circuits.find((item) => item.id === circuit.id);
     const preset = state.gameCatalog.presets.find((item) => item.id === record?.preset_id);
-    block.append(element('p', 'subtle', preset ? t('{location} · Predeterminado {number}: {name}', { location: circuit.location, number: preset.id, name: t(preset.name) }) : circuit.location));
+    block.append(element('p', 'subtle', state.season === '2026' && preset ? t('{location} · Predeterminado {number}: {name} · coche 2026', { location: circuit.location, number: preset.id, name: t(preset.name) }) : circuit.location));
+    const description = state.circuitDescriptions?.[circuit.id];
+    if (description) {
+      const list = element('dl', 'circuit-characteristics circuit-catalog-description');
+      [t('Tipo de circuito'), t('Curvas del trazado'), t('Carga aerodinámica orientativa')].forEach((label, index) => {
+        const value = index === 2 && state.season === '2025' ? t('Pendiente de contrastar para el coche de 2025') : description[index];
+        const pair = element('div'); pair.append(element('dt', '', label), element('dd', '', value)); list.append(pair);
+      });
+      if (circuit.id !== 'madrid' && state.season === '2026') block.append(element('p', 'source-note', t('Curvas basadas en una guía de 2025; trazado de 2026 pendiente de contraste.')));
+      block.append(list, sourcesContent(description[3]));
+    }
     return block;
   }
   const heading = element('div', 'circuit-title');
@@ -223,7 +235,7 @@ async function renderSetupPreview() {
   const sequence = ++previewSequence;
   root.replaceChildren();
   if (!id) {
-    root.append(element('p', 'empty', t('Selecciona un reglaje para ver sus valores.')));
+    root.append(element('p', 'empty', state.season === '2025' ? t('Los valores predeterminados de 2025 están pendientes de recopilar.') : t('Selecciona un reglaje para ver sus valores.')));
     return;
   }
   root.append(element('p', 'empty', t('Cargando reglaje…')));
@@ -271,12 +283,16 @@ function refreshLists() {
   const saved = $('#saved'); const selected = saved.value;
   saved.replaceChildren(new Option(t('Selecciona una versión guardada'), ''));
   const record = state.gameCatalog.circuits.find((item) => item.id === state.circuit?.id);
-  const preset = state.gameCatalog.presets.find((item) => item.id === record?.preset_id);
+  const preset = state.season === '2026' ? state.gameCatalog.presets.find((item) => item.id === record?.preset_id) : null;
   if (preset) saved.add(new Option(t('Predeterminado {number} · {name} (juego)', { number: preset.id, name: t(preset.name) }), `preset:${preset.id}`));
-  state.setups.filter((s) => !state.circuit || s.circuit_id === state.circuit.id).forEach((s) => saved.add(new Option(`${s.title} · ${new Date(s.created_at).toLocaleString(locale)}`, s.id)));
+  state.setups.filter((s) => (!state.circuit || s.circuit_id === state.circuit.id) && (!s.season || s.season === 'unknown' || s.season === state.season)).forEach((s) => saved.add(new Option(`${s.title} · ${new Date(s.created_at).toLocaleString(locale)}${!s.season || s.season === 'unknown' ? ` · ${t('Temporada sin indicar')}` : ''}`, s.id)));
   saved.value = [...saved.options].some((option) => option.value === selected) ? selected : '';
   if (!saved.value && preset) saved.value = `preset:${preset.id}`;
   $('#load').disabled = !saved.value;
+  const hasContent = state.reference || Object.values(state.current).some((value) => value !== null) || $('#setup-title').value.trim() || $('#notes').value.trim();
+  const note = $('#season-draft-note');
+  note.hidden = !hasContent || state.draftSeason === state.season;
+  note.textContent = state.draftSeason === 'unknown' ? t('El borrador abierto no tiene temporada indicada.') : t('El borrador abierto corresponde a la temporada {season}.', { season: state.draftSeason });
   renderSetupPreview();
 }
 
@@ -308,6 +324,8 @@ function renderAdvice() {
 function installDraft(data) {
   state.current = { ...data.current }; state.reference = data.reference ? { ...data.reference } : null;
   state.referenceSource = data.referenceSource || 'unknown'; state.circuit = data.circuit || null;
+  state.draftSeason = data.season || 'unknown';
+  if (['2025', '2026'].includes(state.draftSeason)) { state.season = state.draftSeason; $('#season').value = state.season; }
   $('#setup-title').value = data.title || ''; $('#notes').value = data.notes || '';
   // Existing imports and saved versions keep their metadata; choosing a preset does not invent conditions.
   state.conditions = { surface: data.conditions?.surface || 'unknown', session: data.conditions?.session || 'unknown' };
@@ -355,7 +373,7 @@ async function applyImport() {
     if (importMode === 'circuit') {
       const result = await api('save-circuit', { format: 'f125-circuit', schemaVersion: 1, circuit: preview.circuit });
       state.circuits = result.circuits;
-      installDraft({ current: blankValues(), reference: null, circuit: preview.circuit });
+      installDraft({ current: blankValues(), reference: null, circuit: preview.circuit, season: state.season });
       status(t('Ficha guardada en MariaDB. Introduce ahora los valores que el juego asigna a este circuito.'));
     } else {
       installDraft({ ...preview, circuit: preview.circuit || state.circuit }); status(t('Reglaje importado como borrador. Revisa origen de referencia, circuito y condiciones.'));
@@ -377,6 +395,12 @@ async function exportSetup(legacy = false) {
 }
 
 function bindEvents() {
+  $('#season').addEventListener('change', () => {
+    state.season = $('#season').value;
+    const hasContent = state.reference || Object.values(state.current).some((value) => value !== null) || $('#setup-title').value.trim() || $('#notes').value.trim();
+    if (!hasContent) state.draftSeason = state.season;
+    refreshLists(); renderCircuit();
+  });
   $('#settings').addEventListener('input', (event) => {
     if (!event.target.matches('input')) return;
     const p = state.catalog.find((item) => `value-${item.id}` === event.target.id);
@@ -414,6 +438,7 @@ function bindEvents() {
     state.circuit = next;
     if (previous) {
       state.current = blankValues(); state.reference = null; state.referenceSource = 'unknown';
+      state.draftSeason = state.season;
       state.conditions = { surface: 'unknown', session: 'unknown' };
       $('#setup-title').value = ''; $('#notes').value = '';
     }
@@ -453,8 +478,8 @@ function bindEvents() {
       if (id.startsWith('preset:')) {
         const record = state.gameCatalog.circuits.find((item) => item.id === state.circuit?.id);
         const preset = state.gameCatalog.presets.find((item) => `preset:${item.id}` === id && item.id === record?.preset_id);
-        if (!preset || !state.circuit) throw new Error(t('Selecciona un circuito con un predeterminado asignado.'));
-        installDraft({ circuit: state.circuit, current: { ...preset.values }, reference: { ...preset.values }, referenceSource: 'game-assigned', title: t('Predeterminado {number} · {name}', { number: preset.id, name: t(preset.name) }), conditions: { surface: 'unknown', session: 'unknown' } });
+        if (!preset || !state.circuit || state.season !== '2026') throw new Error(t('Selecciona un circuito con un predeterminado asignado.'));
+        installDraft({ circuit: state.circuit, season: '2026', current: { ...preset.values }, reference: { ...preset.values }, referenceSource: 'game-assigned', title: t('Predeterminado {number} · {name}', { number: preset.id, name: t(preset.name) }), conditions: { surface: 'unknown', session: 'unknown' } });
       } else installDraft(await api('load-setup', { id }));
       remember(); status(''); location.hash = 'taller';
     }
@@ -481,6 +506,7 @@ async function start() {
   try {
     const data = await api('bootstrap');
     state.gameCatalog = data.gameCatalog || { circuits: [], presets: [] };
+    state.circuitDescriptions = data.circuitDescriptions || {};
     $('#database-update').hidden = !data.databaseUpdateRequired;
     document.dispatchEvent(new Event('f125-ready'));
     state.csrf = data.csrf; state.catalog = data.catalog.parameters; state.symptoms = data.symptoms; state.circuits = data.circuits; state.setups = data.setups; state.ready = data.storageReady; state.current = blankValues();
@@ -509,7 +535,7 @@ function showPage() {
   const brand = document.querySelector('.brand');
   if (page === 'inicio') brand.setAttribute('aria-current', 'page');
   else brand.removeAttribute('aria-current');
-  document.title = `${document.querySelector('.app-nav [aria-current]')?.textContent || t('Inicio')} · F1 25`;
+  document.title = `${document.querySelector('.app-nav [aria-current]')?.textContent || t('Inicio')} · F1 25 / 26`;
 }
 window.addEventListener('hashchange', showPage);
 showPage();

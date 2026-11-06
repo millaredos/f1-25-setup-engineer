@@ -6,6 +6,12 @@
 
 ### Sin publicar
 
+- Seleccionar la temporada 2025 o 2026 y conservarla en los nuevos reglajes guardados; los predeterminados de 2025 están pendientes.
+- Mostrar junto al nombre del circuito descripciones con fuentes e identificar los predeterminados del coche de 2026.
+- Añadir una hoja de ruta con propuestas de funciones futuras.
+
+### 0.3.0-alpha.17
+
 - Consultar los valores del reglaje seleccionado por categoría sin abrirlo en el taller.
 
 ### 0.3.0-alpha.16
@@ -41,6 +47,7 @@
 ### 0.3.0-alpha.9
 
 - Respeta la hora de reinicio del límite de GitHub, distingue accesos denegados e indica cuándo reanudar las comprobaciones.
+
 ### 0.3.0-alpha.8
 
 - Inicio incorpora una introducción centrada, columnas equilibradas, títulos legibles y pasos numerados en escritorio y móvil.
@@ -87,7 +94,7 @@
 - Fixtures independientes de los materiales de referencia locales.
 - Documentación distribuida centrada en instalación, uso, arquitectura y pruebas.
 
-### Primera versión
+## Primera versión
 
 - Editor de veinte ajustes por categoría, referencia independiente y resumen de efectos teóricos.
 - Ocho síntomas con propuestas de pruebas, compromisos, combinaciones y límites.

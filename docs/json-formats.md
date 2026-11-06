@@ -39,10 +39,12 @@ The format is `f125-circuit`, schema version 1. Example with fictional data:
 
 The twenty setup values are supplied separately. Each saved version keeps a copy of the profile.
 
-Bundled circuits use an identity snapshot with `origin: game-catalog`, `id`, `name` and `location`. The application resolves the identifier and name from the installed catalog before saving. These entries use `downforce: unknown`, empty technical fields and no external sources until a technical profile is available. Offline recovery and export validate the snapshot's structure without treating its descriptive fields as verified circuit physics. Imported custom profiles retain the format and source requirements above.
+Bundled circuits use an identity snapshot with `origin: game-catalog`, `id`, `name` and `location`. The application resolves the identifier and name from the installed catalog before saving. The snapshot retains `downforce: unknown`, empty technical fields and no external sources; sourced circuit descriptions are displayed separately and are not embedded in saved setups. Offline recovery and export validate the snapshot's structure. Imported custom profiles retain the format and source requirements above.
 
 ## Setups
 
 Current format: `format: f125-setup-engineer`, `schemaVersion: 1`, `reference`, `current`, `referenceSource`, `circuit`, `conditions`, `title` and `notes`. Value maps use the twenty legacy identifiers. Sources: `unknown`, `game-assigned`, `capture`, `personal`. Conditions: `surface` (`unknown`, `dry`, `wet`) and `session` (`unknown`, `race`, `time-trial`). The application exports this format.
+
+The optional `season` is `2025`, `2026` or `unknown`. A missing season is kept as unknown. The older `f125-comparador-v2` export does not carry season metadata.
 
 It also accepts `f125-comparador-v2`, flat value maps, `values` and `base/current`. If the reference is missing, the preview proposes a copy of the imported values and marks the source as unknown. Circuit and conditions are not inferred. Invalid types, ranges, steps and versions are rejected without automatic correction.

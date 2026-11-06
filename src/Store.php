@@ -115,7 +115,13 @@ final class Store
 
     public function setups(): array
     {
-        return $this->db->query('SELECT id,circuit_id,title,created_at FROM f125_setups ORDER BY created_at DESC,id DESC')->fetchAll();
+        $rows = $this->db->query('SELECT id,circuit_id,title,created_at,payload FROM f125_setups ORDER BY created_at DESC,id DESC')->fetchAll();
+        foreach ($rows as &$row) {
+            $payload = json_decode($row['payload'], true, 64, JSON_THROW_ON_ERROR);
+            $row['season'] = $payload['season'] ?? 'unknown';
+            unset($row['payload']);
+        }
+        return $rows;
     }
 
     public function loadSetup(string $id): array

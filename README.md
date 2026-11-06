@@ -22,7 +22,7 @@ Built with PHP, MariaDB, vanilla JavaScript and plain CSS.
 - JSON import for circuit profiles and setups.
 - Saved versions containing session conditions, notes and a circuit profile.
 - JSON export and browser draft recovery.
-- Versioned database migrations with five game presets and confirmed assignments for the 24 championship circuits plus Imola.
+- Versioned database migrations with five 2026 car game presets and confirmed assignments for the 24 championship circuits plus Imola.
 
 The circuit selector includes the bundled game catalog and imported profiles for additional circuits. Setup explanations are guidance to test in the game.
 
@@ -76,7 +76,7 @@ The [installation guide](docs/installation.md) covers permissions, environment v
 
 The interface is currently in Spanish. The names below match its menus and buttons.
 
-1. In **Circuito y referencia**, select a circuit from the game catalog.
+1. In **Circuito y referencia**, select the season and a circuit from the game catalog. The 2025 game preset values are not yet available.
 2. Choose its game preset or a personal version in **Reglaje** and browse its values by category. Click **Abrir como borrador** to edit it.
 3. The game preset opens with separate reference and editable values. Use **Añadir circuito** for [additional circuit profiles](docs/json-formats.md), including mods; import personal setup JSON from **Versiones**.
 4. Edit settings in **Taller** and review the change summary.
@@ -110,6 +110,7 @@ For a complete backup, also back up MariaDB and `config/`. See [backup and resto
 | [Architecture](docs/architecture.md) | Stack, layers, dependencies and storage. |
 | [Translations](docs/translations.md) | PO catalogs and adding a language. |
 | [Testing](docs/testing.md) | Commands, results and limitations. |
+| [Roadmap](ROADMAP.md) | Ideas for future development. |
 
 ## Development
 
