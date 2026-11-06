@@ -86,9 +86,14 @@ header('Referrer-Policy: same-origin');
       <div class="section-heading"><h1 id="context-heading"><?= h(t('Circuito y referencia')) ?></h1><button id="open-circuit" class="text-button"><?= h(t('Añadir circuito')) ?></button></div>
       <div class="context-fields load-fields">
         <label><?= h(t('Circuito')) ?><select id="circuit"><option value=""><?= h(t('Selecciona un circuito')) ?></option></select></label>
-        <div class="saved-load"><label><?= h(t('Cargar reglaje guardado')) ?><select id="saved"><option value=""><?= h(t('Todavía no hay versiones guardadas')) ?></option></select></label><button id="load" class="button secondary"><?= h(t('Abrir como borrador')) ?></button></div>
+        <div class="saved-load"><label><?= h(t('Reglaje')) ?><select id="saved"><option value=""><?= h(t('Todavía no hay versiones guardadas')) ?></option></select></label><button id="load" class="button secondary"><?= h(t('Abrir como borrador')) ?></button></div>
       </div>
       <div id="circuit-card" hidden></div>
+    </section>
+
+    <section data-page="circuito" hidden class="panel setup-preview" aria-labelledby="setup-preview-heading">
+      <h2 id="setup-preview-heading"><?= h(t('Reglaje seleccionado')) ?></h2>
+      <div id="setup-preview" aria-live="polite"></div>
     </section>
 
     <div class="workspace separated-workspace">

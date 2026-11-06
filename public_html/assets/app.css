@@ -911,3 +911,19 @@ dialog label {
   .driver .version-line { gap:4px; }
   .version-panel { min-width:225px; }
 }
+
+.setup-preview { margin-top:16px; }
+.setup-preview h2 { margin:0 0 18px; font-size:20px; }
+#setup-preview { display:grid; grid-template-columns:minmax(180px,250px) minmax(0,1fr); gap:24px; }
+.setup-preview-menu { display:flex; flex-direction:column; gap:5px; }
+.setup-preview-category { text-align:left; border:0; border-radius:6px; background:transparent; padding:11px 14px; color:inherit; cursor:pointer; font:inherit; font-weight:600; }
+.setup-preview-category[aria-pressed="true"] { background:var(--green); color:white; }
+.setup-preview-values h3 { margin:0 0 10px; }
+.setup-preview-list { margin:0; }
+.setup-preview-row { display:flex; justify-content:space-between; gap:20px; padding:12px 0; border-bottom:1px solid var(--line); }
+.setup-preview-row dd { margin:0; font-weight:700; white-space:nowrap; }
+@media (max-width:640px) {
+  #setup-preview { grid-template-columns:1fr; gap:16px; }
+  .setup-preview-menu { flex-direction:row; overflow-x:auto; }
+  .setup-preview-category { white-space:nowrap; }
+}

@@ -75,7 +75,7 @@ La [guía de instalación](instalacion.md) detalla los permisos, la configuraci�
 ## Uso
 
 1. En **Circuito y referencia**, selecciona un circuito del catálogo del juego.
-2. Elige su predeterminado o una versión personal en **Cargar reglaje guardado** y pulsa **Abrir como borrador**.
+2. Elige su predeterminado o una versión personal en **Reglaje** y consulta sus valores por categoría. Para editarlo, pulsa **Abrir como borrador**.
 3. El predeterminado se abre con referencia y valores editables separados. Usa **Añadir circuito** para [fichas adicionales](formato-circuito.md), incluidos mods; importa JSON de reglajes personales desde **Versiones**.
 4. Edita los ajustes en **Taller** y consulta el resumen de cambios.
 5. En **Pruebas**, selecciona el comportamiento que notas en el coche.

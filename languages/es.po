@@ -1998,9 +1998,6 @@ msgstr "¿Quieres más idiomas? Apoya el proyecto con una estrella en GitHub."
 msgid "¿Qué notas en el coche?"
 msgstr "¿Qué notas en el coche?"
 
-msgid "Cargar reglaje guardado"
-msgstr "Cargar reglaje guardado"
-
 msgid ""
 "Empieza con los valores del juego o un reglaje propio. Las características del circuito dan "
 "contexto a tus pruebas."
@@ -2111,6 +2108,33 @@ msgstr "{location} · Predeterminado {number}: {name}"
 
 msgid "Ubicación"
 msgstr "Ubicación"
+
+msgid "No se pudo cargar el reglaje: {error}"
+msgstr "No se pudo cargar el reglaje: {error}"
+
+msgid "Reglaje"
+msgstr "Reglaje"
+
+msgid "Reglaje seleccionado"
+msgstr "Reglaje seleccionado"
+
+msgid "Selecciona un reglaje para ver sus valores."
+msgstr "Selecciona un reglaje para ver sus valores."
+
+msgid "Cargando reglaje…"
+msgstr "Cargando reglaje…"
+
+msgid "Categorías del reglaje"
+msgstr "Categorías del reglaje"
+
+#~ msgid "Cargando reglaje?"
+#~ msgstr "Cargando reglaje?"
+
+#~ msgid "Categor?as del reglaje"
+#~ msgstr "Categor?as del reglaje"
+
+#~ msgid "Cargar reglaje guardado"
+#~ msgstr "Cargar reglaje guardado"
 
 #~ msgid "01 / PUNTO DE PARTIDA"
 #~ msgstr "01 / PUNTO DE PARTIDA"

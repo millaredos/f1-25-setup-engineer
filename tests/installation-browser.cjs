@@ -149,7 +149,17 @@ const assert = require('node:assert/strict');
     // Substitute storage only after all real outage/package checks, inside the temporary site.
     fs.copyFileSync(path.join(__dirname, 'fixtures/migration-store.php'), path.join(root, 'src/Store.php'));
     fs.copyFileSync(path.join(__dirname, 'fixtures/game-catalog.json'), path.join(root, 'config/game-catalog.json'));
-    response = await fetch(base + 'database.php');
+    // Restart PHP so its realpath cache cannot retain the previously loaded storage class.
+    server.kill();
+    await new Promise((resolve) => server.once('exit', resolve));
+    const fixtureLog = fs.openSync(serverLog, 'a');
+    server = spawn(process.env.F125_TEST_PHP || 'php', ['-n', ...zipArgs, '-S', `127.0.0.1:${port}`, '-t', path.join(root, publicName), ...routerArgs], { cwd: root, env, windowsHide: true, stdio: ['ignore', 'ignore', fixtureLog] });
+    fs.closeSync(fixtureLog);
+    for (let attempt = 0; attempt < 100; attempt++) {
+      try { response = await fetch(base + 'database.php'); break; }
+      catch { await new Promise((resolve) => setTimeout(resolve, 50)); }
+    }
+
     assert.equal(response.status, 200);
     assert.match(await response.text(), /Actualización pendiente/);
     assert.equal(fs.existsSync(path.join(root, 'config/migration-applied')), false, 'GET does not apply migrations');

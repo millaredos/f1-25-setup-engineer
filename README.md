@@ -77,7 +77,7 @@ The [installation guide](docs/installation.md) covers permissions, environment v
 The interface is currently in Spanish. The names below match its menus and buttons.
 
 1. In **Circuito y referencia**, select a circuit from the game catalog.
-2. Choose its game preset or a personal version in **Cargar reglaje guardado**, then click **Abrir como borrador**.
+2. Choose its game preset or a personal version in **Reglaje** and browse its values by category. Click **Abrir como borrador** to edit it.
 3. The game preset opens with separate reference and editable values. Use **Añadir circuito** for [additional circuit profiles](docs/json-formats.md), including mods; import personal setup JSON from **Versiones**.
 4. Edit settings in **Taller** and review the change summary.
 5. In **Pruebas**, select the handling symptom you notice.

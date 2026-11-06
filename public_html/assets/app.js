@@ -7,6 +7,7 @@ let importMode = 'circuit';
 let preview = null;
 let compareSequence = 0;
 let compareTimer;
+let previewSequence = 0;
 
 // Los datos importados se muestran como texto, nunca como HTML ejecutable.
 function element(tag, className, text) {
@@ -215,6 +216,52 @@ function availableCircuits() {
   return [...new Map([...state.gameCatalog.circuits.map((item) => item.profile), ...state.circuits].map((item) => [item.id, item])).values()];
 }
 
+// La consulta no modifica el borrador: solo el botón Abrir como borrador lo hace.
+async function renderSetupPreview() {
+  const root = $('#setup-preview');
+  const id = $('#saved').value;
+  const sequence = ++previewSequence;
+  root.replaceChildren();
+  if (!id) {
+    root.append(element('p', 'empty', t('Selecciona un reglaje para ver sus valores.')));
+    return;
+  }
+  root.append(element('p', 'empty', t('Cargando reglaje…')));
+  try {
+    const preset = id.startsWith('preset:') && state.gameCatalog.presets.find((item) => `preset:${item.id}` === id);
+    const values = preset ? preset.values : (await api('load-setup', { id })).current;
+    if (sequence !== previewSequence) return;
+    root.replaceChildren();
+    const groups = [...new Set(state.catalog.map((p) => p.category))];
+    const menu = element('div', 'setup-preview-menu');
+    menu.setAttribute('aria-label', t('Categorías del reglaje'));
+    const content = element('div', 'setup-preview-values');
+    function showCategory(category, activeButton) {
+      menu.querySelectorAll('button').forEach((button) => button.setAttribute('aria-pressed', String(button === activeButton)));
+      content.replaceChildren(element('h3', '', category));
+      const list = element('dl', 'setup-preview-list');
+      state.catalog.filter((p) => p.category === category).forEach((p) => {
+        const row = element('div', 'setup-preview-row');
+        row.append(element('dt', '', p.name), element('dd', '', format(p, values?.[p.id])));
+        list.append(row);
+      });
+      content.append(list);
+    }
+    groups.forEach((category, index) => {
+      const button = element('button', 'setup-preview-category', category);
+      button.type = 'button';
+      button.addEventListener('click', () => showCategory(category, button));
+      menu.append(button);
+      if (index === 0) showCategory(category, button);
+      else button.setAttribute('aria-pressed', 'false');
+    });
+    root.append(menu, content);
+  } catch (error) {
+    if (sequence !== previewSequence) return;
+    root.replaceChildren(element('p', 'error', t('No se pudo cargar el reglaje: {error}', { error: error.message })));
+  }
+}
+
 function refreshLists() {
   const select = $('#circuit'); select.replaceChildren(new Option(t('Selecciona un circuito'), ''));
   const list = availableCircuits();
@@ -230,6 +277,7 @@ function refreshLists() {
   saved.value = [...saved.options].some((option) => option.value === selected) ? selected : '';
   if (!saved.value && preset) saved.value = `preset:${preset.id}`;
   $('#load').disabled = !saved.value;
+  renderSetupPreview();
 }
 
 function renderAdvice() {
@@ -372,7 +420,7 @@ function bindEvents() {
     syncControls(); refreshLists(); renderCircuit(); remember();
     status('');
   });
-  $('#saved').addEventListener('change', () => { $('#load').disabled = !$('#saved').value; });
+  $('#saved').addEventListener('change', () => { $('#load').disabled = !$('#saved').value; renderSetupPreview(); });
   $('#symptom').addEventListener('change', renderAdvice);
   ['#setup-title', '#notes'].forEach((selector) => $(selector).addEventListener('input', remember));
   $('#open-circuit').addEventListener('click', () => openImport('circuit'));
