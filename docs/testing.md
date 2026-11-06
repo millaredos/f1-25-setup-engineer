@@ -4,7 +4,7 @@
 
 ## Version 0.3.0 development results
 
-PHP 8.5.12: 194 domain/contract checks, 34 package checks and 79 channel, GitHub, integrity and recovery checks. Python: eight package/publication tests. Browser flows cover web channel selection, CSRF, verified downloads, backups and preserved private state, both at the root and under a subdirectory with a renamed `www` public directory. Options and Updates are also checked at mobile width.
+PHP 8.5.12: 198 domain/contract checks, 44 package checks and 79 channel, GitHub, integrity and recovery checks. 19 translation checks; Python: 14 package/publication and translation tests. Browser flows cover web channel selection, CSRF, verified downloads, backups and preserved private state, both at the root and under a subdirectory with a renamed `www` public directory. Opciones and Actualizaciones are also checked at mobile width.
 
 Automated GitHub responses are fixtures; the tests do not need a token or modify a remote release. Interrupted replacement is simulated with a recovery journal and partial file changes. Hardware power loss and disk failure have not been tested.
 
@@ -15,6 +15,9 @@ Live verification also covered anonymous discovery and download from the public 
 ## Run domain and update tests
 
 ```sh
+python -m pip install -r requirements-dev.txt
+python bin/translations.py --check
+php tests/translations.php
 php tests/run.php
 php tests/updater.php
 php tests/updates.php
@@ -22,6 +25,8 @@ python -m unittest discover -s tests -p 'test_*.py'
 ```
 
 These tests do not require a database. The PHP updater tests require ZIP and write only to their own temporary directories.
+
+The browser suite checks dropdown hover/click/keyboard behavior, notification presence and absence, the visible single-language selector, cookie persistence and invalid-language rejection.
 
 ## Run browser tests
 
@@ -62,7 +67,7 @@ If any `f125_*` table already exists, the test refuses to run. In an empty test 
 
 ## Verification limits
 
-- Version 0.3.0 has not been retested on PHP 8.0.
+- Domain and translation tests and PHP syntax were also checked on PHP 8.0; browser/package installation checks use PHP 8.5.12.
 - Automated integration against an isolated MariaDB database and a full backup restore are still pending.
 - Disk failures and hardware power loss during updates have not been forced.
 - Setting ranges and explanations need checking against the installed game version; there has been no on-track validation.

@@ -6,13 +6,18 @@
 
 ### 0.3.0
 
+- Move Opciones and Actualizaciones into a shared version dropdown with hover, click, touch and keyboard navigation, plus a new-version notification dot.
+- Unify the interface in Spanish and add editable PO catalogs with generated PHP translations shared by PHP and JavaScript.
+- Add a visible language selector in Opciones, initially offering Español and remembering the browser preference.
+- Validate translation catalogs and placeholders before packaging; preserve fallback messages when a runtime catalog cannot be loaded.
+
 - Fixed: replaced periodic GitHub API update checks with the application's version service.
 - Respect GitHub rate-limit reset times, distinguish denied access, and show when update checks can resume.
 - Refine the home guide with a centered introduction, balanced columns, readable headings and numbered steps across desktop and mobile.
 - Replace duplicate home menu cards with an introduction, application limits and a short guide to each section.
-- Use the supplied logo in the application header, including Options and Updates.
+- Use the supplied logo in the application header, including Opciones and Actualizaciones.
 - Compact single-row header with navigation between the brand and version; horizontally scrollable navigation on smaller screens.
-- Alpha and Release update channels, selected from web Options and stored per installation.
+- Alpha and Estable update channels, selected from web Opciones and stored per installation.
 - Background GitHub checks, shared cache, rate-limit backoff and verified package download without an updater password or ZIP upload.
 - Alpha builds from one active release PR; merging runs tests and prepares a stable draft with the PR summary as release notes.
 - Reproducible packages with version, commit, PR, channel, PHP and schema metadata.

@@ -4,18 +4,18 @@
 
 ## Choose a channel
 
-Open **Options → Updates → Channel** and save:
+From the version menu at the top right, open **Opciones → Actualizaciones → Canal** and save:
 
 | Channel | Builds offered |
 | --- | --- |
-| **Release** (default) | Published stable releases with a valid update package. |
+| **Estable** (default) | Published stable releases with a valid update package. |
 | **Alpha** | Successful builds from the active release PR, with stable releases as a fallback. |
 
-The selection is stored on the server and applies to the installation. Switching channels does not install anything. Older versions are never installed automatically; an Alpha installation can return to Release when a newer stable version is available.
+The selection is stored on the server and applies to the installation. Switching channels does not install anything. Older versions are never installed automatically; an Alpha installation can return to Estable when a newer stable version is available.
 
-The application checks in the background while open. Version checks are cached for five minutes on Alpha and six hours on Release. **Check for updates** refreshes the cache, subject to a one-minute throttle and GitHub rate-limit backoff.
+The application checks in the background while open. Version checks are cached for five minutes on Alpha and six hours on Estable. **Buscar actualizaciones** refreshes the cache, subject to a one-minute throttle and GitHub rate-limit backoff.
 
-GitHub permits 60 unauthenticated API requests per hour per server IP, shared with other applications using that IP. This limit applies when resolving or downloading a new release; routine version checks use the application version service without querying the GitHub API. When limited, Updates shows the UTC retry time and pauses checks until then; refreshing cannot bypass that pause. An HTTP 403 without rate-limit evidence is reported as denied access instead.
+GitHub permits 60 unauthenticated API requests per hour per server IP, shared with other applications using that IP. This limit applies when resolving or downloading a new release; routine version checks use the application version service without querying the GitHub API. When limited, Actualizaciones shows the UTC retry time and pauses checks until then; refreshing cannot bypass that pause. An HTTP 403 without rate-limit evidence is reported as denied access instead.
 
 ## Server requirements
 
@@ -28,8 +28,8 @@ There is no separate updater password or ZIP upload form. Downloads are restrict
 ## Install an update
 
 1. Save or export your draft and finish work in other tabs.
-2. Open **Updates** and review the available version, commit and release notes.
-3. Click **Update**.
+2. Open the version menu and select **Actualizaciones** and review the available version, commit and release notes.
+3. Click **Actualizar**.
 4. Check the installed version after the page reloads.
 
 Before installation, the application rechecks the selected release, verifies the GitHub SHA-256 digest and matches its version, channel, PR and commit against the package manifest. PHP requirements and database schema compatibility are checked before replacing files.

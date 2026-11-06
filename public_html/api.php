@@ -18,7 +18,7 @@ function respond(array $data, int $status = 200): void
 
 try {
     if (!appInstallation()->isInstalled()) {
-        respond(['error' => 'Completa la instalación abriendo la aplicación.'], 409);
+        respond(['error' => t('Completa la instalación abriendo la aplicación.')], 409);
     }
     $action = $_GET['action'] ?? 'bootstrap';
     $method = $_SERVER['REQUEST_METHOD'];
@@ -30,10 +30,10 @@ try {
             $channel = (new UpdateSettings(dirname(__DIR__)))->channel();
             $update = appUpdates()->check($channel);
             $available = $update['available'] ?? null;
-            respond(['channel' => $channel, 'installed' => appVersion(), 'available' => $available,
+            respond(['known' => !isset($update['error']), 'channel' => $channel, 'installed' => appVersion(), 'available' => $available,
                 'newer' => is_string($available) && version_compare($available, appVersion(), '>')]);
         } catch (Throwable $error) {
-            respond(['available' => null, 'newer' => false]);
+            respond(['known' => false, 'available' => null, 'newer' => false]);
         }
     }
     $domain = appDomain();
@@ -48,23 +48,23 @@ try {
         }
         respond(['csrf' => $_SESSION['csrf'], 'catalog' => $domain->catalog, 'symptoms' => $domain->symptoms, 'circuits' => $circuits, 'setups' => $setups, 'storageReady' => $storageReady]);
     }
-    if ($method !== 'POST') { respond(['error' => 'Método no admitido.'], 405); }
+    if ($method !== 'POST') { respond(['error' => t('Método no admitido.')], 405); }
     if (!hash_equals($_SESSION['csrf'], $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '')) {
-        respond(['error' => 'Sesión caducada. Recarga antes de continuar; exporta tu borrador si lo necesitas.'], 403);
+        respond(['error' => t('Sesión caducada. Recarga antes de continuar; exporta tu borrador si lo necesitas.')], 403);
     }
     if (!str_starts_with(strtolower($_SERVER['CONTENT_TYPE'] ?? ''), 'application/json')) {
-        respond(['error' => 'Se necesita contenido application/json.'], 415);
+        respond(['error' => t('Se necesita contenido application/json.')], 415);
     }
     $raw = file_get_contents('php://input', false, null, 0, 262145);
-    if (strlen($raw) > 262144) { respond(['error' => 'El JSON supera 256 KiB.'], 413); }
+    if (strlen($raw) > 262144) { respond(['error' => t('El JSON supera 256 KiB.')], 413); }
     $body = json_decode($raw, true, 64, JSON_THROW_ON_ERROR);
-    if (!is_array($body)) { throw new ValidationError('Se necesita un objeto JSON.'); }
+    if (!is_array($body)) { throw new ValidationError(t('Se necesita un objeto JSON.')); }
     if ($action === 'compare') { respond($domain->compare($body['reference'] ?? null, $body['current'] ?? null)); }
     if ($action === 'import-setup') { respond($domain->importSetup($body)); }
     if ($action === 'import-circuit') { respond(['circuit' => $domain->importCircuit($body)]); }
 
     if (!in_array($action, ['save-circuit', 'save-setup', 'load-setup'], true)) {
-        respond(['error' => 'Acción desconocida.'], 404);
+        respond(['error' => t('Acción desconocida.')], 404);
     }
     $validated = null;
     if ($action === 'save-circuit') { $validated = $domain->importCircuit($body); }
@@ -80,13 +80,15 @@ try {
         respond(['id' => $id, 'circuits' => $store->circuits(), 'setups' => $store->setups()], 201);
     }
     if ($action === 'load-setup') {
-        if (!is_string($body['id'] ?? null)) { throw new ValidationError('ID inválido.'); }
+        if (!is_string($body['id'] ?? null)) { throw new ValidationError(t('ID inválido.')); }
         respond($store->loadSetup($body['id']));
     }
-    respond(['error' => 'Acción desconocida.'], 404);
-} catch (ValidationError | JsonException $e) {
-    respond(['error' => $e->getMessage()], 422);
+    respond(['error' => t('Acción desconocida.')], 404);
+} catch (ValidationError $e) {
+    respond(['error' => t($e->getMessage())], 422);
+} catch (JsonException $e) {
+    respond(['error' => t('El JSON no es válido. Revisa su sintaxis y codificación UTF-8.')], 422);
 } catch (Throwable $e) {
     error_log('F125: ' . $e->getMessage());
-    respond(['error' => 'No se pudo acceder al almacenamiento. Revisa configuración, inicialización y permisos; el borrador sigue en pantalla.'], 503);
+    respond(['error' => t('No se pudo acceder al almacenamiento. Revisa configuración, inicialización y permisos; el borrador sigue en pantalla.')], 503);
 }

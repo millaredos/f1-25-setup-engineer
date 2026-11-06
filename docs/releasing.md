@@ -28,7 +28,7 @@ Stable publication requires all of the following:
 3. The PR summary, changelog, English guides and Spanish counterparts describe the shipped behavior. State any upgrade or compatibility requirements.
 4. The maintainer explicitly approves closing the release and publishing it as stable. Time elapsed, a successful Alpha update or the number of Alpha builds does not constitute approval.
 
-After approval, merge the release PR. CI tests the merge commit and prepares a stable draft. Review the resulting package and publish the draft as the latest stable release. Only publication makes `0.3.0` available on the Release channel. The Alpha channel can also advance to that stable version; the selected channel stays unchanged.
+After approval, merge the release PR. CI tests the merge commit and prepares a stable draft. Review the resulting package and publish the draft as the latest stable release. Only publication makes `0.3.0` available on the Estable channel. The Alpha channel can also advance to that stable version; the selected channel stays unchanged.
 
 Keep the current PR open while testing `0.3.0-alpha.N`. After publishing `0.3.0`, use a new PR for `0.3.1-alpha.N` or `0.4.0-alpha.N`, according to the table. Do not merge a release PR just to publish another Alpha.
 
@@ -60,7 +60,7 @@ Merge the release PR when it is ready. The pipeline tests the merge commit and p
 - The PR description as release notes.
 - Package metadata linking the version, commit and PR.
 
-Review the draft and publish it as a stable release, marking it as latest. A merge alone does not make it available to the Release channel. Keep CHANGELOG updated separately; its application-documentation translation belongs in `docs/es-es/`. Release notes and commit messages stay in English.
+Review the draft and publish it as a stable release, marking it as latest. A merge alone does not make it available to the Estable channel. Keep CHANGELOG updated separately; its application-documentation translation belongs in `docs/es-es/`. Release notes and commit messages stay in English.
 
 Do not replace published packages or reuse version tags for different commits. A correction needs a new version. GitHub release immutability can enforce this after all assets are attached.
 

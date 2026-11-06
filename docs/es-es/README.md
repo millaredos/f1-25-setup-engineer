@@ -80,13 +80,15 @@ La [guía de instalación](instalacion.md) detalla los permisos, la configuraci�
 5. En **Pruebas**, selecciona el comportamiento que notas en el coche.
 6. En **Versiones**, añade nombre y notas, guarda una versión o exporta el JSON.
 
+Abre el menú de la versión, arriba a la derecha, para acceder a **Opciones** y **Actualizaciones**. Un punto indica una versión posterior en el canal seleccionado. **Opciones → Idioma de la aplicación** ofrece actualmente **Español** y recuerda la selección en este navegador.
+
 Cambiar de apartado conserva el borrador. Cada guardado crea una versión nueva en MariaDB. El borrador del navegador se recupera por separado y no sustituye ese guardado.
 
 Se admiten JSON `f125-setup-engineer` y del comparador anterior `f125-comparador-v2`. La importación incluye validación y vista previa.
 
 ## Actualización
 
-Elige **Alpha** o **Release** en **Options → Updates → Channel**. Alpha recibe compilaciones correctas de la PR de la release activa; Release recibe estables publicadas. La aplicación detecta las nuevas versiones cuando se publican y muestra las actualizaciones disponibles en segundo plano. Pulsa **Update** para descargar, verificar e instalar, con copia privada y registro de recuperación.
+Elige **Alpha** o **Estable** en **Opciones → Actualizaciones → Canal**. Alpha recibe compilaciones correctas de la PR de la release activa; Estable recibe estables publicadas. La aplicación detecta las nuevas versiones cuando se publican y muestra las actualizaciones disponibles en segundo plano. Pulsa **Actualizar** para descargar, verificar e instalar, con copia privada y registro de recuperación.
 
 Consulta la [guía de actualización](actualizacion.md). Los repositorios públicos no necesitan token; los privados requieren un token de lectura de GitHub configurado una vez en el servidor. No hay contraseña adicional del actualizador ni subida manual de ZIP.
 
@@ -101,6 +103,7 @@ Para una copia completa, respalda también MariaDB y `config/`. Las instruccione
 | [Actualización](actualizacion.md) | Paquetes y recuperación de archivos. |
 | [Flujo de releases](publicar-versiones.md) | Una PR por release, compilaciones Alpha y publicación estable. |
 | [Arquitectura](arquitectura.md) | Stack, capas, dependencias y almacenamiento. |
+| [Traducciones](traducciones.md) | Catálogos PO y alta de idiomas. |
 | [Pruebas](verificacion.md) | Ejecución, resultados y limitaciones. |
 
 ## Desarrollo
@@ -111,6 +114,7 @@ Monolito PHP con separación entre presentación, dominio y persistencia. El fro
 public_html/   Interfaz, API HTTP y archivos estáticos
 src/           Clases PHP y arranque
 data/          Catálogos de ajustes y pruebas de conducción
+languages/     Catálogos PO editables de traducción
 config/        Configuración de la instalación
 tests/         Pruebas y fixtures
 bin/           Herramientas de desarrollo
@@ -121,6 +125,9 @@ media/         Logo y banner
 Para ejecutar las pruebas de dominio y del actualizador:
 
 ```sh
+python -m pip install -r requirements-dev.txt
+python bin/translations.py --check
+php tests/translations.php
 php tests/run.php
 php tests/updater.php
 php tests/updates.php

@@ -6,13 +6,18 @@
 
 ### 0.3.0
 
+- Opciones y Actualizaciones pasan al desplegable compartido de la versión, con apertura por ratón, clic, toque y teclado y un punto de aviso de nueva versión.
+- Interfaz unificada en español y catálogos PO editables con traducciones PHP generadas y compartidas con JavaScript.
+- Selector de idioma visible en Opciones, inicialmente con Español y preferencia guardada por navegador.
+- Validación de catálogos y marcadores antes de empaquetar; mensajes de respaldo si no se puede cargar un catálogo al ejecutar la aplicación.
+
 - Corregido: las consultas periódicas de actualización a la API de GitHub se sustituyen por el servicio propio de versiones.
 - Respeta la hora de reinicio del límite de GitHub, distingue accesos denegados e indica cuándo reanudar las comprobaciones.
 - Inicio incorpora una introducción centrada, columnas equilibradas, títulos legibles y pasos numerados en escritorio y móvil.
 - Inicio sustituye las tarjetas del menú por una introducción, los límites de la app y una guía breve de cada apartado.
-- Logo proporcionado en la cabecera de la aplicación, incluidas Options y Updates.
+- Logo proporcionado en la cabecera de la aplicación, incluidas Opciones y Actualizaciones.
 - Cabecera compacta con el menú entre la marca y la versión; navegación con desplazamiento horizontal en pantallas pequeñas.
-- Canales Alpha y Release seleccionables desde Options y guardados por instalación.
+- Canales Alpha y Estable seleccionables desde Opciones y guardados por instalación.
 - Consultas de GitHub en segundo plano, caché compartida, espera ante límites y descarga verificada sin contraseña del actualizador ni subida de ZIP.
 - Compilaciones Alpha desde una única PR activa de release; al fusionar, se ejecutan pruebas y se prepara un borrador estable con el resumen de la PR como notas.
 - Paquetes reproducibles con versión, commit, PR, canal y requisitos de PHP y esquema.

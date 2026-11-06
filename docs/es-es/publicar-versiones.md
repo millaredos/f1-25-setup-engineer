@@ -28,7 +28,7 @@ Para publicar una estable deben cumplirse todos estos puntos:
 3. El resumen de la PR, changelog, guías inglesas y copias españolas describen lo entregado. Se indican los requisitos de actualización o compatibilidad.
 4. El responsable aprueba expresamente cerrar la release y publicarla como estable. Ni el tiempo transcurrido, ni una actualización Alpha correcta, ni la cantidad de Alpha equivalen a esa aprobación.
 
-Tras aprobarla, se fusiona la PR. CI prueba el commit de fusión y prepara un borrador estable. Se revisa el paquete y se publica el borrador como última estable. Solo esa publicación ofrece `0.3.0` al canal Release. El canal Alpha también puede avanzar a esa estable; la selección de canal no cambia.
+Tras aprobarla, se fusiona la PR. CI prueba el commit de fusión y prepara un borrador estable. Se revisa el paquete y se publica el borrador como última estable. Solo esa publicación ofrece `0.3.0` al canal Estable. El canal Alpha también puede avanzar a esa estable; la selección de canal no cambia.
 
 La PR actual permanece abierta mientras se prueba `0.3.0-alpha.N`. Tras publicar `0.3.0`, se abre otra PR para `0.3.1-alpha.N` o `0.4.0-alpha.N`, según la tabla. No se fusiona una PR de release para publicar otra Alpha.
 
@@ -60,7 +60,7 @@ Fusiona la PR cuando esté preparada. El flujo prueba el commit de fusión y pre
 - La descripción de la PR como notas de la release.
 - Los metadatos que relacionan versión, commit y PR.
 
-Revisa el borrador y publícalo como release estable, marcándolo como última versión. La fusión por sí sola no lo ofrece al canal Release. Mantén CHANGELOG por separado; su traducción pertenece a la documentación de `docs/es-es/`. Las notas de release y los mensajes de commit permanecen en inglés.
+Revisa el borrador y publícalo como release estable, marcándolo como última versión. La fusión por sí sola no lo ofrece al canal Estable. Mantén CHANGELOG por separado; su traducción pertenece a la documentación de `docs/es-es/`. Las notas de release y los mensajes de commit permanecen en inglés.
 
 No sustituyas paquetes publicados ni reutilices tags para otros commits. Una corrección necesita otra versión. La inmutabilidad de releases de GitHub permite imponer esta regla después de adjuntar todos los archivos.
 

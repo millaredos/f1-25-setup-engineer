@@ -82,13 +82,15 @@ The interface is currently in Spanish. The names below match its menus and butto
 5. In **Pruebas**, select the handling symptom you notice.
 6. In **Versiones**, add a name and notes, save a version or export JSON.
 
+Open the version menu at the top right for **Opciones** and **Actualizaciones**. A dot marks a newer version for the selected channel. **Opciones → Idioma de la aplicación** currently offers **Español** and remembers the selection in this browser.
+
 Switching sections keeps the draft. Each save creates a new version in MariaDB. Browser drafts are recovered separately and do not replace database saves.
 
 Both `f125-setup-engineer` and the previous comparator's `f125-comparador-v2` JSON formats are supported. Imports include validation and a preview.
 
 ## Updating
 
-Choose **Alpha** or **Release** in **Options → Updates → Channel**. Alpha receives successful builds from the active release PR; Release receives published stable versions. The application detects new versions after publication and displays available updates in the background. Click **Update** to download, verify and install a build, with a private backup and recovery journal.
+Choose **Alpha** or **Estable** in **Opciones → Actualizaciones → Canal**. Alpha receives successful builds from the active release PR; Estable receives published stable versions. The application detects new versions after publication and displays available updates in the background. Click **Actualizar** to download, verify and install a build, with a private backup and recovery journal.
 
 See the [updating guide](docs/updating.md). Public repositories need no token; private repositories require a read-only GitHub token configured once on the server. There is no separate updater password or manual ZIP upload.
 
@@ -103,6 +105,7 @@ For a complete backup, also back up MariaDB and `config/`. See [backup and resto
 | [Updating](docs/updating.md) | Packages and file recovery. |
 | [Release workflow](docs/releasing.md) | One PR per release, Alpha builds and stable publication. |
 | [Architecture](docs/architecture.md) | Stack, layers, dependencies and storage. |
+| [Translations](docs/translations.md) | PO catalogs and adding a language. |
 | [Testing](docs/testing.md) | Commands, results and limitations. |
 
 ## Development
@@ -113,6 +116,7 @@ A PHP monolith with separate presentation, domain and persistence layers. The fr
 public_html/   Interface, HTTP API and static assets
 src/           PHP classes and bootstrap
 data/          Settings and handling-test catalogs
+languages/     Editable PO translation catalogs
 config/        Installation configuration
 tests/         Tests and fixtures
 bin/           Development tools
@@ -123,6 +127,9 @@ media/         Logo and banner
 Run the domain and updater tests:
 
 ```sh
+python -m pip install -r requirements-dev.txt
+python bin/translations.py --check
+php tests/translations.php
 php tests/run.php
 php tests/updater.php
 php tests/updates.php

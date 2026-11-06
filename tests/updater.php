@@ -45,6 +45,12 @@ try {
         expectUpdate($rejected, 'rechazar paquete con rutas adicionales');
         expectUpdate(trim(file_get_contents($root . '/src/VERSION')) === '0.1.0', 'rechazo sin cambiar versión');
     }
+    foreach (['src/Translation.php', 'src/Header.php', 'src/locale_es.php', 'public_html/i18n.php', 'public_html/assets/navigation.js'] as $required) {
+        writePackage($root . '/package.zip', array_diff_key($contents, [$required => true]));
+        $rejected = false;
+        try { $updater->apply($root . '/package.zip'); } catch (RuntimeException $e) { $rejected = true; }
+        expectUpdate($rejected && trim(file_get_contents($root . '/src/VERSION')) === '0.1.0', 'reject missing translation/navigation dependency: ' . $required);
+    }
     writePackage($root . '/package.zip', $contents, [], true);
     $rejected = false;
     try { $updater->apply($root . '/package.zip'); } catch (RuntimeException $e) { $rejected = true; }

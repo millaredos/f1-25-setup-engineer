@@ -4,18 +4,18 @@
 
 ## Elegir canal
 
-Abre **Options → Updates → Channel** y guarda:
+Desde el menú de la versión, arriba a la derecha, abre **Opciones → Actualizaciones → Canal** y guarda:
 
 | Canal | Versiones disponibles |
 | --- | --- |
-| **Release** (predeterminado) | Releases estables publicadas con un paquete de actualización válido. |
+| **Estable** (predeterminado) | Releases estables publicadas con un paquete de actualización válido. |
 | **Alpha** | Compilaciones correctas de la PR de la release activa, con las estables como alternativa. |
 
-La selección se guarda en el servidor y se aplica a la instalación. Cambiar de canal no instala nada. Nunca se instala automáticamente una versión anterior; una instalación Alpha puede volver a Release cuando haya una estable posterior.
+La selección se guarda en el servidor y se aplica a la instalación. Cambiar de canal no instala nada. Nunca se instala automáticamente una versión anterior; una instalación Alpha puede volver a Estable cuando haya una estable posterior.
 
-La aplicación comprueba las novedades en segundo plano mientras está abierta. La caché de versiones dura cinco minutos en Alpha y seis horas en Release. **Check for updates** permite renovarla, con un intervalo mínimo de un minuto y respetando los límites de GitHub.
+La aplicación comprueba las novedades en segundo plano mientras está abierta. La caché de versiones dura cinco minutos en Alpha y seis horas en Estable. **Buscar actualizaciones** permite renovarla, con un intervalo mínimo de un minuto y respetando los límites de GitHub.
 
-GitHub permite 60 consultas sin autenticación por hora e IP del servidor, compartidas con otras aplicaciones que utilicen esa IP. Este límite afecta a la consulta o descarga de una release nueva; las comprobaciones habituales usan el servicio de versiones de la app sin consultar la API de GitHub. Si se alcanza el límite, Updates indica la hora UTC de reintento y pausa las consultas hasta entonces; recargar no evita esa espera. Un HTTP 403 sin indicios de límite se informa como acceso denegado.
+GitHub permite 60 consultas sin autenticación por hora e IP del servidor, compartidas con otras aplicaciones que utilicen esa IP. Este límite afecta a la consulta o descarga de una release nueva; las comprobaciones habituales usan el servicio de versiones de la app sin consultar la API de GitHub. Si se alcanza el límite, Actualizaciones indica la hora UTC de reintento y pausa las consultas hasta entonces; recargar no evita esa espera. Un HTTP 403 sin indicios de límite se informa como acceso denegado.
 
 ## Requisitos del servidor
 
@@ -28,8 +28,8 @@ No hay una contraseña adicional del actualizador ni un formulario para subir ZI
 ## Instalar una actualización
 
 1. Guarda o exporta el borrador y termina las operaciones de otras pestañas.
-2. Abre **Updates** y revisa la versión disponible, el commit y las notas.
-3. Pulsa **Update**.
+2. Abre el menú de la versión y selecciona **Actualizaciones** y revisa la versión disponible, el commit y las notas.
+3. Pulsa **Actualizar**.
 4. Comprueba la versión instalada después de recargar la página.
 
 Antes de instalar, la aplicación vuelve a comprobar la release seleccionada, verifica el SHA-256 de GitHub y compara versión, canal, PR y commit con el manifiesto del paquete. Comprueba los requisitos de PHP y el esquema de la base de datos antes de sustituir archivos.

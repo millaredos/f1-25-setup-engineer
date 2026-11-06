@@ -3,7 +3,7 @@ declare(strict_types=1);
 ini_set('display_errors', '0');
 require dirname(__DIR__) . '/src/bootstrap.php';
 redirectForInstallation(false);
-header("Content-Security-Policy: default-src 'self'; style-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; connect-src 'self'; style-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: same-origin');
 session_name('f125_session');
@@ -25,7 +25,7 @@ try {
             if (!is_string($_POST['identity'] ?? null) || !preg_match('/^[a-f0-9]{64}$/D', $_POST['identity'])) { throw new RuntimeException('Check for an available build first.'); }
             $backup = $service->install($channel, $_POST['identity'], basename(__DIR__));
             session_start();
-            $_SESSION['update_result'] = 'Update installed. Previous files: ' . $backup . '.';
+            $_SESSION['update_result'] = t('Actualización instalada. Archivos anteriores: {backup}.', ['backup' => $backup]);
             session_write_close();
             header('Location: update.php', true, 303); exit;
         } elseif (($_POST['action'] ?? '') === 'check') { $result = $service->check($channel, true); }
@@ -37,6 +37,9 @@ try {
 } catch (Throwable $e) {
     http_response_code(422);
     error_log('F125 updates: ' . $e->getMessage());
+    for ($cause = $e->getPrevious(); $cause !== null; $cause = $cause->getPrevious()) {
+        error_log('F125 update cause: ' . $cause->getMessage());
+    }
     $error = $e instanceof RuntimeException ? $e->getMessage() : 'Cannot complete the update. The installed application has been preserved.';
 }
 function updateText(string $text): string { return htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
@@ -44,26 +47,26 @@ $retryAt = is_int($result['retryAt'] ?? null) && $result['retryAt'] > time() ? $
 $newer = is_array($candidate) && version_compare($candidate['version'], appVersion(), '>');
 ?>
 <!doctype html>
-<html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Updates · F1 25</title><link rel="stylesheet" href="assets/app.css?v=<?= appVersion() ?>"></head>
+<html lang="<?= h(appTranslation()->language()) ?>">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title><?= h(t('Actualizaciones · F1 25')) ?></title><link rel="stylesheet" href="assets/app.css?v=<?= appVersion() ?>"><script type="module" src="assets/navigation.js?v=<?= appVersion() ?>"></script></head>
 <body>
-<header class="masthead"><a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span><span>SETUP ENGINEER<small>Tu taller de F1 25</small></span></a><nav class="app-nav" aria-label="Sections"><a href="./">Home</a><a href="update.php" aria-current="page">Updates</a><a href="options.php">Options</a></nav><span class="driver">Version <?= appVersion() ?></span></header>
-<main class="installation"><h1>Updates</h1>
-<p>Installed: <strong id="installed-version"><?= appVersion() ?></strong> · Channel: <strong id="current-channel"><?= updateText(ucfirst($channel)) ?></strong> · <a href="options.php">Change channel</a></p>
+<?php appHeader('updates'); ?>
+<main class="installation"><h1><?= h(t('Actualizaciones')) ?></h1>
+<p><?= h(t('Instalada:')) ?> <strong id="installed-version"><?= appVersion() ?></strong> <?= h(t('· Canal:')) ?> <strong id="current-channel"><?= updateText(t($channel === 'alpha' ? 'Alpha' : 'Estable')) ?></strong> · <a href="options.php"><?= h(t('Cambiar canal')) ?></a></p>
 <?php if ($message): ?><p class="status" role="status"><?= updateText($message) ?></p><?php endif; ?>
-<?php if ($error): ?><p class="status error" role="alert"><?= updateText($error) ?></p><?php endif; ?>
-<?php if ($retryAt !== null): ?><p class="status" role="status">Next check after <time datetime="<?= gmdate('Y-m-d\TH:i:s\Z', $retryAt) ?>"><?= gmdate('Y-m-d H:i:s', $retryAt) ?> UTC</time>. Reload this page after that time. Your installed application is unchanged.</p><?php endif; ?>
-<form method="post"><input type="hidden" name="csrf" value="<?= updateText($csrf) ?>"><button class="button secondary" name="action" value="check"<?= $retryAt !== null ? ' disabled' : '' ?>>Check for updates</button></form>
+<?php if ($error): ?><p class="status error" role="alert"><?= updateText(t($error)) ?></p><?php endif; ?>
+<?php if ($retryAt !== null): ?><p class="status" role="status"><?= h(t('Próxima comprobación a partir de')) ?> <time datetime="<?= gmdate('Y-m-d\TH:i:s\Z', $retryAt) ?>"><?= gmdate('Y-m-d H:i:s', $retryAt) ?> UTC</time><?= h(t('. Recarga esta página después de esa hora. La versión instalada se conserva.')) ?></p><?php endif; ?>
+<form method="post"><input type="hidden" name="csrf" value="<?= updateText($csrf) ?>"><button class="button secondary" name="action" value="check"<?= $retryAt !== null ? ' disabled' : '' ?>><?= h(t('Buscar actualizaciones')) ?></button></form>
 <section class="panel">
 <?php if (is_array($candidate)): ?>
-<h2>Available: <span id="available-version"><?= updateText($candidate['version']) ?></span></h2>
+<h2><?= h(t('Disponible:')) ?> <span id="available-version"><?= updateText($candidate['version']) ?></span></h2>
 <p>Commit <?= updateText(substr($candidate['commit'], 0, 12)) ?> · PR #<?= $candidate['pr'] ?></p>
 <pre class="release-notes"><?= updateText($candidate['notes']) ?></pre>
 <?php if ($newer): ?>
 <form method="post" class="update-form"><input type="hidden" name="csrf" value="<?= updateText($csrf) ?>"><input type="hidden" name="identity" value="<?= updateText($candidate['identity']) ?>">
-<label><input type="checkbox" required> I have saved my draft and finished work in other tabs.</label><button class="button" name="action" value="install">Update</button></form>
-<?php else: ?><p>The channel has no newer build. Automatic downgrades are disabled.</p><?php endif; ?>
-<?php elseif (!$error && is_string($result['available'] ?? null)): ?><p>The channel has no newer build. Automatic downgrades are disabled.</p>
-<?php elseif (!$error): ?><p>No published build is available for this channel.</p><?php endif; ?>
-<p class="subtle">Checks are cached for five minutes on Alpha and six hours on Release. Installation starts only when you click Update.</p>
+<label><input type="checkbox" required> <?= h(t('He guardado mi borrador y terminado el trabajo en otras pestañas.')) ?></label><button class="button" name="action" value="install"><?= h(t('Actualizar')) ?></button></form>
+<?php else: ?><p><?= h(t('El canal no tiene una versión posterior. No se vuelve automáticamente a una versión anterior.')) ?></p><?php endif; ?>
+<?php elseif (!$error && is_string($result['available'] ?? null)): ?><p><?= h(t('El canal no tiene una versión posterior. No se vuelve automáticamente a una versión anterior.')) ?></p>
+<?php elseif (!$error): ?><p><?= h(t('No hay una versión publicada para este canal.')) ?></p><?php endif; ?>
+<p class="subtle"><?= h(t('Las comprobaciones se conservan cinco minutos en Alpha y seis horas en Estable. La instalación empieza al pulsar Actualizar.')) ?></p>
 </section></main></body></html>

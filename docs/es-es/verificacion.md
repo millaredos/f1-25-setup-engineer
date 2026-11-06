@@ -4,7 +4,7 @@
 
 ## Resultados de desarrollo de 0.3.0
 
-PHP 8.5.12: 194 comprobaciones de dominio y contratos, 34 de paquetes y 79 de canales, GitHub, integridad y recuperación. Python: ocho pruebas de empaquetado y publicación. Los recorridos de navegador comprueban selección web del canal, CSRF, descarga verificada, copias y conservación del estado privado, en raíz y bajo una subcarpeta con la carpeta pública renombrada a `www`. Options y Updates también se comprueban en ancho móvil.
+PHP 8.5.12: 198 comprobaciones de dominio y contratos, 44 de paquetes y 79 de canales, GitHub, integridad y recuperación. 19 comprobaciones de traducción; Python: 14 pruebas de empaquetado, publicación y traducción. Los recorridos de navegador comprueban selección web del canal, CSRF, descarga verificada, copias y conservación del estado privado, en raíz y bajo una subcarpeta con la carpeta pública renombrada a `www`. Opciones y Actualizaciones también se comprueban en ancho móvil.
 
 Las respuestas automatizadas de GitHub son fixtures; las pruebas no necesitan token ni modifican releases remotas. La interrupción se simula mediante un registro de recuperación y archivos parcialmente cambiados. No se han probado cortes eléctricos ni fallos de disco reales.
 
@@ -15,6 +15,9 @@ La verificación real también incluyó detección y descarga sin autenticación
 ## Ejecutar pruebas de dominio y actualización
 
 ```sh
+python -m pip install -r requirements-dev.txt
+python bin/translations.py --check
+php tests/translations.php
 php tests/run.php
 php tests/updater.php
 php tests/updates.php
@@ -22,6 +25,8 @@ python -m unittest discover -s tests -p 'test_*.py'
 ```
 
 Estas pruebas no requieren base de datos. Las pruebas PHP del actualizador necesitan ZIP y escriben exclusivamente en sus propios directorios temporales.
+
+El recorrido de navegador comprueba el desplegable por ratón, clic y teclado, la presencia y ausencia del aviso, el selector visible con un idioma, la persistencia de la cookie y el rechazo de idiomas no disponibles.
 
 ## Ejecutar pruebas de navegador
 
@@ -62,7 +67,7 @@ Si ya existe alguna tabla `f125_*`, la prueba se niega a ejecutarse. En una base
 
 ## Límites de la verificación
 
-- La versión 0.3.0 no se ha vuelto a probar en PHP 8.0.
+- Dominio, traducciones y sintaxis PHP también comprobados en PHP 8.0; las pruebas de navegador e instalación de paquetes usan PHP 8.5.12.
 - La integración automatizada con una MariaDB aislada y la restauración completa de backups siguen pendientes.
 - No se han provocado fallos de disco ni cortes eléctricos durante las actualizaciones.
 - Los rangos y las explicaciones requieren contraste con la versión instalada del juego; no hay validación en pista.

@@ -39,6 +39,10 @@ flowchart LR
     Store -->|PDO_MYSQL| DB[("MariaDB")]
 ```
 
+## Translations
+
+`src/Translation.php` loads generated `src/locale_*.php` catalogs from editable PO sources in `languages/`. `public_html/i18n.php` serves the same messages to JavaScript. `src/Header.php` and `assets/navigation.js` share navigation and update notifications across installed pages. Language preference uses a browser cookie; no database schema change is needed. Polib is a development-only dependency for catalog generation. See [translations](translations.md).
+
 ## Storage
 
 | Table | Contents |
