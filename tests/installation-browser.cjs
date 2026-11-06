@@ -10,7 +10,7 @@ const assert = require('node:assert/strict');
   const repository = path.resolve(__dirname, '..');
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'f125-web-'));
   let server;
-  let serverErrors = '';
+  const serverLog = path.join(root, 'php-server.log');
   try {
     for (const directory of ['src', 'data', 'public_html']) fs.cpSync(path.join(repository, directory), path.join(root, directory), { recursive: true });
     fs.mkdirSync(path.join(root, 'config'));
@@ -33,8 +33,10 @@ const assert = require('node:assert/strict');
     const env = { ...process.env };
     for (const key of ['F125_DSN', 'F125_DB_USER', 'F125_DB_PASSWORD']) delete env[key];
     const zipArgs = process.env.F125_TEST_ZIP_DIR ? ['-d', `extension_dir=${process.env.F125_TEST_ZIP_DIR}`, '-d', 'extension=zip'] : [];
-    server = spawn(process.env.F125_TEST_PHP || 'php', ['-n', ...zipArgs, '-S', `127.0.0.1:${port}`, '-t', path.join(root, publicName), ...routerArgs], { cwd: root, env, windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'] });
-    server.stderr.on('data', (data) => { serverErrors = (serverErrors + data).slice(-18000); });
+    // The child browser runs synchronously below. A pipe could fill while this event loop is blocked.
+    const logHandle = fs.openSync(serverLog, 'w');
+    server = spawn(process.env.F125_TEST_PHP || 'php', ['-n', ...zipArgs, '-S', `127.0.0.1:${port}`, '-t', path.join(root, publicName), ...routerArgs], { cwd: root, env, windowsHide: true, stdio: ['ignore', 'ignore', logHandle] });
+    fs.closeSync(logHandle);
     let launchError;
     server.on('error', (error) => { launchError = error; });
     const host = process.env.F125_TEST_HOST || '127.0.0.1';
@@ -140,7 +142,7 @@ const assert = require('node:assert/strict');
     }
     console.log(`OK: estados, redirecciones, POST, API y caída de conexión; montaje ${mount}, host ${host}, puerto ${port}; sitio temporal aislado.`);
   } catch (error) {
-    process.stderr.write(serverErrors);
+    if (fs.existsSync(serverLog)) process.stderr.write(fs.readFileSync(serverLog, 'utf8').slice(-4000));
     throw error;
   } finally {
     if (server && server.exitCode === null) {
