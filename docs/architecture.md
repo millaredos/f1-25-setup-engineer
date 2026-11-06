@@ -58,6 +58,8 @@ Each save inserts a new version. Its JSON contains the reference, current values
 
 The game catalog is separate from imported circuit profiles and personal setups. Names alone do not constitute technical profiles. `Migrations` applies versioned SQL with a database-specific advisory lock and records each data transaction's checksum. See [database migrations](database-migrations.md).
 
+Bootstrap serves catalog circuit identities and preset values alongside imported profiles and saved versions. `Domain` accepts a supplied circuit registry for identity validation while remaining independent of PDO. API saves resolve catalog snapshots against that registry; offline import/export validates their structure. Personal saves retain an identity snapshot in the existing circuit/setup tables.
+
 ## Installation and updates
 
 - `install.php` checks requirements and prepares tables through `Store`.

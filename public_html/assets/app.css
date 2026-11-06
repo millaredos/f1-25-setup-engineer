@@ -890,11 +890,21 @@ dialog label {
 .options-form > button { justify-self:start; }
 .load-fields { grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; }
 .load-fields > label:first-child { grid-column:auto; }
-.saved-load { display:grid; gap:12px; }
+.saved-load { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:10px; }
+.saved-load label { min-width:0; }
 .saved-load button { justify-self:start; }
-.loading-tools { margin-top:24px; padding-top:16px; border-top:1px solid var(--line); }
-.loading-tools > summary { color:var(--green); cursor:pointer; margin-bottom:16px; }
-@media (max-width:640px) { .load-fields { grid-template-columns:1fr; } }
+.workshop-app { display:flex; flex-direction:column; min-height:100vh; min-height:100svh; }
+.workshop-app > main { flex:1; width:100%; margin:0 auto; padding-top:20px; }
+.context-panel { padding:18px 22px; }
+.context-panel .section-heading { margin-bottom:14px; }
+.context-panel h1 { font-size:23px; letter-spacing:-.7px; margin:0; }
+.context-panel .circuit-info { margin-top:12px; padding-top:12px; border-top:1px solid var(--line); }
+.context-panel .circuit-info p { margin:4px 0 0; }
+.site-footer { width:100%; font-size:11px; border-top:1px solid var(--line); padding:18px max(24px,calc((100vw - 1232px)/2)); background:var(--cream); }
+.site-footer > div { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 20px; }
+.site-footer span { float:none; }
+.site-footer p { margin:6px 0 0; }
+@media (max-width:640px) { .load-fields, .saved-load { grid-template-columns:1fr; } }
 @media (max-width:1100px) { .driver .version-subtitle { display:none; } }
 @media (max-width:600px) {
   .version-toggle { padding:7px 5px; font-size:10px; letter-spacing:0; }

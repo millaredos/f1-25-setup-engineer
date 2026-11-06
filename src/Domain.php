@@ -10,9 +10,11 @@ final class Domain
     public array $symptoms;
 
     private Closure $translate;
+    private ?array $gameCircuits;
 
-    public function __construct(string $directory, ?callable $translate = null)
+    public function __construct(string $directory, ?callable $translate = null, ?array $gameCircuits = null)
     {
+        $this->gameCircuits = $gameCircuits === null ? null : array_column($gameCircuits, null, 'id');
         $this->translate = Closure::fromCallable($translate ?? static function (string $message, array $values = []): string {
             $replace = [];
             foreach ($values as $key => $value) { $replace['{' . $key . '}'] = (string) $value; }
@@ -148,6 +150,17 @@ final class Domain
         $id = $input['id'] ?? '';
         if (!is_string($id) || !preg_match('/^[a-z0-9][a-z0-9-]{0,79}$/D', $id)) {
             throw new ValidationError($this->tr('El ID del circuito admite minúsculas, números y guiones (máximo 80).'));
+        }
+        if (($input['origin'] ?? null) === 'game-catalog') {
+            // Offline imports retain a validated identity snapshot; saves resolve against the live catalog.
+            $record = $this->gameCircuits === null ? $input : ($this->gameCircuits[$id] ?? null);
+            if ($record === null) { throw new ValidationError($this->tr('Ese circuito no está en el catálogo del juego.')); }
+            // A catalog entry identifies a circuit; it does not invent a technical profile or sources.
+            return ['id' => $id, 'name' => $this->text($record['name'] ?? null, 'Circuito', 120),
+                'origin' => 'game-catalog', 'location' => $this->text($record['location'] ?? null, $this->tr('Ubicación'), 80),
+                'layout' => '', 'gameVersion' => 'unknown', 'downforce' => 'unknown', 'summary' => '',
+                'characteristics' => array_fill_keys(['corners', 'straights', 'braking', 'traction', 'kerbs', 'aero'], ''),
+                'sources' => [], 'hypotheses' => ''];
         }
         $characteristics = $input['characteristics'] ?? [];
         if (!is_array($characteristics)) {

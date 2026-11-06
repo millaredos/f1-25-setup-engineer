@@ -24,7 +24,7 @@ Desarrollada en PHP, MariaDB, JavaScript nativo y CSS puro.
 - Exportación JSON y recuperación del borrador del navegador.
 - Migraciones versionadas con cinco predeterminados del juego y asignaciones confirmadas para los 24 circuitos del campeonato e Imola.
 
-Los circuitos se incorporan mediante fichas importadas. Las explicaciones son orientativas y deben comprobarse en el juego.
+El selector incluye el catálogo del juego y las fichas importadas para circuitos adicionales. Las explicaciones son orientativas y deben comprobarse en el juego.
 
 **Versión de desarrollo: 0.3.0-alpha.0.** Consulta los cambios en [CHANGELOG.md](CHANGELOG.md).
 
@@ -74,9 +74,9 @@ La [guía de instalación](instalacion.md) detalla los permisos, la configuraci�
 
 ## Uso
 
-1. En **Circuito y referencia**, importa una [ficha de circuito](formato-circuito.md) e indica las condiciones.
-2. Introduce los veinte valores iniciales en **Taller**, o importa un reglaje desde **Circuito y referencia**.
-3. Fija los valores actuales como referencia e indica su origen.
+1. En **Circuito y referencia**, selecciona un circuito del catálogo del juego.
+2. Elige su predeterminado o una versión personal en **Cargar reglaje guardado** y pulsa **Abrir como borrador**.
+3. El predeterminado se abre con referencia y valores editables separados. Usa **Añadir circuito** para [fichas adicionales](formato-circuito.md), incluidos mods; importa JSON de reglajes personales desde **Versiones**.
 4. Edita los ajustes en **Taller** y consulta el resumen de cambios.
 5. En **Pruebas**, selecciona el comportamiento que notas en el coche.
 6. En **Versiones**, añade nombre y notas, guarda una versión o exporta el JSON.

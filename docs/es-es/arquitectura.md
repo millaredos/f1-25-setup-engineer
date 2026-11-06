@@ -58,6 +58,8 @@ Cada guardado inserta una versión nueva. Su JSON contiene referencia, valores a
 
 El catálogo del juego está separado de las fichas importadas y los reglajes personales. Los nombres por sí solos no forman fichas técnicas. `Migrations` aplica SQL versionado con un bloqueo de la base y registra la huella de cada transacción de datos. Consulta [migraciones de base de datos](migraciones-base-datos.md).
 
+El arranque sirve identidades del catálogo y valores de predeterminados junto a fichas importadas y versiones guardadas. `Domain` acepta un registro de circuitos para validar su identidad y sigue siendo independiente de PDO. El guardado en la API resuelve las copias del catálogo contra ese registro; la importación y exportación sin conexión validan su estructura. Los guardados personales conservan una copia de identidad en las tablas existentes de circuitos y reglajes.
+
 ## Instalación y actualización
 
 - `install.php` comprueba requisitos y prepara las tablas mediante `Store`.

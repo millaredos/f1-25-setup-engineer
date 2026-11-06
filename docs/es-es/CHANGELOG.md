@@ -6,6 +6,10 @@
 
 ### 0.3.0
 
+- Mostrar los circuitos del catálogo y ofrecer su predeterminado junto a los reglajes personales guardados.
+- Compactar Circuito y referencia, retirar el aviso rutinario de taller listo y la importación manual de predeterminados, y conservar Añadir circuito para fichas adicionales.
+- Mantener el footer al pie en páginas cortas, con © 2026 millaredos y enlace a GitHub.
+
 - Completar las asignaciones de los 24 circuitos del campeonato y añadir Imola con el predeterminado 3 mediante una migración adicional.
 
 - Añadir migraciones SQL versionadas, carga inicial automática y una página de actualización de la base con protección CSRF para instalaciones existentes.

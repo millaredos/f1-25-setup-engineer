@@ -4,7 +4,7 @@
 
 ## Version 0.3.0 development results
 
-PHP 8.5.12: 201 domain/contract checks, 50 package checks and 79 channel, GitHub, integrity and recovery checks. 19 translation checks and 56 migration checks with recording PDO objects; Python: 14 package/publication and translation tests. Browser flows cover web channel selection, CSRF, verified downloads, backups and preserved private state, both at the root and under a subdirectory with a renamed `www` public directory. Opciones, Actualizaciones and the database migration page are also checked at mobile width.
+PHP 8.5.12: 204 domain/contract checks, 50 package checks and 79 channel, GitHub, integrity and recovery checks. 19 translation checks and 56 migration checks with recording PDO objects; Python: 14 package/publication and translation tests. Browser flows cover web channel selection, CSRF, verified downloads, backups and preserved private state, both at the root and under a subdirectory with a renamed `www` public directory. Opciones, Actualizaciones and the database migration page are also checked at mobile width.
 
 Automated GitHub responses are fixtures; the tests do not need a token or modify a remote release. Interrupted replacement is simulated with a recovery journal and partial file changes. Hardware power loss and disk failure have not been tested.
 
@@ -29,6 +29,8 @@ python -m unittest discover -s tests -p 'test_*.py'
 These tests do not require a database. The PHP updater tests require ZIP and write only to their own temporary directories.
 
 The browser suite checks dropdown hover/click/keyboard behavior, notification presence and absence, the visible single-language selector, cookie persistence and invalid-language rejection.
+
+Catalog loading tests use the real API with an isolated storage fixture: 25 circuit choices, assigned game presets, personal save/reload, template preservation, circuit filtering, cancelled replacement, snapshot recovery during a database outage, and rejection of fabricated catalog IDs. Desktop/mobile checks verify selector position and that the footer reaches the viewport bottom on short pages and follows content on long pages.
 
 ## Run browser tests
 

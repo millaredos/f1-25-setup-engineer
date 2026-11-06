@@ -39,6 +39,8 @@ Formato `f125-circuit`, versión de esquema 1. Ejemplo con datos ficticios:
 
 Los veinte valores del reglaje se aportan por separado. Cada versión guardada conserva una copia de la ficha.
 
+Los circuitos distribuidos utilizan una copia de identidad con `origin: game-catalog`, `id`, `name` y `location`. La aplicación resuelve el identificador y el nombre en el catálogo instalado antes de guardar. Estas entradas usan `downforce: unknown`, campos técnicos vacíos y ninguna fuente externa mientras no haya una ficha técnica. La recuperación y exportación sin conexión validan la estructura de la copia sin tratar sus descripciones como física del circuito comprobada. Las fichas personalizadas importadas conservan el formato y los requisitos de fuentes anteriores.
+
 ## Reglajes
 
 Nuevo: `format: f125-setup-engineer`, `schemaVersion: 1`, `reference`, `current`, `referenceSource`, `circuit`, `conditions`, `title`, `notes`. Mapas con veinte IDs heredados. Origen: `unknown`, `game-assigned`, `capture`, `personal`. Condiciones: `surface` (`unknown`, `dry`, `wet`) y `session` (`unknown`, `race`, `time-trial`). La aplicación exporta este formato.

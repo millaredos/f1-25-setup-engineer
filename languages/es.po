@@ -11,9 +11,6 @@ msgstr ""
 msgid ". Recarga esta página después de esa hora. La versión instalada se conserva."
 msgstr ". Recarga esta página después de esa hora. La versión instalada se conserva."
 
-msgid "01 / PUNTO DE PARTIDA"
-msgstr "01 / PUNTO DE PARTIDA"
-
 msgid "02 / REGLAJES"
 msgstr "02 / REGLAJES"
 
@@ -144,9 +141,6 @@ msgstr "Apoyo lateral / tracción"
 msgid "Application file replacement failed."
 msgstr "No se pudieron sustituir los archivos de la aplicación."
 
-msgid "Asignados por el juego (aportados por mí)"
-msgstr "Asignados por el juego (aportados por mí)"
-
 msgid "Asocia primero una ficha de circuito al reglaje."
 msgstr "Asocia primero una ficha de circuito al reglaje."
 
@@ -248,9 +242,6 @@ msgstr "No se pudo preparar un archivo de la aplicación."
 msgid "Cannot stage update recovery."
 msgstr "No se pudo preparar la recuperación de la actualización."
 
-msgid "Capturas"
-msgstr "Capturas"
-
 msgid "Características debe ser un objeto."
 msgstr "Características debe ser un objeto."
 
@@ -271,12 +262,6 @@ msgstr "Carga media"
 
 msgid "Carga trasera"
 msgstr "Carga trasera"
-
-msgid "Cargando el taller…"
-msgstr "Cargando el taller…"
-
-msgid "Cargar ejemplo de las capturas"
-msgstr "Cargar ejemplo de las capturas"
 
 msgid "Caída delantera"
 msgstr "Caída delantera"
@@ -455,9 +440,6 @@ msgstr ""
 msgid "Descartarlo"
 msgstr "Descartarlo"
 
-msgid "Desconocido"
-msgstr "Desconocido"
-
 msgid "Desgaste: verificar"
 msgstr "Desgaste: verificar"
 
@@ -546,9 +528,6 @@ msgstr "Edita los veinte ajustes, compara sus diferencias y guarda variantes con
 msgid "Ej.: primera prueba en seco"
 msgstr "Ej.: primera prueba en seco"
 
-msgid "Ejemplo de capturas cargado. No es el reglaje que el juego asigna al circuito."
-msgstr "Ejemplo de capturas cargado. No es el reglaje que el juego asigna al circuito."
-
 msgid "Ejemplo: pasar de −3,40° a −3,50° disminuye el número, pero AUMENTA la caída negativa."
 msgstr "Ejemplo: pasar de −3,40° a −3,50° disminuye el número, pero AUMENTA la caída negativa."
 
@@ -585,9 +564,6 @@ msgstr "El efecto no es lineal y depende de la altura delantera: verificar con v
 
 msgid "El efecto sobre el desgaste real en F1 25 no está cuantificado."
 msgstr "El efecto sobre el desgaste real en F1 25 no está cuantificado."
-
-msgid "El ejemplo sustituirá los valores y la referencia del borrador. ¿Continuar?"
-msgstr "El ejemplo sustituirá los valores y la referencia del borrador. ¿Continuar?"
 
 msgid "El estado de instalación no es válido."
 msgstr "El estado de instalación no es válido."
@@ -725,9 +701,6 @@ msgstr "Fija una referencia para comparar."
 
 msgid "Fija una referencia y completa los valores actuales antes de guardar."
 msgstr "Fija una referencia y completa los valores actuales antes de guardar."
-
-msgid "Fijar actuales como referencia"
-msgstr "Fijar actuales como referencia"
 
 msgid "Formato de reglaje desconocido."
 msgstr "Formato de reglaje desconocido."
@@ -1254,9 +1227,6 @@ msgstr "Opciones"
 msgid "Opciones guardadas."
 msgstr "Opciones guardadas."
 
-msgid "Origen de los valores que vas a fijar"
-msgstr "Origen de los valores que vas a fijar"
-
 msgid "Origen de referencia"
 msgstr "Origen de referencia"
 
@@ -1484,9 +1454,6 @@ msgstr "Reglaje importado como borrador. Revisa origen de referencia, circuito y
 msgid "Reglaje inválido."
 msgstr "Reglaje inválido."
 
-msgid "Reglaje personal"
-msgstr "Reglaje personal"
-
 msgid "Reglaje sin nombre"
 msgstr "Reglaje sin nombre"
 
@@ -1621,9 +1588,6 @@ msgid ""
 msgstr ""
 "Selecciona el problema que notas al conducir y revisa qué ajustes conviene ensayar. Prueba cada "
 "propuesta en pista."
-
-msgid "Selecciona o importa una ficha"
-msgstr "Selecciona o importa una ficha"
 
 msgid "Selecciona un síntoma. Son pruebas teóricas, no un diagnóstico."
 msgstr "Selecciona un síntoma. Son pruebas teóricas, no un diagnóstico."
@@ -1792,13 +1756,6 @@ msgstr ""
 "Ten en cuenta las ayudas que utilizas. Mantén las mismas condiciones y prueba cada variable por "
 "separado."
 
-msgid ""
-"Teoría orientativa. Las fuentes pueden discrepar, especialmente sobre presiones. Valida en tu "
-"juego y sesión."
-msgstr ""
-"Teoría orientativa. Las fuentes pueden discrepar, especialmente sobre presiones. Valida en tu "
-"juego y sesión."
-
 msgid "Teóricamente aumenta resistencia y puede reducir velocidad punta."
 msgstr "Teóricamente aumenta resistencia y puede reducir velocidad punta."
 
@@ -1916,9 +1873,6 @@ msgstr "Un paso desde tu valor actual: {before} → {after}. Tú decides si prob
 msgid "Un recorrido por las herramientas de la aplicación."
 msgstr "Un recorrido por las herramientas de la aplicación."
 
-msgid "Un taller para comprender y experimentar."
-msgstr "Un taller para comprender y experimentar."
-
 msgid "Una variable, una idea."
 msgstr "Una variable, una idea."
 
@@ -1960,9 +1914,6 @@ msgstr "Velocidad punta"
 msgid "Versiones"
 msgstr "Versiones"
 
-msgid "Versión abierta como borrador. Guardar creará otra versión."
-msgstr "Versión abierta como borrador. Guardar creará otra versión."
-
 msgid "Versión de almacenamiento no compatible."
 msgstr "Versión de almacenamiento no compatible."
 
@@ -1987,9 +1938,6 @@ msgstr ""
 
 msgid "Ya existe ese ID de circuito. No se ha sobrescrito; usa otro ID para una ficha revisada."
 msgstr "Ya existe ese ID de circuito. No se ha sobrescrito; usa otro ID para una ficha revisada."
-
-msgid "asignados por el juego, aportados por ti"
-msgstr "asignados por el juego, aportados por ti"
 
 msgid "capturas / ejemplo"
 msgstr "capturas / ejemplo"
@@ -2054,13 +2002,6 @@ msgid "Cargar reglaje guardado"
 msgstr "Cargar reglaje guardado"
 
 msgid ""
-"Elige un circuito para consultar sus características y cargar su punto de partida, o abre uno de "
-"tus reglajes guardados."
-msgstr ""
-"Elige un circuito para consultar sus características y cargar su punto de partida, o abre uno de "
-"tus reglajes guardados."
-
-msgid ""
 "Empieza con los valores del juego o un reglaje propio. Las características del circuito dan "
 "contexto a tus pruebas."
 msgstr ""
@@ -2073,19 +2014,6 @@ msgid ""
 msgstr ""
 "Selecciona un circuito y consulta sus características, o abre un reglaje guardado. Conserva una "
 "referencia para comparar los cambios en Taller."
-
-msgid "Taller listo. Elige un circuito o abre un reglaje guardado."
-msgstr "Taller listo. Elige un circuito o abre un reglaje guardado."
-
-msgid "Referencia e importación manual"
-msgstr "Referencia e importación manual"
-
-msgid ""
-"Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. Puedes "
-"importar fichas para añadir otros circuitos, incluidos los de mods."
-msgstr ""
-"Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. Puedes "
-"importar fichas para añadir otros circuitos, incluidos los de mods."
 
 msgid "Actualiza la base de datos para cargar el catálogo del juego."
 msgstr "Actualiza la base de datos para cargar el catálogo del juego."
@@ -2147,6 +2075,114 @@ msgid ""
 msgstr ""
 "Incorpora cinco predeterminados y sus asignaciones a 25 circuitos: los 24 del campeonato e Imola. "
 "Los reglajes personales se conservan."
+
+msgid "Añadir circuito"
+msgstr "Añadir circuito"
+
+msgid "Ese circuito no está en el catálogo del juego."
+msgstr "Ese circuito no está en el catálogo del juego."
+
+msgid "Importar reglaje personal"
+msgstr "Importar reglaje personal"
+
+msgid "Predeterminado {number} · {name}"
+msgstr "Predeterminado {number} · {name}"
+
+msgid "Predeterminado {number} · {name} (juego)"
+msgstr "Predeterminado {number} · {name} (juego)"
+
+msgid "Selecciona un circuito"
+msgstr "Selecciona un circuito"
+
+msgid "Selecciona un circuito con un predeterminado asignado."
+msgstr "Selecciona un circuito con un predeterminado asignado."
+
+msgid "Teoría orientativa. Valida los cambios en el juego."
+msgstr "Teoría orientativa. Valida los cambios en el juego."
+
+msgid "Usar actuales como referencia"
+msgstr "Usar actuales como referencia"
+
+msgid "predeterminado del juego"
+msgstr "predeterminado del juego"
+
+msgid "{location} · Predeterminado {number}: {name}"
+msgstr "{location} · Predeterminado {number}: {name}"
+
+msgid "Ubicación"
+msgstr "Ubicación"
+
+#~ msgid "01 / PUNTO DE PARTIDA"
+#~ msgstr "01 / PUNTO DE PARTIDA"
+
+#~ msgid "Asignados por el juego (aportados por mí)"
+#~ msgstr "Asignados por el juego (aportados por mí)"
+
+#~ msgid "Capturas"
+#~ msgstr "Capturas"
+
+#~ msgid "Cargando el taller…"
+#~ msgstr "Cargando el taller…"
+
+#~ msgid "Cargar ejemplo de las capturas"
+#~ msgstr "Cargar ejemplo de las capturas"
+
+#~ msgid "Desconocido"
+#~ msgstr "Desconocido"
+
+#~ msgid "Ejemplo de capturas cargado. No es el reglaje que el juego asigna al circuito."
+#~ msgstr "Ejemplo de capturas cargado. No es el reglaje que el juego asigna al circuito."
+
+#~ msgid "El ejemplo sustituirá los valores y la referencia del borrador. ¿Continuar?"
+#~ msgstr "El ejemplo sustituirá los valores y la referencia del borrador. ¿Continuar?"
+
+#~ msgid "Fijar actuales como referencia"
+#~ msgstr "Fijar actuales como referencia"
+
+#~ msgid "Origen de los valores que vas a fijar"
+#~ msgstr "Origen de los valores que vas a fijar"
+
+#~ msgid "Reglaje personal"
+#~ msgstr "Reglaje personal"
+
+#~ msgid "Selecciona o importa una ficha"
+#~ msgstr "Selecciona o importa una ficha"
+
+#~ msgid ""
+#~ "Teoría orientativa. Las fuentes pueden discrepar, especialmente sobre presiones. Valida en tu "
+#~ "juego y sesión."
+#~ msgstr ""
+#~ "Teoría orientativa. Las fuentes pueden discrepar, especialmente sobre presiones. Valida en tu "
+#~ "juego y sesión."
+
+#~ msgid "Un taller para comprender y experimentar."
+#~ msgstr "Un taller para comprender y experimentar."
+
+#~ msgid "Versión abierta como borrador. Guardar creará otra versión."
+#~ msgstr "Versión abierta como borrador. Guardar creará otra versión."
+
+#~ msgid "asignados por el juego, aportados por ti"
+#~ msgstr "asignados por el juego, aportados por ti"
+
+#~ msgid ""
+#~ "Elige un circuito para consultar sus características y cargar su punto de partida, o abre uno de "
+#~ "tus reglajes guardados."
+#~ msgstr ""
+#~ "Elige un circuito para consultar sus características y cargar su punto de partida, o abre uno de "
+#~ "tus reglajes guardados."
+
+#~ msgid "Taller listo. Elige un circuito o abre un reglaje guardado."
+#~ msgstr "Taller listo. Elige un circuito o abre un reglaje guardado."
+
+#~ msgid "Referencia e importación manual"
+#~ msgstr "Referencia e importación manual"
+
+#~ msgid ""
+#~ "Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. Puedes "
+#~ "importar fichas para añadir otros circuitos, incluidos los de mods."
+#~ msgstr ""
+#~ "Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. Puedes "
+#~ "importar fichas para añadir otros circuitos, incluidos los de mods."
 
 #~ msgid ""
 #~ "Catálogo inicial: 24 circuitos oficiales. Las asignaciones sin confirmar permanecen pendientes."

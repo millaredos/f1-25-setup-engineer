@@ -1,0 +1,68 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const { chromium } = require(process.env.F125_PLAYWRIGHT || 'playwright');
+(async () => {
+  const browser = await chromium.launch({ headless: true, ...(process.env.F125_TEST_BROWSER === 'chromium' ? {} : { channel: 'msedge' }) });
+  try {
+    const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+    const errors = []; page.on('pageerror', e => errors.push(e.message));
+    let accept = true; let dialogCount = 0; page.on('dialog', dialog => { dialogCount++; return accept ? dialog.accept() : dialog.dismiss(); });
+    await page.route('**/api.php?action=update-status', route => route.fulfill({ json: { known: true, newer: false } }));
+    await page.goto(process.env.F125_TEST_URL + '#circuito');
+    await page.locator('#circuit option').nth(25).waitFor({ state: 'attached' });
+    assert.equal(await page.locator('#circuit option').count(), 26);
+    assert.equal(await page.locator('#status').isVisible(), false);
+    assert.equal(await page.locator('#loading-tools, #example, #reference-source').count(), 0);
+    assert.match(await page.locator('footer').innerText(), /© 2026 millaredos/);
+    assert.equal(await page.locator('footer a').getAttribute('href'), 'https://github.com/millaredos/f1-25-setup-engineer');
+    await page.locator('#circuit').selectOption('australia-albert-park');
+    assert.equal(await page.locator('#saved').inputValue(), 'preset:3');
+    assert.match(await page.locator('#saved option:checked').innerText(), /Predeterminado 3.*Equilibrado/);
+    for (const width of [1440, 390]) {
+      await page.setViewportSize({ width, height: 1000 });
+      const bounds = await page.locator('footer').boundingBox();
+      assert.ok(Math.abs(bounds.y + bounds.height - 1000) <= 1, 'short page footer reaches viewport bottom');
+      const select = await page.locator('#circuit').boundingBox();
+      assert.ok(select.y < 230, 'circuit selection is near the header');
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+      if (process.env.F125_SCREENSHOTS) await page.screenshot({ path: path.join(process.env.F125_SCREENSHOTS, `catalog-${width}.png`), fullPage: true });
+    }
+    await page.locator('#load').click();
+    await page.locator('#editor').waitFor({ state: 'visible' });
+    assert.equal(dialogCount, 0, 'opening a default into an empty draft needs no confirmation');
+    assert.equal(await page.locator('#value-ala_del').inputValue(), '25');
+    assert.equal(await page.locator('#value-ala_tra').inputValue(), '25');
+    await page.locator('#value-ala_del').fill('27');
+    await page.locator('.app-nav a[href="#versiones"]').click();
+    await page.locator('#setup-title').fill('Albert Park personal');
+    await page.locator('#save').click();
+    await page.getByRole('status').filter({ hasText: 'Nueva versión guardada' }).waitFor();
+    await page.locator('.app-nav a[href="#circuito"]').click();
+    assert.equal(await page.locator('#saved option').count(), 3, 'game default and personal setup coexist');
+    await page.locator('#saved').selectOption('1');
+    await page.locator('#load').click();
+    assert.equal(await page.locator('#value-ala_del').inputValue(), '27');
+    await page.locator('.app-nav a[href="#circuito"]').click();
+    await page.locator('#saved').selectOption('preset:3');
+    accept = false; await page.locator('#load').click();
+    assert.equal(await page.locator('#value-ala_del').inputValue(), '27', 'cancel preserves draft');
+    accept = true; await page.locator('#load').click();
+    assert.equal(await page.locator('#value-ala_del').inputValue(), '25', 'game template stays unchanged');
+    await page.locator('.app-nav a[href="#circuito"]').click();
+    await page.locator('#circuit').selectOption('monaco');
+    assert.equal(await page.locator('#saved').inputValue(), 'preset:1');
+    assert.equal(await page.locator('#saved option').count(), 2, 'personal setups are filtered by circuit');
+    await page.locator('#load').click();
+    assert.equal(await page.locator('#value-ala_del').inputValue(), '48');
+    assert.equal(await page.locator('#value-ala_tra').inputValue(), '50');
+    const bootstrap = await (await page.request.get(process.env.F125_TEST_URL + 'api.php?action=bootstrap')).json();
+    const invalid = await page.request.post(process.env.F125_TEST_URL + 'api.php?action=import-setup', { headers: { 'X-CSRF-Token': bootstrap.csrf }, data: { format: 'f125-setup-engineer', schemaVersion: 1, current: bootstrap.gameCatalog.presets[0].values, reference: bootstrap.gameCatalog.presets[0].values, circuit: { id: 'unknown-catalog-entry', origin: 'game-catalog', name: 'Fake', location: 'Fake' } } });
+    assert.equal(invalid.status(), 422, 'live catalog rejects fabricated game identities');
+    const editorBounds = await page.locator('#editor').boundingBox();
+    const footerBounds = await page.locator('footer').boundingBox();
+    assert.ok(footerBounds.y >= editorBounds.y + editorBounds.height, 'long-page footer follows content');
+    assert.deepEqual(errors, []);
+    console.log('OK: live API with storage fixture, 25 circuits, game defaults, save/reload, immutable templates, filtering, compact selectors and footer.');
+  } finally { await browser.close(); }
+})().catch(e => { console.error(e); process.exitCode = 1; });

@@ -148,6 +148,7 @@ const assert = require('node:assert/strict');
     }
     // Substitute storage only after all real outage/package checks, inside the temporary site.
     fs.copyFileSync(path.join(__dirname, 'fixtures/migration-store.php'), path.join(root, 'src/Store.php'));
+    fs.copyFileSync(path.join(__dirname, 'fixtures/game-catalog.json'), path.join(root, 'config/game-catalog.json'));
     response = await fetch(base + 'database.php');
     assert.equal(response.status, 200);
     assert.match(await response.text(), /Actualización pendiente/);
@@ -155,6 +156,9 @@ const assert = require('node:assert/strict');
     const databaseBrowser = spawnSync(process.execPath, [path.join(__dirname, 'database-browser.cjs')], { env: { ...env, F125_TEST_URL: base }, windowsHide: true, encoding: 'utf8' });
     process.stdout.write(databaseBrowser.stdout || ''); process.stderr.write(databaseBrowser.stderr || '');
     assert.equal(databaseBrowser.status, 0);
+    const catalogBrowser = spawnSync(process.execPath, [path.join(__dirname, 'catalog-browser.cjs')], { env: { ...env, F125_TEST_URL: base }, windowsHide: true, encoding: 'utf8' });
+    process.stdout.write(catalogBrowser.stdout || ''); process.stderr.write(catalogBrowser.stderr || '');
+    assert.equal(catalogBrowser.status, 0);
     console.log(`OK: estados, redirecciones, POST, API y caída de conexión; montaje ${mount}, host ${host}, puerto ${port}; sitio temporal aislado.`);
   } catch (error) {
     if (fs.existsSync(serverLog)) process.stderr.write(fs.readFileSync(serverLog, 'utf8').slice(-4000));

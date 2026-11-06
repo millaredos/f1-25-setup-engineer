@@ -24,7 +24,7 @@ Built with PHP, MariaDB, vanilla JavaScript and plain CSS.
 - JSON export and browser draft recovery.
 - Versioned database migrations with five game presets and confirmed assignments for the 24 championship circuits plus Imola.
 
-Circuits are added through imported profiles. Setup explanations are guidance to test in the game.
+The circuit selector includes the bundled game catalog and imported profiles for additional circuits. Setup explanations are guidance to test in the game.
 
 **Development version: 0.3.0-alpha.0.** See [CHANGELOG.md](CHANGELOG.md).
 
@@ -76,9 +76,9 @@ The [installation guide](docs/installation.md) covers permissions, environment v
 
 The interface is currently in Spanish. The names below match its menus and buttons.
 
-1. In **Circuito y referencia**, import a [circuit profile](docs/json-formats.md) and select the session conditions.
-2. Enter the twenty starting values in **Taller**, or import a setup from **Circuito y referencia**.
-3. Set the current values as the reference and specify their source.
+1. In **Circuito y referencia**, select a circuit from the game catalog.
+2. Choose its game preset or a personal version in **Cargar reglaje guardado**, then click **Abrir como borrador**.
+3. The game preset opens with separate reference and editable values. Use **Añadir circuito** for [additional circuit profiles](docs/json-formats.md), including mods; import personal setup JSON from **Versiones**.
 4. Edit settings in **Taller** and review the change summary.
 5. In **Pruebas**, select the handling symptom you notice.
 6. In **Versiones**, add a name and notes, save a version or export JSON.

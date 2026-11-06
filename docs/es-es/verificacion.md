@@ -4,7 +4,7 @@
 
 ## Resultados de desarrollo de 0.3.0
 
-PHP 8.5.12: 201 comprobaciones de dominio y contratos, 50 de paquetes y 79 de canales, GitHub, integridad y recuperación. 19 comprobaciones de traducción y 56 de migraciones con objetos PDO que registran operaciones; Python: 14 pruebas de empaquetado, publicación y traducción. Los recorridos de navegador comprueban selección web del canal, CSRF, descarga verificada, copias y conservación del estado privado, en raíz y bajo una subcarpeta con la carpeta pública renombrada a `www`. Opciones, Actualizaciones y la página de migración también se comprueban en ancho móvil.
+PHP 8.5.12: 204 comprobaciones de dominio y contratos, 50 de paquetes y 79 de canales, GitHub, integridad y recuperación. 19 comprobaciones de traducción y 56 de migraciones con objetos PDO que registran operaciones; Python: 14 pruebas de empaquetado, publicación y traducción. Los recorridos de navegador comprueban selección web del canal, CSRF, descarga verificada, copias y conservación del estado privado, en raíz y bajo una subcarpeta con la carpeta pública renombrada a `www`. Opciones, Actualizaciones y la página de migración también se comprueban en ancho móvil.
 
 Las respuestas automatizadas de GitHub son fixtures; las pruebas no necesitan token ni modifican releases remotas. La interrupción se simula mediante un registro de recuperación y archivos parcialmente cambiados. No se han probado cortes eléctricos ni fallos de disco reales.
 
@@ -29,6 +29,8 @@ python -m unittest discover -s tests -p 'test_*.py'
 Estas pruebas no requieren base de datos. Las pruebas PHP del actualizador necesitan ZIP y escriben exclusivamente en sus propios directorios temporales.
 
 El recorrido de navegador comprueba el desplegable por ratón, clic y teclado, la presencia y ausencia del aviso, el selector visible con un idioma, la persistencia de la cookie y el rechazo de idiomas no disponibles.
+
+La carga del catálogo se prueba con la API real y un almacenamiento simulado aislado: 25 circuitos, predeterminados asignados, guardado y reapertura personal, conservación de plantillas, filtrado por circuito, cancelación de sustituciones, recuperación de copias sin conexión a la base y rechazo de IDs de catálogo inventados. Las comprobaciones de escritorio y móvil verifican la posición del selector y que el footer llegue al borde inferior en páginas cortas y siga al contenido en las largas.
 
 ## Ejecutar pruebas de navegador
 

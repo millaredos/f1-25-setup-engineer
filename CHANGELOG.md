@@ -6,6 +6,10 @@
 
 ### 0.3.0
 
+- Populate the circuit selector from the game catalog and offer its assigned preset alongside saved personal setups.
+- Compact Circuito y referencia, remove the routine ready banner and manual preset-import section, and retain additional circuit import through Añadir circuito.
+- Keep the footer at the bottom of short pages, with © 2026 millaredos and a GitHub link.
+
 - Complete the 24 championship circuit-to-preset assignments and add Imola with preset 3 through a follow-up catalog migration.
 
 - Add versioned SQL catalog migrations, automatic initial seeding and a CSRF-protected database update page for existing installations.

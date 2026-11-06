@@ -71,7 +71,11 @@ try {
     if (!$rejected) { throw new RuntimeException('Expected checksum rejection.'); }
     $restore = $db->prepare('UPDATE f125_migrations SET checksum=? WHERE id=?');
     foreach ($ledger as $id => $checksum) { $restore->execute([$checksum, $id]); }
-    echo "OK: MariaDB, guardado, reapertura, versiones, duplicados y rollback.\n";
+    $officialDomain = appDomain($game['circuits']);
+    $official = $officialDomain->setup(['title' => 'Catalog base', 'circuit' => ['id' => 'australia-albert-park', 'origin' => 'game-catalog'], 'reference' => $game['presets'][2]['values'], 'current' => $game['presets'][2]['values'], 'referenceSource' => 'game-assigned']);
+    $officialId = $store->saveSetup($official);
+    if ($store->loadSetup($officialId)['circuit']['origin'] !== 'game-catalog' || $store->loadSetup($officialId)['reference']['ala_del'] != 25) { throw new RuntimeException('Catalog setup persistence failed.'); }
+    echo "OK: MariaDB, guardado, reapertura, versiones, duplicados, catálogo y rollback.\n";
 } finally {
     // Solo las tablas comprobadas como inexistentes al inicio, en orden de dependencias.
     $db->exec('DROP TABLE IF EXISTS f125_game_circuits');

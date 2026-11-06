@@ -10,7 +10,7 @@ Back up all `f125_*` tables from the hosting panel before applying a database up
 
 `001-game-catalog` adds five presets with twenty numeric settings, 24 official circuit names in the supplied 2026 championship order, and Albert Park's assignment to preset 3. Other assignments are NULL. These records do not include weather, session types or technical circuit profiles.
 
-The catalog uses `f125_game_presets` and `f125_game_circuits`; personal versions and imported profiles remain in their existing tables. `Store::gameCatalog()` exposes the catalog for subsequent loading-interface integration. The migration does not automatically load a preset into an editor draft.
+The catalog uses `f125_game_presets` and `f125_game_circuits`; personal versions and imported profiles remain in their existing tables. Bootstrap exposes the catalog through `Store::gameCatalog()` to the loading interface. Selecting a circuit offers its assigned game preset alongside saved personal versions. Opening a preset creates a draft with separate reference and current values; editing or saving does not change the catalog.
 
 `002-circuit-presets` completes the 24 championship assignments and adds Imola with preset 3, bringing the total to 25 circuits with confirmed assignments. Imola follows the championship entries in display order. Only empty assignments are filled; existing assignments and personal setups are preserved.
 

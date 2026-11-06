@@ -20,6 +20,11 @@ function rejects(callable $operation, string $message): void
 }
 
 check(count($domain->catalog['parameters']) === 20, 'veinte parámetros');
+$gameDomain = appDomain([['id' => 'australia-albert-park', 'name' => 'Albert Park Circuit', 'location' => 'Australia']]);
+$gameCircuit = $gameDomain->circuit(['id' => 'australia-albert-park', 'origin' => 'game-catalog', 'name' => 'Untrusted name', 'downforce' => 'high']);
+check($gameCircuit['name'] === 'Albert Park Circuit' && $gameCircuit['downforce'] === 'unknown' && $gameCircuit['sources'] === [], 'catálogo resuelve identidad sin inventar características');
+rejects(static fn() => $gameDomain->circuit(['id' => 'unknown', 'origin' => 'game-catalog']), 'catálogo rechaza identificadores desconocidos');
+check($domain->circuit($gameCircuit) === $gameCircuit, 'snapshot del catálogo permite recuperación sin conexión');
 check($domain->values($base) == $base, 'el JSON heredado conserva sus valores');
 check($domain->compare($base, $base)['changes'] === [], 'comparar sin cambios');
 $current = $base; $current['cam_del'] = -3.5;

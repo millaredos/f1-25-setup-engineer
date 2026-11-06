@@ -39,16 +39,25 @@ try {
     $domain = appDomain();
     if ($method === 'GET' && $action === 'bootstrap') {
         $circuits = []; $setups = []; $storageReady = false; $databaseUpdateRequired = false;
+        $gameCatalog = ['circuits' => [], 'presets' => []];
         try {
             $store = new Store(appConfig());
             $store->ready();
             $circuits = $store->circuits(); $setups = $store->setups();
             $databaseUpdateRequired = count($store->pendingMigrations()) > 0;
+            if (!$databaseUpdateRequired) {
+                $gameCatalog = $store->gameCatalog();
+                $domain = appDomain($gameCatalog['circuits']);
+                foreach ($gameCatalog['circuits'] as &$record) {
+                    $record['profile'] = $domain->circuit(['id' => $record['id'], 'origin' => 'game-catalog']);
+                }
+                unset($record);
+            }
             $storageReady = true;
         } catch (Throwable $e) {
             error_log('F125 storage: ' . $e->getMessage());
         }
-        respond(['csrf' => $_SESSION['csrf'], 'catalog' => $domain->catalog, 'symptoms' => $domain->symptoms, 'circuits' => $circuits, 'setups' => $setups, 'storageReady' => $storageReady, 'databaseUpdateRequired' => $databaseUpdateRequired]);
+        respond(['csrf' => $_SESSION['csrf'], 'catalog' => $domain->catalog, 'symptoms' => $domain->symptoms, 'circuits' => $circuits, 'setups' => $setups, 'gameCatalog' => $gameCatalog, 'storageReady' => $storageReady, 'databaseUpdateRequired' => $databaseUpdateRequired]);
     }
     if ($method !== 'POST') { respond(['error' => t('Método no admitido.')], 405); }
     if (!hash_equals($_SESSION['csrf'], $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '')) {
@@ -61,6 +70,15 @@ try {
     if (strlen($raw) > 262144) { respond(['error' => t('El JSON supera 256 KiB.')], 413); }
     $body = json_decode($raw, true, 64, JSON_THROW_ON_ERROR);
     if (!is_array($body)) { throw new ValidationError(t('Se necesita un objeto JSON.')); }
+    if (isset($body['circuit']) && is_array($body['circuit']) && ($body['circuit']['origin'] ?? null) === 'game-catalog') {
+        try {
+            $gameStore = new Store(appConfig()); $gameStore->ready();
+            $domain = appDomain($gameStore->gameCatalog()['circuits']);
+        } catch (Throwable $error) {
+            // Recovery/export can validate snapshots while offline. Persistence always needs the registry.
+            if ($action !== 'import-setup') { throw $error; }
+        }
+    }
     if ($action === 'compare') { respond($domain->compare($body['reference'] ?? null, $body['current'] ?? null)); }
     if ($action === 'import-setup') { respond($domain->importSetup($body)); }
     if ($action === 'import-circuit') { respond(['circuit' => $domain->importCircuit($body)]); }
@@ -71,7 +89,7 @@ try {
     $validated = null;
     if ($action === 'save-circuit') { $validated = $domain->importCircuit($body); }
     if ($action === 'save-setup') { $validated = $domain->setup($body); }
-    $store = new Store(appConfig());
+    $store = $gameStore ?? new Store(appConfig());
     $store->ready();
     if ($action === 'save-circuit') {
         $store->saveCircuit($validated);

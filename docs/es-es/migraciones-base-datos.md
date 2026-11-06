@@ -10,7 +10,7 @@ Guarda una copia de todas las tablas `f125_*` desde el panel del alojamiento ant
 
 `001-game-catalog` añade cinco predeterminados con veinte ajustes numéricos, los nombres de los 24 circuitos oficiales en el orden del campeonato 2026 aportado y la asignación de Albert Park al predeterminado 3. Las demás asignaciones quedan en NULL. Estos registros no incluyen meteorología, tipos de sesión ni fichas técnicas de circuitos.
 
-El catálogo utiliza `f125_game_presets` y `f125_game_circuits`; las versiones personales y las fichas importadas permanecen en sus tablas actuales. `Store::gameCatalog()` expone el catálogo para su posterior integración en la interfaz de carga. La migración no carga automáticamente un predeterminado en el borrador del editor.
+El catálogo utiliza `f125_game_presets` y `f125_game_circuits`; las versiones personales y las fichas importadas permanecen en sus tablas actuales. El arranque expone el catálogo mediante `Store::gameCatalog()` a la interfaz de carga. Seleccionar un circuito ofrece su predeterminado junto a las versiones personales guardadas. Abrir el predeterminado crea un borrador con referencia y valores actuales separados; editar o guardar no modifica el catálogo.
 
 `002-circuit-presets` completa las asignaciones de los 24 circuitos del campeonato y añade Imola con el predeterminado 3, hasta un total de 25 circuitos con asignaciones confirmadas. Imola aparece después de los circuitos del campeonato en el orden de presentación. Solo se completan asignaciones vacías; se conservan las existentes y los reglajes personales.
 

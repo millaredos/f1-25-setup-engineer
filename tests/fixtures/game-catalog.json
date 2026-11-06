@@ -1,0 +1,311 @@
+{
+  "circuits": [
+    {
+      "id": "australia-albert-park",
+      "round_order": 1,
+      "location": "Australia",
+      "name": "Albert Park Circuit",
+      "preset_id": 3
+    },
+    {
+      "id": "china-shanghai",
+      "round_order": 2,
+      "location": "China",
+      "name": "Shanghai International Circuit",
+      "preset_id": 3
+    },
+    {
+      "id": "japan-suzuka",
+      "round_order": 3,
+      "location": "Japón",
+      "name": "Suzuka International Racing Course",
+      "preset_id": 3
+    },
+    {
+      "id": "bahrain",
+      "round_order": 4,
+      "location": "Baréin",
+      "name": "Bahrain International Circuit",
+      "preset_id": 3
+    },
+    {
+      "id": "saudi-arabia-jeddah",
+      "round_order": 5,
+      "location": "Arabia Saudita",
+      "name": "Jeddah Corniche Circuit",
+      "preset_id": 4
+    },
+    {
+      "id": "miami",
+      "round_order": 6,
+      "location": "Miami",
+      "name": "Miami International Autodrome",
+      "preset_id": 4
+    },
+    {
+      "id": "canada-montreal",
+      "round_order": 7,
+      "location": "Canadá",
+      "name": "Circuit Gilles-Villeneuve",
+      "preset_id": 4
+    },
+    {
+      "id": "monaco",
+      "round_order": 8,
+      "location": "Mónaco",
+      "name": "Circuit de Monaco",
+      "preset_id": 1
+    },
+    {
+      "id": "catalunya-barcelona",
+      "round_order": 9,
+      "location": "Catalunya",
+      "name": "Circuit de Barcelona-Catalunya",
+      "preset_id": 2
+    },
+    {
+      "id": "austria-spielberg",
+      "round_order": 10,
+      "location": "Austria",
+      "name": "Red Bull Ring",
+      "preset_id": 4
+    },
+    {
+      "id": "great-britain-silverstone",
+      "round_order": 11,
+      "location": "Gran Bretaña",
+      "name": "Silverstone Circuit",
+      "preset_id": 3
+    },
+    {
+      "id": "belgium-spa",
+      "round_order": 12,
+      "location": "Bélgica",
+      "name": "Circuit de Spa-Francorchamps",
+      "preset_id": 4
+    },
+    {
+      "id": "hungary-budapest",
+      "round_order": 13,
+      "location": "Hungría",
+      "name": "Hungaroring",
+      "preset_id": 2
+    },
+    {
+      "id": "netherlands-zandvoort",
+      "round_order": 14,
+      "location": "Países Bajos",
+      "name": "Circuit Zandvoort",
+      "preset_id": 2
+    },
+    {
+      "id": "monza",
+      "round_order": 15,
+      "location": "Monza",
+      "name": "Autodromo Nazionale Monza",
+      "preset_id": 5
+    },
+    {
+      "id": "madrid",
+      "round_order": 16,
+      "location": "Madrid",
+      "name": "Circuito de Madring",
+      "preset_id": 1
+    },
+    {
+      "id": "azerbaijan-baku",
+      "round_order": 17,
+      "location": "Azerbaiyán",
+      "name": "Baku City Circuit",
+      "preset_id": 4
+    },
+    {
+      "id": "singapore",
+      "round_order": 18,
+      "location": "Singapur",
+      "name": "Marina Bay Street Circuit",
+      "preset_id": 2
+    },
+    {
+      "id": "texas-austin",
+      "round_order": 19,
+      "location": "Texas",
+      "name": "Circuit of the Americas",
+      "preset_id": 2
+    },
+    {
+      "id": "mexico",
+      "round_order": 20,
+      "location": "México",
+      "name": "Autódromo Hermanos Rodríguez",
+      "preset_id": 2
+    },
+    {
+      "id": "brazil-interlagos",
+      "round_order": 21,
+      "location": "Brasil",
+      "name": "Autódromo José Carlos Pace",
+      "preset_id": 3
+    },
+    {
+      "id": "las-vegas",
+      "round_order": 22,
+      "location": "Las Vegas",
+      "name": "Las Vegas Strip Circuit",
+      "preset_id": 4
+    },
+    {
+      "id": "qatar-lusail",
+      "round_order": 23,
+      "location": "Catar",
+      "name": "Lusail International Circuit",
+      "preset_id": 2
+    },
+    {
+      "id": "abu-dhabi",
+      "round_order": 24,
+      "location": "Abu Dabi",
+      "name": "Yas Marina Circuit",
+      "preset_id": 3
+    },
+    {
+      "id": "imola",
+      "round_order": 25,
+      "location": "Imola",
+      "name": "Imola",
+      "preset_id": 3
+    }
+  ],
+  "presets": [
+    {
+      "id": 1,
+      "name": "Máxima carga aerodinámica",
+      "values": {
+        "ala_del": 48.0,
+        "ala_tra": 50.0,
+        "dif_acc": 60.0,
+        "dif_dec": 30.0,
+        "cam_del": -3.5,
+        "cam_tra": -2.0,
+        "toe_del": 0.03,
+        "toe_tra": 0.15,
+        "muelle_del": 31.0,
+        "muelle_tra": 9.0,
+        "barra_del": 11.0,
+        "barra_tra": 3.0,
+        "altura_del": 28.0,
+        "altura_tra": 56.0,
+        "freno_rep": 57.0,
+        "freno_pre": 97.0,
+        "pres_di": 22.7,
+        "pres_dd": 22.7,
+        "pres_ti": 20.5,
+        "pres_td": 20.5
+      }
+    },
+    {
+      "id": 2,
+      "name": "Mayor carga aerodinámica",
+      "values": {
+        "ala_del": 38.0,
+        "ala_tra": 38.0,
+        "dif_acc": 60.0,
+        "dif_dec": 50.0,
+        "cam_del": -3.5,
+        "cam_tra": -2.0,
+        "toe_del": 0.04,
+        "toe_tra": 0.13,
+        "muelle_del": 37.0,
+        "muelle_tra": 17.0,
+        "barra_del": 15.0,
+        "barra_tra": 8.0,
+        "altura_del": 24.0,
+        "altura_tra": 53.0,
+        "freno_rep": 57.0,
+        "freno_pre": 97.0,
+        "pres_di": 24.2,
+        "pres_dd": 24.2,
+        "pres_ti": 20.9,
+        "pres_td": 20.9
+      }
+    },
+    {
+      "id": 3,
+      "name": "Equilibrado",
+      "values": {
+        "ala_del": 25.0,
+        "ala_tra": 25.0,
+        "dif_acc": 60.0,
+        "dif_dec": 50.0,
+        "cam_del": -3.5,
+        "cam_tra": -2.0,
+        "toe_del": 0.04,
+        "toe_tra": 0.15,
+        "muelle_del": 37.0,
+        "muelle_tra": 16.0,
+        "barra_del": 15.0,
+        "barra_tra": 8.0,
+        "altura_del": 25.0,
+        "altura_tra": 52.0,
+        "freno_rep": 57.0,
+        "freno_pre": 97.0,
+        "pres_di": 24.2,
+        "pres_dd": 24.2,
+        "pres_ti": 21.3,
+        "pres_td": 21.3
+      }
+    },
+    {
+      "id": 4,
+      "name": "Mayor velocidad punta",
+      "values": {
+        "ala_del": 12.0,
+        "ala_tra": 12.0,
+        "dif_acc": 60.0,
+        "dif_dec": 50.0,
+        "cam_del": -3.5,
+        "cam_tra": -2.0,
+        "toe_del": 0.04,
+        "toe_tra": 0.15,
+        "muelle_del": 37.0,
+        "muelle_tra": 17.0,
+        "barra_del": 15.0,
+        "barra_tra": 8.0,
+        "altura_del": 24.0,
+        "altura_tra": 51.0,
+        "freno_rep": 57.0,
+        "freno_pre": 97.0,
+        "pres_di": 24.3,
+        "pres_dd": 24.3,
+        "pres_ti": 21.5,
+        "pres_td": 21.5
+      }
+    },
+    {
+      "id": 5,
+      "name": "Máxima velocidad punta",
+      "values": {
+        "ala_del": 0.0,
+        "ala_tra": 0.0,
+        "dif_acc": 60.0,
+        "dif_dec": 50.0,
+        "cam_del": -3.5,
+        "cam_tra": -2.0,
+        "toe_del": 0.02,
+        "toe_tra": 0.12,
+        "muelle_del": 37.0,
+        "muelle_tra": 17.0,
+        "barra_del": 15.0,
+        "barra_tra": 7.0,
+        "altura_del": 21.0,
+        "altura_tra": 50.0,
+        "freno_rep": 57.0,
+        "freno_pre": 97.0,
+        "pres_di": 24.5,
+        "pres_dd": 24.5,
+        "pres_ti": 22.0,
+        "pres_td": 22.0
+      }
+    }
+  ]
+}

@@ -69,9 +69,9 @@ function appConfig(): array
     return is_file($local) ? array_replace($defaults, require $local) : $defaults;
 }
 
-function appDomain(): Domain
+function appDomain(?array $gameCircuits = null): Domain
 {
-    return new Domain(dirname(__DIR__) . '/data', [appTranslation(), 'text']);
+    return new Domain(dirname(__DIR__) . '/data', [appTranslation(), 'text'], $gameCircuits);
 }
 
 function appVersion(): string
