@@ -21,9 +21,13 @@ $setup = $domain->setup(['title' => 'Versión uno', 'circuit' => $circuit, 'refe
 try {
     $store = new Store($config); $store->initialize();
     $game = $store->gameCatalog();
-    if (count($game['presets']) !== 5 || count($game['circuits']) !== 24 || $store->pendingMigrations()) { throw new RuntimeException('Incomplete game catalog.'); }
+    if (count($game['presets']) !== 5 || count($game['circuits']) !== 25 || $store->pendingMigrations()) { throw new RuntimeException('Incomplete game catalog.'); }
     foreach ($game['presets'] as $preset) { $domain->values($preset['values']); }
-    if ($game['circuits'][0]['preset_id'] !== 3 || array_filter(array_slice($game['circuits'], 1), static fn($c) => $c['preset_id'] !== null)) { throw new RuntimeException('Unconfirmed assignment.'); }
+    $assignments = json_decode(file_get_contents(__DIR__ . '/fixtures/circuit-presets.json'), true, 64, JSON_THROW_ON_ERROR);
+    $assignments['australia-albert-park'] = 3;
+    foreach ($game['circuits'] as $circuit) {
+        if ($circuit['preset_id'] !== ($assignments[$circuit['id']] ?? null)) { throw new RuntimeException('Incorrect preset assignment.'); }
+    }
     $first = $store->saveSetup($setup);
     $setup['current']['ala_tra']++;
     $second = $store->saveSetup($setup);
@@ -35,6 +39,13 @@ try {
     if (count($store->setups()) !== 2) { throw new RuntimeException('La transacción dejó una versión parcial.'); }
     $store->migrate();
     if ($store->gameCatalog() !== $game || count($store->setups()) !== 2) { throw new RuntimeException('Migration repeat changed existing data.'); }
+    // Reproduce an Alpha 14 catalog: only Albert Park has an assignment and migration 001 is applied.
+    $db->exec("UPDATE f125_game_circuits SET preset_id=NULL WHERE id <> 'australia-albert-park'");
+    $db->exec("DELETE FROM f125_game_circuits WHERE id='imola'");
+    $db->exec("DELETE FROM f125_migrations WHERE id='002-circuit-presets'");
+    if ($store->pendingMigrations() !== ['002-circuit-presets']) { throw new RuntimeException('Follow-up migration not detected.'); }
+    $store->migrate();
+    if ($store->gameCatalog() !== $game || count($store->setups()) !== 2) { throw new RuntimeException('Follow-up migration damaged existing data.'); }
     // Simulate an existing schema-1 installation; personal versions must survive catalog migration.
     $db->exec('DROP TABLE f125_game_circuits');
     $db->exec('DROP TABLE f125_game_presets');
@@ -53,12 +64,13 @@ try {
     $db->exec('ALTER TABLE f125_game_circuits DROP CONSTRAINT migration_failure');
     $store->migrate();
     if ($store->gameCatalog() !== $game) { throw new RuntimeException('Migration retry failed.'); }
-    $ledger = $db->query('SELECT checksum FROM f125_migrations')->fetchColumn();
+    $ledger = $db->query('SELECT id, checksum FROM f125_migrations')->fetchAll(PDO::FETCH_KEY_PAIR);
     $db->exec("UPDATE f125_migrations SET checksum = REPEAT('0',64)");
     $rejected = false;
     try { $store->pendingMigrations(); } catch (RuntimeException $expected) { $rejected = true; }
     if (!$rejected) { throw new RuntimeException('Expected checksum rejection.'); }
-    $restore = $db->prepare('UPDATE f125_migrations SET checksum=?'); $restore->execute([$ledger]);
+    $restore = $db->prepare('UPDATE f125_migrations SET checksum=? WHERE id=?');
+    foreach ($ledger as $id => $checksum) { $restore->execute([$checksum, $id]); }
     echo "OK: MariaDB, guardado, reapertura, versiones, duplicados y rollback.\n";
 } finally {
     // Solo las tablas comprobadas como inexistentes al inicio, en orden de dependencias.

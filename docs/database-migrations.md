@@ -12,6 +12,8 @@ Back up all `f125_*` tables from the hosting panel before applying a database up
 
 The catalog uses `f125_game_presets` and `f125_game_circuits`; personal versions and imported profiles remain in their existing tables. `Store::gameCatalog()` exposes the catalog for subsequent loading-interface integration. The migration does not automatically load a preset into an editor draft.
 
+`002-circuit-presets` completes the 24 championship assignments and adds Imola with preset 3, bringing the total to 25 circuits with confirmed assignments. Imola follows the championship entries in display order. Only empty assignments are filled; existing assignments and personal setups are preserved.
+
 ## Execution and recovery
 
 `src/Migrations.php` serializes migration attempts using a database-specific MariaDB advisory lock. It creates InnoDB tables outside the data transaction because DDL commits implicitly. Inserts and their `f125_migrations` completion record commit together. A failed insert rolls back the data and leaves the migration pending; empty tables created earlier can remain and are reused on retry. Existing records are not replaced on conflicts.

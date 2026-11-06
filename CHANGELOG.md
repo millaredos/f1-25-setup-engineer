@@ -6,6 +6,8 @@
 
 ### 0.3.0
 
+- Complete the 24 championship circuit-to-preset assignments and add Imola with preset 3 through a follow-up catalog migration.
+
 - Add versioned SQL catalog migrations, automatic initial seeding and a CSRF-protected database update page for existing installations.
 - Include five game presets, 24 official circuit names and the confirmed Albert Park → preset 3 assignment, separate from personal setups.
 

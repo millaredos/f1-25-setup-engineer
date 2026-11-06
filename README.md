@@ -22,7 +22,7 @@ Built with PHP, MariaDB, vanilla JavaScript and plain CSS.
 - JSON import for circuit profiles and setups.
 - Saved versions containing session conditions, notes and a circuit profile.
 - JSON export and browser draft recovery.
-- Versioned database migrations with five game presets, 24 official circuit names and confirmed preset assignments.
+- Versioned database migrations with five game presets and confirmed assignments for the 24 championship circuits plus Imola.
 
 Circuits are added through imported profiles. Setup explanations are guidance to test in the game.
 

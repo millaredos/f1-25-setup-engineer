@@ -9,7 +9,7 @@ const { chromium } = require(process.env.F125_PLAYWRIGHT || 'playwright');
     await page.route('**/api.php?action=update-status', route => route.fulfill({ json: { known: true, newer: false } }));
     await page.goto(process.env.F125_TEST_URL + 'database.php');
     await page.getByRole('button', { name: 'Actualizar base de datos', exact: true }).waitFor();
-    assert.match(await page.locator('main').innerText(), /24 circuitos oficiales/);
+    assert.match(await page.locator('main').innerText(), /25 circuitos/);
     assert.equal(await page.locator('style,[style]').count(), 0);
     for (const width of [1440, 390]) {
       await page.setViewportSize({ width, height: 950 });

@@ -39,7 +39,7 @@ try {
 <?php if ($error): ?><p class="status error" role="alert"><?= h($error) ?></p><?php endif; ?>
 <?php if ($pending): ?>
 <section class="panel"><h2><?= h(t('Actualización pendiente')) ?></h2>
-<p><?= h(t('Añade los cinco predeterminados del juego, los 24 circuitos oficiales y la asignación de Albert Park al predeterminado 3. Los reglajes personales se conservan.')) ?></p>
+<p><?= h(t('Incorpora cinco predeterminados y sus asignaciones a 25 circuitos: los 24 del campeonato e Imola. Los reglajes personales se conservan.')) ?></p>
 <p><?= h(t('Guarda una copia de la base de datos desde tu panel de alojamiento antes de continuar.')) ?></p>
 <form method="post"><input type="hidden" name="csrf" value="<?= h($_SESSION['csrf']) ?>"><button class="button" type="submit"><?= h(t('Actualizar base de datos')) ?></button></form>
 </section>
@@ -47,7 +47,7 @@ try {
 <p class="status" role="status"><?= h(t('Base de datos actualizada.')) ?></p>
 <section class="panel"><h2><?= h(t('Predeterminados del juego')) ?></h2><ol>
 <?php foreach ($catalog['presets'] as $preset): ?><li><?= h(t($preset['name'])) ?></li><?php endforeach; ?>
-</ol><p><?= h(t('Catálogo inicial: 24 circuitos oficiales. Albert Park utiliza el predeterminado 3; las demás asignaciones están pendientes.')) ?></p></section>
+</ol><p><?= h(t('Catálogo: 25 circuitos con su predeterminado asignado, incluidos los 24 del campeonato e Imola.')) ?></p></section>
 <?php endif; ?>
 <p><a href="./#circuito"><?= h(t('Volver al taller')) ?></a></p>
 </main></body></html>

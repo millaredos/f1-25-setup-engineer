@@ -60,14 +60,19 @@ final class MigrationConnection extends PDO
 $count = 0;
 function verifyMigration(bool $condition): void { global $count; if (!$condition) { throw new RuntimeException('Migration assertion failed.'); } $count++; }
 $db = new MigrationConnection(); $migrations = new Migrations($db);
-verifyMigration($migrations->pending() === ['001-game-catalog']);
+verifyMigration($migrations->pending() === ['001-game-catalog', '002-circuit-presets']);
 $db->fail = true;
 try { $migrations->apply(); throw new LogicException('Expected failure'); } catch (PDOException $expected) {}
 verifyMigration(!$db->ledger && in_array('ROLLBACK', $db->events, true) && str_contains(end($db->events), 'RELEASE_LOCK'));
 $db->fail = false; $migrations->apply();
-verifyMigration(!$migrations->pending() && count($db->ledger) === 1 && in_array('COMMIT', $db->events, true));
+verifyMigration(!$migrations->pending() && count($db->ledger) === 2 && in_array('COMMIT', $db->events, true));
 $db->events = []; $migrations->apply();
 verifyMigration(!array_filter($db->events, static fn($sql) => str_starts_with($sql, 'INSERT')));
+unset($db->ledger['002-circuit-presets']);
+verifyMigration($migrations->pending() === ['002-circuit-presets']);
+$db->events = []; $migrations->apply();
+verifyMigration(count(array_filter($db->events, static fn($sql) => str_starts_with($sql, 'UPDATE f125_game_circuits'))) === 5);
+verifyMigration(!array_filter($db->events, static fn($sql) => str_starts_with($sql, 'INSERT INTO f125_game_presets')));
 $db->ledger['001-game-catalog'] = str_repeat('0', 64);
 $rejected = false; try { $migrations->pending(); } catch (RuntimeException $expected) { $rejected = true; }
 verifyMigration($rejected);
@@ -94,4 +99,27 @@ $circuits = $catalog['001-game-catalog']['data'][1];
 preg_match_all("/\('([a-z0-9-]+)', (\d+), '([^']+)', '([^']+)', (NULL|[1-5])\)/", $circuits, $circuitRows, PREG_SET_ORDER);
 verifyMigration(count($circuitRows) === 24 && $circuitRows[0][5] === '3');
 verifyMigration(!array_filter(array_slice($circuitRows, 1), static fn($c) => $c[5] !== 'NULL'));
+$assignments = [];
+foreach ($catalog['002-circuit-presets']['data'] as $statement) {
+    if (str_starts_with($statement, 'INSERT INTO f125_game_circuits')) {
+        preg_match("/VALUES \('([a-z0-9-]+)', (\d+), '([^']+)', '([^']+)', ([1-5])\)/", $statement, $row);
+        verifyMigration($row[1] === 'imola' && (int) $row[2] === 25 && (int) $row[5] === 3);
+        $assignments[$row[1]] = (int) $row[5];
+        $circuitRows[] = $row;
+        continue;
+    }
+    preg_match('/SET preset_id = ([1-5])/', $statement, $preset);
+    preg_match_all("/'([a-z0-9-]+)'/", $statement, $ids);
+    foreach ($ids[1] as $id) {
+        verifyMigration(!isset($assignments[$id]));
+        $assignments[$id] = (int) $preset[1];
+    }
+    verifyMigration(str_contains($statement, 'AND preset_id IS NULL'));
+}
+$expectedAssignments = json_decode(file_get_contents(__DIR__ . '/fixtures/circuit-presets.json'), true, 64, JSON_THROW_ON_ERROR);
+ksort($assignments); ksort($expectedAssignments);
+verifyMigration($assignments === $expectedAssignments);
+verifyMigration(!array_diff(array_keys($assignments), array_column($circuitRows, 1)));
+verifyMigration(count($circuitRows) === 25 && count($assignments) === 24);
+verifyMigration(!array_diff(array_column($circuitRows, 1), array_keys($assignments), ['australia-albert-park']));
 echo "OK: $count migration checks (recording PDO; no live database).\n";

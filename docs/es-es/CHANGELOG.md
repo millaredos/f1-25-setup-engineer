@@ -6,6 +6,8 @@
 
 ### 0.3.0
 
+- Completar las asignaciones de los 24 circuitos del campeonato y añadir Imola con el predeterminado 3 mediante una migración adicional.
+
 - Añadir migraciones SQL versionadas, carga inicial automática y una página de actualización de la base con protección CSRF para instalaciones existentes.
 - Incluir cinco predeterminados del juego, 24 nombres oficiales de circuitos y la asignación confirmada Albert Park → predeterminado 3, separados de los reglajes personales.
 

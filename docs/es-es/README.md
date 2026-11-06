@@ -22,7 +22,7 @@ Desarrollada en PHP, MariaDB, JavaScript nativo y CSS puro.
 - Importación de fichas de circuito y reglajes en JSON.
 - Guardado de versiones con condiciones, notas y ficha del circuito.
 - Exportación JSON y recuperación del borrador del navegador.
-- Migraciones versionadas con cinco predeterminados del juego, 24 nombres oficiales de circuitos y las asignaciones confirmadas.
+- Migraciones versionadas con cinco predeterminados del juego y asignaciones confirmadas para los 24 circuitos del campeonato e Imola.
 
 Los circuitos se incorporan mediante fichas importadas. Las explicaciones son orientativas y deben comprobarse en el juego.
 

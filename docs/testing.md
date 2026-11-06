@@ -4,7 +4,7 @@
 
 ## Version 0.3.0 development results
 
-PHP 8.5.12: 201 domain/contract checks, 50 package checks and 79 channel, GitHub, integrity and recovery checks. 19 translation checks and 20 migration checks with recording PDO objects; Python: 14 package/publication and translation tests. Browser flows cover web channel selection, CSRF, verified downloads, backups and preserved private state, both at the root and under a subdirectory with a renamed `www` public directory. Opciones, Actualizaciones and the database migration page are also checked at mobile width.
+PHP 8.5.12: 201 domain/contract checks, 50 package checks and 79 channel, GitHub, integrity and recovery checks. 19 translation checks and 56 migration checks with recording PDO objects; Python: 14 package/publication and translation tests. Browser flows cover web channel selection, CSRF, verified downloads, backups and preserved private state, both at the root and under a subdirectory with a renamed `www` public directory. Opciones, Actualizaciones and the database migration page are also checked at mobile width.
 
 Automated GitHub responses are fixtures; the tests do not need a token or modify a remote release. Interrupted replacement is simulated with a recovery journal and partial file changes. Hardware power loss and disk failure have not been tested.
 
