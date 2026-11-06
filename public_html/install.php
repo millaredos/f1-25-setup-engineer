@@ -88,9 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php if ($databaseLabel !== ''): ?><p><?= h(t('Base de datos configurada:')) ?> <strong><?= escapeInstall($databaseLabel) ?></strong>.</p><?php endif; ?>
     <ul class="installation-checks">
       <?php foreach ($requirements as $name => $ok): ?>
-        <li><strong><?= $ok ? t('Correcto') : t('Pendiente') ?></strong> · <?= escapeInstall(t($name)) ?></li>
+        <li><strong><?= escapeInstall($ok ? t('Correcto') : t('Pendiente')) ?></strong> · <?= escapeInstall(t($name)) ?></li>
       <?php endforeach; ?>
-      <li><strong><?= $store !== null ? t('Correcto') : t('Pendiente') ?></strong> <?= h(t('· Conexión con MariaDB')) ?></li>
+      <li><strong><?= escapeInstall($store !== null ? t('Correcto') : t('Pendiente')) ?></strong> <?= h(t('· Conexión con MariaDB')) ?></li>
     </ul>
     <?php if ($store !== null && !in_array(false, $requirements, true)): ?>
       <form method="post" action="install.php">
