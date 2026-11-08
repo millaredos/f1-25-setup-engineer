@@ -177,6 +177,7 @@ const path = require('node:path');
     assert.equal(await page.locator('#language').inputValue(), 'es');
     await page.locator('#update-channel').selectOption('alpha');
     await page.getByRole('button', { name: 'Guardar opciones' }).click();
+    await page.waitForURL(/options\.php\?saved=1$/);
     const languageCookie = (await context.cookies()).find((cookie) => cookie.name === 'f125_language');
     assert.equal(languageCookie.value, 'es');
     assert.equal(languageCookie.path, new URL(baseURL).pathname);
