@@ -6,6 +6,10 @@
 
 ### Sin publicar
 
+- Mostrar fichas de circuito con longitud, curvas, categoría de carga, características de conducción y fuentes.
+
+### 0.3.0-alpha.18
+
 - Seleccionar la temporada 2025 o 2026 y conservarla en los nuevos reglajes guardados; los predeterminados de 2025 están pendientes.
 - Mostrar junto al nombre del circuito descripciones con fuentes e identificar los predeterminados del coche de 2026.
 - Añadir una hoja de ruta con propuestas de funciones futuras.

@@ -180,18 +180,21 @@ function circuitContent(circuit) {
   const block = element('div', 'circuit-info');
   if (circuit.origin === 'game-catalog') {
     block.append(element('h3', '', circuit.name));
-    const record = state.gameCatalog.circuits.find((item) => item.id === circuit.id);
-    const preset = state.gameCatalog.presets.find((item) => item.id === record?.preset_id);
-    block.append(element('p', 'subtle', state.season === '2026' && preset ? t('{location} · Predeterminado {number}: {name} · coche 2026', { location: circuit.location, number: preset.id, name: t(preset.name) }) : circuit.location));
+    block.append(element('p', 'subtle', circuit.location));
     const description = state.circuitDescriptions?.[circuit.id];
     if (description) {
       const list = element('dl', 'circuit-characteristics circuit-catalog-description');
-      [t('Tipo de circuito'), t('Curvas del trazado'), t('Carga aerodinámica orientativa')].forEach((label, index) => {
-        const value = index === 2 && state.season === '2025' ? t('Pendiente de contrastar para el coche de 2025') : description[index];
+      const fields = [
+        [t('Longitud'), `${description[0]} km`],
+        [t('Curvas'), String(description[1])],
+        [t('Categoría de carga'), description[2]],
+        [t('Curvas y rectas'), description[3]],
+        [t('Características de conducción'), description[4]],
+      ];
+      fields.forEach(([label, value]) => {
         const pair = element('div'); pair.append(element('dt', '', label), element('dd', '', value)); list.append(pair);
       });
-      if (circuit.id !== 'madrid' && state.season === '2026') block.append(element('p', 'source-note', t('Curvas basadas en una guía de 2025; trazado de 2026 pendiente de contraste.')));
-      block.append(list, sourcesContent(description[3]));
+      block.append(list, sourcesContent(description[5]));
     }
     return block;
   }

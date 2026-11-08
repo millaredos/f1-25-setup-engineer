@@ -6,9 +6,9 @@
   <img src="../../media/logo.png" alt="Logo de MillasGamin" width="112">
 </p>
 
-# F1 25 Setup Engineer
+# F1 25 / 26 Setup Engineer
 
-Aplicación web para editar, comparar y guardar reglajes de **F1 25**. Introduce los valores que te asigna el juego, fija una referencia y consulta qué implica cada cambio antes de probarlo en pista.
+Aplicación web para editar, comparar y guardar reglajes de **F1 25** y su **2026 Season Pack**. Introduce los valores que te asigna el juego, fija una referencia y consulta qué implica cada cambio antes de probarlo en pista.
 
 Desarrollada en PHP, MariaDB, JavaScript nativo y CSS puro.
 
@@ -22,6 +22,7 @@ Desarrollada en PHP, MariaDB, JavaScript nativo y CSS puro.
 - Importación de fichas de circuito y reglajes en JSON.
 - Guardado de versiones con condiciones, notas y ficha del circuito.
 - Exportación JSON y recuperación del borrador del navegador.
+- Selector de temporada 2025 y 2026; los valores predeterminados de 2025 están pendientes de recopilar y verificar.
 - Migraciones versionadas con cinco predeterminados del coche de 2026 y asignaciones confirmadas para los 24 circuitos del campeonato e Imola.
 
 El selector incluye el catálogo del juego y las fichas importadas para circuitos adicionales. Las explicaciones son orientativas y deben comprobarse en el juego.
@@ -103,6 +104,7 @@ Para una copia completa, respalda también MariaDB y `config/`. Las instruccione
 | --- | --- |
 | [Instalación](instalacion.md) | Configuración, permisos, backup y restauración. |
 | [Formatos JSON](formato-circuito.md) | Fichas de circuito y reglajes compatibles. |
+| [Fichas de circuitos](fichas-circuitos.md) | Características y fuentes de los circuitos incluidos. |
 | [Actualización](actualizacion.md) | Paquetes y recuperación de archivos. |
 | [Flujo de releases](publicar-versiones.md) | Una PR por release, compilaciones Alpha y publicación estable. |
 | [Arquitectura](arquitectura.md) | Stack, capas, dependencias y almacenamiento. |

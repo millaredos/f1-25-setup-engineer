@@ -6,9 +6,9 @@
   <img src="media/logo.png" alt="MillasGamin logo" width="112">
 </p>
 
-# F1 25 Setup Engineer
+# F1 25 / 26 Setup Engineer
 
-A self-hosted web application for editing, comparing and saving **F1 25** setups. Enter the values assigned by the game, set a reference and review the effect of each change before testing it on track.
+A self-hosted web application for editing, comparing and saving setups for **F1 25** and its **2026 Season Pack**. Enter the values assigned by the game, set a reference and review the effect of each change before testing it on track.
 
 Built with PHP, MariaDB, vanilla JavaScript and plain CSS.
 
@@ -22,6 +22,7 @@ Built with PHP, MariaDB, vanilla JavaScript and plain CSS.
 - JSON import for circuit profiles and setups.
 - Saved versions containing session conditions, notes and a circuit profile.
 - JSON export and browser draft recovery.
+- Season selection for 2025 and 2026; 2025 game preset values are pending collection and verification.
 - Versioned database migrations with five 2026 car game presets and confirmed assignments for the 24 championship circuits plus Imola.
 
 The circuit selector includes the bundled game catalog and imported profiles for additional circuits. Setup explanations are guidance to test in the game.
@@ -105,6 +106,7 @@ For a complete backup, also back up MariaDB and `config/`. See [backup and resto
 | --- | --- |
 | [Installation](docs/installation.md) | Configuration, permissions, backup and restore. |
 | [JSON formats](docs/json-formats.md) | Circuit profiles and supported setup formats. |
+| [Circuit profiles](docs/circuit-profiles.md) | Track characteristics and sources for the bundled circuits. |
 | [Updating](docs/updating.md) | Packages and file recovery. |
 | [Release workflow](docs/releasing.md) | One PR per release, Alpha builds and stable publication. |
 | [Architecture](docs/architecture.md) | Stack, layers, dependencies and storage. |
