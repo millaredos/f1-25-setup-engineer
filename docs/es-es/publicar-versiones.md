@@ -43,14 +43,14 @@ El flujo actual responde a cada actualización de la PR y todavía no filtra sub
 El flujo se ejecuta al abrir, reabrir o actualizar una PR de release del mismo repositorio.
 
 1. Obtiene el commit de la rama de la PR y ejecuta las pruebas de dominio, actualización, publicación y navegador.
-2. Genera `X.Y.Z-alpha.N`, donde N es el número de ejecución del flujo.
+2. Genera `X.Y.Z-alpha.N`, empezando por 1 para cada versión objetivo y eligiendo el primer número que no esté reservado por una release, borrador o etiqueta.
 3. Crea una prerelease en borrador con el commit exacto y la identidad de la PR.
 4. Sube el ZIP reproducible y comprueba su digest de GitHub.
 5. Publica la prerelease solo si la PR sigue abierta en el mismo commit.
 
 Un commit posterior deja obsoleta una ejecución anterior. Las instalaciones no reciben compilaciones fallidas o incompletas. Las PR de forks y las ramas que no son de release no pueden publicar mediante este flujo.
 
-La variable opcional del repositorio `ALPHA_BUILD_OFFSET` suma un entero no negativo al número de ejecución. Su valor predeterminado es cero. Permite continuar la numeración Alpha por encima de las versiones ya distribuidas al trasladar el proyecto a otro repositorio.
+El contador es independiente del número de ejecución del flujo. Un reintento reanuda la release del mismo commit sin reemplazar un paquete publicado; las etiquetas y los borradores existentes reservan sus números.
 
 ## Release estable
 

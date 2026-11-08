@@ -43,12 +43,12 @@ The current workflow reacts to every release PR update and does not yet filter d
 The release pipeline runs when a same-repository release PR is opened, reopened or updated.
 
 1. Check out the PR head commit and run domain, update, publication and browser tests.
-2. Build `X.Y.Z-alpha.N`, where N is the workflow run number.
+2. Build `X.Y.Z-alpha.N`, starting at 1 for each release target and selecting the first number not reserved by a release, draft or tag.
 3. Create a draft prerelease with the exact source commit and PR identity.
 4. Upload the reproducible update ZIP and verify its GitHub digest.
 5. Publish the prerelease only if the PR is still open at the same commit.
 
-The optional `ALPHA_BUILD_OFFSET` repository variable adds a non-negative integer to the workflow run number. Its default is zero. Use it when moving to a new repository so Alpha versions continue above previously distributed builds.
+The counter is independent of the workflow run number. A retry resumes the release for the same commit rather than replacing a published package; existing tags and drafts reserve their numbers.
 
 A newer commit supersedes an older run. Failed or incomplete builds are not offered to installations. Fork PRs and non-release branches cannot publish through this workflow.
 

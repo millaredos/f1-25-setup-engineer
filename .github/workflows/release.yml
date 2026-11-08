@@ -72,7 +72,6 @@ jobs:
       - name: Publish Alpha or prepare stable draft
         env:
           GH_TOKEN: ${{ github.token }}
-          ALPHA_BUILD_OFFSET: ${{ vars.ALPHA_BUILD_OFFSET || '0' }}
         run: |
           python3 -m pip install -r requirements-dev.txt
-          GITHUB_RUN_NUMBER=$((GITHUB_RUN_NUMBER + ALPHA_BUILD_OFFSET)) python3 bin/publish-release.py
+          python3 bin/publish-release.py
