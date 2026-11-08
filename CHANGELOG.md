@@ -6,6 +6,10 @@
 
 ### Unreleased
 
+- Explain the application's learning purpose, circuit information, setup comparisons and saved versions on the home page.
+
+### 0.3.0-alpha.19
+
 - Show sourced circuit profiles with length, corners, downforce category and driving characteristics.
 
 ### 0.3.0-alpha.18

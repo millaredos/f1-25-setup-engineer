@@ -24,57 +24,24 @@ header('Referrer-Policy: same-origin');
     <section data-page="inicio" class="home-content" aria-labelledby="home-heading">
       <header class="home-hero">
         <p class="home-label">F1 25 / 26 Setup Engineer</p>
-        <h1 id="home-heading"><?= h(t('Prepara y compara tus reglajes')) ?></h1>
-        <p class="home-intro"><?= h(t('Parte de un reglaje, conserva una referencia y entiende cada cambio antes de probarlo en pista.')) ?></p>
+        <h1 id="home-heading"><?= h(t('Aprende a trabajar con tus reglajes')) ?></h1>
+        <p class="home-intro"><?= h(t('Esta aplicación pretende ayudarte a entender los ajustes de F1 25 y su 2026 Season Pack, explorar sus posibles efectos y guardar tus propios reglajes.')) ?></p>
       </header>
 
-      <div class="home-overview">
-        <section aria-labelledby="home-purpose">
-          <h2 id="home-purpose"><?= h(t('Tu espacio de trabajo')) ?></h2>
-          <p><?= h(t('Edita los veinte ajustes, compara sus diferencias y guarda variantes con tus observaciones.')) ?></p>
-          <p><?= h(t('Empieza con los valores del juego o un reglaje propio. Las características del circuito dan contexto a tus pruebas.')) ?></p>
-        </section>
-        <aside class="home-limits" aria-labelledby="home-limits-heading">
-          <h2 id="home-limits-heading"><?= h(t('La prueba está en la pista')) ?></h2>
-          <p><?= h(t('Las explicaciones y propuestas son orientativas. La app no calcula un reglaje óptimo ni simula la física del coche.')) ?></p>
-          <p><?= h(t('Cambia pocas variables y comprueba el resultado conduciendo en las mismas condiciones.')) ?></p>
-        </aside>
+      <div class="home-features">
+        <section><h2><?= h(t('Conoce el circuito')) ?></h2>
+          <p><?= h(t('Cada circuito plantea retos diferentes. Consulta su ficha para conocer el trazado, sus curvas y rectas, la carga aerodinámica orientativa y otras características que pueden influir en la conducción.')) ?></p></section>
+        <section><h2><?= h(t('Parte de un reglaje')) ?></h2>
+          <p><?= h(t('Consulta los reglajes predeterminados de Codemasters y utiliza el que el juego asigna al circuito como punto de partida. También puedes recuperar un reglaje guardado y seguir trabajando con él. Los predeterminados del coche de 2025 están pendientes de recopilar.')) ?></p></section>
+        <section><h2><?= h(t('Entiende los cambios')) ?></h2>
+          <p><?= h(t('Cada ajuste incluye una explicación de cómo podría influir en el comportamiento del coche. Al modificarlo, puedes comparar sus valores con los de tu referencia y revisar los posibles efectos.')) ?></p>
+          <p><?= h(t('Los ajustes no actúan siempre de forma aislada: un cambio puede reforzar, contrarrestar o dificultar el efecto de otro. Las explicaciones orientan tus pruebas; el resultado depende del conjunto del reglaje y de lo que notes al conducir.')) ?></p></section>
+        <section><h2><?= h(t('Conserva tus reglajes')) ?></h2>
+          <p><?= h(t('Guarda versiones en la base de datos con un nombre y notas para recordar qué querías probar o qué observaste. Puedes recuperar una versión anterior, crear otra a partir de ella y exportar tus reglajes en JSON.')) ?></p></section>
+        <section class="home-car"><h2><?= h(t('El coche también cuenta')) ?></h2>
+          <p><?= h(t('El rendimiento y el desarrollo del coche influyen en su comportamiento. Un reglaje puede ayudarte a adaptarlo a tu forma de conducir y al circuito, pero sus prestaciones y mejoras seguirán influyendo en el resultado.')) ?></p>
+          <p><?= h(t('Ajustar el coche menos competitivo no lo convierte en el mejor de la parrilla: conserva sus propias limitaciones.')) ?></p></section>
       </div>
-
-      <section class="home-manual" aria-labelledby="home-guide-heading">
-        <div class="home-guide-heading">
-          <h2 id="home-guide-heading"><?= h(t('Del reglaje inicial a tu siguiente prueba')) ?></h2>
-          <p><?= h(t('Un recorrido por las herramientas de la aplicación.')) ?></p>
-        </div>
-        <ol class="home-guide">
-          <li>
-            <span class="home-step" aria-hidden="true">01</span>
-            <div><h3><a href="#circuito"><?= h(t('Circuito y referencia')) ?></a></h3>
-            <p><?= h(t('Selecciona un circuito y consulta sus características, o abre un reglaje guardado. Conserva una referencia para comparar los cambios en Taller.')) ?></p></div>
-          </li>
-          <li>
-            <span class="home-step" aria-hidden="true">02</span>
-            <div><h3><a href="#taller"><?= h(t('Taller')) ?></a></h3>
-            <p><?= h(t('Edita los veinte ajustes por categorías. Consulta sus efectos habituales y el resumen de cambios respecto a tu referencia.')) ?></p></div>
-          </li>
-          <li>
-            <span class="home-step" aria-hidden="true">03</span>
-            <div><h3><a href="#pruebas"><?= h(t('Pruebas')) ?></a></h3>
-            <p><?= h(t('Selecciona el problema que notas al conducir y revisa qué ajustes conviene ensayar. Prueba cada propuesta en pista.')) ?></p></div>
-          </li>
-          <li>
-            <span class="home-step" aria-hidden="true">04</span>
-            <div><h3><a href="#versiones"><?= h(t('Versiones')) ?></a></h3>
-            <p><?= h(t('Guarda variantes con nombre y notas, abre una versión como borrador o expórtala en JSON. Cada guardado conserva las versiones anteriores.')) ?></p></div>
-          </li>
-          <li class="home-maintenance">
-            <span class="home-step" aria-hidden="true">05</span>
-            <div><h3><a href="options.php"><?= h(t('Opciones')) ?></a> <?= h(t('y')) ?> <a href="update.php"><?= h(t('Actualizaciones')) ?></a></h3>
-            <p><?= h(t('Elige Alpha para probar novedades o Estable para versiones estables. Accede a Opciones y Actualizaciones desde el menú de la versión, arriba a la derecha.')) ?></p></div>
-          </li>
-        </ol>
-        <p class="home-draft-note"><?= h(t('El borrador se conserva al cambiar de apartado. Guárdalo en Versiones para conservarlo en la base de datos.')) ?></p>
-      </section>
     </section>
     <div data-page="taller" hidden class="page-heading"><div><p class="eyebrow"><?= h(t('OBSERVA. AJUSTA. PRUEBA.')) ?></p><h1><?= h(t('Entiende cada cambio.')) ?></h1><p class="intro"><?= h(t('Parte del reglaje del juego. Ajusta con una idea, compruébala en pista.')) ?></p></div><span class="theory-badge"><?= h(t('Siempre teoría')) ?><small><?= h(t('Sin predicciones de rendimiento')) ?></small></span></div>
     <p id="status" class="status" role="status" aria-live="polite"></p>

@@ -6,6 +6,10 @@
 
 ### Sin publicar
 
+- Explicar en Inicio el propósito de aprendizaje, la información de circuitos, la comparación de ajustes y los reglajes guardados.
+
+### 0.3.0-alpha.19
+
 - Mostrar fichas de circuito con longitud, curvas, categoría de carga, características de conducción y fuentes.
 
 ### 0.3.0-alpha.18

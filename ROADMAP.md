@@ -10,5 +10,7 @@ Ideas for future development. The list does not imply a release date or a commit
 - **Circuit profiles:** expand and maintain sourced circuit descriptions and their coverage as game content changes.
 - **Circuit maps:** show a circuit map thumbnail that can be enlarged.
 - **Track testing:** record observations from individual setup changes and compare them with the theoretical expectations.
+- **Setup notes:** redesign how observations are recorded, organised and retrieved alongside saved setups.
 - **Backup and recovery:** simplify complete backups and verify restoration of saved setups and configuration.
 - **Optional AI assistance:** investigate a provider-independent assistant that can explain data without changing saved setups without confirmation. The application must remain usable without AI.
+- **FAQ:** add a FAQ section in the app.
