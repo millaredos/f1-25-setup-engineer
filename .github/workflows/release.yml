@@ -40,6 +40,7 @@ jobs:
           python3 bin/translations.py --check
           php tests/translations.php
           php tests/run.php
+          php tests/apache-protection.php
           python3 bin/migrations.py --check
           php tests/migrations.php
           php tests/updater.php
@@ -50,6 +51,7 @@ jobs:
       - name: Run isolated browser and update tests
         env:
           F125_TEST_BROWSER: chromium
+          F125_TEST_APACHE: '1'
         run: |
           export F125_TEST_ZIP_DIR="$(php -r 'echo ini_get("extension_dir");')"
           export F125_TEST_PACKAGE="$PWD/dist/f125-update-$(cat src/VERSION).zip"

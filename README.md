@@ -27,7 +27,7 @@ Built with PHP, MariaDB, vanilla JavaScript and plain CSS.
 
 The circuit selector includes the bundled game catalog and imported profiles for additional circuits. Setup explanations are guidance to test in the game.
 
-**Development version: 0.3.0-alpha.0.** See [CHANGELOG.md](CHANGELOG.md).
+**Development version: 0.3.1-alpha.0.** See [CHANGELOG.md](CHANGELOG.md).
 
 ## Requirements
 
@@ -72,6 +72,32 @@ Installation is completed in the browser. Prepare the files, permissions and dat
 The application works at a site root or under a subdirectory such as `https://example.com/setups/`. Use the directory URL with a trailing slash or `index.php`; the server must map that location to the public directory.
 
 The [installation guide](docs/installation.md) covers permissions, environment variables and data recovery.
+
+### Nginx
+
+The documented installation uses Apache; this project has not yet verified installation with Nginx. Nginx does not read Apache `.htaccess` files. For a virtual host dedicated to this application, add the following **inside its existing `server` block**, before other regular-expression `location` blocks:
+
+```nginx
+autoindex off;
+
+# Deny hidden files and directories.
+location ~ (^|/)\. {
+    deny all;
+}
+
+# Deny common editor and backup files.
+location ~* (\.(bak|old|orig|save|swp|sql|log)|~)$ {
+    deny all;
+}
+
+error_page 404 = @f125_not_found;
+location @f125_not_found {
+    default_type text/plain;
+    return 404 "Page not found.\n";
+}
+```
+
+Keep the existing PHP handler and expose only the application’s public directory; `src/`, `data/`, `config/` and backups must stay outside every public mapping. The fragment applies to the whole virtual host. Review existing exact-match and `^~` locations, nested locations, ACME challenges under `.well-known`, and `error_page` or FastCGI/proxy error interception: they can alter which rules run or replace API JSON errors. After adding it, validate the configuration and verify PHP execution, 404 status, API JSON errors, denied files and private paths. Test separately if the application shares a virtual host or runs under a subdirectory.
 
 ## Usage
 

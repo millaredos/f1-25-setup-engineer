@@ -2,9 +2,14 @@
 
 # Changelog
 
-## 0.3.0
+## 0.3.1 — Sin publicar
 
-### Sin publicar
+- Generar la protección de Apache durante la instalación y ofrecer la actualización de su bloque después de actualizar la aplicación.
+- Documentar reglas equivalentes para el servidor virtual de Nginx.
+
+## 0.3.0 — 2026-11-08
+
+### 0.3.0-alpha.20
 
 - Explicar en Inicio el propósito de aprendizaje, la información de circuitos, la comparación de ajustes y los reglajes guardados.
 

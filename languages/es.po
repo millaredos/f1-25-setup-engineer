@@ -2962,6 +2962,33 @@ msgstr ""
 msgid "Parte de un reglaje"
 msgstr "Parte de un reglaje"
 
+msgid "Archivo .htaccess guardado. Comprueba que Apache aplica las reglas."
+msgstr "Archivo .htaccess guardado. Comprueba que Apache aplica las reglas."
+
+msgid "Comprueba que Apache permite y aplica estas directivas."
+msgstr "Comprueba que Apache permite y aplica estas directivas."
+
+msgid ""
+"El archivo .htaccess no contiene el bloque de protección actual. Puedes "
+"añadirlo conservando el resto del archivo."
+msgstr ""
+"El archivo .htaccess no contiene el bloque de protección actual. Puedes "
+"añadirlo conservando el resto del archivo."
+
+msgid "Guardar protección de Apache"
+msgstr "Guardar protección de Apache"
+
+msgid ""
+"Instalación terminada. Revisa la protección de Apache en Actualizaciones."
+msgstr ""
+"Instalación terminada. Revisa la protección de Apache en Actualizaciones."
+
+msgid "Protección de Apache"
+msgstr "Protección de Apache"
+
+msgid "Reload the page before changing Apache protection."
+msgstr "Reload the page before changing Apache protection."
+
 #~ msgid ""
 #~ "Cambia pocas variables y comprueba el resultado conduciendo en las mismas "
 #~ "condiciones."

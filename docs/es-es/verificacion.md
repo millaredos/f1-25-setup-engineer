@@ -21,6 +21,7 @@ python bin/migrations.py --check
 php tests/migrations.php
 php tests/translations.php
 php tests/run.php
+php tests/apache-protection.php
 php tests/updater.php
 php tests/updates.php
 python -m unittest discover -s tests -p 'test_*.py'
@@ -59,6 +60,8 @@ Para ejecutar `tests/browser.cjs` por separado contra una instalación de prueba
 ## Pruebas de persistencia
 
 `tests/migrations.php` valida los 100 valores distribuidos y el orden de las migraciones con objetos PDO que registran operaciones. Las pruebas de navegador de la página utilizan una simulación del almacenamiento. Estas pruebas no ejecutan SQL en MariaDB.
+
+`tests/apache-protection.php` comprueba la creación y actualización del bloque gestionado de `.htaccess` en un directorio temporal, incluida la conservación del contenido y el rechazo de cambios desactualizados. Usa `F125_TEST_APACHE=1` en las pruebas de navegador para simular la detección de Apache y probar el formulario tras actualizar. Esta simulación no verifica las directivas de Apache; comprueba la configuración efectiva con Apache por separado.
 
 `tests/integration.php` verifica guardado, reapertura, versiones inmutables, conflictos, creación del catálogo, repetición de migraciones, conservación de reglajes existentes, rechazo de huellas distintas, reversión de inserciones fallidas y reintento. Exige una base MariaDB vacía indicada explícitamente:
 

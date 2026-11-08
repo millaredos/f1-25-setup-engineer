@@ -38,6 +38,8 @@ Check the extensions in the PHP instance used by Apache. Set `display_errors=Off
 
 The installer creates the base tables and applies pending [database migrations](database-migrations.md), including the five game presets and initial circuit-name catalog. It then writes `installed: true` to `config/installation.json` and opens the home screen. Keep this file when updating. Existing installations apply pending migrations from **Opciones → Actualizar base de datos** after updating the application files.
 
+When Apache is detected, the installer creates a `.htaccess` in the public directory if none exists. It disables directory listings, denies hidden and common backup files and supplies a 404 response. An existing file is preserved; **Actualizaciones** offers to add or update the application's block after review. PHP needs write access to the public directory to create or update this file. The server administrator is responsible for confirming that Apache permits and applies the directives; the file's presence alone does not prove that they are active.
+
 | State | Behavior |
 | --- | --- |
 | File missing or `installed: false` | The home page opens the installer. |
