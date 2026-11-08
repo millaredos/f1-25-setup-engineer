@@ -2,12 +2,79 @@
 
 # Changelog
 
-## Unreleased
+## 0.3.0
 
-### 0.3.0
+### Unreleased
+
+- Explain the application's learning purpose, circuit information, setup comparisons and saved versions on the home page.
+
+### 0.3.0-alpha.19
+
+- Show sourced circuit profiles with length, corners, downforce category and driving characteristics.
+
+### 0.3.0-alpha.18
+
+- Select the 2025 or 2026 season and preserve it in new saved setups; 2025 game presets are pending.
+- Show sourced circuit descriptions alongside the circuit name and identify the 2026 game presets.
+- Add a roadmap for proposed future features.
+
+### 0.3.0-alpha.17
+
+- View the selected setup values by category without opening it in the workshop.
+
+### 0.3.0-alpha.16
+
+- Populate the circuit selector from the game catalog and offer its assigned preset alongside saved personal setups.
+- Compact Circuito y referencia, remove the routine ready banner and manual preset-import section, and retain additional circuit import through Añadir circuito.
+- Keep the footer at the bottom of short pages, with © 2026 millaredos and a GitHub link.
+
+### 0.3.0-alpha.15
+
+- Complete the 24 championship circuit-to-preset assignments and add Imola with preset 3 through a follow-up catalog migration.
+
+### 0.3.0-alpha.14
+
+- Add versioned SQL catalog migrations, automatic initial seeding and a CSRF-protected database update page for existing installations.
+- Include five game presets, 24 official circuit names and the confirmed Albert Park → preset 3 assignment, separate from personal setups.
+
+- Remove the duplicate Inicio navigation link; the logo opens the home screen without reloading the draft.
+- Place saved-setup loading next to circuit selection and filter saved setups by the selected circuit.
+- Remove weather/session selectors from loading while preserving existing imported and saved metadata.
+
+### 0.3.0-alpha.13
+
+- Move Opciones and Actualizaciones into a shared version dropdown with hover, click, touch and keyboard navigation, plus a new-version notification dot.
+- Unify the interface in Spanish and add editable PO catalogs with generated PHP translations shared by PHP and JavaScript.
+- Add a visible language selector in Opciones, initially offering Español and remembering the browser preference.
+- Validate translation catalogs and placeholders before packaging; preserve fallback messages when a runtime catalog cannot be loaded.
+
+### 0.3.0-alpha.10
+
+- Fixed: replaced periodic GitHub API update checks with the application's version service.
+
+### 0.3.0-alpha.9
+
+- Respect GitHub rate-limit reset times, distinguish denied access, and show when update checks can resume.
+
+### 0.3.0-alpha.8
+
+- Refine the home guide with a centered introduction, balanced columns, readable headings and numbered steps across desktop and mobile.
+
+### 0.3.0-alpha.7
+
+- Replace duplicate home menu cards with an introduction, application limits and a short guide to each section.
+
+### 0.3.0-alpha.5
+
+- Use the supplied logo in the application header, including Opciones and Actualizaciones.
+
+### 0.3.0-alpha.4
 
 - Compact single-row header with navigation between the brand and version; horizontally scrollable navigation on smaller screens.
-- Alpha and Release update channels, selected from web Options and stored per installation.
+
+### 0.3.0-alpha.1
+
+- Alpha and Estable update channels, selected from web Opciones and stored per installation.
 - Background GitHub checks, shared cache, rate-limit backoff and verified package download without an updater password or ZIP upload.
 - Alpha builds from one active release PR; merging runs tests and prepares a stable draft with the PR summary as release notes.
 - Reproducible packages with version, commit, PR, channel, PHP and schema metadata.
@@ -15,7 +82,7 @@
 - Update locking, a persistent recovery journal and support for renamed public directories.
 - Offline GitHub fixtures, package/publication tests and web channel/update tests.
 
-### 0.2.0 — 2026-11-05
+## 0.2.0 — 2026-11-05
 
 #### Added
 
@@ -35,7 +102,7 @@
 - Test fixtures are independent of local reference material.
 - Distributed documentation focuses on installation, usage, architecture and testing.
 
-### Initial version
+## Initial version
 
 - Editor with twenty settings grouped by category, an independent reference and a summary of expected effects.
 - Eight handling symptoms with suggested tests, trade-offs, combinations and limits.

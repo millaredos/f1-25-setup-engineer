@@ -42,6 +42,8 @@ class PackagingTests(unittest.TestCase):
                 self.assertEqual(manifest["build"]["pr"], 1)
                 self.assertEqual(archive.read("src/VERSION"), b"0.3.0-alpha.991\n")
                 self.assertEqual(manifest["requires"]["schema"], 1)
+                for required in ['src/Migrations.php', 'src/migration_catalog.php', 'public_html/database.php']:
+                    self.assertIn(required, manifest['files'])
                 for name, digest in manifest["files"].items():
                     self.assertTrue(name.startswith(("src/", "data/", "public_html/")))
                     self.assertEqual(hashlib.sha256(archive.read(name)).hexdigest(), digest)

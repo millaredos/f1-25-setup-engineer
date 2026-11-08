@@ -9,9 +9,12 @@ if (PHP_SAPI !== 'cli') {
         http_response_code(503);
         header('Retry-After: 5');
         header('Cache-Control: no-store');
-        exit('The application is updating or recovering. Retry shortly.');
+        // Do not load a catalog while an update may be replacing application files.
+        exit('La aplicación se está actualizando o recuperando. Vuelve a intentarlo en unos instantes.');
     }
 }
+require_once __DIR__ . '/Translation.php';
+require_once __DIR__ . '/Header.php';
 require_once __DIR__ . '/Updates.php';
 require_once __DIR__ . '/Domain.php';
 require_once __DIR__ . '/Store.php';
@@ -31,7 +34,7 @@ function redirectForInstallation(bool $installer): void
         error_log('F125 estado de instalación: ' . $e->getMessage());
         http_response_code(503);
         header('Content-Type: text/plain; charset=utf-8');
-        exit('No se pudo leer el estado de instalación. Revisa config/installation.json.');
+        exit(t('No se pudo leer el estado de instalación. Revisa config/installation.json.'));
     }
     $destination = null;
     if ($installer && $installed) { $destination = './'; }
@@ -49,6 +52,7 @@ function completeInstallation(Store $store, InstallationState $state): void
         // Si las tablas ya estaban preparadas, basta con finalizar el estado local.
         try { $store->ready(); } catch (Throwable $e) { $store->initialize(); }
         $store->ready();
+        $store->migrate();
         $state->markInstalled();
     });
 }
@@ -65,9 +69,9 @@ function appConfig(): array
     return is_file($local) ? array_replace($defaults, require $local) : $defaults;
 }
 
-function appDomain(): Domain
+function appDomain(?array $gameCircuits = null): Domain
 {
-    return new Domain(dirname(__DIR__) . '/data');
+    return new Domain(dirname(__DIR__) . '/data', [appTranslation(), 'text'], $gameCircuits);
 }
 
 function appVersion(): string

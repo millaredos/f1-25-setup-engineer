@@ -6,9 +6,9 @@
   <img src="media/logo.png" alt="MillasGamin logo" width="112">
 </p>
 
-# F1 25 Setup Engineer
+# F1 25 / 26 Setup Engineer
 
-A self-hosted web application for editing, comparing and saving **F1 25** setups. Enter the values assigned by the game, set a reference and review the effect of each change before testing it on track.
+A self-hosted web application for editing, comparing and saving setups for **F1 25** and its **2026 Season Pack**. Enter the values assigned by the game, set a reference and review the effect of each change before testing it on track.
 
 Built with PHP, MariaDB, vanilla JavaScript and plain CSS.
 
@@ -22,8 +22,10 @@ Built with PHP, MariaDB, vanilla JavaScript and plain CSS.
 - JSON import for circuit profiles and setups.
 - Saved versions containing session conditions, notes and a circuit profile.
 - JSON export and browser draft recovery.
+- Season selection for 2025 and 2026; 2025 game preset values are pending collection and verification.
+- Versioned database migrations with five 2026 car game presets and confirmed assignments for the 24 championship circuits plus Imola.
 
-Circuits are added through imported profiles. Setup explanations are guidance to test in the game.
+The circuit selector includes the bundled game catalog and imported profiles for additional circuits. Setup explanations are guidance to test in the game.
 
 **Development version: 0.3.0-alpha.0.** See [CHANGELOG.md](CHANGELOG.md).
 
@@ -75,20 +77,24 @@ The [installation guide](docs/installation.md) covers permissions, environment v
 
 The interface is currently in Spanish. The names below match its menus and buttons.
 
-1. In **Circuito y referencia**, import a [circuit profile](docs/json-formats.md) and select the session conditions.
-2. Enter the twenty starting values in **Taller**, or import a setup from **Circuito y referencia**.
-3. Set the current values as the reference and specify their source.
+1. In **Circuito y referencia**, select the season and a circuit from the game catalog. The 2025 game preset values are not yet available.
+2. Choose its game preset or a personal version in **Reglaje** and browse its values by category. Click **Abrir como borrador** to edit it.
+3. The game preset opens with separate reference and editable values. Use **Añadir circuito** for [additional circuit profiles](docs/json-formats.md), including mods; import personal setup JSON from **Versiones**.
 4. Edit settings in **Taller** and review the change summary.
 5. In **Pruebas**, select the handling symptom you notice.
 6. In **Versiones**, add a name and notes, save a version or export JSON.
 
+Open the version menu at the top right for **Opciones** and **Actualizaciones**. A dot marks a newer version for the selected channel. **Opciones → Idioma de la aplicación** currently offers **Español** and remembers the selection in this browser.
+
 Switching sections keeps the draft. Each save creates a new version in MariaDB. Browser drafts are recovered separately and do not replace database saves.
+
+The logo opens the home screen without reloading the draft. Open saved setups from **Circuito y referencia**; selecting a circuit filters that list. The loading screen does not assign weather or session types to game presets. Existing imported or saved conditions remain in their JSON.
 
 Both `f125-setup-engineer` and the previous comparator's `f125-comparador-v2` JSON formats are supported. Imports include validation and a preview.
 
 ## Updating
 
-Choose **Alpha** or **Release** in **Options → Updates → Channel**. Alpha receives successful builds from the active release PR; Release receives published stable versions. The application checks in the background and displays available updates. Click **Update** to download, verify and install a build, with a private backup and recovery journal.
+Choose **Alpha** or **Estable** in **Opciones → Actualizaciones → Canal**. Alpha receives successful builds from the active release PR; Estable receives published stable versions. The application detects new versions after publication and displays available updates in the background. Click **Actualizar** to download, verify and install a build, with a private backup and recovery journal.
 
 See the [updating guide](docs/updating.md). Public repositories need no token; private repositories require a read-only GitHub token configured once on the server. There is no separate updater password or manual ZIP upload.
 
@@ -100,10 +106,13 @@ For a complete backup, also back up MariaDB and `config/`. See [backup and resto
 | --- | --- |
 | [Installation](docs/installation.md) | Configuration, permissions, backup and restore. |
 | [JSON formats](docs/json-formats.md) | Circuit profiles and supported setup formats. |
+| [Circuit profiles](docs/circuit-profiles.md) | Track characteristics and sources for the bundled circuits. |
 | [Updating](docs/updating.md) | Packages and file recovery. |
 | [Release workflow](docs/releasing.md) | One PR per release, Alpha builds and stable publication. |
 | [Architecture](docs/architecture.md) | Stack, layers, dependencies and storage. |
+| [Translations](docs/translations.md) | PO catalogs and adding a language. |
 | [Testing](docs/testing.md) | Commands, results and limitations. |
+| [Roadmap](ROADMAP.md) | Ideas for future development. |
 
 ## Development
 
@@ -113,6 +122,7 @@ A PHP monolith with separate presentation, domain and persistence layers. The fr
 public_html/   Interface, HTTP API and static assets
 src/           PHP classes and bootstrap
 data/          Settings and handling-test catalogs
+languages/     Editable PO translation catalogs
 config/        Installation configuration
 tests/         Tests and fixtures
 bin/           Development tools
@@ -123,6 +133,9 @@ media/         Logo and banner
 Run the domain and updater tests:
 
 ```sh
+python -m pip install -r requirements-dev.txt
+python bin/translations.py --check
+php tests/translations.php
 php tests/run.php
 php tests/updater.php
 php tests/updates.php
