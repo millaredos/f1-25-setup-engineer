@@ -27,7 +27,7 @@ Desarrollada en PHP, MariaDB, JavaScript nativo y CSS puro.
 
 El selector incluye el catálogo del juego y las fichas importadas para circuitos adicionales. Las explicaciones son orientativas y deben comprobarse en el juego.
 
-**Versión de desarrollo: 0.3.0-alpha.0.** Consulta los cambios en [CHANGELOG.md](CHANGELOG.md).
+**Versión de desarrollo: 0.3.1-alpha.0.** Consulta los cambios en [CHANGELOG.md](CHANGELOG.md).
 
 ## Requisitos
 
@@ -72,6 +72,32 @@ La instalación se completa desde el navegador. Los archivos, permisos y la base
 Funciona en la raíz de un sitio o bajo una subcarpeta, como `https://example.com/reglajes/`. Utiliza la URL de la carpeta con barra final o `index.php`; el servidor debe asociar esa ruta con `public_html/`.
 
 La [guía de instalación](instalacion.md) detalla los permisos, la configuración por variables de entorno y la recuperación de datos.
+
+### Nginx
+
+La instalación documentada utiliza Apache; el proyecto aún no ha verificado la instalación con Nginx. Nginx no lee los archivos `.htaccess` de Apache. Para un servidor virtual dedicado a esta aplicación, añade lo siguiente **dentro del bloque `server` existente**, antes de otros bloques `location` con expresiones regulares:
+
+```nginx
+autoindex off;
+
+# Deniega archivos y directorios ocultos.
+location ~ (^|/)\. {
+    deny all;
+}
+
+# Deniega restos habituales de edición y copias.
+location ~* (\.(bak|old|orig|save|swp|sql|log)|~)$ {
+    deny all;
+}
+
+error_page 404 = @f125_not_found;
+location @f125_not_found {
+    default_type text/plain;
+    return 404 "Página no encontrada.\n";
+}
+```
+
+Conserva el gestor PHP existente y publica únicamente la carpeta pública de la aplicación; `src/`, `data/`, `config/` y las copias deben quedar fuera de todas las rutas públicas. El fragmento afecta a todo el servidor virtual. Revisa los bloques existentes de coincidencia exacta y `^~`, los `location` anidados, los desafíos ACME bajo `.well-known` y la interceptación de errores de `error_page`, FastCGI o proxy: pueden alterar qué reglas se aplican o sustituir los errores JSON de la API. Después de añadirlo, valida la configuración y comprueba la ejecución de PHP, el estado 404, los errores JSON de la API, los archivos bloqueados y las rutas privadas. Si la aplicación comparte servidor virtual o funciona en una subcarpeta, comprueba esa configuración por separado.
 
 ## Uso
 

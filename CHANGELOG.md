@@ -2,9 +2,14 @@
 
 # Changelog
 
-## 0.3.0
+## 0.3.1 — Unreleased
 
-### Unreleased
+- Generate Apache protection during installation and offer to update its managed block after upgrading.
+- Document equivalent Nginx server-block rules.
+
+## 0.3.0 — 2026-11-08
+
+### 0.3.0-alpha.20
 
 - Explain the application's learning purpose, circuit information, setup comparisons and saved versions on the home page.
 

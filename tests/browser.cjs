@@ -177,6 +177,7 @@ const path = require('node:path');
     assert.equal(await page.locator('#language').inputValue(), 'es');
     await page.locator('#update-channel').selectOption('alpha');
     await page.getByRole('button', { name: 'Guardar opciones' }).click();
+    await page.waitForURL(/options\.php\?saved=1$/);
     const languageCookie = (await context.cookies()).find((cookie) => cookie.name === 'f125_language');
     assert.equal(languageCookie.value, 'es');
     assert.equal(languageCookie.path, new URL(baseURL).pathname);
@@ -191,6 +192,11 @@ const path = require('node:path');
     assert.equal(await page.locator('#current-channel').innerText(), 'Alpha');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true, 'updates fit mobile');
     if (destination) await page.screenshot({ path: path.join(destination, 'updates-390.png'), fullPage: true });
+    if (destination) {
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await page.screenshot({ path: path.join(destination, 'updates-1280.png'), fullPage: true });
+      await page.setViewportSize({ width: 390, height: 844 });
+    }
     await page.locator('#version-toggle').click();
     if (destination) await page.screenshot({ path: path.join(destination, 'version-menu-390.png'), fullPage: true });
     await page.locator('#version-panel a[href="options.php"]').click();
