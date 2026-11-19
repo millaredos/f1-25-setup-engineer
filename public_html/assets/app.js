@@ -349,6 +349,7 @@ function installDraft(data) {
 function openImport(mode) {
   importMode = mode; preview = null;
   $('#circuit-template').hidden = mode !== 'circuit';
+  $('#circuit-faq').hidden = mode !== 'circuit';
   $('#circuit-template-help').hidden = mode !== 'circuit';
   $('#import-title').textContent = mode === 'circuit' ? t('Pegar ficha de circuito') : t('Importar reglaje');
   $('#import-help').textContent = mode === 'circuit' ? t('Descarga la plantilla, completa los campos y selecciona el archivo para validarlo.') : t('Admite el JSON del comparador anterior, mapas de veinte valores y el formato nuevo. Revisa la referencia antes de aplicar.');

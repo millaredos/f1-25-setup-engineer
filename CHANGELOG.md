@@ -4,6 +4,8 @@
 
 ## 0.3.1 — Unreleased
 
+- Add a Docs menu with a FAQ explaining the circuit JSON template.
+
 - Align custom circuit profiles with the information displayed for bundled circuits.
 - Separate circuit browsing from the workshop draft and add a circuit JSON template.
 

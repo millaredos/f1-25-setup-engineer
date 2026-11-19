@@ -12,6 +12,7 @@ function appHeader(string $current = ''): void
         <?php foreach ($sections as $id => $label): ?>
           <a href="<?= $current === '' ? '#' : './#' ?><?= $id ?>"><?= h(t($label)) ?></a>
         <?php endforeach; ?>
+        <a href="faq.php"<?= $current === 'faq' ? ' aria-current="page"' : '' ?>><?= h(t('Docs')) ?></a>
       </nav>
       <div class="version-menu">
         <button type="button" id="version-toggle" class="driver version-toggle" aria-expanded="false" aria-controls="version-panel">

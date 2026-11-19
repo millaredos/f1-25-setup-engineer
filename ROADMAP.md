@@ -13,4 +13,4 @@ Ideas for future development. The list does not imply a release date or a commit
 - **Setup notes:** redesign how observations are recorded, organised and retrieved alongside saved setups.
 - **Backup and recovery:** simplify complete backups and verify restoration of saved setups and configuration.
 - **Optional AI assistance:** investigate a provider-independent assistant that can explain data without changing saved setups without confirmation. The application must remain usable without AI.
-- **FAQ:** add a FAQ section in the app.
+- **FAQ:** expand the in-app questions and answers.

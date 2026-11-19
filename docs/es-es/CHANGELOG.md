@@ -4,6 +4,8 @@
 
 ## 0.3.1 — Sin publicar
 
+- Añadir un menú Docs con una FAQ que explica la plantilla JSON de circuito.
+
 - Adaptar las fichas de circuitos adicionales a la información mostrada en los circuitos incluidos.
 - Separar la consulta de circuitos del borrador del taller y añadir una plantilla JSON de circuito.
 
