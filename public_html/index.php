@@ -50,13 +50,12 @@ header('Referrer-Policy: same-origin');
     <div id="recovery" class="notice" hidden><?= h(t('Hay un borrador anterior en este navegador.')) ?> <button id="recover" class="text-button"><?= h(t('Recuperarlo')) ?></button> <button id="dismiss-recovery" class="text-button"><?= h(t('Descartarlo')) ?></button></div>
 
     <section data-page="circuito" hidden class="panel context-panel" aria-labelledby="context-heading">
-      <div class="section-heading"><h1 id="context-heading"><?= h(t('Circuito y referencia')) ?></h1><button id="open-circuit" class="text-button"><?= h(t('Añadir circuito')) ?></button></div>
+      <div class="section-heading"><h1 id="context-heading"><?= h(t('Circuitos')) ?></h1><button id="open-circuit" class="text-button"><?= h(t('Añadir circuito')) ?></button></div>
       <div class="context-fields load-fields">
         <label><?= h(t('Temporada')) ?><select id="season"><option value="2026">2026</option><option value="2025">2025</option></select></label>
         <label><?= h(t('Circuito')) ?><select id="circuit"><option value=""><?= h(t('Selecciona un circuito')) ?></option></select></label>
-        <div class="saved-load"><label><?= h(t('Reglaje')) ?><select id="saved"><option value=""><?= h(t('Todavía no hay versiones guardadas')) ?></option></select></label><button id="load" class="button secondary"><?= h(t('Abrir como borrador')) ?></button></div>
+        <div class="saved-load"><label><?= h(t('Reglaje')) ?><select id="saved"><option value=""><?= h(t('Todavía no hay versiones guardadas')) ?></option></select></label></div>
       </div>
-      <p id="season-draft-note" class="source-note" hidden></p>
       <div id="circuit-card" hidden></div>
     </section>
 
@@ -97,6 +96,8 @@ header('Referrer-Policy: same-origin');
   <dialog id="import-dialog" aria-labelledby="import-title">
     <form method="dialog"><button class="dialog-close text-button" aria-label="<?= h(t('Cerrar importación')) ?>"><?= h(t('Cerrar ×')) ?></button></form>
     <p class="eyebrow"><?= h(t('IMPORTACIÓN CON VISTA PREVIA')) ?></p><h2 id="import-title"><?= h(t('Pegar JSON')) ?></h2><p id="import-help" class="subtle"></p>
+    <button type="button" id="circuit-template" class="text-button" hidden><?= h(t('Descargar plantilla JSON')) ?></button>
+    <p id="circuit-template-help" class="subtle" hidden><?= h(t('Completa ID, nombre, versión del juego, carga, resumen y al menos una fuente con título, URL y fecha (AAAA-MM-DD). La carga admite low, medium, high o mixed. Los demás campos son opcionales.')) ?></p>
     <label><?= h(t('Seleccionar archivo JSON')) ?><input type="file" id="json-file" accept=".json,application/json"></label>
     <label><?= h(t('Contenido JSON')) ?><textarea id="json-input" rows="10" spellcheck="false"></textarea></label>
     <button id="validate-import" class="button secondary"><?= h(t('Validar y previsualizar')) ?></button>

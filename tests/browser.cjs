@@ -130,7 +130,7 @@ const path = require('node:path');
     await page.locator('#validate-import').click();
     await page.locator('#apply-import').waitFor();
     await page.locator('#apply-import').click();
-    assert.equal(await page.locator('#circuit').inputValue(), 'test-browser');
+    assert.equal(await page.locator('#circuit').inputValue(), '', 'importing a draft does not change the circuit being viewed');
     await nav('versiones');
     await page.locator('#open-setup').click();
     await page.locator('#json-input').fill(legacy);
@@ -138,7 +138,7 @@ const path = require('node:path');
     await page.locator('#apply-import').waitFor();
     assert.match(await page.locator('#import-preview').innerText(), /Al aplicar lo asociarás/);
     await page.locator('#apply-import').click();
-    assert.equal(await page.locator('#circuit').inputValue(), 'test-browser', 'importar legado conserva asociación explícita');
+    assert.equal(await page.locator('#circuit').inputValue(), '', 'importing a draft does not change the circuit being viewed');
     const csrfCheck = await context.request.post(new URL('api.php?action=compare', baseURL).href, { data: {} });
     assert.equal(csrfCheck.status(), 403);
     const token = await page.evaluate(async () => (await (await fetch('api.php?action=bootstrap')).json()).csrf);
@@ -232,10 +232,9 @@ const path = require('node:path');
     await loadingPage.locator('#circuit').selectOption(circuit.id);
     assert.equal(await loadingPage.locator('#saved option').count(), 2, 'saved list is filtered by selected circuit');
     await loadingPage.locator('#saved').selectOption('own');
-    await loadingPage.locator('#load').click();
-    await loadingPage.waitForFunction(() => document.querySelector('#value-ala_del').value === '22');
-    await loadingPage.locator('.app-nav a[href="#circuito"]').click();
-    assert.equal(await loadingPage.locator('#saved').inputValue(), 'own', 'loaded setup remains selected');
+    await loadingPage.waitForFunction(() => document.querySelector('.setup-preview-values')?.textContent.includes('22'));
+    assert.equal(await loadingPage.locator('#value-ala_del').inputValue(), '', 'preview does not change the draft');
+    assert.equal(await loadingPage.locator('#saved').inputValue(), 'own', 'viewed setup remains selected');
     if (process.env.F125_SCREENSHOTS) {
       for (const width of [1440, 390]) {
         await loadingPage.setViewportSize({ width, height: 1000 });
@@ -244,6 +243,10 @@ const path = require('node:path');
       }
     }
     await loadingPage.locator('.app-nav a[href="#versiones"]').click();
+    await loadingPage.locator('#open-setup').click();
+    await loadingPage.locator('#json-input').fill(JSON.stringify(ownSetup));
+    await loadingPage.locator('#validate-import').click();
+    await loadingPage.locator('#apply-import').click();
     const ownDownload = loadingPage.waitForEvent('download');
     await loadingPage.locator('#export').click();
     const ownExport = JSON.parse(fs.readFileSync(await (await ownDownload).path(), 'utf8'));

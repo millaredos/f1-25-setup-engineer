@@ -4001,3 +4001,21 @@ msgstr "Reload the page before changing Apache protection."
 #~ msgstr ""
 #~ "Vigila la estabilidad en apoyo sostenido y el esfuerzo lateral de los "
 #~ "neumáticos."
+
+msgid "Circuitos"
+msgstr "Circuitos"
+
+msgid "Descargar plantilla JSON"
+msgstr "Descargar plantilla JSON"
+
+msgid "Completa ID, nombre, versión del juego, carga, resumen y al menos una fuente con título, URL y fecha (AAAA-MM-DD). La carga admite low, medium, high o mixed. Los demás campos son opcionales."
+msgstr "Completa ID, nombre, versión del juego, carga, resumen y al menos una fuente con título, URL y fecha (AAAA-MM-DD). La carga admite low, medium, high o mixed. Los demás campos son opcionales."
+
+msgid "Descarga la plantilla, completa los campos y selecciona el archivo para validarlo."
+msgstr "Descarga la plantilla, completa los campos y selecciona el archivo para validarlo."
+
+msgid "Guardar ficha"
+msgstr "Guardar ficha"
+
+msgid "Ficha de circuito guardada."
+msgstr "Ficha de circuito guardada."

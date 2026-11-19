@@ -31,7 +31,7 @@ def source_messages():
                 if value.endswith('.') and ' ' in value and not value.startswith(('/', '~')):
                     entries.setdefault(value, '')
     # Messages supplied through a variable, rather than a literal t() argument.
-    for value in ['Inicio', 'Circuito y referencia', 'Taller', 'Pruebas', 'Versiones', 'Sesiones', 'Correcto', 'Pendiente', 'Alpha', 'Estable', 'Nombre', 'Notas', 'Fuente', 'Circuito', 'Trazado', 'Carga', 'Resumen', 'Superficie', 'Máxima carga aerodinámica', 'Mayor carga aerodinámica', 'Equilibrado', 'Mayor velocidad punta', 'Máxima velocidad punta']:
+    for value in ['Inicio', 'Circuitos', 'Taller', 'Pruebas', 'Versiones', 'Sesiones', 'Correcto', 'Pendiente', 'Alpha', 'Estable', 'Nombre', 'Notas', 'Fuente', 'Circuito', 'Trazado', 'Carga', 'Resumen', 'Superficie', 'Máxima carga aerodinámica', 'Mayor carga aerodinámica', 'Equilibrado', 'Mayor velocidad punta', 'Máxima velocidad punta']:
         entries.setdefault(value, '')
     fields = {'notice', 'category', 'name', 'phase', 'what', 'up', 'down', 'up_label', 'down_label', 'note', 'label', 'check', 'why', 'cost', 'combined'}
     def visit(data, parent=''):

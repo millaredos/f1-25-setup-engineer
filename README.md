@@ -103,9 +103,9 @@ Keep the existing PHP handler and expose only the application’s public directo
 
 The interface is currently in Spanish. The names below match its menus and buttons.
 
-1. In **Circuito y referencia**, select the season and a circuit from the game catalog. The 2025 game preset values are not yet available.
-2. Choose its game preset or a personal version in **Reglaje** and browse its values by category. Click **Abrir como borrador** to edit it.
-3. The game preset opens with separate reference and editable values. Use **Añadir circuito** for [additional circuit profiles](docs/json-formats.md), including mods; import personal setup JSON from **Versiones**.
+1. In **Circuitos**, select a season and circuit, then browse the game preset or a saved version by category. The 2025 game preset values are not yet available.
+2. Use **Añadir circuito** to download a JSON template and import [additional circuit profiles](docs/json-formats.md).
+3. Import a personal setup JSON from **Versiones** to open it as a draft.
 4. Edit settings in **Taller** and review the change summary.
 5. In **Pruebas**, select the handling symptom you notice.
 6. In **Versiones**, add a name and notes, save a version or export JSON.
@@ -114,7 +114,7 @@ Open the version menu at the top right for **Opciones** and **Actualizaciones**.
 
 Switching sections keeps the draft. Each save creates a new version in MariaDB. Browser drafts are recovered separately and do not replace database saves.
 
-The logo opens the home screen without reloading the draft. Open saved setups from **Circuito y referencia**; selecting a circuit filters that list. The loading screen does not assign weather or session types to game presets. Existing imported or saved conditions remain in their JSON.
+The logo opens the home screen without reloading the draft. Circuit browsing does not modify the draft. Opening saved setups or game presets directly and assigning a circuit to a new draft are pending the workshop redesign; imported setup JSON can include a circuit. Existing imported or saved conditions remain in their JSON.
 
 Both `f125-setup-engineer` and the previous comparator's `f125-comparador-v2` JSON formats are supported. Imports include validation and a preview.
 

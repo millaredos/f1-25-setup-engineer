@@ -4,6 +4,10 @@
 
 ## 0.3.1 — Sin publicar
 
+- Separar la consulta de circuitos del borrador del taller y añadir una plantilla JSON de circuito.
+
+### 0.3.1-alpha.1
+
 - Generar la protección de Apache durante la instalación y ofrecer la actualización de su bloque después de actualizar la aplicación.
 - Documentar reglas equivalentes para el servidor virtual de Nginx.
 

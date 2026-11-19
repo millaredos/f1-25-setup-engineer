@@ -4,6 +4,7 @@ const DRAFT_KEY = 'f125-engineer-draft-v1';
 const state = { catalog: [], symptoms: null, circuits: [], setups: [], current: {}, reference: null, circuit: null, conditions: { surface: 'unknown', session: 'unknown' }, referenceSource: 'unknown', csrf: '', ready: false, dirty: false };
 state.gameCatalog = { circuits: [], presets: [] };
 state.season = '2026';
+state.viewCircuit = null;
 state.draftSeason = '2026';
 let importMode = 'circuit';
 let preview = null;
@@ -222,8 +223,8 @@ function sourcesContent(sources) {
 }
 
 function renderCircuit() {
-  const root = $('#circuit-card'); root.replaceChildren(); root.hidden = !state.circuit;
-  if (state.circuit) root.append(circuitContent(state.circuit));
+  const root = $('#circuit-card'); root.replaceChildren(); root.hidden = !state.viewCircuit;
+  if (state.viewCircuit) root.append(circuitContent(state.viewCircuit));
   renderAdvice();
 }
 
@@ -282,20 +283,15 @@ function refreshLists() {
   const list = availableCircuits();
   if (state.circuit && !list.some((c) => c.id === state.circuit.id)) list.push(state.circuit);
   list.forEach((c) => select.add(new Option(c.location && c.location !== c.name ? `${c.location} · ${c.name}` : c.name, c.id)));
-  select.value = state.circuit?.id || '';
+  select.value = state.viewCircuit?.id || '';
   const saved = $('#saved'); const selected = saved.value;
   saved.replaceChildren(new Option(t('Selecciona una versión guardada'), ''));
-  const record = state.gameCatalog.circuits.find((item) => item.id === state.circuit?.id);
+  const record = state.gameCatalog.circuits.find((item) => item.id === state.viewCircuit?.id);
   const preset = state.season === '2026' ? state.gameCatalog.presets.find((item) => item.id === record?.preset_id) : null;
   if (preset) saved.add(new Option(t('Predeterminado {number} · {name} (juego)', { number: preset.id, name: t(preset.name) }), `preset:${preset.id}`));
-  state.setups.filter((s) => (!state.circuit || s.circuit_id === state.circuit.id) && (!s.season || s.season === 'unknown' || s.season === state.season)).forEach((s) => saved.add(new Option(`${s.title} · ${new Date(s.created_at).toLocaleString(locale)}${!s.season || s.season === 'unknown' ? ` · ${t('Temporada sin indicar')}` : ''}`, s.id)));
+  state.setups.filter((s) => (!state.viewCircuit || s.circuit_id === state.viewCircuit.id) && (!s.season || s.season === 'unknown' || s.season === state.season)).forEach((s) => saved.add(new Option(`${s.title} · ${new Date(s.created_at).toLocaleString(locale)}${!s.season || s.season === 'unknown' ? ` · ${t('Temporada sin indicar')}` : ''}`, s.id)));
   saved.value = [...saved.options].some((option) => option.value === selected) ? selected : '';
   if (!saved.value && preset) saved.value = `preset:${preset.id}`;
-  $('#load').disabled = !saved.value;
-  const hasContent = state.reference || Object.values(state.current).some((value) => value !== null) || $('#setup-title').value.trim() || $('#notes').value.trim();
-  const note = $('#season-draft-note');
-  note.hidden = !hasContent || state.draftSeason === state.season;
-  note.textContent = state.draftSeason === 'unknown' ? t('El borrador abierto no tiene temporada indicada.') : t('El borrador abierto corresponde a la temporada {season}.', { season: state.draftSeason });
   renderSetupPreview();
 }
 
@@ -328,7 +324,6 @@ function installDraft(data) {
   state.current = { ...data.current }; state.reference = data.reference ? { ...data.reference } : null;
   state.referenceSource = data.referenceSource || 'unknown'; state.circuit = data.circuit || null;
   state.draftSeason = data.season || 'unknown';
-  if (['2025', '2026'].includes(state.draftSeason)) { state.season = state.draftSeason; $('#season').value = state.season; }
   $('#setup-title').value = data.title || ''; $('#notes').value = data.notes || '';
   // Existing imports and saved versions keep their metadata; choosing a preset does not invent conditions.
   state.conditions = { surface: data.conditions?.surface || 'unknown', session: data.conditions?.session || 'unknown' };
@@ -337,8 +332,10 @@ function installDraft(data) {
 
 function openImport(mode) {
   importMode = mode; preview = null;
+  $('#circuit-template').hidden = mode !== 'circuit';
+  $('#circuit-template-help').hidden = mode !== 'circuit';
   $('#import-title').textContent = mode === 'circuit' ? t('Pegar ficha de circuito') : t('Importar reglaje');
-  $('#import-help').textContent = mode === 'circuit' ? t('Pega el bloque f125-circuit preparado en la conversación. Se validará antes de guardarlo en MariaDB.') : t('Admite el JSON del comparador anterior, mapas de veinte valores y el formato nuevo. Revisa la referencia antes de aplicar.');
+  $('#import-help').textContent = mode === 'circuit' ? t('Descarga la plantilla, completa los campos y selecciona el archivo para validarlo.') : t('Admite el JSON del comparador anterior, mapas de veinte valores y el formato nuevo. Revisa la referencia antes de aplicar.');
   $('#json-input').value = ''; $('#json-file').value = ''; $('#import-preview').replaceChildren(); $('#import-error').textContent = ''; $('#apply-import').hidden = true;
   $('#import-dialog').showModal();
 }
@@ -354,7 +351,7 @@ async function validateImport() {
     const root = $('#import-preview');
     if (importMode === 'circuit') {
       root.append(circuitContent(result.circuit));
-      $('#apply-import').textContent = t('Guardar ficha y seleccionar circuito');
+      $('#apply-import').textContent = t('Guardar ficha');
     } else {
       root.append(element('p', 'notice', [...result.warnings, t('Se importarán referencia y actuales. No se sobrescribe ninguna versión guardada.')].join(' ')));
       if (result.circuit) root.append(circuitContent(result.circuit));
@@ -370,18 +367,19 @@ async function validateImport() {
 
 async function applyImport() {
   if (!preview) return;
-  if (!allowReplace(t('Esta importación sustituirá el borrador en pantalla. ¿Continuar?'))) return;
+  if (importMode !== 'circuit' && !allowReplace(t('Esta importación sustituirá el borrador en pantalla. ¿Continuar?'))) return;
   const button = $('#apply-import'); button.disabled = true;
   try {
     if (importMode === 'circuit') {
       const result = await api('save-circuit', { format: 'f125-circuit', schemaVersion: 1, circuit: preview.circuit });
       state.circuits = result.circuits;
-      installDraft({ current: blankValues(), reference: null, circuit: preview.circuit, season: state.season });
-      status(t('Ficha guardada en MariaDB. Introduce ahora los valores que el juego asigna a este circuito.'));
+      state.viewCircuit = preview.circuit;
+      refreshLists(); renderCircuit();
+      status(t('Ficha de circuito guardada.'));
     } else {
-      installDraft({ ...preview, circuit: preview.circuit || state.circuit }); status(t('Reglaje importado como borrador. Revisa origen de referencia, circuito y condiciones.'));
+      installDraft({ ...preview, circuit: preview.circuit || state.circuit }); remember(); status(t('Reglaje importado como borrador. Revisa origen de referencia, circuito y condiciones.'));
     }
-    remember(); $('#import-dialog').close();
+    $('#import-dialog').close();
   } catch (error) { $('#import-error').textContent = error.message; }
   finally { button.disabled = false; }
 }
@@ -400,8 +398,6 @@ async function exportSetup(legacy = false) {
 function bindEvents() {
   $('#season').addEventListener('change', () => {
     state.season = $('#season').value;
-    const hasContent = state.reference || Object.values(state.current).some((value) => value !== null) || $('#setup-title').value.trim() || $('#notes').value.trim();
-    if (!hasContent) state.draftSeason = state.season;
     refreshLists(); renderCircuit();
   });
   $('#settings').addEventListener('input', (event) => {
@@ -433,25 +429,18 @@ function bindEvents() {
     state.current = { ...state.reference }; syncControls(); renderAdvice(); remember(); status(t('Valores actuales restaurados desde la referencia.'));
   });
   $('#circuit').addEventListener('change', () => {
-    const previous = state.circuit?.id || '';
-    const next = availableCircuits().find((c) => c.id === $('#circuit').value) || null;
-    const hasValues = state.reference || Object.values(state.current).some((v) => v !== null) || $('#setup-title').value.trim() || $('#notes').value.trim();
-    if (previous && hasValues && !window.confirm(t('Al cambiar de circuito se vaciará el borrador para no atribuirle otro reglaje. ¿Continuar?'))) { $('#circuit').value = previous; return; }
-    if (!previous && next && hasValues && !window.confirm(t('¿Asociar los valores de este borrador a {name}? Comprueba que corresponden a ese circuito.', { name: next.name }))) { $('#circuit').value = previous; return; }
-    state.circuit = next;
-    if (previous) {
-      state.current = blankValues(); state.reference = null; state.referenceSource = 'unknown';
-      state.draftSeason = state.season;
-      state.conditions = { surface: 'unknown', session: 'unknown' };
-      $('#setup-title').value = ''; $('#notes').value = '';
-    }
-    syncControls(); refreshLists(); renderCircuit(); remember();
-    status('');
+    state.viewCircuit = availableCircuits().find((c) => c.id === $('#circuit').value) || null;
+    refreshLists(); renderCircuit();
   });
-  $('#saved').addEventListener('change', () => { $('#load').disabled = !$('#saved').value; renderSetupPreview(); });
+  $('#saved').addEventListener('change', renderSetupPreview);
   $('#symptom').addEventListener('change', renderAdvice);
   ['#setup-title', '#notes'].forEach((selector) => $(selector).addEventListener('input', remember));
   $('#open-circuit').addEventListener('click', () => openImport('circuit'));
+  $('#circuit-template').addEventListener('click', () => {
+    const template = { format: 'f125-circuit', schemaVersion: 1, circuit: { id: '', name: '', layout: '', gameVersion: '', downforce: '', summary: '', characteristics: { corners: '', straights: '', braking: '', traction: '', kerbs: '', aero: '' }, sources: [{ title: '', url: '', accessedAt: '' }], hypotheses: '' } };
+    const url = URL.createObjectURL(new Blob([JSON.stringify(template, null, 2) + '\n'], { type: 'application/json' }));
+    const link = element('a'); link.href = url; link.download = 'plantilla-circuito.json'; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
   $('#open-setup').addEventListener('click', () => openImport('setup'));
   $('#json-input').addEventListener('input', clearPreview);
   $('#json-file').addEventListener('change', async (event) => {
@@ -473,20 +462,6 @@ function bindEvents() {
       status(t('Nueva versión guardada en MariaDB. La referencia y las versiones anteriores se conservan.'));
     } catch (error) { status(error.message, true); }
     finally { button.disabled = false; }
-  });
-  $('#load').addEventListener('click', async () => {
-    const id = $('#saved').value; if (!id) { status(t('Selecciona una versión guardada.'), true); return; }
-    if (!allowReplace(t('Abrir esta versión sustituirá el borrador en pantalla. ¿Continuar?'))) return;
-    try {
-      if (id.startsWith('preset:')) {
-        const record = state.gameCatalog.circuits.find((item) => item.id === state.circuit?.id);
-        const preset = state.gameCatalog.presets.find((item) => `preset:${item.id}` === id && item.id === record?.preset_id);
-        if (!preset || !state.circuit || state.season !== '2026') throw new Error(t('Selecciona un circuito con un predeterminado asignado.'));
-        installDraft({ circuit: state.circuit, season: '2026', current: { ...preset.values }, reference: { ...preset.values }, referenceSource: 'game-assigned', title: t('Predeterminado {number} · {name}', { number: preset.id, name: t(preset.name) }), conditions: { surface: 'unknown', session: 'unknown' } });
-      } else installDraft(await api('load-setup', { id }));
-      remember(); status(''); location.hash = 'taller';
-    }
-    catch (error) { status(error.message, true); }
   });
   $('#recover').addEventListener('click', async () => {
     try {

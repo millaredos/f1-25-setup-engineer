@@ -4,6 +4,10 @@
 
 ## 0.3.1 — Unreleased
 
+- Separate circuit browsing from the workshop draft and add a circuit JSON template.
+
+### 0.3.1-alpha.1
+
 - Generate Apache protection during installation and offer to update its managed block after upgrading.
 - Document equivalent Nginx server-block rules.
 
