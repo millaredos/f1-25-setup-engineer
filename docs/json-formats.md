@@ -4,7 +4,25 @@
 
 ## Circuit profile
 
-The format is `f125-circuit`, schema version 1. Example with fictional data:
+The downloadable template uses `f125-circuit`, schema version 2. Only `nombre` is required; use `null` for unknown length or corner count. Length is a JSON number in kilometres, with a decimal point. The application generates the internal identifier. For example:
+
+```json
+{
+  "format": "f125-circuit",
+  "schemaVersion": 2,
+  "circuit": {
+    "nombre": "Example Circuit",
+    "ubicacion": "Example location",
+    "longitud_km": 5.451,
+    "curvas": 16,
+    "categoria_carga": "Medium-high",
+    "curvas_y_rectas": "Linked corners and a long straight.",
+    "caracteristicas_conduccion": "Long corners place sustained load on the tyres."
+  }
+}
+```
+
+Version 1 remains supported for existing imports and saved setups. Its historical format is:
 
 ```json
 {

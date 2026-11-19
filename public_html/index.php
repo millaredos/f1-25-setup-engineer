@@ -97,7 +97,7 @@ header('Referrer-Policy: same-origin');
     <form method="dialog"><button class="dialog-close text-button" aria-label="<?= h(t('Cerrar importación')) ?>"><?= h(t('Cerrar ×')) ?></button></form>
     <p class="eyebrow"><?= h(t('IMPORTACIÓN CON VISTA PREVIA')) ?></p><h2 id="import-title"><?= h(t('Pegar JSON')) ?></h2><p id="import-help" class="subtle"></p>
     <button type="button" id="circuit-template" class="text-button" hidden><?= h(t('Descargar plantilla JSON')) ?></button>
-    <p id="circuit-template-help" class="subtle" hidden><?= h(t('Completa ID, nombre, versión del juego, carga, resumen y al menos una fuente con título, URL y fecha (AAAA-MM-DD). La carga admite low, medium, high o mixed. Los demás campos son opcionales.')) ?></p>
+    <p id="circuit-template-help" class="subtle" hidden><?= h(t('Indica el nombre. La ubicación, la longitud en kilómetros, el número de curvas, la carga y las descripciones son opcionales. Usa un punto como separador decimal en la longitud; deja null si no la conoces.')) ?></p>
     <label><?= h(t('Seleccionar archivo JSON')) ?><input type="file" id="json-file" accept=".json,application/json"></label>
     <label><?= h(t('Contenido JSON')) ?><textarea id="json-input" rows="10" spellcheck="false"></textarea></label>
     <button id="validate-import" class="button secondary"><?= h(t('Validar y previsualizar')) ?></button>

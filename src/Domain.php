@@ -137,8 +137,25 @@ final class Domain
 
     public function importCircuit(mixed $input): array
     {
-        if (!is_array($input) || ($input['format'] ?? null) !== 'f125-circuit' || ($input['schemaVersion'] ?? null) !== 1) {
-            throw new ValidationError($this->tr('Se necesita format f125-circuit y schemaVersion 1.'));
+        if (!is_array($input) || ($input['format'] ?? null) !== 'f125-circuit' || !in_array($input['schemaVersion'] ?? null, [1, 2], true)) {
+            throw new ValidationError($this->tr('Se necesita format f125-circuit y una versión de esquema admitida.'));
+        }
+        if ($input['schemaVersion'] === 2) {
+            if (!is_array($input['circuit'] ?? null)) { throw new ValidationError($this->tr('Falta la ficha del circuito.')); }
+            $circuit = $input['circuit'];
+            if (!isset($circuit['origin'])) {
+                $allowed = ['nombre', 'ubicacion', 'longitud_km', 'curvas', 'categoria_carga', 'curvas_y_rectas', 'caracteristicas_conduccion'];
+                if (array_diff(array_keys($circuit), $allowed)) { throw new ValidationError($this->tr('La ficha contiene campos desconocidos.')); }
+                $circuit = ['name' => $circuit['nombre'] ?? '', 'location' => $circuit['ubicacion'] ?? '',
+                    'lengthKm' => $circuit['longitud_km'] ?? null, 'cornerCount' => $circuit['curvas'] ?? null,
+                    'downforce' => $circuit['categoria_carga'] ?? '', 'cornersAndStraights' => $circuit['curvas_y_rectas'] ?? '',
+                    'drivingCharacteristics' => $circuit['caracteristicas_conduccion'] ?? ''];
+            } elseif ($circuit['origin'] !== 'custom-profile' || array_diff(array_keys($circuit), ['id', 'origin', 'name', 'location', 'lengthKm', 'cornerCount', 'downforce', 'cornersAndStraights', 'drivingCharacteristics'])) {
+                throw new ValidationError($this->tr('La ficha contiene campos desconocidos.'));
+            }
+            $circuit['origin'] = 'custom-profile';
+            $circuit['id'] = $circuit['id'] ?? 'custom-' . bin2hex(random_bytes(16));
+            return $this->circuit($circuit);
         }
         return $this->circuit($input['circuit'] ?? null);
     }
@@ -151,6 +168,27 @@ final class Domain
         $id = $input['id'] ?? '';
         if (!is_string($id) || !preg_match('/^[a-z0-9][a-z0-9-]{0,79}$/D', $id)) {
             throw new ValidationError($this->tr('El ID del circuito admite minúsculas, números y guiones (máximo 80).'));
+        }
+        if (($input['origin'] ?? null) === 'custom-profile') {
+            if (!preg_match('/^custom-[a-f0-9]{32}$/D', $id)) { throw new ValidationError($this->tr('ID inválido.')); }
+            $length = $input['lengthKm'] ?? null;
+            $corners = $input['cornerCount'] ?? null;
+            if ($length !== null && (!is_numeric($length) || is_string($length) || !is_finite((float) $length) || $length <= 0 || $length > 1000)) {
+                throw new ValidationError($this->tr('Longitud del circuito inválida.'));
+            }
+            if ($corners !== null && (!is_int($corners) || $corners < 1 || $corners > 1000)) {
+                throw new ValidationError($this->tr('Número de curvas inválido.'));
+            }
+            return [
+                'id' => $id, 'origin' => 'custom-profile',
+                'name' => $this->text($input['name'] ?? '', 'Circuito', 120),
+                'location' => $this->text($input['location'] ?? '', $this->tr('Ubicación'), 80, true),
+                'lengthKm' => $length === null ? null : (float) $length,
+                'cornerCount' => $corners,
+                'downforce' => $this->text($input['downforce'] ?? '', 'Carga', 100, true),
+                'cornersAndStraights' => $this->text($input['cornersAndStraights'] ?? '', 'Curvas y rectas', 4000, true),
+                'drivingCharacteristics' => $this->text($input['drivingCharacteristics'] ?? '', 'Características de conducción', 4000, true),
+            ];
         }
         if (($input['origin'] ?? null) === 'game-catalog') {
             // Offline imports retain a validated identity snapshot; saves resolve against the live catalog.

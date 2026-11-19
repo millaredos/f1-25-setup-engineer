@@ -4,6 +4,7 @@
 
 ## 0.3.1 — Sin publicar
 
+- Adaptar las fichas de circuitos adicionales a la información mostrada en los circuitos incluidos.
 - Separar la consulta de circuitos del borrador del taller y añadir una plantilla JSON de circuito.
 
 ### 0.3.1-alpha.1

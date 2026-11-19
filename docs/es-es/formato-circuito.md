@@ -4,7 +4,25 @@
 
 ## Ficha de circuito
 
-Formato `f125-circuit`, versión de esquema 1. Ejemplo con datos ficticios:
+La plantilla descargable usa `f125-circuit`, versión de esquema 2. Solo `nombre` es obligatorio; usa `null` si no conoces la longitud o el número de curvas. La longitud es un número JSON en kilómetros, con punto decimal. La aplicación genera el identificador interno. Ejemplo:
+
+```json
+{
+  "format": "f125-circuit",
+  "schemaVersion": 2,
+  "circuit": {
+    "nombre": "Circuito de ejemplo",
+    "ubicacion": "Ubicación de ejemplo",
+    "longitud_km": 5.451,
+    "curvas": 16,
+    "categoria_carga": "Media-alta",
+    "curvas_y_rectas": "Curvas enlazadas y una recta larga.",
+    "caracteristicas_conduccion": "Las curvas largas cargan los neumáticos."
+  }
+}
+```
+
+La versión 1 se sigue admitiendo en importaciones y reglajes guardados. Su formato histórico es:
 
 ```json
 {

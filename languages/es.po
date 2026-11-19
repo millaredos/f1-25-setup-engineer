@@ -4019,3 +4019,18 @@ msgstr "Guardar ficha"
 
 msgid "Ficha de circuito guardada."
 msgstr "Ficha de circuito guardada."
+
+msgid "Se necesita format f125-circuit y una versión de esquema admitida."
+msgstr "Se necesita format f125-circuit y una versión de esquema admitida."
+
+msgid "La ficha contiene campos desconocidos."
+msgstr "La ficha contiene campos desconocidos."
+
+msgid "Longitud del circuito inválida."
+msgstr "Longitud del circuito inválida."
+
+msgid "Número de curvas inválido."
+msgstr "Número de curvas inválido."
+
+msgid "Indica el nombre. La ubicación, la longitud en kilómetros, el número de curvas, la carga y las descripciones son opcionales. Usa un punto como separador decimal en la longitud; deja null si no la conoces."
+msgstr "Indica el nombre. La ubicación, la longitud en kilómetros, el número de curvas, la carga y las descripciones son opcionales. Usa un punto como separador decimal en la longitud; deja null si no la conoces."

@@ -70,6 +70,20 @@ $circuit = $domain->circuit($circuit);
 check($circuit['gameVersion'] === 'desconocida', 'no inventar versión');
 $envelope = ['format' => 'f125-circuit', 'schemaVersion' => 1, 'circuit' => $circuit];
 check($domain->importCircuit($envelope) === $circuit, 'circuito normalizado');
+$newProfile = ['format' => 'f125-circuit', 'schemaVersion' => 2, 'circuit' => [
+    'nombre' => 'Circuito imaginario', 'ubicacion' => 'País ficticio', 'longitud_km' => 5.451, 'curvas' => 16,
+    'categoria_carga' => 'Media-alta', 'curvas_y_rectas' => 'Curvas enlazadas y una recta larga.', 'caracteristicas_conduccion' => 'Apoyos prolongados.',
+]];
+$newCircuit = $domain->importCircuit($newProfile);
+check((bool) preg_match('/^custom-[a-f0-9]{32}$/', $newCircuit['id']), 'ID generado para ficha nueva');
+check($newCircuit['lengthKm'] === 5.451 && $newCircuit['cornerCount'] === 16 && $newCircuit['downforce'] === 'Media-alta', 'ficha visible completa');
+check($domain->importCircuit(['format' => 'f125-circuit', 'schemaVersion' => 2, 'circuit' => $newCircuit]) === $newCircuit, 'revalidación conserva identidad');
+check($domain->importCircuit(['format' => 'f125-circuit', 'schemaVersion' => 2, 'circuit' => ['nombre' => 'Prueba']])['lengthKm'] === null, 'solo nombre obligatorio');
+$badProfile = $newProfile; $badProfile['circuit']['curvas'] = -1; rejects(fn() => $domain->importCircuit($badProfile), 'número de curvas inválido');
+$badProfile = $newProfile; $badProfile['circuit']['longitud_km'] = '5,451'; rejects(fn() => $domain->importCircuit($badProfile), 'longitud no numérica');
+$badProfile = $newProfile; $badProfile['circuit'] = $newCircuit; $badProfile['circuit']['id'] = 'monaco'; rejects(fn() => $domain->importCircuit($badProfile), 'evitar colisión con catálogo');
+$badProfile = $newProfile; $badProfile['circuit'] = $newCircuit; $badProfile['circuit']['origin'] = 'game-catalog'; rejects(fn() => $domain->importCircuit($badProfile), 'no alterar el origen');
+$badProfile = $newProfile; $badProfile['circuit'] = $newCircuit; $badProfile['circuit']['unexpected'] = 'extra'; rejects(fn() => $domain->importCircuit($badProfile), 'rechazar campos internos desconocidos');
 $bad = $circuit; $bad['sources'][0]['url'] = 'javascript:alert(1)'; rejects(fn() => $domain->circuit($bad), 'URL ejecutable');
 $bad = $circuit; $bad['sources'][0]['accessedAt'] = '2026-02-30'; rejects(fn() => $domain->circuit($bad), 'fecha imposible');
 $bad = $circuit; $bad['id'] = '../datos'; rejects(fn() => $domain->circuit($bad), 'id peligroso');

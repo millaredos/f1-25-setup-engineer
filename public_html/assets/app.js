@@ -179,6 +179,22 @@ const downforceLabels = { low: t('Carga baja'), medium: t('Carga media'), high: 
 
 function circuitContent(circuit) {
   const block = element('div', 'circuit-info');
+  if (circuit.origin === 'custom-profile') {
+    block.append(element('h3', '', circuit.name));
+    if (circuit.location) block.append(element('p', 'subtle', circuit.location));
+    const list = element('dl', 'circuit-characteristics circuit-catalog-description');
+    const fields = [
+      [t('Longitud'), circuit.lengthKm == null ? '' : `${circuit.lengthKm.toLocaleString(locale, { maximumFractionDigits: 20 })} km`],
+      [t('Curvas'), circuit.cornerCount == null ? '' : String(circuit.cornerCount)],
+      [t('Categoría de carga'), circuit.downforce],
+      [t('Curvas y rectas'), circuit.cornersAndStraights],
+      [t('Características de conducción'), circuit.drivingCharacteristics],
+    ];
+    fields.filter(([, value]) => value).forEach(([label, value]) => {
+      const pair = element('div'); pair.append(element('dt', '', label), element('dd', '', value)); list.append(pair);
+    });
+    block.append(list); return block;
+  }
   if (circuit.origin === 'game-catalog') {
     block.append(element('h3', '', circuit.name));
     block.append(element('p', 'subtle', circuit.location));
@@ -303,7 +319,7 @@ function renderAdvice() {
     root.append(element('p', 'empty', t('Primero identifica en qué fase aparece. Entrada, apoyo y salida no piden las mismas pruebas.'))); return;
   }
   root.append(element('p', 'advice-phase', symptom.phase), element('p', 'advice-check', symptom.check));
-  if (state.circuit && (state.circuit.characteristics.aero || state.circuit.summary)) root.append(element('p', 'notice', t('Contexto de {name}: {text}', { name: state.circuit.name, text: state.circuit.characteristics.aero || state.circuit.summary })));
+  if (state.circuit && (state.circuit.characteristics?.aero || state.circuit.summary || state.circuit.drivingCharacteristics)) root.append(element('p', 'notice', t('Contexto de {name}: {text}', { name: state.circuit.name, text: state.circuit.characteristics?.aero || state.circuit.summary || state.circuit.drivingCharacteristics })));
   const list = element('ol', 'advice-steps');
   symptom.steps.forEach((step) => {
     const p = state.catalog.find((item) => item.id === step.id);
@@ -371,7 +387,7 @@ async function applyImport() {
   const button = $('#apply-import'); button.disabled = true;
   try {
     if (importMode === 'circuit') {
-      const result = await api('save-circuit', { format: 'f125-circuit', schemaVersion: 1, circuit: preview.circuit });
+      const result = await api('save-circuit', { format: 'f125-circuit', schemaVersion: preview.circuit.origin === 'custom-profile' ? 2 : 1, circuit: preview.circuit });
       state.circuits = result.circuits;
       state.viewCircuit = preview.circuit;
       refreshLists(); renderCircuit();
@@ -437,7 +453,7 @@ function bindEvents() {
   ['#setup-title', '#notes'].forEach((selector) => $(selector).addEventListener('input', remember));
   $('#open-circuit').addEventListener('click', () => openImport('circuit'));
   $('#circuit-template').addEventListener('click', () => {
-    const template = { format: 'f125-circuit', schemaVersion: 1, circuit: { id: '', name: '', layout: '', gameVersion: '', downforce: '', summary: '', characteristics: { corners: '', straights: '', braking: '', traction: '', kerbs: '', aero: '' }, sources: [{ title: '', url: '', accessedAt: '' }], hypotheses: '' } };
+    const template = { format: 'f125-circuit', schemaVersion: 2, circuit: { nombre: '', ubicacion: '', longitud_km: null, curvas: null, categoria_carga: '', curvas_y_rectas: '', caracteristicas_conduccion: '' } };
     const url = URL.createObjectURL(new Blob([JSON.stringify(template, null, 2) + '\n'], { type: 'application/json' }));
     const link = element('a'); link.href = url; link.download = 'plantilla-circuito.json'; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   });

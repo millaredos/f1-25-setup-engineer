@@ -97,16 +97,26 @@ const { chromium } = require(process.env.F125_PLAYWRIGHT || 'playwright');
     await page.locator('#circuit-template').click();
     const template = JSON.parse(fs.readFileSync(await (await pendingDownload).path(), 'utf8'));
     assert.equal(template.format, 'f125-circuit');
-    assert.equal(template.schemaVersion, 1);
-    assert.equal(template.circuit.sources.length, 1);
-    Object.assign(template.circuit, { id: 'test-circuit', name: 'Test Circuit', gameVersion: '2026', downforce: 'medium', summary: 'Test profile' });
-    Object.assign(template.circuit.sources[0], { title: 'Source', url: 'https://example.com', accessedAt: '2026-11-19' });
+    assert.equal(template.schemaVersion, 2);
+    assert.deepEqual(Object.keys(template.circuit), ['nombre', 'ubicacion', 'longitud_km', 'curvas', 'categoria_carga', 'curvas_y_rectas', 'caracteristicas_conduccion']);
+    Object.assign(template.circuit, { nombre: 'Test Circuit', ubicacion: 'Test location', longitud_km: 5.451, curvas: 16, categoria_carga: 'Media-alta', curvas_y_rectas: 'Long straight', caracteristicas_conduccion: 'Fast turns' });
     await page.locator('#json-input').fill(JSON.stringify(template));
     await page.locator('#validate-import').click();
     await page.locator('#apply-import').click();
     await page.locator('#import-dialog').waitFor({ state: 'hidden' });
-    assert.equal(await page.locator('#circuit').inputValue(), 'test-circuit');
+    assert.match(await page.locator('#circuit').inputValue(), /^custom-[a-f0-9]{32}$/);
+    assert.match(await page.locator('#circuit-card').innerText(), /5,451 km/);
+    assert.match(await page.locator('#circuit-card').innerText(), /Media-alta/);
+    assert.equal(await page.locator('#saved option').count(), 1, 'custom circuit has no inferred game preset');
+    assert.equal(await page.locator('#saved').inputValue(), '', 'custom circuit preset remains unknown');
     assert.equal(await page.locator('#value-ala_del').inputValue(), '27', 'saving a circuit preserves the draft');
+    if (process.env.F125_SCREENSHOTS) {
+      for (const width of [1440, 390]) {
+        await page.setViewportSize({ width, height: 1000 });
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+        await page.screenshot({ path: path.join(process.env.F125_SCREENSHOTS, `custom-circuit-${width}.png`), fullPage: true });
+      }
+    }
     const bootstrap = await (await page.request.get(process.env.F125_TEST_URL + 'api.php?action=bootstrap')).json();
     const invalid = await page.request.post(process.env.F125_TEST_URL + 'api.php?action=import-setup', { headers: { 'X-CSRF-Token': bootstrap.csrf }, data: { format: 'f125-setup-engineer', schemaVersion: 1, current: bootstrap.gameCatalog.presets[0].values, reference: bootstrap.gameCatalog.presets[0].values, circuit: { id: 'unknown-catalog-entry', origin: 'game-catalog', name: 'Fake', location: 'Fake' } } });
     assert.equal(invalid.status(), 422, 'live catalog rejects fabricated game identities');

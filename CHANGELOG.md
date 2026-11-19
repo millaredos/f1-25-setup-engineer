@@ -4,6 +4,7 @@
 
 ## 0.3.1 — Unreleased
 
+- Align custom circuit profiles with the information displayed for bundled circuits.
 - Separate circuit browsing from the workshop draft and add a circuit JSON template.
 
 ### 0.3.1-alpha.1
