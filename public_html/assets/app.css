@@ -837,8 +837,14 @@ dialog label {
   .home-features .home-car { grid-column:auto; }
 }
 .separated-workspace { display:block; }
+.workshop-heading-row { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.workshop-heading h1 { margin:0 0 4px; font-size:25px; }
+.workshop-heading p { margin:0; color:var(--muted); }
 .workshop-editor { padding:20px; }
-.workshop-menu { display:flex; flex-wrap:wrap; gap:6px; margin-top:18px; }
+.workshop-meta { display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; font-size:12px; color:var(--muted); }
+.workshop-meta strong { color:#202b2a; }
+.workshop-meta .text-button { font-size:12px; }
+.workshop-menu { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
 .workshop-category { border:1px solid var(--line); background:#fff; color:var(--green); border-radius:5px; padding:8px 12px; font:inherit; font-weight:600; cursor:pointer; }
 .workshop-category[aria-pressed="true"] { color:#fff; background:var(--green); border-color:var(--green); }
 .workshop-editor .parameter-group { margin:18px 0 0; }
@@ -847,7 +853,24 @@ dialog label {
 .workshop-editor .parameter-description { margin:6px 0; min-height:0; }
 .workshop-editor .value-controls { max-width:240px; }
 .workshop-editor .theory { margin-top:8px; padding-top:8px; }
-#open-saved-setup { margin-top:16px; }
+.settings-layout { display:grid; grid-template-columns:minmax(0,2fr) minmax(260px,1fr); gap:16px; align-items:start; }
+.workshop-editor .parameter-grid { display:grid; grid-template-columns:1fr; gap:3px; }
+.workshop-editor .parameter { display:grid; grid-template-columns:minmax(0,1fr) minmax(170px,240px); align-items:center; gap:12px; padding:7px 10px; border-radius:4px; }
+.workshop-editor .parameter.selected { outline:2px solid var(--green); outline-offset:-2px; }
+.workshop-editor .parameter-head { align-items:center; }
+.workshop-editor .phase { display:none; }
+.workshop-editor .value-controls { width:100%; }
+.parameter-info { margin-top:18px; padding:16px; border:1px solid var(--line); border-radius:6px; background:var(--cream); }
+.parameter-info h3 { margin:0 0 10px; }
+.parameter-info p { margin:7px 0 12px; line-height:1.5; }
+.parameter-info strong { font-size:11px; color:var(--green); }
+.workshop-editor .summary-panel { margin-top:20px; }
+@media (max-width:700px) {
+  .settings-layout { grid-template-columns:1fr; }
+  .workshop-editor .parameter { grid-template-columns:minmax(0,1fr) minmax(145px,200px); gap:6px; }
+  .workshop-editor .parameter-head { flex-direction:column; gap:2px; }
+  .parameter-info { margin-top:0; }
+}
 #saved-setup-dialog label { display:block; margin:14px 0; }
 #saved-setup-dialog select { display:block; width:100%; }
 .separated-workspace .coach { position:static; max-width:850px; }

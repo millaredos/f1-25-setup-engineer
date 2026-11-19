@@ -88,8 +88,11 @@ $bad = $circuit; $bad['sources'][0]['url'] = 'javascript:alert(1)'; rejects(fn()
 $bad = $circuit; $bad['sources'][0]['accessedAt'] = '2026-02-30'; rejects(fn() => $domain->circuit($bad), 'fecha imposible');
 $bad = $circuit; $bad['id'] = '../datos'; rejects(fn() => $domain->circuit($bad), 'id peligroso');
 $bad = $circuit; $bad['sources'] = []; rejects(fn() => $domain->circuit($bad), 'sin fuentes');
-$setup = ['format' => 'f125-setup-engineer', 'schemaVersion' => 1, 'title' => 'Prueba', 'circuit' => $circuit, 'reference' => $base, 'current' => $current, 'referenceSource' => 'game-assigned', 'conditions' => ['surface' => 'dry', 'session' => 'race']];
+$setup = ['format' => 'f125-setup-engineer', 'schemaVersion' => 1, 'title' => 'Prueba', 'circuit' => $circuit, 'reference' => $base, 'current' => $current, 'referenceSource' => 'game-assigned', 'season' => '2025', 'conditions' => ['surface' => 'dry', 'session' => 'race']];
 $snapshot = $domain->setup($setup);
+check($snapshot['season'] === '2025', 'guardar conserva temporada explícita');
+$bad = $setup; unset($bad['season']); rejects(fn() => $domain->setup($bad), 'no guardar sin temporada');
+$bad = $setup; $bad['season'] = 'unknown'; rejects(fn() => $domain->setup($bad), 'no guardar temporada desconocida');
 check($domain->importSetup($snapshot)['current'] === $snapshot['current'], 'ida y vuelta JSON');
 check(!array_key_exists('driver', $snapshot), 'no atribuir hardware ni ayudas no declarados');
 $bad = $setup; unset($bad['reference']); rejects(fn() => $domain->setup($bad), 'no guardar sin referencia explícita');

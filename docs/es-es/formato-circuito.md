@@ -63,6 +63,6 @@ Los circuitos distribuidos utilizan una copia de identidad con `origin: game-cat
 
 Nuevo: `format: f125-setup-engineer`, `schemaVersion: 1`, `reference`, `current`, `referenceSource`, `circuit`, `conditions`, `title`, `notes`. Mapas con veinte IDs heredados. Origen: `unknown`, `game-assigned`, `capture`, `personal`. Condiciones: `surface` (`unknown`, `dry`, `wet`) y `session` (`unknown`, `race`, `time-trial`). La aplicación exporta este formato.
 
-El campo opcional `season` admite `2025`, `2026` o `unknown`. Si falta, la temporada queda sin indicar. La exportación antigua `f125-comparador-v2` no conserva la temporada.
+Los reglajes nuevos guardados requieren `season` con valor `2025` o `2026`. Por compatibilidad, al importar un archivo antiguo sin temporada se mantiene sin indicar hasta que el usuario seleccione una. La exportación antigua `f125-comparador-v2` no conserva la temporada.
 
 También admite `f125-comparador-v2`, mapas planos, `values` y `base/current`. Si falta referencia, la vista previa propone copiar los valores importados y marca origen desconocido. No deduce circuito ni condiciones. Tipos, rangos, pasos y versiones incorrectos se rechazan sin corrección silenciosa.

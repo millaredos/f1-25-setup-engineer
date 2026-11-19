@@ -4,6 +4,9 @@
 
 ## 0.3.1 — Unreleased
 
+- Require a season when saving a setup.
+- Show compact workshop rows, contextual guidance and a summary of changes.
+
 - Redesign the workshop with compact category navigation and a season-and-circuit setup loader.
 
 - Add a Docs menu with a FAQ explaining the circuit JSON template.

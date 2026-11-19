@@ -5,12 +5,14 @@ const state = { catalog: [], symptoms: null, circuits: [], setups: [], current: 
 state.gameCatalog = { circuits: [], presets: [] };
 state.season = '2026';
 state.viewCircuit = null;
-state.draftSeason = '2026';
+state.draftSeason = 'unknown';
 let importMode = 'circuit';
 let preview = null;
 let compareSequence = 0;
 let compareTimer;
 let previewSequence = 0;
+let statusTimer;
+let selectedParameter = null;
 
 // Los datos importados se muestran como texto, nunca como HTML ejecutable.
 function element(tag, className, text) {
@@ -21,8 +23,10 @@ function element(tag, className, text) {
 }
 
 function status(message, error = false) {
+  clearTimeout(statusTimer);
   $('#status').textContent = message;
   $('#status').classList.toggle('error', error);
+  if (message && !error) statusTimer = setTimeout(() => { $('#status').textContent = ''; }, 5000);
 }
 
 async function api(action, body) {
@@ -78,20 +82,23 @@ function renderControls() {
   const groups = [...new Set(state.catalog.map((p) => p.category))];
   groups.forEach((category, index) => {
     const section = element('section', 'parameter-group');
+    section.setAttribute('aria-label', category);
     section.hidden = index !== 0;
     const tab = element('button', 'workshop-category', category);
     tab.type = 'button'; tab.setAttribute('aria-pressed', String(index === 0));
     tab.addEventListener('click', () => {
       root.querySelectorAll('.parameter-group').forEach((group) => { group.hidden = group !== section; });
       menu.querySelectorAll('button').forEach((button) => button.setAttribute('aria-pressed', String(button === tab)));
+      $('#settings-layout').hidden = false; $('#summary-panel').hidden = true;
+      selectParameter(state.catalog.find((p) => p.category === category));
     });
     menu.append(tab);
-    const heading = element('div', 'group-heading');
-    heading.append(element('span', 'group-number', String(index + 1).padStart(2, '0')), element('h3', '', category));
     const grid = element('div', 'parameter-grid');
     state.catalog.filter((p) => p.category === category).forEach((p) => {
       const card = element('article', 'parameter');
       card.dataset.parameter = p.id;
+      card.addEventListener('click', () => selectParameter(p));
+      card.addEventListener('focusin', () => selectParameter(p));
       const head = element('div', 'parameter-head');
       const name = element('div');
       const label = element('label', 'parameter-title', p.name);
@@ -103,17 +110,43 @@ function renderControls() {
       minus.type = 'button'; minus.dataset.spin = '-1'; minus.setAttribute('aria-label', t('Disminuir {name}', { name: p.name }));
       const input = element('input');
       input.type = 'number'; input.id = `value-${p.id}`; input.min = p.min; input.max = p.max; input.step = p.step; input.required = true;
-      input.placeholder = `${p.min}…${p.max}`; input.inputMode = 'decimal'; input.setAttribute('aria-describedby', `effect-${p.id}`);
+      input.placeholder = `${p.min}…${p.max}`; input.inputMode = 'decimal'; input.setAttribute('aria-describedby', 'parameter-info');
       const plus = element('button', '', '+');
       plus.type = 'button'; plus.dataset.spin = '1'; plus.setAttribute('aria-label', t('Aumentar {name}', { name: p.name }));
       controls.append(minus, input, plus, element('span', 'unit', p.unit));
-      const theory = element('div', 'theory'); theory.id = `effect-${p.id}`;
-      card.append(head, element('p', 'parameter-description', p.what), controls, theory);
+      card.append(head, controls);
       grid.append(card);
     });
-    section.append(heading, grid); root.append(section);
+    section.append(grid); root.append(section);
   });
+  const summaryTab = element('button', 'workshop-category', t('Resumen'));
+  summaryTab.type = 'button'; summaryTab.setAttribute('aria-pressed', 'false');
+  summaryTab.addEventListener('click', () => {
+    menu.querySelectorAll('button').forEach((button) => button.setAttribute('aria-pressed', String(button === summaryTab)));
+    $('#settings-layout').hidden = true; $('#summary-panel').hidden = false;
+  });
+  menu.append(summaryTab);
+  selectParameter(state.catalog[0]);
   syncControls();
+}
+
+function selectParameter(p) {
+  if (!p) return;
+  selectedParameter = p.id;
+  document.querySelectorAll('#settings [data-parameter]').forEach((row) => row.classList.toggle('selected', row.dataset.parameter === p.id));
+  renderParameterInfo(p);
+}
+
+function renderParameterInfo(p) {
+  const root = $('#parameter-info');
+  const before = state.reference?.[p.id], after = state.current[p.id];
+  root.replaceChildren(element('h3', '', p.name), element('p', '', p.what), element('strong', '', t('EFECTO TEÓRICO')));
+  if (before !== undefined && after !== null && after !== undefined && $(`#value-${p.id}`).validity.valid && Math.abs(after - before) > 1e-7) {
+    root.append(element('p', '', after > before ? p.up : p.down));
+  } else {
+    root.append(element('p', '', t('Al subir el número: {effect}', { effect: p.up })), element('p', '', t('Al bajar el número: {effect}', { effect: p.down })));
+  }
+  root.append(element('strong', '', t('Compromisos y límites')), element('p', '', p.note));
 }
 
 function syncControls() {
@@ -133,19 +166,7 @@ function refreshCard(p) {
   const changed = valid && before !== undefined && after !== null && Math.abs(after - before) > 1e-7;
   card.classList.toggle('changed', changed);
   card.querySelector('.ref-value').textContent = t('Ref. {value}', { value: format(p, before) });
-  const theory = card.querySelector('.theory');
-  theory.replaceChildren(element('strong', '', t('EFECTO TEÓRICO')));
-  if (changed) {
-    theory.append(element('p', '', after > before ? p.up : p.down));
-  } else {
-    const detail = element('details');
-    detail.append(element('summary', '', t('Qué implica subir o bajar')));
-    detail.append(element('p', '', t('Al subir el número: {effect}', { effect: p.up })), element('p', '', t('Al bajar el número: {effect}', { effect: p.down })));
-    theory.append(detail);
-  }
-  const note = element('details');
-  note.append(element('summary', '', t('Compromisos y límites')), element('p', '', p.note));
-  theory.append(note);
+  if (selectedParameter === p.id) renderParameterInfo(p);
 }
 
 function scheduleComparison() {
@@ -369,15 +390,15 @@ function refreshLoadDialog() {
     select.add(new Option(`${item.title} · ${new Date(item.created_at).toLocaleString(locale)}`, item.id));
   });
   $('#apply-saved-setup').disabled = true;
-  $('#use-manual-circuit').disabled = !circuitId;
-  $('#load-setup-help').textContent = !circuitId ? t('Selecciona un circuito.') : select.options.length === 1 ? t('No hay reglajes disponibles para este circuito y temporada.') : '';
+  $('#use-manual-circuit').disabled = !circuitId || !year;
+  $('#load-setup-help').textContent = !year ? t('Selecciona una temporada.') : !circuitId ? t('Selecciona un circuito.') : select.options.length === 1 ? t('No hay reglajes disponibles para este circuito y temporada.') : '';
 }
 
 function openSavedSetup() {
   const select = $('#load-circuit');
   select.replaceChildren(new Option(t('Selecciona un circuito'), ''));
   availableCircuits().forEach((circuit) => select.add(new Option(circuit.location && circuit.location !== circuit.name ? `${circuit.location} · ${circuit.name}` : circuit.name, circuit.id)));
-  $('#load-season').value = ['2025', '2026'].includes(state.draftSeason) ? state.draftSeason : '2026';
+  $('#load-season').value = ['2025', '2026'].includes(state.draftSeason) ? state.draftSeason : '';
   select.value = state.circuit?.id || '';
   refreshLoadDialog();
   $('#saved-setup-dialog').showModal();
@@ -456,7 +477,7 @@ function bindEvents() {
   $('#load-setup').addEventListener('change', () => { $('#apply-saved-setup').disabled = !$('#load-setup').value; });
   $('#use-manual-circuit').addEventListener('click', () => {
     const circuit = availableCircuits().find((item) => item.id === $('#load-circuit').value);
-    if (!circuit) return;
+    if (!circuit || !$('#load-season').value) return;
     if (state.circuit && state.circuit.id !== circuit.id && !window.confirm(t('¿Asociar el borrador actual a otro circuito?'))) return;
     state.circuit = circuit; state.draftSeason = $('#load-season').value;
     remember(); renderReference(); renderAdvice(); $('#saved-setup-dialog').close();
@@ -542,6 +563,7 @@ function bindEvents() {
     const button = $('#save'); button.disabled = true;
     try {
       if (!state.reference) throw new Error(t('Fija una referencia antes de guardar.'));
+      if (!['2025', '2026'].includes(state.draftSeason)) throw new Error(t('Selecciona la temporada del reglaje antes de guardarlo.'));
       const result = await api('save-setup', payload());
       state.setups = result.setups; state.circuits = result.circuits; refreshLists(); state.dirty = false;
       try { localStorage.removeItem(DRAFT_KEY); } catch { /* El guardado principal ya está confirmado. */ }

@@ -4,6 +4,9 @@
 
 ## 0.3.1 — Sin publicar
 
+- Exigir la temporada al guardar un reglaje.
+- Mostrar filas compactas, explicaciones contextuales y un resumen de cambios en el taller.
+
 - Rediseñar el taller con categorías compactas y carga de reglajes por temporada y circuito.
 
 - Añadir un menú Docs con una FAQ que explica la plantilla JSON de circuito.

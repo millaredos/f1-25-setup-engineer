@@ -43,7 +43,7 @@ header('Referrer-Policy: same-origin');
           <p><?= h(t('Ajustar el coche menos competitivo no lo convierte en el mejor de la parrilla: conserva sus propias limitaciones.')) ?></p></section>
       </div>
     </section>
-    <div data-page="taller" hidden class="page-heading"><div><h1><?= h(t('Taller')) ?></h1><p class="intro"><?= h(t('Modifica los reglajes y consulta los efectos teóricos de cada cambio. Puedes cargar un reglaje o introducir los valores desde cero.')) ?></p><button id="open-saved-setup" class="button secondary" type="button"><?= h(t('Cargar reglaje')) ?></button></div></div>
+    <div data-page="taller" hidden class="workshop-heading"><div class="workshop-heading-row"><h1><?= h(t('Taller')) ?></h1><button id="open-saved-setup" class="text-button" type="button"><?= h(t('Cargar reglaje')) ?></button></div><p><?= h(t('Modifica los reglajes y consulta los efectos teóricos de cada cambio. Puedes cargar un reglaje o introducir los valores desde cero.')) ?></p></div>
     <p id="status" class="status" role="status" aria-live="polite"></p>
     <noscript><p class="status error"><?= h(t('Activa JavaScript para utilizar el editor.')) ?></p></noscript>
     <p id="database-update" class="notice" hidden><?= h(t('Hay una actualización de la base de datos pendiente.')) ?> <a href="database.php"><?= h(t('Actualizar base de datos')) ?></a></p>
@@ -66,12 +66,19 @@ header('Referrer-Policy: same-origin');
 
     <div class="workspace separated-workspace">
       <section data-page="taller" hidden id="editor" class="panel workshop-editor" aria-labelledby="editor-heading">
-        <div class="reference-row"><div><strong id="reference-label"><?= h(t('Referencia pendiente')) ?></strong><p id="reference-help"></p></div><button id="set-reference" class="text-button"><?= h(t('Usar actuales como referencia')) ?></button></div>
-        <p id="draft-context" class="subtle"></p>
-        <div class="editor-heading"><h2 id="editor-heading"><?= h(t('Reglajes')) ?></h2><button id="restore" class="text-button"><?= h(t('Volver a la referencia')) ?></button></div>
-        <p class="subtle" id="catalog-notice"></p>
+        <h2 id="editor-heading" class="sr-only"><?= h(t('Reglajes')) ?></h2>
+        <div class="workshop-meta"><strong id="reference-label"><?= h(t('Referencia pendiente')) ?></strong><span id="draft-context"></span><button id="set-reference" class="text-button"><?= h(t('Usar actuales como referencia')) ?></button><button id="restore" class="text-button"><?= h(t('Volver a la referencia')) ?></button></div>
+        <p id="reference-help" hidden></p>
+        <p id="catalog-notice" hidden></p>
         <nav id="settings-menu" class="workshop-menu" aria-label="<?= h(t('Categorías del reglaje')) ?>"></nav>
-        <div id="settings"></div>
+        <div id="settings-layout" class="settings-layout">
+          <div id="settings"></div>
+          <aside id="parameter-info" class="parameter-info" aria-live="polite"></aside>
+        </div>
+        <section id="summary-panel" class="summary-panel" aria-labelledby="summary-heading" hidden>
+          <div class="section-heading"><h2 id="summary-heading"><?= h(t('Resumen de cambios')) ?></h2><span id="change-count" class="count"><?= h(t('Referencia pendiente')) ?></span></div>
+          <div id="summary"><p class="empty"><?= h(t('Fija una referencia para comparar.')) ?></p></div>
+        </section>
       </section>
       <aside data-page="pruebas" hidden class="coach panel" aria-labelledby="coach-heading">
         <p class="eyebrow"><?= h(t('ASISTENTE DE PRUEBAS · SIN IA')) ?></p><h2 id="coach-heading"><?= h(t('¿Qué notas en el coche?')) ?></h2><p class="subtle"><?= h(t('Selecciona un síntoma. Son pruebas teóricas, no un diagnóstico.')) ?></p>
@@ -80,12 +87,6 @@ header('Referrer-Policy: same-origin');
         <p class="coach-foot"><?= h(t('Ten en cuenta las ayudas que utilizas. Mantén las mismas condiciones y prueba cada variable por separado.')) ?></p>
       </aside>
     </div>
-
-    <section data-page="taller" hidden class="panel summary-panel" aria-labelledby="summary-heading">
-      <div class="section-heading"><div><p class="eyebrow"><?= h(t('03 / LECTURA DE LOS CAMBIOS')) ?></p><h2 id="summary-heading"><?= h(t('Lo que has cambiado, en teoría.')) ?></h2></div><span id="change-count" class="count"><?= h(t('Referencia pendiente')) ?></span></div>
-      <div id="summary"><p class="empty"><?= h(t('Fija una referencia para comparar.')) ?></p></div>
-      <p class="notice"><?= h(t('No sumamos alerones como si fueran fuerzas equivalentes. Cada ajuste tiene su compromiso y los cambios pueden interactuar.')) ?></p>
-    </section>
 
     <section data-page="versiones" hidden class="panel save-panel" aria-labelledby="save-heading">
       <div><p class="eyebrow"><?= h(t('04 / CONSERVA EL PUNTO DE PARTIDA')) ?></p><h2 id="save-heading"><?= h(t('Guarda una versión.')) ?></h2><p class="subtle"><?= h(t('Cada guardado crea una copia nueva, con referencia, valores actuales y ficha del circuito.')) ?></p></div>
@@ -98,7 +99,7 @@ header('Referrer-Policy: same-origin');
   <dialog id="saved-setup-dialog" aria-labelledby="saved-setup-title">
     <form method="dialog"><button class="dialog-close text-button" aria-label="<?= h(t('Cerrar')) ?>"><?= h(t('Cerrar ×')) ?></button></form>
     <h2 id="saved-setup-title"><?= h(t('Cargar reglaje')) ?></h2>
-    <label><?= h(t('Temporada')) ?><select id="load-season"><option value="2025">2025</option><option value="2026">2026</option></select></label>
+    <label><?= h(t('Temporada')) ?><select id="load-season"><option value=""><?= h(t('Selecciona una temporada')) ?></option><option value="2025">2025</option><option value="2026">2026</option></select></label>
     <label><?= h(t('Circuito')) ?><select id="load-circuit"></select></label>
     <label><?= h(t('Reglaje')) ?><select id="load-setup"></select></label>
     <p id="load-setup-help" class="subtle" role="status"></p>

@@ -4130,3 +4130,15 @@ msgstr "Sin indicar"
 
 msgid "Sin circuito asociado. Puedes seleccionarlo en Cargar reglaje."
 msgstr "Sin circuito asociado. Puedes seleccionarlo en Cargar reglaje."
+
+msgid "Selecciona la temporada del reglaje antes de guardarlo."
+msgstr "Selecciona la temporada del reglaje antes de guardarlo."
+
+msgid "Selecciona una temporada"
+msgstr "Selecciona una temporada"
+
+msgid "Selecciona una temporada."
+msgstr "Selecciona una temporada."
+
+msgid "Resumen de cambios"
+msgstr "Resumen de cambios"

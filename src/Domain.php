@@ -248,6 +248,9 @@ final class Domain
             throw new ValidationError($this->tr('Fija una referencia y completa los valores actuales antes de guardar.'));
         }
         $data = $this->importSetup(array_replace($input, ['format' => 'f125-setup-engineer', 'schemaVersion' => 1]));
+        if (!in_array($data['season'], ['2025', '2026'], true)) {
+            throw new ValidationError($this->tr('Selecciona la temporada del reglaje antes de guardarlo.'));
+        }
         if ($data['circuit'] === null) {
             throw new ValidationError($this->tr('Asocia primero una ficha de circuito al reglaje.'));
         }
