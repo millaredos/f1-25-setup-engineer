@@ -837,6 +837,19 @@ dialog label {
   .home-features .home-car { grid-column:auto; }
 }
 .separated-workspace { display:block; }
+.workshop-editor { padding:20px; }
+.workshop-menu { display:flex; flex-wrap:wrap; gap:6px; margin-top:18px; }
+.workshop-category { border:1px solid var(--line); background:#fff; color:var(--green); border-radius:5px; padding:8px 12px; font:inherit; font-weight:600; cursor:pointer; }
+.workshop-category[aria-pressed="true"] { color:#fff; background:var(--green); border-color:var(--green); }
+.workshop-editor .parameter-group { margin:18px 0 0; }
+.workshop-editor .parameter-grid { gap:8px; }
+.workshop-editor .parameter { padding:12px; }
+.workshop-editor .parameter-description { margin:6px 0; min-height:0; }
+.workshop-editor .value-controls { max-width:240px; }
+.workshop-editor .theory { margin-top:8px; padding-top:8px; }
+#open-saved-setup { margin-top:16px; }
+#saved-setup-dialog label { display:block; margin:14px 0; }
+#saved-setup-dialog select { display:block; width:100%; }
 .separated-workspace .coach { position:static; max-width:850px; }
 .update-form { display:grid; gap:20px; margin-top:24px; }
 .release-notes { white-space:pre-wrap; overflow-wrap:anywhere; font:inherit; }

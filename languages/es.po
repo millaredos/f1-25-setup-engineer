@@ -4085,3 +4085,48 @@ msgstr "Documentación"
 
 msgid "FAQ"
 msgstr "FAQ"
+
+msgid "Modifica los reglajes y consulta los efectos teóricos de cada cambio. Puedes cargar un reglaje o introducir los valores desde cero."
+msgstr "Modifica los reglajes y consulta los efectos teóricos de cada cambio. Puedes cargar un reglaje o introducir los valores desde cero."
+
+msgid "Cargar reglaje"
+msgstr "Cargar reglaje"
+
+msgid "Reglajes"
+msgstr "Reglajes"
+
+msgid "Cerrar"
+msgstr "Cerrar"
+
+msgid "Usar circuito para valores manuales"
+msgstr "Usar circuito para valores manuales"
+
+msgid "Selecciona un reglaje"
+msgstr "Selecciona un reglaje"
+
+msgid "Selecciona un circuito."
+msgstr "Selecciona un circuito."
+
+msgid "No hay reglajes disponibles para este circuito y temporada."
+msgstr "No hay reglajes disponibles para este circuito y temporada."
+
+msgid "¿Asociar el borrador actual a otro circuito?"
+msgstr "¿Asociar el borrador actual a otro circuito?"
+
+msgid "Circuito asociado al borrador. Puedes introducir los valores manualmente."
+msgstr "Circuito asociado al borrador. Puedes introducir los valores manualmente."
+
+msgid "El reglaje ya no corresponde al circuito o la temporada seleccionados."
+msgstr "El reglaje ya no corresponde al circuito o la temporada seleccionados."
+
+msgid "Reglaje cargado en el taller."
+msgstr "Reglaje cargado en el taller."
+
+msgid "Circuito: {circuit} · Temporada: {season}"
+msgstr "Circuito: {circuit} · Temporada: {season}"
+
+msgid "Sin indicar"
+msgstr "Sin indicar"
+
+msgid "Sin circuito asociado. Puedes seleccionarlo en Cargar reglaje."
+msgstr "Sin circuito asociado. Puedes seleccionarlo en Cargar reglaje."

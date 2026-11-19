@@ -67,14 +67,25 @@ function renderReference() {
   const labels = { unknown: t('origen desconocido'), 'game-assigned': t('predeterminado del juego'), capture: t('capturas / ejemplo'), personal: t('reglaje personal') };
   $('#reference-label').textContent = state.reference ? t('Referencia: {source}', { source: labels[state.referenceSource] }) : t('Referencia pendiente');
   $('#reference-help').textContent = state.reference ? t('La referencia se conserva al editar. Solo cambia mediante una acción explícita.') : t('Introduce los veinte valores que te asigna el juego o importa un reglaje.');
+  $('#draft-context').textContent = state.circuit ? t('Circuito: {circuit} · Temporada: {season}', { circuit: state.circuit.name, season: state.draftSeason === 'unknown' ? t('Sin indicar') : state.draftSeason }) : t('Sin circuito asociado. Puedes seleccionarlo en Cargar reglaje.');
 }
 
 function renderControls() {
   const root = $('#settings');
+  const menu = $('#settings-menu');
   root.replaceChildren();
+  menu.replaceChildren();
   const groups = [...new Set(state.catalog.map((p) => p.category))];
   groups.forEach((category, index) => {
     const section = element('section', 'parameter-group');
+    section.hidden = index !== 0;
+    const tab = element('button', 'workshop-category', category);
+    tab.type = 'button'; tab.setAttribute('aria-pressed', String(index === 0));
+    tab.addEventListener('click', () => {
+      root.querySelectorAll('.parameter-group').forEach((group) => { group.hidden = group !== section; });
+      menu.querySelectorAll('button').forEach((button) => button.setAttribute('aria-pressed', String(button === tab)));
+    });
+    menu.append(tab);
     const heading = element('div', 'group-heading');
     heading.append(element('span', 'group-number', String(index + 1).padStart(2, '0')), element('h3', '', category));
     const grid = element('div', 'parameter-grid');
@@ -346,6 +357,32 @@ function installDraft(data) {
   syncControls(); refreshLists(); renderCircuit();
 }
 
+function refreshLoadDialog() {
+  const year = $('#load-season').value;
+  const circuitId = $('#load-circuit').value;
+  const select = $('#load-setup');
+  select.replaceChildren(new Option(t('Selecciona un reglaje'), ''));
+  const record = state.gameCatalog.circuits.find((item) => item.id === circuitId);
+  const preset = year === '2026' ? state.gameCatalog.presets.find((item) => item.id === record?.preset_id) : null;
+  if (preset) select.add(new Option(t('Predeterminado {number} · {name} (juego)', { number: preset.id, name: t(preset.name) }), `preset:${preset.id}`));
+  state.setups.filter((item) => item.circuit_id === circuitId && item.season === year).forEach((item) => {
+    select.add(new Option(`${item.title} · ${new Date(item.created_at).toLocaleString(locale)}`, item.id));
+  });
+  $('#apply-saved-setup').disabled = true;
+  $('#use-manual-circuit').disabled = !circuitId;
+  $('#load-setup-help').textContent = !circuitId ? t('Selecciona un circuito.') : select.options.length === 1 ? t('No hay reglajes disponibles para este circuito y temporada.') : '';
+}
+
+function openSavedSetup() {
+  const select = $('#load-circuit');
+  select.replaceChildren(new Option(t('Selecciona un circuito'), ''));
+  availableCircuits().forEach((circuit) => select.add(new Option(circuit.location && circuit.location !== circuit.name ? `${circuit.location} · ${circuit.name}` : circuit.name, circuit.id)));
+  $('#load-season').value = ['2025', '2026'].includes(state.draftSeason) ? state.draftSeason : '2026';
+  select.value = state.circuit?.id || '';
+  refreshLoadDialog();
+  $('#saved-setup-dialog').showModal();
+}
+
 function openImport(mode) {
   importMode = mode; preview = null;
   $('#circuit-template').hidden = mode !== 'circuit';
@@ -413,6 +450,38 @@ async function exportSetup(legacy = false) {
 }
 
 function bindEvents() {
+  $('#open-saved-setup').addEventListener('click', openSavedSetup);
+  $('#load-season').addEventListener('change', refreshLoadDialog);
+  $('#load-circuit').addEventListener('change', refreshLoadDialog);
+  $('#load-setup').addEventListener('change', () => { $('#apply-saved-setup').disabled = !$('#load-setup').value; });
+  $('#use-manual-circuit').addEventListener('click', () => {
+    const circuit = availableCircuits().find((item) => item.id === $('#load-circuit').value);
+    if (!circuit) return;
+    if (state.circuit && state.circuit.id !== circuit.id && !window.confirm(t('¿Asociar el borrador actual a otro circuito?'))) return;
+    state.circuit = circuit; state.draftSeason = $('#load-season').value;
+    remember(); renderReference(); renderAdvice(); $('#saved-setup-dialog').close();
+    status(t('Circuito asociado al borrador. Puedes introducir los valores manualmente.'));
+  });
+  $('#apply-saved-setup').addEventListener('click', async () => {
+    const year = $('#load-season').value, circuitId = $('#load-circuit').value, id = $('#load-setup').value;
+    const circuit = availableCircuits().find((item) => item.id === circuitId);
+    if (!circuit || !id || !allowReplace(t('Abrir esta versión sustituirá el borrador en pantalla. ¿Continuar?'))) return;
+    const button = $('#apply-saved-setup'); button.disabled = true;
+    try {
+      if (id.startsWith('preset:')) {
+        const record = state.gameCatalog.circuits.find((item) => item.id === circuitId);
+        const preset = state.gameCatalog.presets.find((item) => `preset:${item.id}` === id && item.id === record?.preset_id);
+        if (!preset || year !== '2026') throw new Error(t('Selecciona un circuito con un predeterminado asignado.'));
+        installDraft({ circuit, season: year, current: { ...preset.values }, reference: { ...preset.values }, referenceSource: 'game-assigned', title: t('Predeterminado {number} · {name}', { number: preset.id, name: t(preset.name) }), conditions: { surface: 'unknown', session: 'unknown' } });
+      } else {
+        const setup = await api('load-setup', { id });
+        if (setup.circuit?.id !== circuitId || setup.season !== year) throw new Error(t('El reglaje ya no corresponde al circuito o la temporada seleccionados.'));
+        installDraft(setup);
+      }
+      remember(); $('#saved-setup-dialog').close(); status(t('Reglaje cargado en el taller.'));
+    } catch (error) { $('#load-setup-help').textContent = error.message; }
+    finally { button.disabled = false; }
+  });
   $('#season').addEventListener('change', () => {
     state.season = $('#season').value;
     refreshLists(); renderCircuit();

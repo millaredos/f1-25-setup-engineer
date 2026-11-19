@@ -4,6 +4,8 @@
 
 ## 0.3.1 — Unreleased
 
+- Redesign the workshop with compact category navigation and a season-and-circuit setup loader.
+
 - Add a Docs menu with a FAQ explaining the circuit JSON template.
 
 - Align custom circuit profiles with the information displayed for bundled circuits.

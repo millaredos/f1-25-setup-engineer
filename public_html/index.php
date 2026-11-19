@@ -43,7 +43,7 @@ header('Referrer-Policy: same-origin');
           <p><?= h(t('Ajustar el coche menos competitivo no lo convierte en el mejor de la parrilla: conserva sus propias limitaciones.')) ?></p></section>
       </div>
     </section>
-    <div data-page="taller" hidden class="page-heading"><div><p class="eyebrow"><?= h(t('OBSERVA. AJUSTA. PRUEBA.')) ?></p><h1><?= h(t('Entiende cada cambio.')) ?></h1><p class="intro"><?= h(t('Parte del reglaje del juego. Ajusta con una idea, compruébala en pista.')) ?></p></div><span class="theory-badge"><?= h(t('Siempre teoría')) ?><small><?= h(t('Sin predicciones de rendimiento')) ?></small></span></div>
+    <div data-page="taller" hidden class="page-heading"><div><h1><?= h(t('Taller')) ?></h1><p class="intro"><?= h(t('Modifica los reglajes y consulta los efectos teóricos de cada cambio. Puedes cargar un reglaje o introducir los valores desde cero.')) ?></p><button id="open-saved-setup" class="button secondary" type="button"><?= h(t('Cargar reglaje')) ?></button></div></div>
     <p id="status" class="status" role="status" aria-live="polite"></p>
     <noscript><p class="status error"><?= h(t('Activa JavaScript para utilizar el editor.')) ?></p></noscript>
     <p id="database-update" class="notice" hidden><?= h(t('Hay una actualización de la base de datos pendiente.')) ?> <a href="database.php"><?= h(t('Actualizar base de datos')) ?></a></p>
@@ -65,10 +65,12 @@ header('Referrer-Policy: same-origin');
     </section>
 
     <div class="workspace separated-workspace">
-      <section data-page="taller" hidden id="editor" aria-labelledby="editor-heading">
+      <section data-page="taller" hidden id="editor" class="panel workshop-editor" aria-labelledby="editor-heading">
         <div class="reference-row"><div><strong id="reference-label"><?= h(t('Referencia pendiente')) ?></strong><p id="reference-help"></p></div><button id="set-reference" class="text-button"><?= h(t('Usar actuales como referencia')) ?></button></div>
-        <div class="editor-heading"><div><p class="eyebrow"><?= h(t('02 / REGLAJES')) ?></p><h2 id="editor-heading"><?= h(t('Una variable, una idea.')) ?></h2></div><button id="restore" class="text-button"><?= h(t('Volver a la referencia')) ?></button></div>
+        <p id="draft-context" class="subtle"></p>
+        <div class="editor-heading"><h2 id="editor-heading"><?= h(t('Reglajes')) ?></h2><button id="restore" class="text-button"><?= h(t('Volver a la referencia')) ?></button></div>
         <p class="subtle" id="catalog-notice"></p>
+        <nav id="settings-menu" class="workshop-menu" aria-label="<?= h(t('Categorías del reglaje')) ?>"></nav>
         <div id="settings"></div>
       </section>
       <aside data-page="pruebas" hidden class="coach panel" aria-labelledby="coach-heading">
@@ -93,6 +95,15 @@ header('Referrer-Policy: same-origin');
   </main>
   <footer class="site-footer"><div><strong>F1 25 / 26 SETUP ENGINEER</strong><span>© 2026 millaredos · <a href="https://github.com/millaredos/f1-25-setup-engineer" target="_blank" rel="noopener noreferrer">GitHub</a></span></div><p><?= h(t('Teoría orientativa. Valida los cambios en el juego.')) ?></p></footer>
 
+  <dialog id="saved-setup-dialog" aria-labelledby="saved-setup-title">
+    <form method="dialog"><button class="dialog-close text-button" aria-label="<?= h(t('Cerrar')) ?>"><?= h(t('Cerrar ×')) ?></button></form>
+    <h2 id="saved-setup-title"><?= h(t('Cargar reglaje')) ?></h2>
+    <label><?= h(t('Temporada')) ?><select id="load-season"><option value="2025">2025</option><option value="2026">2026</option></select></label>
+    <label><?= h(t('Circuito')) ?><select id="load-circuit"></select></label>
+    <label><?= h(t('Reglaje')) ?><select id="load-setup"></select></label>
+    <p id="load-setup-help" class="subtle" role="status"></p>
+    <div class="actions"><button id="apply-saved-setup" class="button" type="button"><?= h(t('Cargar reglaje')) ?></button><button id="use-manual-circuit" class="button secondary" type="button"><?= h(t('Usar circuito para valores manuales')) ?></button></div>
+  </dialog>
   <dialog id="import-dialog" aria-labelledby="import-title">
     <form method="dialog"><button class="dialog-close text-button" aria-label="<?= h(t('Cerrar importación')) ?>"><?= h(t('Cerrar ×')) ?></button></form>
     <p class="eyebrow"><?= h(t('IMPORTACIÓN CON VISTA PREVIA')) ?></p><h2 id="import-title"><?= h(t('Pegar JSON')) ?></h2><p id="import-help" class="subtle"></p>

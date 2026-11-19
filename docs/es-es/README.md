@@ -103,8 +103,8 @@ Conserva el gestor PHP existente y publica únicamente la carpeta pública de la
 
 1. En **Circuitos**, selecciona la temporada y un circuito, y consulta su predeterminado o una versión guardada por categoría. Los valores predeterminados de 2025 aún no están disponibles.
 2. Usa **Añadir circuito** para descargar una plantilla JSON e importar [fichas adicionales](formato-circuito.md).
-3. Importa un JSON de reglaje personal desde **Versiones** para abrirlo como borrador.
-4. Edita los ajustes en **Taller** y consulta el resumen de cambios.
+3. En **Taller**, usa **Cargar reglaje** para elegir temporada, circuito y un reglaje guardado o predeterminado disponible. También puedes introducir los valores manualmente y asociar un circuito desde el mismo diálogo.
+4. Selecciona una categoría, modifica sus valores y consulta el resumen teórico. También puedes importar JSON de reglajes personales desde **Versiones**.
 5. En **Pruebas**, selecciona el comportamiento que notas en el coche.
 6. En **Versiones**, añade nombre y notas, guarda una versión o exporta el JSON.
 
@@ -112,7 +112,7 @@ Abre el menú de la versión, arriba a la derecha, para acceder a **Opciones** y
 
 Cambiar de apartado conserva el borrador. Cada guardado crea una versión nueva en MariaDB. El borrador del navegador se recupera por separado y no sustituye ese guardado.
 
-El logo abre Inicio sin recargar el borrador. Consultar circuitos no modifica el borrador. La apertura directa de reglajes guardados o predeterminados y la asignación de circuito a un borrador nuevo están pendientes del rediseño del taller; el JSON de un reglaje importado puede incluir circuito. Las condiciones existentes en importaciones y versiones guardadas se conservan en su JSON.
+El logo abre Inicio sin recargar el borrador. Consultar circuitos no modifica el borrador. El diálogo de carga muestra los reglajes guardados del circuito y temporada seleccionados; los predeterminados del juego solo están disponibles para 2026. Las condiciones existentes en importaciones y versiones guardadas se conservan en su JSON.
 
 Se admiten JSON `f125-setup-engineer` y del comparador anterior `f125-comparador-v2`. La importación incluye validación y vista previa.
 

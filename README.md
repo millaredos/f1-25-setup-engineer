@@ -105,8 +105,8 @@ The interface is currently in Spanish. The names below match its menus and butto
 
 1. In **Circuitos**, select a season and circuit, then browse the game preset or a saved version by category. The 2025 game preset values are not yet available.
 2. Use **Añadir circuito** to download a JSON template and import [additional circuit profiles](docs/json-formats.md).
-3. Import a personal setup JSON from **Versiones** to open it as a draft.
-4. Edit settings in **Taller** and review the change summary.
+3. In **Taller**, use **Cargar reglaje** to choose the season, circuit and a saved setup or available game preset. You can also enter values manually and associate a circuit in the same dialog.
+4. Select a settings category, edit its values and review the theoretical change summary. Personal setup JSON can also be imported from **Versiones**.
 5. In **Pruebas**, select the handling symptom you notice.
 6. In **Versiones**, add a name and notes, save a version or export JSON.
 
@@ -114,7 +114,7 @@ Open the version menu at the top right for **Opciones** and **Actualizaciones**.
 
 Switching sections keeps the draft. Each save creates a new version in MariaDB. Browser drafts are recovered separately and do not replace database saves.
 
-The logo opens the home screen without reloading the draft. Circuit browsing does not modify the draft. Opening saved setups or game presets directly and assigning a circuit to a new draft are pending the workshop redesign; imported setup JSON can include a circuit. Existing imported or saved conditions remain in their JSON.
+The logo opens the home screen without reloading the draft. Circuit browsing does not modify the draft. The loading dialog lists saved setups for the selected circuit and season; game presets are available for 2026 only. Existing imported or saved conditions remain in their JSON.
 
 Both `f125-setup-engineer` and the previous comparator's `f125-comparador-v2` JSON formats are supported. Imports include validation and a preview.
 
