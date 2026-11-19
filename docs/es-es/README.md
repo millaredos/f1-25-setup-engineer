@@ -27,7 +27,7 @@ Desarrollada en PHP, MariaDB, JavaScript nativo y CSS puro.
 
 El selector incluye el catálogo del juego y las fichas importadas para circuitos adicionales. Las explicaciones son orientativas y deben comprobarse en el juego.
 
-**Versión de desarrollo: 0.3.0-alpha.0.** Consulta los cambios en [CHANGELOG.md](CHANGELOG.md).
+**Versión de desarrollo: 0.3.1-alpha.0.** Consulta los cambios en [CHANGELOG.md](CHANGELOG.md).
 
 ## Requisitos
 
@@ -73,12 +73,38 @@ Funciona en la raíz de un sitio o bajo una subcarpeta, como `https://example.co
 
 La [guía de instalación](instalacion.md) detalla los permisos, la configuración por variables de entorno y la recuperación de datos.
 
+### Nginx
+
+La instalación documentada utiliza Apache; el proyecto aún no ha verificado la instalación con Nginx. Nginx no lee los archivos `.htaccess` de Apache. Para un servidor virtual dedicado a esta aplicación, añade lo siguiente **dentro del bloque `server` existente**, antes de otros bloques `location` con expresiones regulares:
+
+```nginx
+autoindex off;
+
+# Deniega archivos y directorios ocultos.
+location ~ (^|/)\. {
+    deny all;
+}
+
+# Deniega restos habituales de edición y copias.
+location ~* (\.(bak|old|orig|save|swp|sql|log)|~)$ {
+    deny all;
+}
+
+error_page 404 = @f125_not_found;
+location @f125_not_found {
+    default_type text/plain;
+    return 404 "Página no encontrada.\n";
+}
+```
+
+Conserva el gestor PHP existente y publica únicamente la carpeta pública de la aplicación; `src/`, `data/`, `config/` y las copias deben quedar fuera de todas las rutas públicas. El fragmento afecta a todo el servidor virtual. Revisa los bloques existentes de coincidencia exacta y `^~`, los `location` anidados, los desafíos ACME bajo `.well-known` y la interceptación de errores de `error_page`, FastCGI o proxy: pueden alterar qué reglas se aplican o sustituir los errores JSON de la API. Después de añadirlo, valida la configuración y comprueba la ejecución de PHP, el estado 404, los errores JSON de la API, los archivos bloqueados y las rutas privadas. Si la aplicación comparte servidor virtual o funciona en una subcarpeta, comprueba esa configuración por separado.
+
 ## Uso
 
-1. En **Circuito y referencia**, selecciona la temporada y un circuito del catálogo del juego. Los valores predeterminados de 2025 aún no están disponibles.
-2. Elige su predeterminado o una versión personal en **Reglaje** y consulta sus valores por categoría. Para editarlo, pulsa **Abrir como borrador**.
-3. El predeterminado se abre con referencia y valores editables separados. Usa **Añadir circuito** para [fichas adicionales](formato-circuito.md), incluidos mods; importa JSON de reglajes personales desde **Versiones**.
-4. Edita los ajustes en **Taller** y consulta el resumen de cambios.
+1. En **Circuitos**, selecciona la temporada y un circuito, y consulta su predeterminado o una versión guardada por categoría. Los valores predeterminados de 2025 aún no están disponibles.
+2. Usa **Añadir circuito** para descargar una plantilla JSON e importar [fichas adicionales](formato-circuito.md).
+3. En **Taller**, usa **Cargar reglaje** para elegir temporada, circuito y un reglaje guardado o predeterminado disponible. También puedes introducir los valores manualmente y asociar un circuito desde el mismo diálogo.
+4. Selecciona una categoría, modifica sus valores y consulta el resumen teórico. También puedes importar JSON de reglajes personales desde **Versiones**.
 5. En **Pruebas**, selecciona el comportamiento que notas en el coche.
 6. En **Versiones**, añade nombre y notas, guarda una versión o exporta el JSON.
 
@@ -86,7 +112,7 @@ Abre el menú de la versión, arriba a la derecha, para acceder a **Opciones** y
 
 Cambiar de apartado conserva el borrador. Cada guardado crea una versión nueva en MariaDB. El borrador del navegador se recupera por separado y no sustituye ese guardado.
 
-El logo abre Inicio sin recargar el borrador. Abre los reglajes guardados desde **Circuito y referencia**; seleccionar un circuito filtra esa lista. La pantalla de carga no atribuye clima ni tipos de sesión a los predeterminados del juego. Las condiciones existentes en importaciones y versiones guardadas se conservan en su JSON.
+El logo abre Inicio sin recargar el borrador. Consultar circuitos no modifica el borrador. El diálogo de carga muestra los reglajes guardados del circuito y temporada seleccionados; los predeterminados del juego solo están disponibles para 2026. Las condiciones existentes en importaciones y versiones guardadas se conservan en su JSON.
 
 Se admiten JSON `f125-setup-engineer` y del comparador anterior `f125-comparador-v2`. La importación incluye validación y vista previa.
 

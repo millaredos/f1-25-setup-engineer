@@ -2,9 +2,26 @@
 
 # Changelog
 
-## 0.3.0
+## 0.3.1 — Sin publicar
 
-### Sin publicar
+- Exigir la temporada al guardar un reglaje.
+- Mostrar filas compactas, explicaciones contextuales y un resumen de cambios en el taller.
+
+- Rediseñar el taller con categorías compactas y carga de reglajes por temporada y circuito.
+
+- Añadir un menú Docs con una FAQ que explica la plantilla JSON de circuito.
+
+- Adaptar las fichas de circuitos adicionales a la información mostrada en los circuitos incluidos.
+- Separar la consulta de circuitos del borrador del taller y añadir una plantilla JSON de circuito.
+
+### 0.3.1-alpha.1
+
+- Generar la protección de Apache durante la instalación y ofrecer la actualización de su bloque después de actualizar la aplicación.
+- Documentar reglas equivalentes para el servidor virtual de Nginx.
+
+## 0.3.0 — 2026-11-08
+
+### 0.3.0-alpha.20
 
 - Explicar en Inicio el propósito de aprendizaje, la información de circuitos, la comparación de ajustes y los reglajes guardados.
 

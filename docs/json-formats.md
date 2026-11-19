@@ -4,7 +4,25 @@
 
 ## Circuit profile
 
-The format is `f125-circuit`, schema version 1. Example with fictional data:
+The downloadable template uses `f125-circuit`, schema version 2. Only `nombre` is required; use `null` for unknown length or corner count. Length is a JSON number in kilometres, with a decimal point. The application generates the internal identifier. For example:
+
+```json
+{
+  "format": "f125-circuit",
+  "schemaVersion": 2,
+  "circuit": {
+    "nombre": "Example Circuit",
+    "ubicacion": "Example location",
+    "longitud_km": 5.451,
+    "curvas": 16,
+    "categoria_carga": "Medium-high",
+    "curvas_y_rectas": "Linked corners and a long straight.",
+    "caracteristicas_conduccion": "Long corners place sustained load on the tyres."
+  }
+}
+```
+
+Version 1 remains supported for existing imports and saved setups. Its historical format is:
 
 ```json
 {
@@ -45,6 +63,6 @@ Bundled circuits use an identity snapshot with `origin: game-catalog`, `id`, `na
 
 Current format: `format: f125-setup-engineer`, `schemaVersion: 1`, `reference`, `current`, `referenceSource`, `circuit`, `conditions`, `title` and `notes`. Value maps use the twenty legacy identifiers. Sources: `unknown`, `game-assigned`, `capture`, `personal`. Conditions: `surface` (`unknown`, `dry`, `wet`) and `session` (`unknown`, `race`, `time-trial`). The application exports this format.
 
-The optional `season` is `2025`, `2026` or `unknown`. A missing season is kept as unknown. The older `f125-comparador-v2` export does not carry season metadata.
+New saved setups require `season` to be `2025` or `2026`. For compatibility, importing an older file without a season preserves it as unknown until the user selects a season. The older `f125-comparador-v2` export does not carry season metadata.
 
 It also accepts `f125-comparador-v2`, flat value maps, `values` and `base/current`. If the reference is missing, the preview proposes a copy of the imported values and marks the source as unknown. Circuit and conditions are not inferred. Invalid types, ranges, steps and versions are rejected without automatic correction.

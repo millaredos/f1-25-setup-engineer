@@ -19,6 +19,7 @@ require_once __DIR__ . '/Updates.php';
 require_once __DIR__ . '/Domain.php';
 require_once __DIR__ . '/Store.php';
 require_once __DIR__ . '/InstallationState.php';
+require_once __DIR__ . '/ApacheProtection.php';
 
 function appInstallation(): InstallationState
 {

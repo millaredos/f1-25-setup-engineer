@@ -70,12 +70,29 @@ $circuit = $domain->circuit($circuit);
 check($circuit['gameVersion'] === 'desconocida', 'no inventar versión');
 $envelope = ['format' => 'f125-circuit', 'schemaVersion' => 1, 'circuit' => $circuit];
 check($domain->importCircuit($envelope) === $circuit, 'circuito normalizado');
+$newProfile = ['format' => 'f125-circuit', 'schemaVersion' => 2, 'circuit' => [
+    'nombre' => 'Circuito imaginario', 'ubicacion' => 'País ficticio', 'longitud_km' => 5.451, 'curvas' => 16,
+    'categoria_carga' => 'Media-alta', 'curvas_y_rectas' => 'Curvas enlazadas y una recta larga.', 'caracteristicas_conduccion' => 'Apoyos prolongados.',
+]];
+$newCircuit = $domain->importCircuit($newProfile);
+check((bool) preg_match('/^custom-[a-f0-9]{32}$/', $newCircuit['id']), 'ID generado para ficha nueva');
+check($newCircuit['lengthKm'] === 5.451 && $newCircuit['cornerCount'] === 16 && $newCircuit['downforce'] === 'Media-alta', 'ficha visible completa');
+check($domain->importCircuit(['format' => 'f125-circuit', 'schemaVersion' => 2, 'circuit' => $newCircuit]) === $newCircuit, 'revalidación conserva identidad');
+check($domain->importCircuit(['format' => 'f125-circuit', 'schemaVersion' => 2, 'circuit' => ['nombre' => 'Prueba']])['lengthKm'] === null, 'solo nombre obligatorio');
+$badProfile = $newProfile; $badProfile['circuit']['curvas'] = -1; rejects(fn() => $domain->importCircuit($badProfile), 'número de curvas inválido');
+$badProfile = $newProfile; $badProfile['circuit']['longitud_km'] = '5,451'; rejects(fn() => $domain->importCircuit($badProfile), 'longitud no numérica');
+$badProfile = $newProfile; $badProfile['circuit'] = $newCircuit; $badProfile['circuit']['id'] = 'monaco'; rejects(fn() => $domain->importCircuit($badProfile), 'evitar colisión con catálogo');
+$badProfile = $newProfile; $badProfile['circuit'] = $newCircuit; $badProfile['circuit']['origin'] = 'game-catalog'; rejects(fn() => $domain->importCircuit($badProfile), 'no alterar el origen');
+$badProfile = $newProfile; $badProfile['circuit'] = $newCircuit; $badProfile['circuit']['unexpected'] = 'extra'; rejects(fn() => $domain->importCircuit($badProfile), 'rechazar campos internos desconocidos');
 $bad = $circuit; $bad['sources'][0]['url'] = 'javascript:alert(1)'; rejects(fn() => $domain->circuit($bad), 'URL ejecutable');
 $bad = $circuit; $bad['sources'][0]['accessedAt'] = '2026-02-30'; rejects(fn() => $domain->circuit($bad), 'fecha imposible');
 $bad = $circuit; $bad['id'] = '../datos'; rejects(fn() => $domain->circuit($bad), 'id peligroso');
 $bad = $circuit; $bad['sources'] = []; rejects(fn() => $domain->circuit($bad), 'sin fuentes');
-$setup = ['format' => 'f125-setup-engineer', 'schemaVersion' => 1, 'title' => 'Prueba', 'circuit' => $circuit, 'reference' => $base, 'current' => $current, 'referenceSource' => 'game-assigned', 'conditions' => ['surface' => 'dry', 'session' => 'race']];
+$setup = ['format' => 'f125-setup-engineer', 'schemaVersion' => 1, 'title' => 'Prueba', 'circuit' => $circuit, 'reference' => $base, 'current' => $current, 'referenceSource' => 'game-assigned', 'season' => '2025', 'conditions' => ['surface' => 'dry', 'session' => 'race']];
 $snapshot = $domain->setup($setup);
+check($snapshot['season'] === '2025', 'guardar conserva temporada explícita');
+$bad = $setup; unset($bad['season']); rejects(fn() => $domain->setup($bad), 'no guardar sin temporada');
+$bad = $setup; $bad['season'] = 'unknown'; rejects(fn() => $domain->setup($bad), 'no guardar temporada desconocida');
 check($domain->importSetup($snapshot)['current'] === $snapshot['current'], 'ida y vuelta JSON');
 check(!array_key_exists('driver', $snapshot), 'no atribuir hardware ni ayudas no declarados');
 $bad = $setup; unset($bad['reference']); rejects(fn() => $domain->setup($bad), 'no guardar sin referencia explícita');

@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 // Solo se copia al sitio temporal de pruebas para simular un montaje en subcarpeta.
+if (getenv('F125_TEST_APACHE') === '1') { $_SERVER['SERVER_SOFTWARE'] = 'Apache/2.4 test'; }
 $prefix = getenv('F125_TEST_BASE_PATH') ?: '/';
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 if (!is_string($path) || !str_starts_with($path, $prefix)) { http_response_code(404); exit; }
 $relative = substr($path, strlen($prefix));
-if (!preg_match('~^(?:index\.php|install\.php|api\.php|update\.php|options\.php|database\.php|i18n\.php|assets/[a-zA-Z0-9_-]+\.(?:css|js))?$~D', $relative)) { http_response_code(404); exit; }
+if (!preg_match('~^(?:index\.php|install\.php|api\.php|update\.php|options\.php|database\.php|faq\.php|i18n\.php|assets/[a-zA-Z0-9_-]+\.(?:css|js))?$~D', $relative)) { http_response_code(404); exit; }
 $file = __DIR__ . '/' . (getenv('F125_TEST_PUBLIC_NAME') ?: 'public_html') . '/' . ($relative ?: 'index.php');
 if (!is_file($file)) { http_response_code(404); exit; }
 if (pathinfo($file, PATHINFO_EXTENSION) === 'php') {

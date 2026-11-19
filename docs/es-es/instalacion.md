@@ -38,6 +38,8 @@ Comprueba las extensiones en el PHP utilizado por Apache. Configura `display_err
 
 El instalador crea las tablas base y aplica las [migraciones pendientes](migraciones-base-datos.md), incluidos los cinco predeterminados y el catálogo inicial de nombres de circuitos. Al terminar guarda `installed: true` en `config/installation.json` y abre Inicio. Conserva ese archivo al actualizar. Las instalaciones existentes aplican las migraciones desde **Opciones → Actualizar base de datos** después de actualizar los archivos de la aplicación.
 
+Cuando detecta Apache, el instalador crea un `.htaccess` en la carpeta pública si no existe. Desactiva el listado de directorios, deniega archivos ocultos y copias habituales y establece una respuesta 404. Si ya existe un archivo, lo conserva; **Actualizaciones** permite revisar y añadir o actualizar el bloque de la aplicación. PHP necesita permiso de escritura en la carpeta pública para crear o actualizar el archivo. El administrador del servidor debe comprobar que Apache permite y aplica las directivas: la presencia del archivo no demuestra que estén activas.
+
 | Estado | Comportamiento |
 | --- | --- |
 | Archivo ausente o `installed: false` | El inicio abre el instalador. |

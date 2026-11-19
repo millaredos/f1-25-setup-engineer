@@ -4,7 +4,7 @@ declare(strict_types=1);
 /** One navigation component for the workshop and maintenance pages. */
 function appHeader(string $current = ''): void
 {
-    $sections = ['circuito' => 'Circuito y referencia', 'taller' => 'Taller', 'pruebas' => 'Pruebas', 'versiones' => 'Versiones'];
+    $sections = ['circuito' => 'Circuitos', 'taller' => 'Taller', 'pruebas' => 'Pruebas', 'versiones' => 'Versiones'];
     ?>
     <header class="masthead">
       <a class="brand" href="<?= $current === '' ? '#inicio' : './#inicio' ?>"><span class="brand-mark" aria-hidden="true"></span><span>SETUP ENGINEER<small><?= h(t('Tu taller de F1 25 / 26')) ?></small></span></a>
@@ -12,6 +12,7 @@ function appHeader(string $current = ''): void
         <?php foreach ($sections as $id => $label): ?>
           <a href="<?= $current === '' ? '#' : './#' ?><?= $id ?>"><?= h(t($label)) ?></a>
         <?php endforeach; ?>
+        <a href="faq.php"<?= $current === 'faq' ? ' aria-current="page"' : '' ?>><?= h(t('Docs')) ?></a>
       </nav>
       <div class="version-menu">
         <button type="button" id="version-toggle" class="driver version-toggle" aria-expanded="false" aria-controls="version-panel">

@@ -43,20 +43,19 @@ header('Referrer-Policy: same-origin');
           <p><?= h(t('Ajustar el coche menos competitivo no lo convierte en el mejor de la parrilla: conserva sus propias limitaciones.')) ?></p></section>
       </div>
     </section>
-    <div data-page="taller" hidden class="page-heading"><div><p class="eyebrow"><?= h(t('OBSERVA. AJUSTA. PRUEBA.')) ?></p><h1><?= h(t('Entiende cada cambio.')) ?></h1><p class="intro"><?= h(t('Parte del reglaje del juego. Ajusta con una idea, compruébala en pista.')) ?></p></div><span class="theory-badge"><?= h(t('Siempre teoría')) ?><small><?= h(t('Sin predicciones de rendimiento')) ?></small></span></div>
+    <div data-page="taller" hidden class="workshop-heading"><div class="workshop-heading-row"><h1><?= h(t('Taller')) ?></h1><button id="open-saved-setup" class="text-button" type="button"><?= h(t('Cargar reglaje')) ?></button></div><p><?= h(t('Modifica los reglajes y consulta los efectos teóricos de cada cambio. Puedes cargar un reglaje o introducir los valores desde cero.')) ?></p></div>
     <p id="status" class="status" role="status" aria-live="polite"></p>
     <noscript><p class="status error"><?= h(t('Activa JavaScript para utilizar el editor.')) ?></p></noscript>
     <p id="database-update" class="notice" hidden><?= h(t('Hay una actualización de la base de datos pendiente.')) ?> <a href="database.php"><?= h(t('Actualizar base de datos')) ?></a></p>
     <div id="recovery" class="notice" hidden><?= h(t('Hay un borrador anterior en este navegador.')) ?> <button id="recover" class="text-button"><?= h(t('Recuperarlo')) ?></button> <button id="dismiss-recovery" class="text-button"><?= h(t('Descartarlo')) ?></button></div>
 
     <section data-page="circuito" hidden class="panel context-panel" aria-labelledby="context-heading">
-      <div class="section-heading"><h1 id="context-heading"><?= h(t('Circuito y referencia')) ?></h1><button id="open-circuit" class="text-button"><?= h(t('Añadir circuito')) ?></button></div>
+      <div class="section-heading"><h1 id="context-heading"><?= h(t('Circuitos')) ?></h1><button id="open-circuit" class="text-button"><?= h(t('Añadir circuito')) ?></button></div>
       <div class="context-fields load-fields">
         <label><?= h(t('Temporada')) ?><select id="season"><option value="2026">2026</option><option value="2025">2025</option></select></label>
         <label><?= h(t('Circuito')) ?><select id="circuit"><option value=""><?= h(t('Selecciona un circuito')) ?></option></select></label>
-        <div class="saved-load"><label><?= h(t('Reglaje')) ?><select id="saved"><option value=""><?= h(t('Todavía no hay versiones guardadas')) ?></option></select></label><button id="load" class="button secondary"><?= h(t('Abrir como borrador')) ?></button></div>
+        <div class="saved-load"><label><?= h(t('Reglaje')) ?><select id="saved"><option value=""><?= h(t('Todavía no hay versiones guardadas')) ?></option></select></label></div>
       </div>
-      <p id="season-draft-note" class="source-note" hidden></p>
       <div id="circuit-card" hidden></div>
     </section>
 
@@ -66,11 +65,20 @@ header('Referrer-Policy: same-origin');
     </section>
 
     <div class="workspace separated-workspace">
-      <section data-page="taller" hidden id="editor" aria-labelledby="editor-heading">
-        <div class="reference-row"><div><strong id="reference-label"><?= h(t('Referencia pendiente')) ?></strong><p id="reference-help"></p></div><button id="set-reference" class="text-button"><?= h(t('Usar actuales como referencia')) ?></button></div>
-        <div class="editor-heading"><div><p class="eyebrow"><?= h(t('02 / REGLAJES')) ?></p><h2 id="editor-heading"><?= h(t('Una variable, una idea.')) ?></h2></div><button id="restore" class="text-button"><?= h(t('Volver a la referencia')) ?></button></div>
-        <p class="subtle" id="catalog-notice"></p>
-        <div id="settings"></div>
+      <section data-page="taller" hidden id="editor" class="panel workshop-editor" aria-labelledby="editor-heading">
+        <h2 id="editor-heading" class="sr-only"><?= h(t('Reglajes')) ?></h2>
+        <div class="workshop-meta"><strong id="reference-label"><?= h(t('Referencia pendiente')) ?></strong><span id="draft-context"></span><button id="set-reference" class="text-button"><?= h(t('Usar actuales como referencia')) ?></button><button id="restore" class="text-button"><?= h(t('Volver a la referencia')) ?></button></div>
+        <p id="reference-help" hidden></p>
+        <p id="catalog-notice" hidden></p>
+        <nav id="settings-menu" class="workshop-menu" aria-label="<?= h(t('Categorías del reglaje')) ?>"></nav>
+        <div id="settings-layout" class="settings-layout">
+          <div id="settings"></div>
+          <aside id="parameter-info" class="parameter-info" aria-live="polite"></aside>
+        </div>
+        <section id="summary-panel" class="summary-panel" aria-labelledby="summary-heading" hidden>
+          <div class="section-heading"><h2 id="summary-heading"><?= h(t('Resumen de cambios')) ?></h2><span id="change-count" class="count"><?= h(t('Referencia pendiente')) ?></span></div>
+          <div id="summary"><p class="empty"><?= h(t('Fija una referencia para comparar.')) ?></p></div>
+        </section>
       </section>
       <aside data-page="pruebas" hidden class="coach panel" aria-labelledby="coach-heading">
         <p class="eyebrow"><?= h(t('ASISTENTE DE PRUEBAS · SIN IA')) ?></p><h2 id="coach-heading"><?= h(t('¿Qué notas en el coche?')) ?></h2><p class="subtle"><?= h(t('Selecciona un síntoma. Son pruebas teóricas, no un diagnóstico.')) ?></p>
@@ -80,12 +88,6 @@ header('Referrer-Policy: same-origin');
       </aside>
     </div>
 
-    <section data-page="taller" hidden class="panel summary-panel" aria-labelledby="summary-heading">
-      <div class="section-heading"><div><p class="eyebrow"><?= h(t('03 / LECTURA DE LOS CAMBIOS')) ?></p><h2 id="summary-heading"><?= h(t('Lo que has cambiado, en teoría.')) ?></h2></div><span id="change-count" class="count"><?= h(t('Referencia pendiente')) ?></span></div>
-      <div id="summary"><p class="empty"><?= h(t('Fija una referencia para comparar.')) ?></p></div>
-      <p class="notice"><?= h(t('No sumamos alerones como si fueran fuerzas equivalentes. Cada ajuste tiene su compromiso y los cambios pueden interactuar.')) ?></p>
-    </section>
-
     <section data-page="versiones" hidden class="panel save-panel" aria-labelledby="save-heading">
       <div><p class="eyebrow"><?= h(t('04 / CONSERVA EL PUNTO DE PARTIDA')) ?></p><h2 id="save-heading"><?= h(t('Guarda una versión.')) ?></h2><p class="subtle"><?= h(t('Cada guardado crea una copia nueva, con referencia, valores actuales y ficha del circuito.')) ?></p></div>
       <div class="save-fields"><label><?= h(t('Nombre del reglaje')) ?><input id="setup-title" maxlength="120" placeholder="<?= h(t('Ej.: primera prueba en seco')) ?>"></label><label><?= h(t('Notas')) ?><textarea id="notes" rows="3" maxlength="4000" placeholder="<?= h(t('Qué quieres comprobar, combustible, compuesto…')) ?>"></textarea></label></div>
@@ -94,9 +96,21 @@ header('Referrer-Policy: same-origin');
   </main>
   <footer class="site-footer"><div><strong>F1 25 / 26 SETUP ENGINEER</strong><span>© 2026 millaredos · <a href="https://github.com/millaredos/f1-25-setup-engineer" target="_blank" rel="noopener noreferrer">GitHub</a></span></div><p><?= h(t('Teoría orientativa. Valida los cambios en el juego.')) ?></p></footer>
 
+  <dialog id="saved-setup-dialog" aria-labelledby="saved-setup-title">
+    <form method="dialog"><button class="dialog-close text-button" aria-label="<?= h(t('Cerrar')) ?>"><?= h(t('Cerrar ×')) ?></button></form>
+    <h2 id="saved-setup-title"><?= h(t('Cargar reglaje')) ?></h2>
+    <label><?= h(t('Temporada')) ?><select id="load-season"><option value=""><?= h(t('Selecciona una temporada')) ?></option><option value="2025">2025</option><option value="2026">2026</option></select></label>
+    <label><?= h(t('Circuito')) ?><select id="load-circuit"></select></label>
+    <label><?= h(t('Reglaje')) ?><select id="load-setup"></select></label>
+    <p id="load-setup-help" class="subtle" role="status"></p>
+    <div class="actions"><button id="apply-saved-setup" class="button" type="button"><?= h(t('Cargar reglaje')) ?></button><button id="use-manual-circuit" class="button secondary" type="button"><?= h(t('Usar circuito para valores manuales')) ?></button></div>
+  </dialog>
   <dialog id="import-dialog" aria-labelledby="import-title">
     <form method="dialog"><button class="dialog-close text-button" aria-label="<?= h(t('Cerrar importación')) ?>"><?= h(t('Cerrar ×')) ?></button></form>
     <p class="eyebrow"><?= h(t('IMPORTACIÓN CON VISTA PREVIA')) ?></p><h2 id="import-title"><?= h(t('Pegar JSON')) ?></h2><p id="import-help" class="subtle"></p>
+    <button type="button" id="circuit-template" class="text-button" hidden><?= h(t('Descargar plantilla JSON')) ?></button>
+    <p id="circuit-faq" class="subtle" hidden><?= h(t('¿Necesitas ayuda para rellenar el JSON?')) ?> <a href="faq.php#ficha-circuito" target="_blank" rel="noopener noreferrer"><?= h(t('Visita la FAQ')) ?></a></p>
+    <p id="circuit-template-help" class="subtle" hidden><?= h(t('Indica el nombre. La ubicación, la longitud en kilómetros, el número de curvas, la carga y las descripciones son opcionales. Usa un punto como separador decimal en la longitud; deja null si no la conoces.')) ?></p>
     <label><?= h(t('Seleccionar archivo JSON')) ?><input type="file" id="json-file" accept=".json,application/json"></label>
     <label><?= h(t('Contenido JSON')) ?><textarea id="json-input" rows="10" spellcheck="false"></textarea></label>
     <button id="validate-import" class="button secondary"><?= h(t('Validar y previsualizar')) ?></button>

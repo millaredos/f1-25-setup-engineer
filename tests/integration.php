@@ -17,7 +17,7 @@ foreach (['f125_schema_meta', 'f125_circuits', 'f125_setups', 'f125_migrations',
 $domain = appDomain();
 $base = json_decode(file_get_contents(__DIR__ . '/fixtures/legacy-setup.json'), true)['reference'];
 $circuit = $domain->circuit(['id' => 'test', 'name' => 'Prueba ficticia', 'downforce' => 'mixed', 'summary' => 'Solo pruebas', 'sources' => [['title' => 'Prueba', 'url' => 'https://example.com', 'accessedAt' => '2026-11-04']]]);
-$setup = $domain->setup(['title' => 'Versión uno', 'circuit' => $circuit, 'reference' => $base, 'current' => $base]);
+$setup = $domain->setup(['title' => 'Versión uno', 'season' => '2025', 'circuit' => $circuit, 'reference' => $base, 'current' => $base]);
 try {
     $store = new Store($config); $store->initialize();
     $game = $store->gameCatalog();
@@ -72,7 +72,7 @@ try {
     $restore = $db->prepare('UPDATE f125_migrations SET checksum=? WHERE id=?');
     foreach ($ledger as $id => $checksum) { $restore->execute([$checksum, $id]); }
     $officialDomain = appDomain($game['circuits']);
-    $official = $officialDomain->setup(['title' => 'Catalog base', 'circuit' => ['id' => 'australia-albert-park', 'origin' => 'game-catalog'], 'reference' => $game['presets'][2]['values'], 'current' => $game['presets'][2]['values'], 'referenceSource' => 'game-assigned']);
+    $official = $officialDomain->setup(['title' => 'Catalog base', 'season' => '2026', 'circuit' => ['id' => 'australia-albert-park', 'origin' => 'game-catalog'], 'reference' => $game['presets'][2]['values'], 'current' => $game['presets'][2]['values'], 'referenceSource' => 'game-assigned']);
     $officialId = $store->saveSetup($official);
     if ($store->loadSetup($officialId)['circuit']['origin'] !== 'game-catalog' || $store->loadSetup($officialId)['reference']['ala_del'] != 25) { throw new RuntimeException('Catalog setup persistence failed.'); }
     echo "OK: MariaDB, guardado, reapertura, versiones, duplicados, catálogo y rollback.\n";

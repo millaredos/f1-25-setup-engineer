@@ -4,7 +4,7 @@ require dirname(__DIR__) . '/src/bootstrap.php';
 require __DIR__ . '/fixtures/github.php';
 if (!class_exists('ZipArchive')) { fwrite(STDERR, "ZIP is required for update tests.\n"); exit(2); }
 $root = sys_get_temp_dir() . '/f125-channels-' . bin2hex(random_bytes(6));
-mkdir($root, 0700); mkdir($root . '/config'); $checks = 0;
+mkdir($root, 0700); mkdir($root . '/config'); mkdir($root . '/src'); file_put_contents($root . '/src/VERSION', "0.3.0-alpha.0\n"); $checks = 0;
 function testUpdate(bool $ok, string $message): void { global $checks; if (!$ok) { throw new RuntimeException($message); } $checks++; }
 function rejectUpdate(callable $call, string $message): void { try { $call(); } catch (Throwable $e) { testUpdate(true, $message); return; } testUpdate(false, $message); }
 try {
@@ -53,7 +53,7 @@ try {
     $badRedirect = new GitHubClient('', static fn() => ['status' => 302, 'headers' => ['location' => 'http://127.0.0.1/secret'], 'body' => '']);
     rejectUpdate(fn() => $badRedirect->get('/repos/' . GitHubClient::REPOSITORY . '/releases/assets/102', true), 'Unsafe redirect rejected');
     foreach ([403, 429, 500] as $status) {
-        $errorRoot = $root . '/error-' . $status; mkdir($errorRoot); mkdir($errorRoot . '/config');
+        $errorRoot = $root . '/error-' . $status; mkdir($errorRoot); mkdir($errorRoot . '/config'); mkdir($errorRoot . '/src'); file_put_contents($errorRoot . '/src/VERSION', "0.2.0\n");
         $errorLog = (object) ['requests' => []];
         $failed = new GitHubUpdates($errorRoot, new GitHubClient('', fixtureGitHub('', ['status' => $status, 'stableVersion' => '0.3.0'], $errorLog)));
         $failedCheck = $failed->check('release');
@@ -81,10 +81,10 @@ try {
     $denied = new GitHubClient('', static fn() => ['status' => 403, 'headers' => [], 'body' => '{"message":"Resource not accessible"}']);
     try { $denied->get('/repos/' . GitHubClient::REPOSITORY . '/releases/latest'); testUpdate(false, 'Denied access must throw'); }
     catch (RuntimeException $error) { testUpdate(!$error instanceof GitHubRetry && str_contains($error->getMessage(), 'denied access'), 'Permission denial is not mislabeled as a rate limit'); }
-    $retryRoot = $root . '/expired-retry'; mkdir($retryRoot); mkdir($retryRoot . '/config');
+    $retryRoot = $root . '/expired-retry'; mkdir($retryRoot); mkdir($retryRoot . '/config'); mkdir($retryRoot . '/src'); file_put_contents($retryRoot . '/src/VERSION', "0.3.0-alpha.0\n");
     $retryClient = new GitHubClient('', fixtureGitHub($root . '/package.zip'));
     Updater::atomicJson($retryRoot . '/config/update-cache.json', [$retryClient->cacheKey() . ':alpha' =>
-        ['checked' => time(), 'installed' => appVersion(), 'retryAt' => time() - 1, 'error' => 'Previous rate limit', 'candidate' => null]]);
+        ['checked' => time(), 'installed' => '0.3.0-alpha.0', 'retryAt' => time() - 1, 'error' => 'Previous rate limit', 'candidate' => null]]);
     $retried = (new GitHubUpdates($retryRoot, $retryClient))->check('alpha');
     testUpdate(($retried['candidate']['version'] ?? '') === '0.3.0-alpha.2', 'Expired cooldown retries immediately instead of waiting for the error cache');
     testUpdate(GitHubClient::parseVersions("alpha=0.3.0-alpha.10\r\nrelease=\r\n") === ['alpha' => '0.3.0-alpha.10', 'release' => null], 'CRLF version service accepted');
@@ -118,7 +118,7 @@ try {
     $beforeRefresh = count($feedLog->requests); $feedService->check('alpha');
     testUpdate(count($feedLog->requests) === $beforeRefresh + 1, 'Known release metadata reused across version-feed refreshes');
     foreach ([['feedStatus' => 503], ['feedStatus' => 302], ['feed' => "invalid\n"]] as $options) {
-        $failureRoot = $root . '/feed-failure-' . bin2hex(random_bytes(3)); mkdir($failureRoot); mkdir($failureRoot . '/config');
+        $failureRoot = $root . '/feed-failure-' . bin2hex(random_bytes(3)); mkdir($failureRoot); mkdir($failureRoot . '/config'); mkdir($failureRoot . '/src'); file_put_contents($failureRoot . '/src/VERSION', "0.3.0-alpha.0\n");
         $failureLog = (object) ['requests' => []];
         $failure = (new GitHubUpdates($failureRoot, new GitHubClient('', fixtureGitHub('', $options, $failureLog))))->check('alpha');
         testUpdate(isset($failure['error']) && count($failureLog->requests) === 1, 'Feed outage/redirect/malformed response never falls back to GitHub polling');
@@ -137,7 +137,7 @@ try {
     $damagedCandidate = $damaged->check('alpha')['candidate'];
     rejectUpdate(fn() => $damaged->install('alpha', $damagedCandidate['identity'], 'www'), 'Corrupt GitHub download rejected');
     // Install into a renamed public directory, preserving private state.
-    foreach (['src', 'data', 'www', 'www/assets'] as $dir) { mkdir($root . '/' . $dir, 0700, true); }
+    foreach (['src', 'data', 'www', 'www/assets'] as $dir) { if (!is_dir($root . '/' . $dir)) { mkdir($root . '/' . $dir, 0700, true); } }
     $zip = new ZipArchive(); $zip->open($root . '/package.zip');
     foreach (json_decode($zip->getFromName('manifest.json'), true)['files'] as $path => $hash) {
         $target = $root . '/' . (str_starts_with($path, 'public_html/') ? 'www' . substr($path, 11) : $path);

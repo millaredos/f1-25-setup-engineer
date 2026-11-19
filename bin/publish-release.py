@@ -49,6 +49,52 @@ def plan(event, run_number):
             "pr": pr["number"], "branch": branch}
 
 
+def alpha_number(stable, commit):
+    """Reserve the first unused number for this version, including unpublished drafts."""
+    pattern = re.compile(r"^v" + re.escape(stable) + r"-alpha\.([1-9]\d*)$")
+    used = set()
+    resume = []
+    page = 1
+    while True:
+        releases = api("GET", f"releases?per_page=100&page={page}")
+        if not isinstance(releases, list):
+            raise ValueError("Cannot determine existing Alpha releases")
+        for release in releases:
+            match = pattern.fullmatch(release.get("tag_name", ""))
+            if match:
+                number = int(match[1])
+                used.add(number)
+                marker = re.search(r"<!-- f125-update (\{[^\r\n]+\}) -->", release.get("body") or "")
+                if marker:
+                    try:
+                        build = json.loads(marker[1])
+                    except (TypeError, ValueError):
+                        continue
+                    if isinstance(build, dict) and build.get("commit") == commit and build.get("branch") == "release/" + stable:
+                        resume.append((number, release))
+        if len(releases) < 100:
+            break
+        page += 1
+    refs = api("GET", f"git/matching-refs/tags/v{stable}-alpha.")
+    if refs is None:
+        refs = []
+    if not isinstance(refs, list):
+        raise ValueError("Cannot determine existing Alpha tags")
+    for ref in refs:
+        name = ref.get("ref", "")
+        match = pattern.fullmatch(name.removeprefix("refs/tags/"))
+        if match:
+            used.add(int(match[1]))
+    if len(resume) > 1:
+        raise ValueError("Multiple Alpha releases identify the same commit")
+    if resume:
+        return resume[0]
+    number = 1
+    while number in used:
+        number += 1
+    return number, None
+
+
 def publish():
     event = json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text())
     selected = plan(event, int(os.environ["GITHUB_RUN_NUMBER"]))
@@ -67,12 +113,17 @@ def publish():
             return
     elif not pr.get("merged"):
         raise ValueError("The release PR has not been merged")
+    reserved_release = None
+    if selected["channel"] == "alpha":
+        stable = selected["branch"].removeprefix("release/")
+        number, reserved_release = alpha_number(stable, selected['commit'])
+        selected["version"] = f"{stable}-alpha.{number}"
     package = build(**selected)
     digest = hashlib.sha256(package.read_bytes()).hexdigest()
     notes = pr.get("body") or pr["title"]
     marker = "<!-- f125-update " + json.dumps({key: selected[key] for key in ("channel", "commit", "pr", "branch")}, separators=(",", ":")) + " -->"
     tag = "v" + selected["version"]
-    existing = api("GET", f"releases/tags/{tag}")
+    existing = reserved_release or api("GET", f"releases/tags/{tag}")
     if existing is not None:
         if existing["target_commitish"] != selected["commit"]:
             raise ValueError("That version already identifies another commit")

@@ -4,7 +4,25 @@
 
 ## Ficha de circuito
 
-Formato `f125-circuit`, versión de esquema 1. Ejemplo con datos ficticios:
+La plantilla descargable usa `f125-circuit`, versión de esquema 2. Solo `nombre` es obligatorio; usa `null` si no conoces la longitud o el número de curvas. La longitud es un número JSON en kilómetros, con punto decimal. La aplicación genera el identificador interno. Ejemplo:
+
+```json
+{
+  "format": "f125-circuit",
+  "schemaVersion": 2,
+  "circuit": {
+    "nombre": "Circuito de ejemplo",
+    "ubicacion": "Ubicación de ejemplo",
+    "longitud_km": 5.451,
+    "curvas": 16,
+    "categoria_carga": "Media-alta",
+    "curvas_y_rectas": "Curvas enlazadas y una recta larga.",
+    "caracteristicas_conduccion": "Las curvas largas cargan los neumáticos."
+  }
+}
+```
+
+La versión 1 se sigue admitiendo en importaciones y reglajes guardados. Su formato histórico es:
 
 ```json
 {
@@ -45,6 +63,6 @@ Los circuitos distribuidos utilizan una copia de identidad con `origin: game-cat
 
 Nuevo: `format: f125-setup-engineer`, `schemaVersion: 1`, `reference`, `current`, `referenceSource`, `circuit`, `conditions`, `title`, `notes`. Mapas con veinte IDs heredados. Origen: `unknown`, `game-assigned`, `capture`, `personal`. Condiciones: `surface` (`unknown`, `dry`, `wet`) y `session` (`unknown`, `race`, `time-trial`). La aplicación exporta este formato.
 
-El campo opcional `season` admite `2025`, `2026` o `unknown`. Si falta, la temporada queda sin indicar. La exportación antigua `f125-comparador-v2` no conserva la temporada.
+Los reglajes nuevos guardados requieren `season` con valor `2025` o `2026`. Por compatibilidad, al importar un archivo antiguo sin temporada se mantiene sin indicar hasta que el usuario seleccione una. La exportación antigua `f125-comparador-v2` no conserva la temporada.
 
 También admite `f125-comparador-v2`, mapas planos, `values` y `base/current`. Si falta referencia, la vista previa propone copiar los valores importados y marca origen desconocido. No deduce circuito ni condiciones. Tipos, rangos, pasos y versiones incorrectos se rechazan sin corrección silenciosa.

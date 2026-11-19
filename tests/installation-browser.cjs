@@ -33,9 +33,15 @@ const assert = require('node:assert/strict');
     const env = { ...process.env };
     for (const key of ['F125_DSN', 'F125_DB_USER', 'F125_DB_PASSWORD']) delete env[key];
     const zipArgs = process.env.F125_TEST_ZIP_DIR ? ['-d', `extension_dir=${process.env.F125_TEST_ZIP_DIR}`, '-d', 'extension=zip'] : [];
+    const apacheArgs = [];
+    if (process.env.F125_TEST_APACHE === '1') {
+      const pretendApache = path.join(root, 'pretend-apache.php');
+      fs.writeFileSync(pretendApache, "<?php $_SERVER['SERVER_SOFTWARE'] = 'Apache/2.4 test';");
+      apacheArgs.push('-d', `auto_prepend_file=${pretendApache}`);
+    }
     // The child browser runs synchronously below. A pipe could fill while this event loop is blocked.
     const logHandle = fs.openSync(serverLog, 'w');
-    server = spawn(process.env.F125_TEST_PHP || 'php', ['-n', ...zipArgs, '-S', `127.0.0.1:${port}`, '-t', path.join(root, publicName), ...routerArgs], { cwd: root, env, windowsHide: true, stdio: ['ignore', 'ignore', logHandle] });
+    server = spawn(process.env.F125_TEST_PHP || 'php', ['-n', ...zipArgs, ...apacheArgs, '-S', `127.0.0.1:${port}`, '-t', path.join(root, publicName), ...routerArgs], { cwd: root, env, windowsHide: true, stdio: ['ignore', 'ignore', logHandle] });
     fs.closeSync(logHandle);
     let launchError;
     server.on('error', (error) => { launchError = error; });
@@ -118,6 +124,18 @@ const assert = require('node:assert/strict');
     const updateHtml = await response.text();
     assert.doesNotMatch(updateHtml, /type="file"|name="key"|update_key/);
     assert.match(updateHtml, /id="current-channel">Alpha/);
+    if (apacheArgs.length) {
+      assert.match(updateHtml, /Guardar protección de Apache/);
+      const htaccess = path.join(root, publicName, '.htaccess');
+      response = await post('update.php', { csrf: 'invalid', action: 'protect', protection_hash: 'missing' });
+      assert.equal(response.status, 403);
+      assert.equal(fs.existsSync(htaccess), false);
+      response = await post('update.php', { csrf, action: 'protect', protection_hash: 'missing' });
+      assert.equal(response.status, 303);
+      assert.match(fs.readFileSync(htaccess, 'utf8'), /ErrorDocument 404/);
+      response = await fetch(base + 'update.php', { headers: { Cookie: cookie } });
+      assert.doesNotMatch(await response.text(), /Guardar protección de Apache/);
+    }
     response = await post('update.php', { csrf: 'invalid', action: 'install' });
     assert.equal(response.status, 403);
     if (process.env.F125_TEST_PACKAGE && process.env.F125_TEST_ZIP_DIR) {

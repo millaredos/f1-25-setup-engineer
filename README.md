@@ -27,7 +27,7 @@ Built with PHP, MariaDB, vanilla JavaScript and plain CSS.
 
 The circuit selector includes the bundled game catalog and imported profiles for additional circuits. Setup explanations are guidance to test in the game.
 
-**Development version: 0.3.0-alpha.0.** See [CHANGELOG.md](CHANGELOG.md).
+**Development version: 0.3.1-alpha.0.** See [CHANGELOG.md](CHANGELOG.md).
 
 ## Requirements
 
@@ -73,14 +73,40 @@ The application works at a site root or under a subdirectory such as `https://ex
 
 The [installation guide](docs/installation.md) covers permissions, environment variables and data recovery.
 
+### Nginx
+
+The documented installation uses Apache; this project has not yet verified installation with Nginx. Nginx does not read Apache `.htaccess` files. For a virtual host dedicated to this application, add the following **inside its existing `server` block**, before other regular-expression `location` blocks:
+
+```nginx
+autoindex off;
+
+# Deny hidden files and directories.
+location ~ (^|/)\. {
+    deny all;
+}
+
+# Deny common editor and backup files.
+location ~* (\.(bak|old|orig|save|swp|sql|log)|~)$ {
+    deny all;
+}
+
+error_page 404 = @f125_not_found;
+location @f125_not_found {
+    default_type text/plain;
+    return 404 "Page not found.\n";
+}
+```
+
+Keep the existing PHP handler and expose only the application’s public directory; `src/`, `data/`, `config/` and backups must stay outside every public mapping. The fragment applies to the whole virtual host. Review existing exact-match and `^~` locations, nested locations, ACME challenges under `.well-known`, and `error_page` or FastCGI/proxy error interception: they can alter which rules run or replace API JSON errors. After adding it, validate the configuration and verify PHP execution, 404 status, API JSON errors, denied files and private paths. Test separately if the application shares a virtual host or runs under a subdirectory.
+
 ## Usage
 
 The interface is currently in Spanish. The names below match its menus and buttons.
 
-1. In **Circuito y referencia**, select the season and a circuit from the game catalog. The 2025 game preset values are not yet available.
-2. Choose its game preset or a personal version in **Reglaje** and browse its values by category. Click **Abrir como borrador** to edit it.
-3. The game preset opens with separate reference and editable values. Use **Añadir circuito** for [additional circuit profiles](docs/json-formats.md), including mods; import personal setup JSON from **Versiones**.
-4. Edit settings in **Taller** and review the change summary.
+1. In **Circuitos**, select a season and circuit, then browse the game preset or a saved version by category. The 2025 game preset values are not yet available.
+2. Use **Añadir circuito** to download a JSON template and import [additional circuit profiles](docs/json-formats.md).
+3. In **Taller**, use **Cargar reglaje** to choose the season, circuit and a saved setup or available game preset. You can also enter values manually and associate a circuit in the same dialog.
+4. Select a settings category, edit its values and review the theoretical change summary. Personal setup JSON can also be imported from **Versiones**.
 5. In **Pruebas**, select the handling symptom you notice.
 6. In **Versiones**, add a name and notes, save a version or export JSON.
 
@@ -88,7 +114,7 @@ Open the version menu at the top right for **Opciones** and **Actualizaciones**.
 
 Switching sections keeps the draft. Each save creates a new version in MariaDB. Browser drafts are recovered separately and do not replace database saves.
 
-The logo opens the home screen without reloading the draft. Open saved setups from **Circuito y referencia**; selecting a circuit filters that list. The loading screen does not assign weather or session types to game presets. Existing imported or saved conditions remain in their JSON.
+The logo opens the home screen without reloading the draft. Circuit browsing does not modify the draft. The loading dialog lists saved setups for the selected circuit and season; game presets are available for 2026 only. Existing imported or saved conditions remain in their JSON.
 
 Both `f125-setup-engineer` and the previous comparator's `f125-comparador-v2` JSON formats are supported. Imports include validation and a preview.
 

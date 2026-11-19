@@ -12,6 +12,13 @@ $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
 $csrf = $_SESSION['csrf'];
 $error = ''; $channel = 'release'; $result = []; $candidate = null;
 $message = $_SESSION['update_result'] ?? ''; unset($_SESSION['update_result']);
+$apache = stripos($_SERVER['SERVER_SOFTWARE'] ?? '', 'Apache') !== false;
+$protection = new ApacheProtection(__DIR__);
+$protectionState = null; $protectionError = '';
+if ($apache) {
+    try { $protectionState = $protection->inspect(); }
+    catch (Throwable $e) { $protectionError = $e->getMessage(); }
+}
 // Do not hold browser sessions or application read locks during remote requests.
 session_write_close();
 Updater::releaseRequestLock();
@@ -21,6 +28,11 @@ try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!is_string($_POST['csrf'] ?? null) || !hash_equals($csrf, $_POST['csrf'])) {
             http_response_code(403); $error = 'The form session is invalid. Reload the page.';
+        } elseif (($_POST['action'] ?? '') === 'protect' && $apache) {
+            if (!is_string($_POST['protection_hash'] ?? null)) { throw new RuntimeException('Reload the page before changing Apache protection.'); }
+            $protection->apply($_POST['protection_hash']);
+            session_start(); $_SESSION['update_result'] = t('Archivo .htaccess guardado. Comprueba que Apache aplica las reglas.'); session_write_close();
+            header('Location: update.php', true, 303); exit;
         } elseif (($_POST['action'] ?? '') === 'install') {
             if (!is_string($_POST['identity'] ?? null) || !preg_match('/^[a-f0-9]{64}$/D', $_POST['identity'])) { throw new RuntimeException('Check for an available build first.'); }
             $backup = $service->install($channel, $_POST['identity'], basename(__DIR__));
@@ -55,6 +67,16 @@ $newer = is_array($candidate) && version_compare($candidate['version'], appVersi
 <p><?= h(t('Instalada:')) ?> <strong id="installed-version"><?= appVersion() ?></strong> <?= h(t('· Canal:')) ?> <strong id="current-channel"><?= updateText(t($channel === 'alpha' ? 'Alpha' : 'Estable')) ?></strong> · <a href="options.php"><?= h(t('Cambiar canal')) ?></a></p>
 <?php if ($message): ?><p class="status" role="status"><?= updateText($message) ?></p><?php endif; ?>
 <?php if ($error): ?><p class="status error" role="alert"><?= updateText(t($error)) ?></p><?php endif; ?>
+<?php if ($apache && ($protectionError !== '' || ($protectionState['state'] ?? 'current') !== 'current')): ?>
+<section class="panel"><h2><?= h(t('Protección de Apache')) ?></h2>
+<?php if ($protectionError !== ''): ?><p class="status error"><?= h(t($protectionError)) ?></p>
+<?php else: ?>
+<p><?= h(t('El archivo .htaccess no contiene el bloque de protección actual. Puedes añadirlo conservando el resto del archivo.')) ?></p>
+<pre class="release-notes"><?= h(ApacheProtection::block()) ?></pre>
+<form method="post"><input type="hidden" name="csrf" value="<?= h($csrf) ?>"><input type="hidden" name="protection_hash" value="<?= h($protectionState['hash']) ?>"><button class="button secondary" name="action" value="protect"><?= h(t('Guardar protección de Apache')) ?></button></form>
+<p class="subtle"><?= h(t('Comprueba que Apache permite y aplica estas directivas.')) ?></p>
+<?php endif; ?></section>
+<?php endif; ?>
 <?php if ($retryAt !== null): ?><p class="status" role="status"><?= h(t('Próxima comprobación a partir de')) ?> <time datetime="<?= gmdate('Y-m-d\TH:i:s\Z', $retryAt) ?>"><?= gmdate('Y-m-d H:i:s', $retryAt) ?> UTC</time><?= h(t('. Recarga esta página después de esa hora. La versión instalada se conserva.')) ?></p><?php endif; ?>
 <form method="post"><input type="hidden" name="csrf" value="<?= updateText($csrf) ?>"><button class="button secondary" name="action" value="check"<?= $retryAt !== null ? ' disabled' : '' ?>><?= h(t('Buscar actualizaciones')) ?></button></form>
 <section class="panel">

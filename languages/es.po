@@ -2962,6 +2962,33 @@ msgstr ""
 msgid "Parte de un reglaje"
 msgstr "Parte de un reglaje"
 
+msgid "Archivo .htaccess guardado. Comprueba que Apache aplica las reglas."
+msgstr "Archivo .htaccess guardado. Comprueba que Apache aplica las reglas."
+
+msgid "Comprueba que Apache permite y aplica estas directivas."
+msgstr "Comprueba que Apache permite y aplica estas directivas."
+
+msgid ""
+"El archivo .htaccess no contiene el bloque de protección actual. Puedes "
+"añadirlo conservando el resto del archivo."
+msgstr ""
+"El archivo .htaccess no contiene el bloque de protección actual. Puedes "
+"añadirlo conservando el resto del archivo."
+
+msgid "Guardar protección de Apache"
+msgstr "Guardar protección de Apache"
+
+msgid ""
+"Instalación terminada. Revisa la protección de Apache en Actualizaciones."
+msgstr ""
+"Instalación terminada. Revisa la protección de Apache en Actualizaciones."
+
+msgid "Protección de Apache"
+msgstr "Protección de Apache"
+
+msgid "Reload the page before changing Apache protection."
+msgstr "Reload the page before changing Apache protection."
+
 #~ msgid ""
 #~ "Cambia pocas variables y comprueba el resultado conduciendo en las mismas "
 #~ "condiciones."
@@ -3974,3 +4001,144 @@ msgstr "Parte de un reglaje"
 #~ msgstr ""
 #~ "Vigila la estabilidad en apoyo sostenido y el esfuerzo lateral de los "
 #~ "neumáticos."
+
+msgid "Circuitos"
+msgstr "Circuitos"
+
+msgid "Descargar plantilla JSON"
+msgstr "Descargar plantilla JSON"
+
+msgid "Completa ID, nombre, versión del juego, carga, resumen y al menos una fuente con título, URL y fecha (AAAA-MM-DD). La carga admite low, medium, high o mixed. Los demás campos son opcionales."
+msgstr "Completa ID, nombre, versión del juego, carga, resumen y al menos una fuente con título, URL y fecha (AAAA-MM-DD). La carga admite low, medium, high o mixed. Los demás campos son opcionales."
+
+msgid "Descarga la plantilla, completa los campos y selecciona el archivo para validarlo."
+msgstr "Descarga la plantilla, completa los campos y selecciona el archivo para validarlo."
+
+msgid "Guardar ficha"
+msgstr "Guardar ficha"
+
+msgid "Ficha de circuito guardada."
+msgstr "Ficha de circuito guardada."
+
+msgid "Se necesita format f125-circuit y una versión de esquema admitida."
+msgstr "Se necesita format f125-circuit y una versión de esquema admitida."
+
+msgid "La ficha contiene campos desconocidos."
+msgstr "La ficha contiene campos desconocidos."
+
+msgid "Longitud del circuito inválida."
+msgstr "Longitud del circuito inválida."
+
+msgid "Número de curvas inválido."
+msgstr "Número de curvas inválido."
+
+msgid "Indica el nombre. La ubicación, la longitud en kilómetros, el número de curvas, la carga y las descripciones son opcionales. Usa un punto como separador decimal en la longitud; deja null si no la conoces."
+msgstr "Indica el nombre. La ubicación, la longitud en kilómetros, el número de curvas, la carga y las descripciones son opcionales. Usa un punto como separador decimal en la longitud; deja null si no la conoces."
+
+msgid "Preguntas frecuentes"
+msgstr "Preguntas frecuentes"
+
+msgid "¿Cómo relleno el JSON de un circuito?"
+msgstr "¿Cómo relleno el JSON de un circuito?"
+
+msgid "Descarga la plantilla desde Añadir circuito y edita sus valores con un editor de texto. Solo el nombre es obligatorio; los demás datos se pueden dejar vacíos si no los conoces."
+msgstr "Descarga la plantilla desde Añadir circuito y edita sus valores con un editor de texto. Solo el nombre es obligatorio; los demás datos se pueden dejar vacíos si no los conoces."
+
+msgid "Identifican el formato del archivo. Conserva los valores incluidos en la plantilla."
+msgstr "Identifican el formato del archivo. Conserva los valores incluidos en la plantilla."
+
+msgid "Nombre del circuito que aparecerá en la lista. Es obligatorio."
+msgstr "Nombre del circuito que aparecerá en la lista. Es obligatorio."
+
+msgid "País, ciudad o lugar del circuito. En un circuito ficticio puedes indicar su ubicación imaginaria o dejarlo vacío."
+msgstr "País, ciudad o lugar del circuito. En un circuito ficticio puedes indicar su ubicación imaginaria o dejarlo vacío."
+
+msgid "Longitud de una vuelta en kilómetros. Escribe un número con punto decimal, por ejemplo 5.451, sin comillas ni unidad. Si no la conoces, conserva null."
+msgstr "Longitud de una vuelta en kilómetros. Escribe un número con punto decimal, por ejemplo 5.451, sin comillas ni unidad. Si no la conoces, conserva null."
+
+msgid "Número total de curvas: escribe un número entero, por ejemplo 16, sin comillas. Si no lo conoces, conserva null."
+msgstr "Número total de curvas: escribe un número entero, por ejemplo 16, sin comillas. Si no lo conoces, conserva null."
+
+msgid "Orientación sobre la carga aerodinámica que puede favorecer el trazado. Es texto libre: por ejemplo Baja, Media-baja, Media, Media-alta o Alta. Si no lo sabes, déjalo vacío. Esta categoría no asigna un reglaje predeterminado."
+msgstr "Orientación sobre la carga aerodinámica que puede favorecer el trazado. Es texto libre: por ejemplo Baja, Media-baja, Media, Media-alta o Alta. Si no lo sabes, déjalo vacío. Esta categoría no asigna un reglaje predeterminado."
+
+msgid "Describe cómo es el trazado: rectas largas, curvas lentas o rápidas, horquillas, chicanes y desniveles. Por ejemplo: «Curvas enlazadas y una recta larga que termina en una horquilla»."
+msgstr "Describe cómo es el trazado: rectas largas, curvas lentas o rápidas, horquillas, chicanes y desniveles. Por ejemplo: «Curvas enlazadas y una recta larga que termina en una horquilla»."
+
+msgid "Describe qué puede exigir el trazado al coche y al piloto. Por ejemplo: «Las curvas prolongadas requieren estabilidad y la recta da importancia a la velocidad punta»."
+msgstr "Describe qué puede exigir el trazado al coche y al piloto. Por ejemplo: «Las curvas prolongadas requieren estabilidad y la recta da importancia a la velocidad punta»."
+
+msgid "Escribe los textos entre comillas y conserva las llaves y las comas de la plantilla. El circuito se importa sin reglaje predeterminado asignado."
+msgstr "Escribe los textos entre comillas y conserva las llaves y las comas de la plantilla. El circuito se importa sin reglaje predeterminado asignado."
+
+msgid "¿Necesitas ayuda para rellenar el JSON?"
+msgstr "¿Necesitas ayuda para rellenar el JSON?"
+
+msgid "Visita la FAQ"
+msgstr "Visita la FAQ"
+
+msgid "Docs"
+msgstr "Docs"
+
+msgid "Documentación"
+msgstr "Documentación"
+
+msgid "FAQ"
+msgstr "FAQ"
+
+msgid "Modifica los reglajes y consulta los efectos teóricos de cada cambio. Puedes cargar un reglaje o introducir los valores desde cero."
+msgstr "Modifica los reglajes y consulta los efectos teóricos de cada cambio. Puedes cargar un reglaje o introducir los valores desde cero."
+
+msgid "Cargar reglaje"
+msgstr "Cargar reglaje"
+
+msgid "Reglajes"
+msgstr "Reglajes"
+
+msgid "Cerrar"
+msgstr "Cerrar"
+
+msgid "Usar circuito para valores manuales"
+msgstr "Usar circuito para valores manuales"
+
+msgid "Selecciona un reglaje"
+msgstr "Selecciona un reglaje"
+
+msgid "Selecciona un circuito."
+msgstr "Selecciona un circuito."
+
+msgid "No hay reglajes disponibles para este circuito y temporada."
+msgstr "No hay reglajes disponibles para este circuito y temporada."
+
+msgid "¿Asociar el borrador actual a otro circuito?"
+msgstr "¿Asociar el borrador actual a otro circuito?"
+
+msgid "Circuito asociado al borrador. Puedes introducir los valores manualmente."
+msgstr "Circuito asociado al borrador. Puedes introducir los valores manualmente."
+
+msgid "El reglaje ya no corresponde al circuito o la temporada seleccionados."
+msgstr "El reglaje ya no corresponde al circuito o la temporada seleccionados."
+
+msgid "Reglaje cargado en el taller."
+msgstr "Reglaje cargado en el taller."
+
+msgid "Circuito: {circuit} · Temporada: {season}"
+msgstr "Circuito: {circuit} · Temporada: {season}"
+
+msgid "Sin indicar"
+msgstr "Sin indicar"
+
+msgid "Sin circuito asociado. Puedes seleccionarlo en Cargar reglaje."
+msgstr "Sin circuito asociado. Puedes seleccionarlo en Cargar reglaje."
+
+msgid "Selecciona la temporada del reglaje antes de guardarlo."
+msgstr "Selecciona la temporada del reglaje antes de guardarlo."
+
+msgid "Selecciona una temporada"
+msgstr "Selecciona una temporada"
+
+msgid "Selecciona una temporada."
+msgstr "Selecciona una temporada."
+
+msgid "Resumen de cambios"
+msgstr "Resumen de cambios"

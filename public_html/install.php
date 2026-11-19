@@ -55,7 +55,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             // GET solo comprueba. Las tablas se crean exclusivamente al pulsar el botón.
             completeInstallation($store, appInstallation());
-            header('Location: ./', true, 303);
+            $reviewProtection = false;
+            if (stripos($_SERVER['SERVER_SOFTWARE'] ?? '', 'Apache') !== false) {
+                try {
+                    $protection = new ApacheProtection(__DIR__);
+                    $protectionStatus = $protection->inspect()['state'];
+                    if ($protectionStatus === 'missing') { $protection->apply('missing'); }
+                    elseif ($protectionStatus !== 'current') { $reviewProtection = true; }
+                } catch (Throwable $protectionError) {
+                    error_log('F125 Apache protection: ' . $protectionError->getMessage());
+                    $_SESSION['update_result'] = t('Instalación terminada. Revisa la protección de Apache en Actualizaciones.');
+                    $reviewProtection = true;
+                }
+            }
+            header('Location: ' . ($reviewProtection ? 'update.php' : './'), true, 303);
             exit;
         } catch (Throwable $e) {
             http_response_code(503);

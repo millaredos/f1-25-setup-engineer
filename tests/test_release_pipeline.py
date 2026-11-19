@@ -77,6 +77,39 @@ class PackagingTests(unittest.TestCase):
             with self.subTest(case=case), self.assertRaises(ValueError):
                 publisher.plan(current, 1)
 
+    def test_alpha_numbers_restart_per_version_and_reserve_existing_tags(self):
+        def fake_api(method, path, **kwargs):
+            if path.startswith('releases?'):
+                return [{'tag_name': 'v0.3.1-alpha.24'}, {'tag_name': 'v0.3.0-alpha.1'}]
+            if path.startswith('git/matching-refs/'):
+                return [{'ref': 'refs/tags/v0.3.1-alpha.24'}]
+            raise AssertionError(path)
+        with patch.object(publisher, 'api', fake_api):
+            self.assertEqual(publisher.alpha_number('0.3.1', SHA), (1, None))
+
+    def test_alpha_number_respects_drafts_and_orphan_tags(self):
+        def fake_api(method, path, **kwargs):
+            if path.startswith('releases?'):
+                return [{'tag_name': 'v0.3.1-alpha.1', 'draft': True}]
+            if path.startswith('git/matching-refs/'):
+                return [{'ref': 'refs/tags/v0.3.1-alpha.2'}]
+            raise AssertionError(path)
+        with patch.object(publisher, 'api', fake_api):
+            self.assertEqual(publisher.alpha_number('0.3.1', SHA), (3, None))
+
+    def test_alpha_number_resumes_matching_draft(self):
+        marker = '<!-- f125-update ' + json.dumps({'commit': SHA, 'branch': 'release/0.3.1'}) + ' -->'
+        draft = {'tag_name': 'v0.3.1-alpha.1', 'draft': True, 'body': marker}
+        with patch.object(publisher, 'api', side_effect=[[draft], []]):
+            self.assertEqual(publisher.alpha_number('0.3.1', SHA), (1, draft))
+
+    def test_alpha_number_checks_all_release_pages(self):
+        first = [{'tag_name': 'v0.2.0'}] * 100
+        second = [{'tag_name': 'v0.3.1-alpha.1'}]
+        with patch.object(publisher, 'api', side_effect=[first, second, []]) as request:
+            self.assertEqual(publisher.alpha_number('0.3.1', SHA), (2, None))
+            self.assertIn('page=2', request.call_args_list[1].args[1])
+
     def publication(self, merged=False, stale=False):
         current = event(merged)
         calls = []
@@ -96,6 +129,8 @@ class PackagingTests(unittest.TestCase):
                     return pr
                 if method == "GET" and path.startswith("pulls?"):
                     return [pr]
+                if method == "GET" and (path.startswith("releases?") or path.startswith("git/matching-refs/")):
+                    return []
                 if method == "GET" and path.startswith("releases/tags/"):
                     return None
                 if method == "POST" and path == "releases":
@@ -120,6 +155,7 @@ class PackagingTests(unittest.TestCase):
         body = next(data for method, path, data in calls if method == "POST" and path == "releases")
         self.assertIn("Complete release summary.", body["body"])
         self.assertIn('"commit":"' + SHA + '"', body["body"])
+        self.assertEqual(body['tag_name'], 'v' + BASE + '-alpha.1')
         self.assertTrue(body["draft"])
 
     def test_merge_prepares_stable_draft_without_publishing(self):

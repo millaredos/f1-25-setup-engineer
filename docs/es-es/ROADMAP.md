@@ -13,4 +13,4 @@ Ideas para el desarrollo futuro. La lista no establece fechas ni compromete a im
 - **Anotaciones de reglajes:** redefinir cómo registrar, organizar y consultar las observaciones junto a los reglajes guardados.
 - **Copias y recuperación:** facilitar los backups completos y verificar la restauración de reglajes y configuración.
 - **Asistencia opcional con IA:** estudiar un asistente independiente del proveedor que explique los datos sin modificar reglajes guardados sin confirmación. La aplicación debe seguir funcionando sin IA.
-- **Preguntas frecuentes:** añadir una sección de preguntas frecuentes a la aplicación.
+- **Preguntas frecuentes:** ampliar las preguntas y respuestas de la aplicación.
