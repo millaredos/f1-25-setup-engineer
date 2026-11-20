@@ -8,7 +8,7 @@
 
 # F1 25 / 26 Setup Engineer
 
-Aplicación web para editar, comparar y guardar reglajes de **F1 25** y su **2026 Season Pack**. Introduce los valores que te asigna el juego, fija una referencia y consulta qué implica cada cambio antes de probarlo en pista.
+Aplicación web para editar, comparar y guardar reglajes de **F1 25** y su **2026 Season Pack**. Parte del predeterminado del juego cuando esté disponible y consulta los cambios antes de probarlos en pista.
 
 Desarrollada en PHP, MariaDB, JavaScript nativo y CSS puro.
 
@@ -17,17 +17,17 @@ Desarrollada en PHP, MariaDB, JavaScript nativo y CSS puro.
 ## Funciones
 
 - Veinte ajustes organizados por categoría, con explicación de sus efectos.
-- Comparación del borrador con una referencia que se conserva al editar.
+- Comparación con los valores cargados en el taller.
 - Propuestas de pruebas para ocho síntomas de conducción.
 - Importación de fichas de circuito y reglajes en JSON.
-- Guardado de versiones con condiciones, notas y ficha del circuito.
-- Exportación JSON y recuperación del borrador del navegador.
+- Reglajes guardados con comentarios por grupo y ficha del circuito.
+- Importación y exportación JSON.
 - Selector de temporada 2025 y 2026; los valores predeterminados de 2025 están pendientes de recopilar y verificar.
 - Migraciones versionadas con cinco predeterminados del coche de 2026 y asignaciones confirmadas para los 24 circuitos del campeonato e Imola.
 
 El selector incluye el catálogo del juego y las fichas importadas para circuitos adicionales. Las explicaciones son orientativas y deben comprobarse en el juego.
 
-**Versión de desarrollo: 0.3.1-alpha.0.** Consulta los cambios en [CHANGELOG.md](CHANGELOG.md).
+**Versión de desarrollo: 0.4.0-alpha.0.** Consulta los cambios en [CHANGELOG.md](CHANGELOG.md).
 
 ## Requisitos
 
@@ -103,18 +103,19 @@ Conserva el gestor PHP existente y publica únicamente la carpeta pública de la
 
 1. En **Circuitos**, selecciona la temporada y un circuito, y consulta su predeterminado o una versión guardada por categoría. Los valores predeterminados de 2025 aún no están disponibles.
 2. Usa **Añadir circuito** para descargar una plantilla JSON e importar [fichas adicionales](formato-circuito.md).
-3. En **Taller**, usa **Cargar reglaje** para elegir temporada, circuito y un reglaje guardado o predeterminado disponible. También puedes introducir los valores manualmente y asociar un circuito desde el mismo diálogo.
-4. Selecciona una categoría, modifica sus valores y consulta el resumen teórico. También puedes importar JSON de reglajes personales desde **Versiones**.
+3. En **Taller**, elige **Nuevo reglaje** y selecciona temporada y circuito, o usa **Editar reglaje** para abrir uno guardado. El nuevo reglaje parte del predeterminado del juego si está disponible; en caso contrario, introduce todos los valores.
+4. Modifica los valores, añade comentarios por categoría y guarda o elimina el reglaje en el taller. El resumen compara con los valores cargados. Usa **Importar reglaje** para cargar un archivo JSON, revisarlo y guardarlo como un reglaje nuevo.
 5. En **Pruebas**, selecciona el comportamiento que notas en el coche.
-6. En **Versiones**, añade nombre y notas, guarda una versión o exporta el JSON.
+
+Usa **Exportar JSON** en **Taller** para exportar el reglaje activo sin salir del editor.
 
 Abre el menú de la versión, arriba a la derecha, para acceder a **Opciones** y **Actualizaciones**. Un punto indica una versión posterior en el canal seleccionado. **Opciones → Idioma de la aplicación** ofrece actualmente **Español** y recuerda la selección en este navegador.
 
-Cambiar de apartado conserva el borrador. Cada guardado crea una versión nueva en MariaDB. El borrador del navegador se recupera por separado y no sustituye ese guardado.
+Al salir del taller con cambios pendientes puedes guardarlos, descartarlos o seguir editando. Guardar un reglaje existente lo actualiza en MariaDB.
 
-El logo abre Inicio sin recargar el borrador. Consultar circuitos no modifica el borrador. El diálogo de carga muestra los reglajes guardados del circuito y temporada seleccionados; los predeterminados del juego solo están disponibles para 2026. Las condiciones existentes en importaciones y versiones guardadas se conservan en su JSON.
+Consultar circuitos no modifica los reglajes guardados. El diálogo de edición muestra los reglajes del circuito y temporada seleccionados; los predeterminados del juego solo están disponibles para 2026. Las condiciones existentes en importaciones y reglajes guardados se conservan en su JSON.
 
-Se admiten JSON `f125-setup-engineer` y del comparador anterior `f125-comparador-v2`. La importación incluye validación y vista previa.
+La importación admite JSON `f125-setup-engineer` y `f125-comparador-v2` y valida los valores antes de abrirlos en el taller.
 
 ## Actualización
 

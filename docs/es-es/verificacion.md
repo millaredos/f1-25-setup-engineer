@@ -2,13 +2,15 @@
 
 # Pruebas y verificación
 
+Los cambios del taller de 0.4.0 aún sin publicar han superado 225 comprobaciones PHP de dominio y 19 de traducción. Las pruebas de navegador con almacenamiento simulado cubren creación, edición, guardado y eliminación, comentarios por grupo, exportación, descarte de cambios y un reglaje de 2025 vacío, en raíz y subcarpeta. La integración con MariaDB no se ha ejecutado para estos cambios.
+
 ## Resultados de desarrollo de 0.3.0
 
 PHP 8.5.12: 204 comprobaciones de dominio y contratos, 50 de paquetes y 79 de canales, GitHub, integridad y recuperación. 19 comprobaciones de traducción y 56 de migraciones con objetos PDO que registran operaciones; Python: 14 pruebas de empaquetado, publicación y traducción. Los recorridos de navegador comprueban selección web del canal, CSRF, descarga verificada, copias y conservación del estado privado, en raíz y bajo una subcarpeta con la carpeta pública renombrada a `www`. Opciones, Actualizaciones y la página de migración también se comprueban en ancho móvil.
 
 Las respuestas automatizadas de GitHub son fixtures; las pruebas no necesitan token ni modifican releases remotas. La interrupción se simula mediante un registro de recuperación y archivos parcialmente cambiados. No se han probado cortes eléctricos ni fallos de disco reales.
 
-El recorrido de navegador también comprueba los veinte controles, comparación con la referencia, síntomas, importación y exportación JSON, recuperación del borrador, navegación, rechazo de XSS, CSRF y diseño adaptable a 1440, 768 y 390 px. Las pruebas utilizan copias temporales sin credenciales de producción. La simulación de subcarpeta usa `tests/web-router.php`; no cambia la configuración de Apache.
+El recorrido de navegador comprueba los veinte controles, comparación, importación y exportación JSON, navegación, rechazo de XSS, CSRF y diseño adaptable a 1440, 768 y 390 px. Las pruebas utilizan copias temporales sin credenciales de producción. La simulación de subcarpeta usa `tests/web-router.php`; no cambia la configuración de Apache.
 
 La verificación real también incluyó detección y descarga sin autenticación desde el repositorio público de GitHub, integridad del paquete y una actualización web correcta en una instalación existente. La interrupción de archivos se simula; la restauración completa de backups sigue sin verificarse.
 
@@ -31,7 +33,7 @@ Estas pruebas no requieren base de datos. Las pruebas PHP del actualizador neces
 
 El recorrido de navegador comprueba el desplegable por ratón, clic y teclado, la presencia y ausencia del aviso, el selector visible con un idioma, la persistencia de la cookie y el rechazo de idiomas no disponibles.
 
-La carga del catálogo se prueba con la API real y un almacenamiento simulado aislado: 25 circuitos, predeterminados asignados, guardado y reapertura personal, conservación de plantillas, filtrado por circuito, cancelación de sustituciones, recuperación de copias sin conexión a la base y rechazo de IDs de catálogo inventados. Las comprobaciones de escritorio y móvil verifican la posición del selector y que el footer llegue al borde inferior en páginas cortas y siga al contenido en las largas.
+Las pruebas de catálogo y taller usan la API real con almacenamiento simulado aislado: 25 circuitos, predeterminados asignados, guardado y reapertura, edición, comentarios por grupo, exportación, descarte y eliminación. Las comprobaciones de escritorio y móvil verifican que la interfaz cabe en la pantalla.
 
 ## Ejecutar pruebas de navegador
 
@@ -41,7 +43,7 @@ Se necesitan PHP CLI, Node, Playwright y Microsoft Edge o Chromium como herramie
 node tests/installation-browser.cjs
 ```
 
-Para comprobar descarga e instalación, genera primero un paquete de prueba con `python bin/package.py --pr 1 --branch release/0.3.0` e indica su ruta absoluta en `F125_TEST_PACKAGE`. Usa `F125_TEST_PUBLIC_NAME=www` para probar la carpeta pública renombrada o `F125_TEST_BROWSER=chromium` para Chromium. El flujo de release ejecuta estas comprobaciones antes de publicar.
+Para comprobar descarga e instalación, genera primero un paquete de prueba con `python bin/package.py --pr 1 --branch release/0.4.0` e indica su ruta absoluta en `F125_TEST_PACKAGE`. Usa `F125_TEST_PUBLIC_NAME=www` para probar la carpeta pública renombrada o `F125_TEST_BROWSER=chromium` para Chromium. El flujo de release ejecuta estas comprobaciones antes de publicar.
 
 Este recorrido crea su propio sitio temporal y ejecuta también `tests/browser.cjs`. Comprueba estados de instalación ausente, pendiente, completo e inválido; redirecciones; rechazo CSRF; bloqueo de la API antes de instalar y comportamiento cuando MariaDB no responde. Al terminar elimina únicamente su copia temporal.
 
@@ -63,7 +65,7 @@ Para ejecutar `tests/browser.cjs` por separado contra una instalación de prueba
 
 `tests/apache-protection.php` comprueba la creación y actualización del bloque gestionado de `.htaccess` en un directorio temporal, incluida la conservación del contenido y el rechazo de cambios desactualizados. Usa `F125_TEST_APACHE=1` en las pruebas de navegador para simular la detección de Apache y probar el formulario tras actualizar. Esta simulación no verifica las directivas de Apache; comprueba la configuración efectiva con Apache por separado.
 
-`tests/integration.php` verifica guardado, reapertura, versiones inmutables, conflictos, creación del catálogo, repetición de migraciones, conservación de reglajes existentes, rechazo de huellas distintas, reversión de inserciones fallidas y reintento. Exige una base MariaDB vacía indicada explícitamente:
+`tests/integration.php` verifica guardado, reapertura, actualización y eliminación de reglajes, conflictos, creación del catálogo, repetición de migraciones, conservación de reglajes existentes, rechazo de huellas distintas, reversión de inserciones fallidas y reintento. Exige una base MariaDB vacía indicada explícitamente:
 
 ```text
 F125_TEST_DSN=mysql:host=HOST;dbname=BASE_DE_PRUEBAS;charset=utf8mb4

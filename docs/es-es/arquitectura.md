@@ -16,7 +16,7 @@ No sigue MVC formal ni arquitectura hexagonal: `api.php` coordina directamente `
 | Acceso a datos | PDO_MYSQL, SQL directo con consultas preparadas |
 | Frontend | HTML, JavaScript nativo y CSS puro en archivos separados |
 | Comunicación | HTTP y JSON mediante `fetch` |
-| Borrador | Estado JavaScript y `localStorage` |
+| Borrador | Estado JavaScript; la recuperación de borradores de versiones anteriores usa `localStorage` |
 | Catálogos | Archivos JSON versionados |
 
 ## Capas y componentes
@@ -54,7 +54,7 @@ flowchart LR
 | `f125_game_presets` | Cinco predeterminados con veinte ajustes numéricos cada uno. |
 | `f125_game_circuits` | Nombres oficiales, orden y asignaciones de predeterminados confirmadas. |
 
-Cada guardado inserta una versión nueva. Su JSON contiene referencia, valores actuales, condiciones, notas y una copia de la ficha del circuito. El alta de una ficha junto con su reglaje se ejecuta en una transacción.
+Crear un reglaje inserta un registro; guardar uno abierto actualiza ese registro y eliminarlo lo borra. Su JSON contiene referencia, valores actuales, condiciones, notas, comentarios por grupo y una copia de la ficha del circuito. El alta de una ficha junto con su reglaje se ejecuta en una transacción. Los cambios actuales del taller están sin publicar y su integración con MariaDB sigue sin verificar.
 
 El catálogo del juego está separado de las fichas importadas y los reglajes personales. Los nombres por sí solos no forman fichas técnicas. `Migrations` aplica SQL versionado con un bloqueo de la base y registra la huella de cada transacción de datos. Consulta [migraciones de base de datos](migraciones-base-datos.md).
 

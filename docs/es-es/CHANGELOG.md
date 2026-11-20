@@ -2,16 +2,43 @@
 
 # Changelog
 
-## 0.3.1 — Sin publicar
+## 0.4.0 — 2026-11-20
+
+### 0.4.0-alpha.3
+
+- Retirar la opción de exportación JSON del comparador anterior.
+
+### 0.4.0-alpha.2
+
+- Trasladar la importación de reglajes al taller, eliminar el apartado Versiones y pedir un nombre al guardar un reglaje nuevo.
+
+### 0.4.0-alpha.1
+
+- Crear, editar y eliminar reglajes desde el taller, con comentarios por grupo y aviso de cambios sin guardar.
+- Cargar el predeterminado asignado al crear un reglaje cuando esté disponible y permitir valores vacíos en caso contrario.
+- Exportar el reglaje activo desde el taller.
+
+## 0.3.1 — 2026-11-19
+
+### 0.3.1-alpha.6
 
 - Exigir la temporada al guardar un reglaje.
 - Mostrar filas compactas, explicaciones contextuales y un resumen de cambios en el taller.
 
+### 0.3.1-alpha.5
+
 - Rediseñar el taller con categorías compactas y carga de reglajes por temporada y circuito.
+
+### 0.3.1-alpha.4
 
 - Añadir un menú Docs con una FAQ que explica la plantilla JSON de circuito.
 
+### 0.3.1-alpha.3
+
 - Adaptar las fichas de circuitos adicionales a la información mostrada en los circuitos incluidos.
+
+### 0.3.1-alpha.2
+
 - Separar la consulta de circuitos del borrador del taller y añadir una plantilla JSON de circuito.
 
 ### 0.3.1-alpha.1

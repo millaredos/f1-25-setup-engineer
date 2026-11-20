@@ -4,7 +4,7 @@ declare(strict_types=1);
 /** One navigation component for the workshop and maintenance pages. */
 function appHeader(string $current = ''): void
 {
-    $sections = ['circuito' => 'Circuitos', 'taller' => 'Taller', 'pruebas' => 'Pruebas', 'versiones' => 'Versiones'];
+    $sections = ['circuito' => 'Circuitos', 'taller' => 'Taller', 'pruebas' => 'Pruebas'];
     ?>
     <header class="masthead">
       <a class="brand" href="<?= $current === '' ? '#inicio' : './#inicio' ?>"><span class="brand-mark" aria-hidden="true"></span><span>SETUP ENGINEER<small><?= h(t('Tu taller de F1 25 / 26')) ?></small></span></a>

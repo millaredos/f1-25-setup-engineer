@@ -14,3 +14,4 @@ Ideas para el desarrollo futuro. La lista no establece fechas ni compromete a im
 - **Copias y recuperación:** facilitar los backups completos y verificar la restauración de reglajes y configuración.
 - **Asistencia opcional con IA:** estudiar un asistente independiente del proveedor que explique los datos sin modificar reglajes guardados sin confirmación. La aplicación debe seguir funcionando sin IA.
 - **Preguntas frecuentes:** ampliar las preguntas y respuestas de la aplicación.
+- **Docs:** añadir un glosario que explique con lenguaje sencillo términos técnicos como subviraje y caída. Utilizar las mismas definiciones en avisos disponibles al pasar el ratón, tocar o seleccionar el término con el teclado.

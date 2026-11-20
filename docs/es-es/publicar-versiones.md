@@ -6,11 +6,11 @@ Utiliza una rama `release/X.Y.Z` y una única PR hacia `main` para toda la relea
 
 ## Política de versiones
 
-Las versiones siguen `MAYOR.MENOR.PARCHE`, con `-alpha.N` para las compilaciones de prueba. El objetivo actual es `0.3.1`; sus compilaciones Alpha usan `0.3.1-alpha.N`. El número de compilación identifica una entrega, no su grado de madurez.
+Las versiones siguen `MAYOR.MENOR.PARCHE`, con `-alpha.N` para las compilaciones de prueba. El objetivo de desarrollo actual es `0.4.0`; sus compilaciones Alpha usan `0.4.0-alpha.N`. El número de compilación identifica una entrega, no su grado de madurez.
 
-| Cambio posterior a una estable | Siguiente objetivo desde `0.3.0` | Ejemplos |
+| Cambio posterior a una estable | Siguiente objetivo desde `0.3.1` | Ejemplos |
 | --- | --- | --- |
-| Corrección compatible o ajuste visual pequeño | `0.3.1` | Corregir un fallo al guardar, una etiqueta incorrecta o un defecto de maquetación. |
+| Corrección compatible o ajuste visual pequeño | `0.3.2` | Corregir un fallo al guardar, una etiqueta incorrecta o un defecto de maquetación. |
 | Nueva funcionalidad o rediseño importante de interfaz o flujo | `0.4.0` | Añadir comparación de sesiones o rediseñar la preparación y prueba de reglajes. |
 | Cambio incompatible | Nueva menor antes de `1.0.0`; nueva mayor desde `1.0.0` | Cambiar un contrato de importación o exigir una migración. Documentar compatibilidad y recuperación antes de publicar. |
 | Solo documentación o mantenimiento de desarrollo | Sin versión de la app | Actualizar una guía o eliminar notas locales ignoradas. |
@@ -28,9 +28,9 @@ Para publicar una estable deben cumplirse todos estos puntos:
 3. El resumen de la PR, changelog, guías inglesas y copias españolas describen lo entregado. Se indican los requisitos de actualización o compatibilidad.
 4. El responsable aprueba expresamente cerrar la release y publicarla como estable. Ni el tiempo transcurrido, ni una actualización Alpha correcta, ni la cantidad de Alpha equivalen a esa aprobación.
 
-Tras aprobarla, se fusiona la PR. CI prueba el commit de fusión y prepara un borrador estable. Se revisa el paquete y se publica el borrador como última estable. Solo esa publicación ofrece `0.3.1` al canal Estable. El canal Alpha también puede avanzar a esa estable; la selección de canal no cambia.
+Tras aprobarla, se fusiona la PR. CI prueba el commit de fusión y prepara un borrador estable. Se revisa el paquete y se publica el borrador como última estable. La publicación ofrece esa versión al canal Estable. El canal Alpha también puede avanzar a esa estable; la selección de canal no cambia.
 
-La PR actual permanece abierta mientras se prueba `0.3.1-alpha.N`. Tras publicar `0.3.1`, se elige un nuevo objetivo y una PR según la tabla. No se fusiona una PR de release para publicar otra Alpha.
+La PR de release permanece abierta mientras se prueba `0.4.0-alpha.N`. Tras publicar la estable, se elige un nuevo objetivo y una PR según la tabla. No se fusiona una PR de release para publicar otra Alpha.
 
 ## Cambios que no publican Alpha
 
@@ -52,6 +52,8 @@ Un commit posterior deja obsoleta una ejecución anterior. Las instalaciones no 
 
 El contador es independiente del número de ejecución del flujo. Un reintento reanuda la release del mismo commit sin reemplazar un paquete publicado; las etiquetas y los borradores existentes reservan sus números.
 
+Para preparar una release estable sin publicar otra Alpha, incluye `<!-- stable-release-only -->` en la descripción de la PR antes de subir el último commit de preparación. Las comprobaciones de la PR se ejecutan; solo se omite la publicación Alpha. Tras la fusión aprobada, las comprobaciones se repiten y se prepara el borrador estable.
+
 ## Release estable
 
 Fusiona la PR cuando esté preparada. El flujo prueba el commit de fusión y prepara un borrador para `vX.Y.Z`, con:
@@ -70,7 +72,7 @@ El flujo utiliza el token proporcionado por GitHub con escritura en el contenido
 
 ## Identidad del paquete
 
-`src/VERSION` declara la versión de desarrollo, por ejemplo `0.3.1-alpha.0`. La rama debe llamarse `release/0.3.1`. El generador introduce en el paquete la versión Alpha o estable exacta que se instalará.
+`src/VERSION` declara la versión de desarrollo, por ejemplo `0.4.0-alpha.0`. La rama debe llamarse `release/0.4.0`. El generador introduce en el paquete la versión Alpha o estable exacta que se instalará.
 
 Cada manifiesto `f125-update-v2` registra:
 
@@ -83,7 +85,7 @@ Una marca legible por el actualizador en las notas relaciona el archivo de GitHu
 Para generar un paquete local de pruebas:
 
 ```sh
-python bin/package.py --pr 1 --branch release/0.3.1
+python bin/package.py --pr 1 --branch release/0.4.0
 ```
 
 Se crea en `dist/`, excluido de Git; este comando no publica nada.

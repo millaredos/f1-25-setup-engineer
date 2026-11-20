@@ -13,6 +13,13 @@ let compareTimer;
 let previewSequence = 0;
 let statusTimer;
 let selectedParameter = null;
+let loadMode = 'edit';
+let activePage = location.hash.slice(1) || 'inicio';
+let navigating = false;
+state.setupId = null;
+state.groupNotes = {};
+state.editing = false;
+const groupIds = ['aero', 'transmission', 'geometry', 'suspension', 'brakes', 'tyres'];
 
 // Los datos importados se muestran como texto, nunca como HTML ejecutable.
 function element(tag, className, text) {
@@ -52,14 +59,13 @@ function payload() {
     format: 'f125-setup-engineer', schemaVersion: 1,
     title: $('#setup-title').value.trim() || t('Reglaje sin nombre'), notes: $('#notes').value,
     circuit: state.circuit, reference: state.reference, current: state.current, referenceSource: state.referenceSource,
-    conditions: { ...state.conditions }, season: state.draftSeason,
+    conditions: { ...state.conditions }, season: state.draftSeason, groupNotes: { ...state.groupNotes },
   };
 }
 
 function remember() {
   state.dirty = true;
-  try { localStorage.setItem(DRAFT_KEY, JSON.stringify(payload())); }
-  catch { status(t('No se pudo conservar el borrador en este navegador. Exporta JSON para conservarlo.'), true); }
+  // Los cambios se conservan solo mientras el usuario permanece en el Taller.
 }
 
 function allowReplace(message) {
@@ -71,7 +77,7 @@ function renderReference() {
   const labels = { unknown: t('origen desconocido'), 'game-assigned': t('predeterminado del juego'), capture: t('capturas / ejemplo'), personal: t('reglaje personal') };
   $('#reference-label').textContent = state.reference ? t('Referencia: {source}', { source: labels[state.referenceSource] }) : t('Referencia pendiente');
   $('#reference-help').textContent = state.reference ? t('La referencia se conserva al editar. Solo cambia mediante una acción explícita.') : t('Introduce los veinte valores que te asigna el juego o importa un reglaje.');
-  $('#draft-context').textContent = state.circuit ? t('Circuito: {circuit} · Temporada: {season}', { circuit: state.circuit.name, season: state.draftSeason === 'unknown' ? t('Sin indicar') : state.draftSeason }) : t('Sin circuito asociado. Puedes seleccionarlo en Cargar reglaje.');
+  $('#draft-context').textContent = state.circuit ? t('Circuito: {circuit} · Temporada: {season}', { circuit: state.circuit.name, season: state.draftSeason === 'unknown' ? t('Sin indicar') : state.draftSeason }) : t('Selecciona Nuevo reglaje o Editar reglaje para empezar.');
 }
 
 function renderControls() {
@@ -117,7 +123,10 @@ function renderControls() {
       card.append(head, controls);
       grid.append(card);
     });
-    section.append(grid); root.append(section);
+    const noteLabel = element('label', 'group-note', t('Comentarios'));
+    const note = element('textarea'); note.rows = 3; note.maxLength = 4000; note.dataset.groupNote = groupIds[index];
+    note.placeholder = t('Anota qué quieres probar o por qué has cambiado estos ajustes.');
+    noteLabel.append(note); section.append(grid, noteLabel); root.append(section);
   });
   const summaryTab = element('button', 'workshop-category', t('Resumen'));
   summaryTab.type = 'button'; summaryTab.setAttribute('aria-pressed', 'false');
@@ -154,6 +163,13 @@ function syncControls() {
     $(`#value-${p.id}`).value = state.current[p.id] ?? '';
     refreshCard(p);
   });
+  document.querySelectorAll('[data-group-note]').forEach((note) => { note.value = state.groupNotes[note.dataset.groupNote] || ''; });
+  $('#editor').classList.toggle('editor-inactive', !state.editing);
+  $('#settings-layout').inert = !state.editing;
+  $('#settings-menu').inert = !state.editing;
+  $('#setup-title').disabled = !state.editing;
+  $('#save').disabled = !state.editing;
+  $('#delete-setup').hidden = !state.setupId;
   renderReference();
   scheduleComparison();
 }
@@ -165,7 +181,7 @@ function refreshCard(p) {
   const valid = $(`#value-${p.id}`).validity.valid;
   const changed = valid && before !== undefined && after !== null && Math.abs(after - before) > 1e-7;
   card.classList.toggle('changed', changed);
-  card.querySelector('.ref-value').textContent = t('Ref. {value}', { value: format(p, before) });
+  card.querySelector('.ref-value').textContent = before === undefined ? '' : t('Inicial: {value}', { value: format(p, before) });
   if (selectedParameter === p.id) renderParameterInfo(p);
 }
 
@@ -173,8 +189,8 @@ function scheduleComparison() {
   clearTimeout(compareTimer);
   const sequence = ++compareSequence;
   if (!state.reference) {
-    $('#change-count').textContent = t('Referencia pendiente');
-    $('#summary').replaceChildren(element('p', 'empty', t('Introduce los valores iniciales y fija la referencia para comparar.')));
+    $('#change-count').textContent = t('Sin valores iniciales');
+    $('#summary').replaceChildren(element('p', 'empty', t('Este reglaje comenzó sin valores predeterminados.')));
     return;
   }
   if (!complete(state.current) || ![...document.querySelectorAll('#settings input')].every((input) => input.validity.valid)) {
@@ -190,7 +206,7 @@ function scheduleComparison() {
       if (sequence !== compareSequence) return;
       $('#change-count').textContent = tn('{count} de 20 modificado', '{count} de 20 modificados', result.changes.length);
       const root = $('#summary'); root.replaceChildren();
-      if (!result.changes.length) root.append(element('p', 'empty', t('Sin cambios respecto a la referencia.')));
+      if (!result.changes.length) root.append(element('p', 'empty', t('Sin cambios respecto a los valores iniciales.')));
       result.changes.forEach((change) => {
         const p = state.catalog.find((item) => item.id === change.id);
         const row = element('div', 'summary-item');
@@ -372,6 +388,7 @@ function installDraft(data) {
   state.current = { ...data.current }; state.reference = data.reference ? { ...data.reference } : null;
   state.referenceSource = data.referenceSource || 'unknown'; state.circuit = data.circuit || null;
   state.draftSeason = data.season || 'unknown';
+  state.groupNotes = { ...(data.groupNotes || {}) };
   $('#setup-title').value = data.title || ''; $('#notes').value = data.notes || '';
   // Existing imports and saved versions keep their metadata; choosing a preset does not invent conditions.
   state.conditions = { surface: data.conditions?.surface || 'unknown', session: data.conditions?.session || 'unknown' };
@@ -385,16 +402,19 @@ function refreshLoadDialog() {
   select.replaceChildren(new Option(t('Selecciona un reglaje'), ''));
   const record = state.gameCatalog.circuits.find((item) => item.id === circuitId);
   const preset = year === '2026' ? state.gameCatalog.presets.find((item) => item.id === record?.preset_id) : null;
-  if (preset) select.add(new Option(t('Predeterminado {number} · {name} (juego)', { number: preset.id, name: t(preset.name) }), `preset:${preset.id}`));
   state.setups.filter((item) => item.circuit_id === circuitId && item.season === year).forEach((item) => {
     select.add(new Option(`${item.title} · ${new Date(item.created_at).toLocaleString(locale)}`, item.id));
   });
-  $('#apply-saved-setup').disabled = true;
-  $('#use-manual-circuit').disabled = !circuitId || !year;
-  $('#load-setup-help').textContent = !year ? t('Selecciona una temporada.') : !circuitId ? t('Selecciona un circuito.') : select.options.length === 1 ? t('No hay reglajes disponibles para este circuito y temporada.') : '';
+  $('#apply-saved-setup').disabled = loadMode === 'new' ? !circuitId || !year : true;
+  $('#load-setup-label').hidden = loadMode === 'new';
+  $('#use-manual-circuit').hidden = true;
+  $('#load-setup-help').textContent = !year ? t('Selecciona una temporada.') : !circuitId ? t('Selecciona un circuito.') : loadMode === 'new' ? (preset ? t('Se cargará el predeterminado del juego.') : t('No hay predeterminado disponible; introduce los valores manualmente.')) : select.options.length === 1 ? t('No hay reglajes disponibles para este circuito y temporada.') : '';
 }
 
-function openSavedSetup() {
+function openSavedSetup(mode = 'edit') {
+  loadMode = mode;
+  $('#saved-setup-title').textContent = mode === 'new' ? t('Nuevo reglaje') : t('Editar reglaje');
+  $('#apply-saved-setup').textContent = mode === 'new' ? t('Aceptar') : t('Abrir reglaje');
   const select = $('#load-circuit');
   select.replaceChildren(new Option(t('Selecciona un circuito'), ''));
   availableCircuits().forEach((circuit) => select.add(new Option(circuit.location && circuit.location !== circuit.name ? `${circuit.location} · ${circuit.name}` : circuit.name, circuit.id)));
@@ -410,9 +430,10 @@ function openImport(mode) {
   $('#circuit-faq').hidden = mode !== 'circuit';
   $('#circuit-template-help').hidden = mode !== 'circuit';
   $('#import-title').textContent = mode === 'circuit' ? t('Pegar ficha de circuito') : t('Importar reglaje');
-  $('#import-help').textContent = mode === 'circuit' ? t('Descarga la plantilla, completa los campos y selecciona el archivo para validarlo.') : t('Admite el JSON del comparador anterior, mapas de veinte valores y el formato nuevo. Revisa la referencia antes de aplicar.');
+  $('#import-help').textContent = mode === 'circuit' ? t('Descarga la plantilla, completa los campos y selecciona el archivo para validarlo.') : t('Selecciona un archivo JSON de reglaje para revisarlo en el taller.');
   $('#json-input').value = ''; $('#json-file').value = ''; $('#import-preview').replaceChildren(); $('#import-error').textContent = ''; $('#apply-import').hidden = true;
   $('#import-dialog').showModal();
+  if (mode === 'setup') $('#json-file').click();
 }
 
 function clearPreview() { preview = null; $('#apply-import').hidden = true; $('#import-preview').replaceChildren(); $('#import-error').textContent = ''; }
@@ -452,26 +473,93 @@ async function applyImport() {
       refreshLists(); renderCircuit();
       status(t('Ficha de circuito guardada.'));
     } else {
-      installDraft({ ...preview, circuit: preview.circuit || state.circuit }); remember(); status(t('Reglaje importado como borrador. Revisa origen de referencia, circuito y condiciones.'));
+      state.setupId = null; state.editing = true;
+      installDraft({ ...preview, circuit: preview.circuit || null, reference: { ...preview.current } }); remember(); status(t('Reglaje importado. Revisa los valores y guárdalo cuando quieras.'));
     }
     $('#import-dialog').close();
   } catch (error) { $('#import-error').textContent = error.message; }
   finally { button.disabled = false; }
 }
 
-async function exportSetup(legacy = false) {
+async function exportSetup() {
   try {
-    if (!state.reference) throw new Error(t('Fija una referencia antes de exportar.'));
-    const data = await api('import-setup', payload());
-    const exported = legacy ? { format: 'f125-comparador-v2', created: new Date().toISOString(), reference: data.reference, current: data.current, referenceIsCapture: state.referenceSource === 'capture' } : { ...payload(), created: new Date().toISOString() };
+    if (!complete(state.current)) throw new Error(t('Completa los veinte valores antes de exportar.'));
+    const input = payload();
+    if (!input.reference) { input.reference = { ...input.current }; input.referenceSource = 'personal'; }
+    await api('import-setup', input);
+    const exported = { ...input, created: new Date().toISOString() };
     const blob = new Blob([JSON.stringify(exported, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob); const link = element('a'); link.href = url; link.download = legacy ? 'F1_25_reglaje.json' : `F1_25_${state.circuit?.id || 'borrador'}.json`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+    const url = URL.createObjectURL(blob); const link = element('a'); link.href = url; link.download = `F1_25_${state.circuit?.id || 'borrador'}.json`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
     status(t('JSON exportado. El archivo conserva referencia y actuales.'));
   } catch (error) { status(error.message, true); }
 }
 
+function askSetupName() {
+  const dialog = $('#save-dialog'), circuit = $('#save-circuit');
+  $('#save-name').value = $('#setup-title').value;
+  $('#save-season').value = ['2025', '2026'].includes(state.draftSeason) ? state.draftSeason : '';
+  $('#save-season-label').hidden = !!$('#save-season').value;
+  circuit.replaceChildren(new Option(t('Selecciona un circuito'), ''));
+  const circuits = availableCircuits();
+  if (state.circuit && !circuits.some((item) => item.id === state.circuit.id)) circuits.push(state.circuit);
+  circuits.forEach((item) => circuit.add(new Option(item.name, item.id)));
+  circuit.value = state.circuit?.id || '';
+  $('#save-circuit-label').hidden = !!state.circuit;
+  $('#save-dialog-error').textContent = '';
+  return new Promise((resolve) => {
+    $('#save-cancel').onclick = () => { dialog.close(); resolve(false); };
+    dialog.oncancel = (event) => { event.preventDefault(); dialog.close(); resolve(false); };
+    $('#save-dialog-form').onsubmit = (event) => {
+      event.preventDefault();
+      const name = $('#save-name').value.trim();
+      if (!name || !$('#save-season').value || !circuit.value) { $('#save-dialog-error').textContent = t('Indica nombre, temporada y circuito.'); return; }
+      $('#setup-title').value = name; state.draftSeason = $('#save-season').value;
+      state.circuit = circuits.find((item) => item.id === circuit.value);
+      dialog.close(); resolve(true);
+    };
+    dialog.showModal(); $('#save-name').focus();
+  });
+}
+
+async function saveWorkshop() {
+  const button = $('#save'); button.disabled = true;
+  try {
+    if (!state.editing) throw new Error(t('Crea o abre un reglaje antes de guardar.'));
+    if (!complete(state.current) || ![...document.querySelectorAll('#settings input')].every((input) => input.validity.valid)) throw new Error(t('Completa los veinte valores dentro de sus rangos y pasos.'));
+    if (!state.setupId && !(await askSetupName())) return false;
+    const data = payload();
+    if (!data.reference) { data.reference = { ...data.current }; data.referenceSource = 'personal'; }
+    const result = state.setupId ? await api('update-setup', { id: state.setupId, setup: data }) : await api('save-setup', data);
+    state.setupId = state.setupId || result.id; state.setups = result.setups; state.circuits = result.circuits;
+    state.reference = { ...state.current }; state.referenceSource = 'personal'; state.dirty = false;
+    try { localStorage.removeItem(DRAFT_KEY); } catch { /* El guardado en servidor ya se ha completado. */ }
+    refreshLists(); syncControls(); status(t('Reglaje guardado.'));
+    return true;
+  } catch (error) { status(error.message, true); return false; }
+  finally { button.disabled = !state.editing; }
+}
+
+function discardWorkshop() {
+  state.dirty = false; state.setupId = null; state.editing = false; state.groupNotes = {};
+  state.current = blankValues(); state.reference = null; state.circuit = null; state.draftSeason = 'unknown';
+  $('#setup-title').value = ''; $('#notes').value = '';
+  try { localStorage.removeItem(DRAFT_KEY); } catch { /* La caché del navegador es opcional. */ }
+  syncControls();
+}
+
+function requestLeave(next) {
+  if (!state.dirty) { if (state.editing) discardWorkshop(); next(); return; }
+  const dialog = $('#unsaved-dialog');
+  const finish = (action) => { dialog.close(); if (action) next(); };
+  $('#unsaved-save').onclick = async () => { dialog.close(); if (await saveWorkshop()) { discardWorkshop(); next(); } };
+  $('#unsaved-discard').onclick = () => { discardWorkshop(); finish(true); };
+  $('#unsaved-cancel').onclick = () => finish(false);
+  dialog.showModal();
+}
+
 function bindEvents() {
-  $('#open-saved-setup').addEventListener('click', openSavedSetup);
+  $('#new-setup').addEventListener('click', () => requestLeave(() => openSavedSetup('new')));
+  $('#open-saved-setup').addEventListener('click', () => requestLeave(() => openSavedSetup('edit')));
   $('#load-season').addEventListener('change', refreshLoadDialog);
   $('#load-circuit').addEventListener('change', refreshLoadDialog);
   $('#load-setup').addEventListener('change', () => { $('#apply-saved-setup').disabled = !$('#load-setup').value; });
@@ -486,20 +574,22 @@ function bindEvents() {
   $('#apply-saved-setup').addEventListener('click', async () => {
     const year = $('#load-season').value, circuitId = $('#load-circuit').value, id = $('#load-setup').value;
     const circuit = availableCircuits().find((item) => item.id === circuitId);
-    if (!circuit || !id || !allowReplace(t('Abrir esta versión sustituirá el borrador en pantalla. ¿Continuar?'))) return;
+    if (!circuit || !year || (loadMode === 'edit' && !id)) return;
     const button = $('#apply-saved-setup'); button.disabled = true;
     try {
-      if (id.startsWith('preset:')) {
+      if (loadMode === 'new') {
         const record = state.gameCatalog.circuits.find((item) => item.id === circuitId);
-        const preset = state.gameCatalog.presets.find((item) => `preset:${item.id}` === id && item.id === record?.preset_id);
-        if (!preset || year !== '2026') throw new Error(t('Selecciona un circuito con un predeterminado asignado.'));
-        installDraft({ circuit, season: year, current: { ...preset.values }, reference: { ...preset.values }, referenceSource: 'game-assigned', title: t('Predeterminado {number} · {name}', { number: preset.id, name: t(preset.name) }), conditions: { surface: 'unknown', session: 'unknown' } });
+        const preset = year === '2026' && state.gameCatalog.presets.find((item) => item.id === record?.preset_id);
+        const values = preset ? { ...preset.values } : blankValues();
+        state.setupId = null; state.editing = true;
+        installDraft({ circuit, season: year, current: values, reference: preset ? { ...values } : null, referenceSource: preset ? 'game-assigned' : 'unknown', title: '', conditions: { surface: 'unknown', session: 'unknown' } });
       } else {
         const setup = await api('load-setup', { id });
         if (setup.circuit?.id !== circuitId || setup.season !== year) throw new Error(t('El reglaje ya no corresponde al circuito o la temporada seleccionados.'));
-        installDraft(setup);
+        state.setupId = id; state.editing = true;
+        installDraft({ ...setup, reference: { ...setup.current }, referenceSource: 'personal' });
       }
-      remember(); $('#saved-setup-dialog').close(); status(t('Reglaje cargado en el taller.'));
+      state.dirty = loadMode === 'new'; $('#saved-setup-dialog').close(); status(t('Reglaje cargado en el taller.'));
     } catch (error) { $('#load-setup-help').textContent = error.message; }
     finally { button.disabled = false; }
   });
@@ -508,6 +598,7 @@ function bindEvents() {
     refreshLists(); renderCircuit();
   });
   $('#settings').addEventListener('input', (event) => {
+    if (event.target.matches('[data-group-note]')) { state.groupNotes[event.target.dataset.groupNote] = event.target.value; remember(); return; }
     if (!event.target.matches('input')) return;
     const p = state.catalog.find((item) => `value-${item.id}` === event.target.id);
     state.current[p.id] = event.target.value === '' || !Number.isFinite(event.target.valueAsNumber) ? null : event.target.valueAsNumber;
@@ -554,26 +645,21 @@ function bindEvents() {
     clearPreview(); const file = event.target.files[0]; if (!file) return;
     if (file.size > 262144) { $('#import-error').textContent = t('El JSON supera 256 KiB.'); return; }
     $('#json-input').value = await file.text();
+    if (importMode === 'setup') { await validateImport(); if (preview) await applyImport(); }
   });
   $('#validate-import').addEventListener('click', validateImport);
   $('#apply-import').addEventListener('click', applyImport);
-  $('#export').addEventListener('click', () => exportSetup());
-  $('#export-legacy').addEventListener('click', () => exportSetup(true));
-  $('#save').addEventListener('click', async () => {
-    const button = $('#save'); button.disabled = true;
-    try {
-      if (!state.reference) throw new Error(t('Fija una referencia antes de guardar.'));
-      if (!['2025', '2026'].includes(state.draftSeason)) throw new Error(t('Selecciona la temporada del reglaje antes de guardarlo.'));
-      const result = await api('save-setup', payload());
-      state.setups = result.setups; state.circuits = result.circuits; refreshLists(); state.dirty = false;
-      try { localStorage.removeItem(DRAFT_KEY); } catch { /* El guardado principal ya está confirmado. */ }
-      status(t('Nueva versión guardada en MariaDB. La referencia y las versiones anteriores se conservan.'));
-    } catch (error) { status(error.message, true); }
-    finally { button.disabled = false; }
+  $('#export-workshop').addEventListener('click', () => exportSetup());
+  $('#save').addEventListener('click', saveWorkshop);
+  $('#delete-setup').addEventListener('click', async () => {
+    if (!state.setupId || !window.confirm(t('¿Eliminar este reglaje? Esta acción no se puede deshacer.'))) return;
+    try { const result = await api('delete-setup', { id: state.setupId }); state.setups = result.setups; discardWorkshop(); refreshLists(); status(t('Reglaje eliminado.')); }
+    catch (error) { status(error.message, true); }
   });
   $('#recover').addEventListener('click', async () => {
     try {
       const raw = JSON.parse(localStorage.getItem(DRAFT_KEY));
+      state.editing = true; state.setupId = null;
       // Revalidar en servidor: localStorage también puede contener datos ajenos o antiguos.
       if (complete(raw.current) && raw.reference) installDraft(await api('import-setup', raw));
       else {
@@ -611,7 +697,7 @@ start();
 // Mantener las secciones en el mismo documento conserva el borrador al navegar.
 function showPage() {
   const requested = location.hash.slice(1) || 'inicio';
-  const page = ['inicio', 'circuito', 'taller', 'pruebas', 'versiones'].includes(requested) ? requested : 'inicio';
+  const page = ['inicio', 'circuito', 'taller', 'pruebas'].includes(requested) ? requested : 'inicio';
   document.querySelector('.workspace').hidden = !['taller', 'pruebas'].includes(page);
   document.querySelectorAll('[data-page]').forEach((section) => { section.hidden = section.dataset.page !== page; });
   document.querySelectorAll('.app-nav a').forEach((link) => {
@@ -623,5 +709,18 @@ function showPage() {
   else brand.removeAttribute('aria-current');
   document.title = `${document.querySelector('.app-nav [aria-current]')?.textContent || t('Inicio')} · F1 25 / 26`;
 }
-window.addEventListener('hashchange', showPage);
+window.addEventListener('hashchange', () => {
+  const target = location.hash.slice(1) || 'inicio';
+  if (!navigating && activePage === 'taller' && target !== 'taller' && state.editing) {
+    navigating = true; history.replaceState(null, '', '#taller');
+    requestLeave(() => { activePage = target; location.hash = target; showPage(); });
+    navigating = false; return;
+  }
+  activePage = target; showPage();
+});
+document.addEventListener('click', (event) => {
+  const link = event.target.closest('a[href]');
+  if (!link || activePage !== 'taller' || !state.editing || link.target === '_blank' || link.hash || event.ctrlKey || event.metaKey || event.shiftKey) return;
+  event.preventDefault(); requestLeave(() => { location.href = link.href; });
+});
 showPage();

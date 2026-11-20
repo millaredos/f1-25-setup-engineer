@@ -60,6 +60,7 @@ jobs:
 
   publish:
     needs: test
+    if: github.event.action == 'closed' || !contains(github.event.pull_request.body, '<!-- stable-release-only -->')
     permissions:
       contents: write
       pull-requests: read

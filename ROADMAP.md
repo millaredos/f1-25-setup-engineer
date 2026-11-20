@@ -14,3 +14,4 @@ Ideas for future development. The list does not imply a release date or a commit
 - **Backup and recovery:** simplify complete backups and verify restoration of saved setups and configuration.
 - **Optional AI assistance:** investigate a provider-independent assistant that can explain data without changing saved setups without confirmation. The application must remain usable without AI.
 - **FAQ:** expand the in-app questions and answers.
+- **Docs:** add a glossary explaining technical terms such as understeer and camber in plain language. Reuse the same definitions in tooltips available on hover, touch and keyboard focus.

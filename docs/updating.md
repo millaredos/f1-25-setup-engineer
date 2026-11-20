@@ -13,7 +13,7 @@ From the version menu at the top right, open **Opciones → Actualizaciones → 
 
 The selection is stored on the server and applies to the installation. Switching channels does not install anything. Older versions are never installed automatically; an Alpha installation can return to Estable when a newer stable version is available.
 
-If you installed `0.3.1-alpha.24`, builds `0.3.1-alpha.1` through `0.3.1-alpha.23` are considered older and will not be offered as updates. The next higher Alpha or the stable `0.3.1` can be installed when published.
+If you installed `0.3.1-alpha.24`, builds `0.3.1-alpha.1` through `0.3.1-alpha.23` are considered older and will not be offered as updates. The stable `0.3.1` has since been published and can be installed.
 
 The application checks in the background while open. Version checks are cached for five minutes on Alpha and six hours on Estable. **Buscar actualizaciones** refreshes the cache, subject to a one-minute throttle and GitHub rate-limit backoff.
 

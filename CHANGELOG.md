@@ -2,16 +2,43 @@
 
 # Changelog
 
-## 0.3.1 — Unreleased
+## 0.4.0 — 2026-11-20
+
+### 0.4.0-alpha.3
+
+- Remove the separate legacy comparator JSON export option.
+
+### 0.4.0-alpha.2
+
+- Move setup import into the workshop, remove the Versions section and request a name when saving a new setup.
+
+### 0.4.0-alpha.1
+
+- Create, edit and delete saved setups in the workshop, with group comments and unsaved-change prompts.
+- Load the assigned game preset for new setups when available, and allow empty values otherwise.
+- Export the active setup from the workshop.
+
+## 0.3.1 — 2026-11-19
+
+### 0.3.1-alpha.6
 
 - Require a season when saving a setup.
 - Show compact workshop rows, contextual guidance and a summary of changes.
 
+### 0.3.1-alpha.5
+
 - Redesign the workshop with compact category navigation and a season-and-circuit setup loader.
+
+### 0.3.1-alpha.4
 
 - Add a Docs menu with a FAQ explaining the circuit JSON template.
 
+### 0.3.1-alpha.3
+
 - Align custom circuit profiles with the information displayed for bundled circuits.
+
+### 0.3.1-alpha.2
+
 - Separate circuit browsing from the workshop draft and add a circuit JSON template.
 
 ### 0.3.1-alpha.1
