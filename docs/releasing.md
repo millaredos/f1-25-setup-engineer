@@ -6,11 +6,11 @@ Use one `release/X.Y.Z` branch and one PR to `main` for the entire release. Add 
 
 ## Version policy
 
-Versions use `MAJOR.MINOR.PATCH`, with `-alpha.N` for test builds. The current release target is `0.3.1`; its Alpha builds use `0.3.1-alpha.N`. Their build number is an identifier, not a readiness score.
+Versions use `MAJOR.MINOR.PATCH`, with `-alpha.N` for test builds. The current development target is `0.4.0`; its Alpha builds use `0.4.0-alpha.N`. Their build number is an identifier, not a readiness score.
 
-| Change after a stable release | Next target from `0.3.0` | Examples |
+| Change after a stable release | Next target from `0.3.1` | Examples |
 | --- | --- | --- |
-| Compatible correction or small presentation adjustment | `0.3.1` | Fix a failed save, incorrect label or layout defect. |
+| Compatible correction or small presentation adjustment | `0.3.2` | Fix a failed save, incorrect label or layout defect. |
 | New functionality or substantial interface/workflow redesign | `0.4.0` | Add session comparison or redesign how users prepare and test setups. |
 | Incompatible change | New minor while below `1.0.0`; new major from `1.0.0` onward | Change an import contract or require a migration. Document compatibility and recovery before publication. |
 | Documentation or development housekeeping only | No application version | Update a guide or remove ignored local notes. |
@@ -28,9 +28,9 @@ Stable publication requires all of the following:
 3. The PR summary, changelog, English guides and Spanish counterparts describe the shipped behavior. State any upgrade or compatibility requirements.
 4. The maintainer explicitly approves closing the release and publishing it as stable. Time elapsed, a successful Alpha update or the number of Alpha builds does not constitute approval.
 
-After approval, merge the release PR. CI tests the merge commit and prepares a stable draft. Review the resulting package and publish the draft as the latest stable release. Only publication makes `0.3.1` available on the Estable channel. The Alpha channel can also advance to that stable version; the selected channel stays unchanged.
+After approval, merge the release PR. CI tests the merge commit and prepares a stable draft. Review the resulting package and publish the draft as the latest stable release. Publication makes that version available on the Estable channel. The Alpha channel can also advance to that stable version; the selected channel stays unchanged.
 
-Keep the current PR open while testing `0.3.1-alpha.N`. After publishing `0.3.1`, choose a new target and PR according to the table. Do not merge a release PR just to publish another Alpha.
+Keep the release PR open while testing `0.4.0-alpha.N`. After publishing the stable release, choose a new target and PR according to the table. Do not merge a release PR just to publish another Alpha.
 
 ## Changes that do not publish an Alpha
 
@@ -70,7 +70,7 @@ The workflow uses its GitHub-provided token with write access to release content
 
 ## Package identity
 
-`src/VERSION` declares the development version, for example `0.3.1-alpha.0`. The branch must be `release/0.3.1`. The builder sets the installed version inside the package to the exact Alpha or stable version.
+`src/VERSION` declares the development version, for example `0.4.0-alpha.0`. The branch must be `release/0.4.0`. The builder sets the installed version inside the package to the exact Alpha or stable version.
 
 Each `f125-update-v2` manifest records:
 
@@ -83,7 +83,7 @@ A machine-readable marker in the release body links the GitHub asset to that ide
 For a local test package:
 
 ```sh
-python bin/package.py --pr 1 --branch release/0.3.1
+python bin/package.py --pr 1 --branch release/0.4.0
 ```
 
 This creates a package in ignored `dist/`; it does not publish anything.

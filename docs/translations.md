@@ -40,6 +40,6 @@ Commit the PO source and generated PHP catalog together. The server loads the pr
 2. Translate the entries, retaining message identifiers and named placeholders. Keep the catalogs complete when adding new messages.
 3. Generate and verify the catalogs with the commands above.
 4. Register the code and native display name in `Translation::LANGUAGES`.
-5. Review the complete interface, errors, number/date formatting and mobile layout; verify the saved cookie and draft recovery.
+5. Review the complete interface, errors, number/date formatting and mobile layout; verify the saved cookie and the workshop's unsaved-change prompts.
 
 The current PHP and JavaScript plural implementation supports the Spanish/English rule `nplurals=2; plural=(n != 1);`. A language with another rule requires an explicit runtime change before it can be built. Adding a language does not require changing the database schema.

@@ -124,6 +124,25 @@ final class Store
         return $rows;
     }
 
+    public function updateSetup(string $id, array $data): void
+    {
+        $stmt = $this->db->prepare('UPDATE f125_setups SET title = ?, payload = ? WHERE id = ? AND circuit_id = ?');
+        $stmt->execute([$data['title'], $this->encode($data), $id, $data['circuit']['id']]);
+        if ($stmt->rowCount() === 0) {
+            $existing = $this->loadSetup($id);
+            if (($existing['circuit']['id'] ?? null) !== $data['circuit']['id'] || $existing !== $data) {
+                throw new ValidationError('No se pudo actualizar el reglaje seleccionado.');
+            }
+        }
+    }
+
+    public function deleteSetup(string $id): void
+    {
+        $stmt = $this->db->prepare('DELETE FROM f125_setups WHERE id = ?');
+        $stmt->execute([$id]);
+        if ($stmt->rowCount() !== 1) { throw new ValidationError('No existe ese reglaje guardado.'); }
+    }
+
     public function loadSetup(string $id): array
     {
         $stmt = $this->db->prepare('SELECT payload FROM f125_setups WHERE id = ?');

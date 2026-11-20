@@ -40,6 +40,6 @@ Versiona juntos el PO y el catálogo PHP generado. El servidor carga los archivo
 2. Traduce las entradas conservando los identificadores de mensaje y los marcadores con nombre. Mantén los catálogos completos al añadir mensajes.
 3. Genera y comprueba los catálogos con los comandos anteriores.
 4. Registra el código y el nombre nativo en `Translation::LANGUAGES`.
-5. Revisa toda la interfaz, los errores, los formatos de números y fechas y la presentación móvil; comprueba la cookie guardada y la recuperación del borrador.
+5. Revisa toda la interfaz, los errores, los formatos de números y fechas y la presentación móvil; comprueba la cookie guardada y los avisos del taller para cambios sin guardar.
 
 La implementación actual de plurales en PHP y JavaScript admite la regla de español e inglés `nplurals=2; plural=(n != 1);`. Un idioma con otra regla requiere modificar explícitamente el motor antes de generar el paquete. Añadir un idioma no requiere cambiar el esquema de la base de datos.

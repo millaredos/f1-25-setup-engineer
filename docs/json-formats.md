@@ -61,7 +61,7 @@ Bundled circuits use an identity snapshot with `origin: game-catalog`, `id`, `na
 
 ## Setups
 
-Current format: `format: f125-setup-engineer`, `schemaVersion: 1`, `reference`, `current`, `referenceSource`, `circuit`, `conditions`, `title` and `notes`. Value maps use the twenty legacy identifiers. Sources: `unknown`, `game-assigned`, `capture`, `personal`. Conditions: `surface` (`unknown`, `dry`, `wet`) and `session` (`unknown`, `race`, `time-trial`). The application exports this format.
+Current format: `format: f125-setup-engineer`, `schemaVersion: 1`, `reference`, `current`, `referenceSource`, `circuit`, `conditions`, `title`, `notes` and optional `groupNotes`. Value maps use the twenty legacy identifiers. The keys of `groupNotes` are `aero`, `transmission`, `geometry`, `suspension`, `brakes` and `tyres`; each value is text of at most 4000 bytes. Sources: `unknown`, `game-assigned`, `capture`, `personal`. Conditions: `surface` (`unknown`, `dry`, `wet`) and `session` (`unknown`, `race`, `time-trial`). The application exports this format.
 
 New saved setups require `season` to be `2025` or `2026`. For compatibility, importing an older file without a season preserves it as unknown until the user selects a season. The older `f125-comparador-v2` export does not carry season metadata.
 

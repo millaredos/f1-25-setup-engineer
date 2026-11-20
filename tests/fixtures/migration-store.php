@@ -22,10 +22,20 @@ final class Store
     }
     public function setups(): array { return array_map(static fn($row) => ['id' => $row['id'], 'circuit_id' => $row['circuit_id'], 'title' => $row['title'], 'created_at' => $row['created_at'], 'season' => $row['season'] ?? 'unknown'], $this->versions()); }
     public function saveSetup(array $data): string {
-        $rows = $this->versions(); $id = (string) (count($rows) + 1);
+        $rows = $this->versions(); $id = bin2hex(random_bytes(16));
         $rows[] = $data + ['id' => $id, 'circuit_id' => $data['circuit']['id'], 'created_at' => gmdate('c')];
         file_put_contents(dirname(__DIR__) . '/config/test-setups.json', json_encode($rows, JSON_THROW_ON_ERROR));
         return $id;
     }
     public function loadSetup(string $id): array { foreach ($this->versions() as $row) { if ($row['id'] === $id) { return $row; } } throw new ValidationError('Missing fixture setup.'); }
+    public function updateSetup(string $id, array $data): void {
+        $rows = $this->versions();
+        foreach ($rows as &$row) { if ($row['id'] === $id) { $row = $data + ['id' => $id, 'circuit_id' => $row['circuit_id'], 'created_at' => $row['created_at']]; file_put_contents(dirname(__DIR__) . '/config/test-setups.json', json_encode($rows, JSON_THROW_ON_ERROR)); return; } }
+        throw new ValidationError('Missing fixture setup.');
+    }
+    public function deleteSetup(string $id): void {
+        $rows = $this->versions(); $remaining = array_values(array_filter($rows, static fn($row) => $row['id'] !== $id));
+        if (count($rows) === count($remaining)) { throw new ValidationError('Missing fixture setup.'); }
+        file_put_contents(dirname(__DIR__) . '/config/test-setups.json', json_encode($remaining, JSON_THROW_ON_ERROR));
+    }
 }

@@ -16,7 +16,7 @@ It does not follow formal MVC or hexagonal architecture: `api.php` coordinates `
 | Data access | PDO_MYSQL, direct SQL with prepared statements |
 | Frontend | HTML, vanilla JavaScript and plain CSS in separate files |
 | Communication | HTTP and JSON through `fetch` |
-| Draft | JavaScript state and `localStorage` |
+| Draft | JavaScript state; recovery of drafts created by earlier versions uses `localStorage` |
 | Catalogs | Versioned JSON files |
 
 ## Layers and components
@@ -54,7 +54,7 @@ flowchart LR
 | `f125_game_presets` | Five bundled presets with twenty numeric settings each. |
 | `f125_game_circuits` | Official circuit names, display order and confirmed preset assignments. |
 
-Each save inserts a new version. Its JSON contains the reference, current values, conditions, notes and a copy of the circuit profile. Creating a circuit profile together with its setup runs within a transaction.
+Creating a setup inserts a record; saving an opened setup updates that record, and deletion removes it. Its JSON contains reference and current values, conditions, notes, comments per group and a copy of the circuit profile. Creating a circuit profile together with its setup runs within a transaction. The current workshop changes are unreleased and MariaDB integration remains unverified.
 
 The game catalog is separate from imported circuit profiles and personal setups. Names alone do not constitute technical profiles. `Migrations` applies versioned SQL with a database-specific advisory lock and records each data transaction's checksum. See [database migrations](database-migrations.md).
 

@@ -59,6 +59,9 @@ rejects(fn() => $domain->importSetup(['format' => 'otro', 'current' => $base]), 
 rejects(fn() => $domain->importSetup(['format' => 'f125-setup-engineer', 'schemaVersion' => 2, 'current' => $base]), 'versión futura');
 check($domain->importSetup(['current' => $base, 'season' => '2025'])['season'] === '2025', 'la temporada se conserva');
 check($domain->importSetup(['current' => $base])['season'] === 'unknown', 'la temporada ausente no se inventa');
+check($domain->importSetup(['current' => $base, 'groupNotes' => ['aero' => 'Probar más carga']])['groupNotes']['aero'] === 'Probar más carga', 'comentarios por grupo se conservan');
+rejects(fn() => $domain->importSetup(['current' => $base, 'groupNotes' => ['otro' => 'texto']]), 'grupo de comentarios desconocido');
+rejects(fn() => $domain->importSetup(['current' => $base, 'groupNotes' => ['aero' => str_repeat('a', 4001)]]), 'comentario demasiado largo');
 rejects(fn() => $domain->importSetup(['current' => $base, 'season' => '2024']), 'temporada inválida');
 rejects(fn() => $domain->importSetup(array_replace($legacy, ['referenceIsCapture' => 'sí'])), 'booleano heredado');
 $circuit = [

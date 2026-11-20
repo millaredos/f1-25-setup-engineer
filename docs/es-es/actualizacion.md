@@ -13,7 +13,7 @@ Desde el menú de la versión, arriba a la derecha, abre **Opciones → Actualiz
 
 La selección se guarda en el servidor y se aplica a la instalación. Cambiar de canal no instala nada. Nunca se instala automáticamente una versión anterior; una instalación Alpha puede volver a Estable cuando haya una estable posterior.
 
-Si instalaste `0.3.1-alpha.24`, las versiones `0.3.1-alpha.1` a `0.3.1-alpha.23` se consideran anteriores y no se ofrecerán como actualización. Podrás instalar la siguiente Alpha superior o la estable `0.3.1` cuando se publiquen.
+Si instalaste `0.3.1-alpha.24`, las versiones `0.3.1-alpha.1` a `0.3.1-alpha.23` se consideran anteriores y no se ofrecerán como actualización. La estable `0.3.1` ya se ha publicado y puede instalarse.
 
 La aplicación comprueba las novedades en segundo plano mientras está abierta. La caché de versiones dura cinco minutos en Alpha y seis horas en Estable. **Buscar actualizaciones** permite renovarla, con un intervalo mínimo de un minuto y respetando los límites de GitHub.
 

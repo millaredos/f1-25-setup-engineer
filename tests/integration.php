@@ -75,6 +75,11 @@ try {
     $official = $officialDomain->setup(['title' => 'Catalog base', 'season' => '2026', 'circuit' => ['id' => 'australia-albert-park', 'origin' => 'game-catalog'], 'reference' => $game['presets'][2]['values'], 'current' => $game['presets'][2]['values'], 'referenceSource' => 'game-assigned']);
     $officialId = $store->saveSetup($official);
     if ($store->loadSetup($officialId)['circuit']['origin'] !== 'game-catalog' || $store->loadSetup($officialId)['reference']['ala_del'] != 25) { throw new RuntimeException('Catalog setup persistence failed.'); }
+    $official['current']['ala_del']++; $official['groupNotes'] = ['aero' => 'Prueba'];
+    $store->updateSetup($officialId, $official);
+    if ($store->loadSetup($officialId)['groupNotes']['aero'] !== 'Prueba' || $store->loadSetup($officialId)['current']['ala_del'] != 26) { throw new RuntimeException('Setup update failed.'); }
+    $store->deleteSetup($officialId);
+    try { $store->loadSetup($officialId); throw new RuntimeException('Deleted setup is still present.'); } catch (ValidationError $expected) {}
     echo "OK: MariaDB, guardado, reapertura, versiones, duplicados, catálogo y rollback.\n";
 } finally {
     // Solo las tablas comprobadas como inexistentes al inicio, en orden de dependencias.

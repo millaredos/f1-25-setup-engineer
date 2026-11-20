@@ -122,6 +122,13 @@ final class Domain
             $warnings[] = $this->tr('Formato heredado: circuito y condiciones no se deducen del archivo.');
         }
         $source = $format === 'f125-setup-engineer' ? ($input['referenceSource'] ?? 'unknown') : 'unknown';
+        $groupNotes = $input['groupNotes'] ?? [];
+        if (!is_array($groupNotes) || array_diff(array_keys($groupNotes), ['aero', 'transmission', 'geometry', 'suspension', 'brakes', 'tyres'])) {
+            throw new ValidationError($this->tr('Comentarios de grupos inválidos.'));
+        }
+        foreach ($groupNotes as $key => $note) {
+            $groupNotes[$key] = $this->text($note, 'Comentarios', 4000, true);
+        }
         return [
             'format' => 'f125-setup-engineer', 'schemaVersion' => 1,
             'reference' => $reference, 'current' => $current,
@@ -131,6 +138,7 @@ final class Domain
             'conditions' => $this->conditions($input['conditions'] ?? []),
             'title' => $this->text($input['title'] ?? $this->tr('Reglaje importado'), 'Nombre', 120),
             'notes' => $this->text($input['notes'] ?? '', 'Notas', 4000, true),
+            'groupNotes' => $groupNotes,
             'warnings' => $warnings,
         ];
     }

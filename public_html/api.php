@@ -71,7 +71,8 @@ try {
     if (strlen($raw) > 262144) { respond(['error' => t('El JSON supera 256 KiB.')], 413); }
     $body = json_decode($raw, true, 64, JSON_THROW_ON_ERROR);
     if (!is_array($body)) { throw new ValidationError(t('Se necesita un objeto JSON.')); }
-    if (isset($body['circuit']) && is_array($body['circuit']) && ($body['circuit']['origin'] ?? null) === 'game-catalog') {
+    $inputCircuit = $action === 'update-setup' ? ($body['setup']['circuit'] ?? null) : ($body['circuit'] ?? null);
+    if (is_array($inputCircuit) && ($inputCircuit['origin'] ?? null) === 'game-catalog') {
         try {
             $gameStore = new Store(appConfig()); $gameStore->ready();
             $domain = appDomain($gameStore->gameCatalog()['circuits']);
@@ -84,12 +85,13 @@ try {
     if ($action === 'import-setup') { respond($domain->importSetup($body)); }
     if ($action === 'import-circuit') { respond(['circuit' => $domain->importCircuit($body)]); }
 
-    if (!in_array($action, ['save-circuit', 'save-setup', 'load-setup'], true)) {
+    if (!in_array($action, ['save-circuit', 'save-setup', 'load-setup', 'update-setup', 'delete-setup'], true)) {
         respond(['error' => t('Acción desconocida.')], 404);
     }
     $validated = null;
     if ($action === 'save-circuit') { $validated = $domain->importCircuit($body); }
     if ($action === 'save-setup') { $validated = $domain->setup($body); }
+    if ($action === 'update-setup') { $validated = $domain->setup($body['setup'] ?? null); }
     $store = $gameStore ?? new Store(appConfig());
     $store->ready();
     if ($action === 'save-circuit') {
@@ -103,6 +105,12 @@ try {
     if ($action === 'load-setup') {
         if (!is_string($body['id'] ?? null)) { throw new ValidationError(t('ID inválido.')); }
         respond($store->loadSetup($body['id']));
+    }
+    if (in_array($action, ['update-setup', 'delete-setup'], true)) {
+        if (!is_string($body['id'] ?? null) || !preg_match('/^[a-f0-9]{32}$/D', $body['id'])) { throw new ValidationError(t('ID inválido.')); }
+        if ($action === 'update-setup') { $store->updateSetup($body['id'], $validated); }
+        else { $store->deleteSetup($body['id']); }
+        respond(['setups' => $store->setups(), 'circuits' => $store->circuits()]);
     }
     respond(['error' => t('Acción desconocida.')], 404);
 } catch (ValidationError $e) {
