@@ -2732,8 +2732,8 @@ msgstr "Indica nombre, temporada y circuito."
 msgid "Reglaje importado. Revisa los valores y guárdalo cuando quieras."
 msgstr "Reglaje importado. Revisa los valores y guárdalo cuando quieras."
 
-#~ msgid "JSON del comparador anterior"
-#~ msgstr "JSON del comparador anterior"
+msgid "JSON del comparador anterior"
+msgstr "JSON del comparador anterior"
 
 #~ msgid "Importar reglaje personal"
 #~ msgstr "Importar reglaje personal"

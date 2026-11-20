@@ -328,6 +328,7 @@ return [
         'Invalid version service channels.' => 'Los canales del servicio de versiones no son válidos.',
         'Invalid version service response.' => 'La respuesta del servicio de versiones no es válida.',
         'Ir al menú' => 'Ir al menú',
+        'JSON del comparador anterior' => 'JSON del comparador anterior',
         'JSON exportado. El archivo conserva referencia y actuales.' => 'JSON exportado. El archivo conserva referencia y actuales.',
         'La ayuda ABS modifica cómo se manifiestan los bloqueos.' => 'La ayuda ABS modifica cómo se manifiestan los bloqueos.',
         'La ficha contiene campos desconocidos.' => 'La ficha contiene campos desconocidos.',
