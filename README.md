@@ -117,7 +117,7 @@ Leaving the workshop with unsaved changes offers to save, discard or continue ed
 
 Circuit browsing does not modify saved setups. The editing dialog lists setups for the selected circuit and season; game presets are available for 2026 only. Existing imported or saved conditions remain in their JSON.
 
-Both `f125-setup-engineer` and the previous comparator's `f125-comparador-v2` JSON formats are supported. Imports include validation and a preview.
+Imports support `f125-setup-engineer` and `f125-comparador-v2` JSON formats and validate the values before opening them in the workshop.
 
 ## Updating
 

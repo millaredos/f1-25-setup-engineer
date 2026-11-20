@@ -2735,6 +2735,9 @@ msgstr "Reglaje importado. Revisa los valores y guárdalo cuando quieras."
 msgid "JSON del comparador anterior"
 msgstr "JSON del comparador anterior"
 
+msgid "Selecciona un archivo JSON de reglaje para revisarlo en el taller."
+msgstr "Selecciona un archivo JSON de reglaje para revisarlo en el taller."
+
 #~ msgid "Importar reglaje personal"
 #~ msgstr "Importar reglaje personal"
 

@@ -430,7 +430,7 @@ function openImport(mode) {
   $('#circuit-faq').hidden = mode !== 'circuit';
   $('#circuit-template-help').hidden = mode !== 'circuit';
   $('#import-title').textContent = mode === 'circuit' ? t('Pegar ficha de circuito') : t('Importar reglaje');
-  $('#import-help').textContent = mode === 'circuit' ? t('Descarga la plantilla, completa los campos y selecciona el archivo para validarlo.') : t('Admite el JSON del comparador anterior, mapas de veinte valores y el formato nuevo. Revisa la referencia antes de aplicar.');
+  $('#import-help').textContent = mode === 'circuit' ? t('Descarga la plantilla, completa los campos y selecciona el archivo para validarlo.') : t('Selecciona un archivo JSON de reglaje para revisarlo en el taller.');
   $('#json-input').value = ''; $('#json-file').value = ''; $('#import-preview').replaceChildren(); $('#import-error').textContent = ''; $('#apply-import').hidden = true;
   $('#import-dialog').showModal();
   if (mode === 'setup') $('#json-file').click();
@@ -481,15 +481,15 @@ async function applyImport() {
   finally { button.disabled = false; }
 }
 
-async function exportSetup(legacy = false) {
+async function exportSetup() {
   try {
     if (!complete(state.current)) throw new Error(t('Completa los veinte valores antes de exportar.'));
     const input = payload();
     if (!input.reference) { input.reference = { ...input.current }; input.referenceSource = 'personal'; }
-    const data = await api('import-setup', input);
-    const exported = legacy ? { format: 'f125-comparador-v2', created: new Date().toISOString(), reference: data.reference, current: data.current, referenceIsCapture: input.referenceSource === 'capture' } : { ...input, created: new Date().toISOString() };
+    await api('import-setup', input);
+    const exported = { ...input, created: new Date().toISOString() };
     const blob = new Blob([JSON.stringify(exported, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob); const link = element('a'); link.href = url; link.download = legacy ? 'F1_25_reglaje.json' : `F1_25_${state.circuit?.id || 'borrador'}.json`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+    const url = URL.createObjectURL(blob); const link = element('a'); link.href = url; link.download = `F1_25_${state.circuit?.id || 'borrador'}.json`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
     status(t('JSON exportado. El archivo conserva referencia y actuales.'));
   } catch (error) { status(error.message, true); }
 }
@@ -650,7 +650,6 @@ function bindEvents() {
   $('#validate-import').addEventListener('click', validateImport);
   $('#apply-import').addEventListener('click', applyImport);
   $('#export-workshop').addEventListener('click', () => exportSetup());
-  $('#export-legacy').addEventListener('click', () => exportSetup(true));
   $('#save').addEventListener('click', saveWorkshop);
   $('#delete-setup').addEventListener('click', async () => {
     if (!state.setupId || !window.confirm(t('¿Eliminar este reglaje? Esta acción no se puede deshacer.'))) return;

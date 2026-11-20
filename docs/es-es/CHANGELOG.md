@@ -4,6 +4,10 @@
 
 ## 0.4.0 — Sin publicar
 
+- Retirar la opción de exportación JSON del comparador anterior.
+
+### 0.4.0-alpha.2
+
 - Trasladar la importación de reglajes al taller, eliminar el apartado Versiones y pedir un nombre al guardar un reglaje nuevo.
 
 ### 0.4.0-alpha.1

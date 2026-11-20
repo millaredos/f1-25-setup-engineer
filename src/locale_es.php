@@ -555,6 +555,7 @@ return [
         'Seguir editando' => 'Seguir editando',
         'Selecciona Nuevo reglaje o Editar reglaje para empezar.' => 'Selecciona Nuevo reglaje o Editar reglaje para empezar.',
         'Selecciona la temporada del reglaje antes de guardarlo.' => 'Selecciona la temporada del reglaje antes de guardarlo.',
+        'Selecciona un archivo JSON de reglaje para revisarlo en el taller.' => 'Selecciona un archivo JSON de reglaje para revisarlo en el taller.',
         'Selecciona un circuito' => 'Selecciona un circuito',
         'Selecciona un circuito.' => 'Selecciona un circuito.',
         'Selecciona un reglaje' => 'Selecciona un reglaje',

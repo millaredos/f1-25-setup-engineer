@@ -115,7 +115,7 @@ Al salir del taller con cambios pendientes puedes guardarlos, descartarlos o seg
 
 Consultar circuitos no modifica los reglajes guardados. El diálogo de edición muestra los reglajes del circuito y temporada seleccionados; los predeterminados del juego solo están disponibles para 2026. Las condiciones existentes en importaciones y reglajes guardados se conservan en su JSON.
 
-Se admiten JSON `f125-setup-engineer` y del comparador anterior `f125-comparador-v2`. La importación incluye validación y vista previa.
+La importación admite JSON `f125-setup-engineer` y `f125-comparador-v2` y valida los valores antes de abrirlos en el taller.
 
 ## Actualización
 

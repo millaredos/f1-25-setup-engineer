@@ -73,7 +73,6 @@ header('Referrer-Policy: same-origin');
         <div class="workshop-toolbar"><nav id="settings-menu" class="workshop-menu" aria-label="<?= h(t('Categorías del reglaje')) ?>"></nav><div class="actions"><button id="save" class="button" type="button"><?= h(t('Guardar cambios')) ?></button><button id="delete-setup" class="button secondary" type="button" hidden><?= h(t('Eliminar reglaje')) ?></button></div></div>
         <input id="setup-title" type="hidden"><input id="notes" type="hidden">
         <button id="export-workshop" class="text-button" type="button"><?= h(t('Exportar JSON')) ?></button>
-        <button id="export-legacy" class="text-button" type="button"><?= h(t('JSON del comparador anterior')) ?></button>
         <div id="settings-layout" class="settings-layout">
           <div id="settings"></div>
           <aside id="parameter-info" class="parameter-info" aria-live="polite"></aside>

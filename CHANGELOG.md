@@ -4,6 +4,10 @@
 
 ## 0.4.0 — Unreleased
 
+- Remove the separate legacy comparator JSON export option.
+
+### 0.4.0-alpha.2
+
 - Move setup import into the workshop, remove the Versions section and request a name when saving a new setup.
 
 ### 0.4.0-alpha.1
