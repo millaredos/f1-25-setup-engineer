@@ -52,6 +52,8 @@ The counter is independent of the workflow run number. A retry resumes the relea
 
 A newer commit supersedes an older run. Failed or incomplete builds are not offered to installations. Fork PRs and non-release branches cannot publish through this workflow.
 
+To prepare a stable release without publishing another Alpha, include `<!-- stable-release-only -->` in the PR description before pushing the final preparation commit. The PR checks still run; only Alpha publication is skipped. After the approved merge, checks run again and the stable draft is prepared.
+
 ## Stable release
 
 Merge the release PR when it is ready. The pipeline tests the merge commit and prepares a draft for `vX.Y.Z`, with:

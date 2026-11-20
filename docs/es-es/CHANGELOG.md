@@ -2,7 +2,9 @@
 
 # Changelog
 
-## 0.4.0 — Sin publicar
+## 0.4.0 — 2026-11-20
+
+### 0.4.0-alpha.3
 
 - Retirar la opción de exportación JSON del comparador anterior.
 

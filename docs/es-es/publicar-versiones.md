@@ -52,6 +52,8 @@ Un commit posterior deja obsoleta una ejecución anterior. Las instalaciones no 
 
 El contador es independiente del número de ejecución del flujo. Un reintento reanuda la release del mismo commit sin reemplazar un paquete publicado; las etiquetas y los borradores existentes reservan sus números.
 
+Para preparar una release estable sin publicar otra Alpha, incluye `<!-- stable-release-only -->` en la descripción de la PR antes de subir el último commit de preparación. Las comprobaciones de la PR se ejecutan; solo se omite la publicación Alpha. Tras la fusión aprobada, las comprobaciones se repiten y se prepara el borrador estable.
+
 ## Release estable
 
 Fusiona la PR cuando esté preparada. El flujo prueba el commit de fusión y prepara un borrador para `vX.Y.Z`, con:
