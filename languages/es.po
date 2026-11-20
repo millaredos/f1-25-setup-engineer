@@ -830,9 +830,6 @@ msgstr "La respuesta del servicio de versiones no es válida."
 msgid "Ir al menú"
 msgstr "Ir al menú"
 
-msgid "JSON del comparador anterior"
-msgstr "JSON del comparador anterior"
-
 msgid "JSON exportado. El archivo conserva referencia y actuales."
 msgstr "JSON exportado. El archivo conserva referencia y actuales."
 
@@ -1863,9 +1860,6 @@ msgstr "Añadir circuito"
 msgid "Ese circuito no está en el catálogo del juego."
 msgstr "Ese circuito no está en el catálogo del juego."
 
-msgid "Importar reglaje personal"
-msgstr "Importar reglaje personal"
-
 msgid "Selecciona un circuito"
 msgstr "Selecciona un circuito"
 
@@ -2655,9 +2649,6 @@ msgstr "Este reglaje comenzó sin valores predeterminados."
 msgid "Inicial: {value}"
 msgstr "Inicial: {value}"
 
-msgid "Introduce un nombre para el reglaje."
-msgstr "Introduce un nombre para el reglaje."
-
 msgid "No hay predeterminado disponible; introduce los valores manualmente."
 msgstr "No hay predeterminado disponible; introduce los valores manualmente."
 
@@ -2673,9 +2664,6 @@ msgstr "Reglaje eliminado."
 msgid "Reglaje guardado."
 msgstr "Reglaje guardado."
 
-msgid "Reglaje importado como borrador. Revisa circuito y temporada antes de guardar."
-msgstr "Reglaje importado como borrador. Revisa circuito y temporada antes de guardar."
-
 msgid "Se cargará el predeterminado del juego."
 msgstr "Se cargará el predeterminado del juego."
 
@@ -2690,9 +2678,6 @@ msgstr "Sin valores iniciales"
 
 msgid "¿Eliminar este reglaje? Esta acción no se puede deshacer."
 msgstr "¿Eliminar este reglaje? Esta acción no se puede deshacer."
-
-msgid "Ej.: primera prueba en seco"
-msgstr "Ej.: primera prueba en seco"
 
 msgid "Nombre del reglaje"
 msgstr "Nombre del reglaje"
@@ -2726,14 +2711,44 @@ msgstr ""
 msgid "Guardar cambios"
 msgstr "Guardar cambios"
 
-msgid "Importar y exportar reglajes"
-msgstr "Importar y exportar reglajes"
-
 msgid "Salir sin guardar"
 msgstr "Salir sin guardar"
 
 msgid "Seguir editando"
 msgstr "Seguir editando"
+
+msgid "Cancelar"
+msgstr "Cancelar"
+
+msgid "Guardar"
+msgstr "Guardar"
+
+msgid "Guardar reglaje"
+msgstr "Guardar reglaje"
+
+msgid "Indica nombre, temporada y circuito."
+msgstr "Indica nombre, temporada y circuito."
+
+msgid "Reglaje importado. Revisa los valores y guárdalo cuando quieras."
+msgstr "Reglaje importado. Revisa los valores y guárdalo cuando quieras."
+
+#~ msgid "JSON del comparador anterior"
+#~ msgstr "JSON del comparador anterior"
+
+#~ msgid "Importar reglaje personal"
+#~ msgstr "Importar reglaje personal"
+
+#~ msgid "Introduce un nombre para el reglaje."
+#~ msgstr "Introduce un nombre para el reglaje."
+
+#~ msgid "Reglaje importado como borrador. Revisa circuito y temporada antes de guardar."
+#~ msgstr "Reglaje importado como borrador. Revisa circuito y temporada antes de guardar."
+
+#~ msgid "Ej.: primera prueba en seco"
+#~ msgstr "Ej.: primera prueba en seco"
+
+#~ msgid "Importar y exportar reglajes"
+#~ msgstr "Importar y exportar reglajes"
 
 #~ msgid "02 / REGLAJES"
 #~ msgstr "02 / REGLAJES"

@@ -106,9 +106,8 @@ The interface is currently in Spanish. The names below match its menus and butto
 1. In **Circuitos**, select a season and circuit, then browse the game preset or a saved version by category. The 2025 game preset values are not yet available.
 2. Use **Añadir circuito** to download a JSON template and import [additional circuit profiles](docs/json-formats.md).
 3. In **Taller**, choose **Nuevo reglaje** and select a season and circuit, or choose **Editar reglaje** to open a saved setup. A new setup starts with the game preset where available; otherwise enter all values.
-4. Edit values, add comments for each category and save or delete the setup in the workshop. The summary compares against the values loaded. Personal setup JSON can also be imported from **Versiones**.
+4. Edit values, add comments for each category and save or delete the setup in the workshop. The summary compares against the values loaded. Use **Importar reglaje** to load a JSON file for review and save it as a new setup.
 5. In **Pruebas**, select the handling symptom you notice.
-6. In **Versiones**, import setup JSON.
 
 Use **Exportar JSON** in **Taller** to export the active setup without leaving the editor.
 

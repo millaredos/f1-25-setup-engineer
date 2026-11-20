@@ -433,6 +433,7 @@ function openImport(mode) {
   $('#import-help').textContent = mode === 'circuit' ? t('Descarga la plantilla, completa los campos y selecciona el archivo para validarlo.') : t('Admite el JSON del comparador anterior, mapas de veinte valores y el formato nuevo. Revisa la referencia antes de aplicar.');
   $('#json-input').value = ''; $('#json-file').value = ''; $('#import-preview').replaceChildren(); $('#import-error').textContent = ''; $('#apply-import').hidden = true;
   $('#import-dialog').showModal();
+  if (mode === 'setup') $('#json-file').click();
 }
 
 function clearPreview() { preview = null; $('#apply-import').hidden = true; $('#import-preview').replaceChildren(); $('#import-error').textContent = ''; }
@@ -473,7 +474,7 @@ async function applyImport() {
       status(t('Ficha de circuito guardada.'));
     } else {
       state.setupId = null; state.editing = true;
-      installDraft({ ...preview, circuit: preview.circuit || state.circuit }); remember(); status(t('Reglaje importado como borrador. Revisa circuito y temporada antes de guardar.'));
+      installDraft({ ...preview, circuit: preview.circuit || null, reference: { ...preview.current } }); remember(); status(t('Reglaje importado. Revisa los valores y guárdalo cuando quieras.'));
     }
     $('#import-dialog').close();
   } catch (error) { $('#import-error').textContent = error.message; }
@@ -493,12 +494,39 @@ async function exportSetup(legacy = false) {
   } catch (error) { status(error.message, true); }
 }
 
+function askSetupName() {
+  const dialog = $('#save-dialog'), circuit = $('#save-circuit');
+  $('#save-name').value = $('#setup-title').value;
+  $('#save-season').value = ['2025', '2026'].includes(state.draftSeason) ? state.draftSeason : '';
+  $('#save-season-label').hidden = !!$('#save-season').value;
+  circuit.replaceChildren(new Option(t('Selecciona un circuito'), ''));
+  const circuits = availableCircuits();
+  if (state.circuit && !circuits.some((item) => item.id === state.circuit.id)) circuits.push(state.circuit);
+  circuits.forEach((item) => circuit.add(new Option(item.name, item.id)));
+  circuit.value = state.circuit?.id || '';
+  $('#save-circuit-label').hidden = !!state.circuit;
+  $('#save-dialog-error').textContent = '';
+  return new Promise((resolve) => {
+    $('#save-cancel').onclick = () => { dialog.close(); resolve(false); };
+    dialog.oncancel = (event) => { event.preventDefault(); dialog.close(); resolve(false); };
+    $('#save-dialog-form').onsubmit = (event) => {
+      event.preventDefault();
+      const name = $('#save-name').value.trim();
+      if (!name || !$('#save-season').value || !circuit.value) { $('#save-dialog-error').textContent = t('Indica nombre, temporada y circuito.'); return; }
+      $('#setup-title').value = name; state.draftSeason = $('#save-season').value;
+      state.circuit = circuits.find((item) => item.id === circuit.value);
+      dialog.close(); resolve(true);
+    };
+    dialog.showModal(); $('#save-name').focus();
+  });
+}
+
 async function saveWorkshop() {
   const button = $('#save'); button.disabled = true;
   try {
-    if (!state.editing || !state.circuit) throw new Error(t('Crea o abre un reglaje antes de guardar.'));
-    if (!$('#setup-title').value.trim()) throw new Error(t('Introduce un nombre para el reglaje.'));
+    if (!state.editing) throw new Error(t('Crea o abre un reglaje antes de guardar.'));
     if (!complete(state.current) || ![...document.querySelectorAll('#settings input')].every((input) => input.validity.valid)) throw new Error(t('Completa los veinte valores dentro de sus rangos y pasos.'));
+    if (!state.setupId && !(await askSetupName())) return false;
     const data = payload();
     if (!data.reference) { data.reference = { ...data.current }; data.referenceSource = 'personal'; }
     const result = state.setupId ? await api('update-setup', { id: state.setupId, setup: data }) : await api('save-setup', data);
@@ -523,7 +551,7 @@ function requestLeave(next) {
   if (!state.dirty) { if (state.editing) discardWorkshop(); next(); return; }
   const dialog = $('#unsaved-dialog');
   const finish = (action) => { dialog.close(); if (action) next(); };
-  $('#unsaved-save').onclick = async () => { if (await saveWorkshop()) { discardWorkshop(); finish(true); } else { dialog.close(); } };
+  $('#unsaved-save').onclick = async () => { dialog.close(); if (await saveWorkshop()) { discardWorkshop(); next(); } };
   $('#unsaved-discard').onclick = () => { discardWorkshop(); finish(true); };
   $('#unsaved-cancel').onclick = () => finish(false);
   dialog.showModal();
@@ -617,10 +645,10 @@ function bindEvents() {
     clearPreview(); const file = event.target.files[0]; if (!file) return;
     if (file.size > 262144) { $('#import-error').textContent = t('El JSON supera 256 KiB.'); return; }
     $('#json-input').value = await file.text();
+    if (importMode === 'setup') { await validateImport(); if (preview) await applyImport(); }
   });
   $('#validate-import').addEventListener('click', validateImport);
   $('#apply-import').addEventListener('click', applyImport);
-  $('#export').addEventListener('click', () => exportSetup());
   $('#export-workshop').addEventListener('click', () => exportSetup());
   $('#export-legacy').addEventListener('click', () => exportSetup(true));
   $('#save').addEventListener('click', saveWorkshop);
@@ -670,7 +698,7 @@ start();
 // Mantener las secciones en el mismo documento conserva el borrador al navegar.
 function showPage() {
   const requested = location.hash.slice(1) || 'inicio';
-  const page = ['inicio', 'circuito', 'taller', 'pruebas', 'versiones'].includes(requested) ? requested : 'inicio';
+  const page = ['inicio', 'circuito', 'taller', 'pruebas'].includes(requested) ? requested : 'inicio';
   document.querySelector('.workspace').hidden = !['taller', 'pruebas'].includes(page);
   document.querySelectorAll('[data-page]').forEach((section) => { section.hidden = section.dataset.page !== page; });
   document.querySelectorAll('.app-nav a').forEach((link) => {

@@ -43,7 +43,7 @@ header('Referrer-Policy: same-origin');
           <p><?= h(t('Ajustar el coche menos competitivo no lo convierte en el mejor de la parrilla: conserva sus propias limitaciones.')) ?></p></section>
       </div>
     </section>
-    <div data-page="taller" hidden class="workshop-heading"><div class="workshop-heading-row"><h1><?= h(t('Taller')) ?></h1><button id="new-setup" class="text-button" type="button"><?= h(t('Nuevo reglaje')) ?></button><button id="open-saved-setup" class="text-button" type="button"><?= h(t('Editar reglaje')) ?></button></div><p><?= h(t('Crea o edita un reglaje y consulta los efectos teóricos de cada cambio.')) ?></p></div>
+    <div data-page="taller" hidden class="workshop-heading"><div class="workshop-heading-row"><h1><?= h(t('Taller')) ?></h1><div class="workshop-heading-actions"><button id="new-setup" class="text-button" type="button"><?= h(t('Nuevo reglaje')) ?></button><button id="open-saved-setup" class="text-button" type="button"><?= h(t('Editar reglaje')) ?></button><button id="open-setup" class="text-button" type="button"><?= h(t('Importar reglaje')) ?></button></div></div><p><?= h(t('Crea o edita un reglaje y consulta los efectos teóricos de cada cambio.')) ?></p></div>
     <p id="status" class="status" role="status" aria-live="polite"></p>
     <noscript><p class="status error"><?= h(t('Activa JavaScript para utilizar el editor.')) ?></p></noscript>
     <p id="database-update" class="notice" hidden><?= h(t('Hay una actualización de la base de datos pendiente.')) ?> <a href="database.php"><?= h(t('Actualizar base de datos')) ?></a></p>
@@ -71,8 +71,9 @@ header('Referrer-Policy: same-origin');
         <p id="reference-help" hidden></p>
         <p id="catalog-notice" hidden></p>
         <div class="workshop-toolbar"><nav id="settings-menu" class="workshop-menu" aria-label="<?= h(t('Categorías del reglaje')) ?>"></nav><div class="actions"><button id="save" class="button" type="button"><?= h(t('Guardar cambios')) ?></button><button id="delete-setup" class="button secondary" type="button" hidden><?= h(t('Eliminar reglaje')) ?></button></div></div>
-        <label><?= h(t('Nombre del reglaje')) ?> <input id="setup-title" maxlength="120" placeholder="<?= h(t('Ej.: primera prueba en seco')) ?>"></label>
+        <input id="setup-title" type="hidden"><input id="notes" type="hidden">
         <button id="export-workshop" class="text-button" type="button"><?= h(t('Exportar JSON')) ?></button>
+        <button id="export-legacy" class="text-button" type="button"><?= h(t('JSON del comparador anterior')) ?></button>
         <div id="settings-layout" class="settings-layout">
           <div id="settings"></div>
           <aside id="parameter-info" class="parameter-info" aria-live="polite"></aside>
@@ -90,11 +91,6 @@ header('Referrer-Policy: same-origin');
       </aside>
     </div>
 
-    <section data-page="versiones" hidden class="panel save-panel" aria-labelledby="save-heading">
-      <div><h2 id="save-heading"><?= h(t('Importar y exportar reglajes')) ?></h2></div>
-      <div class="save-fields"><label><?= h(t('Notas')) ?><textarea id="notes" rows="3" maxlength="4000"></textarea></label></div>
-      <div class="actions"><button id="open-setup" class="button secondary"><?= h(t('Importar reglaje personal')) ?></button><button id="export" class="button secondary"><?= h(t('Exportar JSON')) ?></button><button id="export-legacy" class="text-button"><?= h(t('JSON del comparador anterior')) ?></button></div>
-    </section>
   </main>
   <footer class="site-footer"><div><strong>F1 25 / 26 SETUP ENGINEER</strong><span>© 2026 millaredos · <a href="https://github.com/millaredos/f1-25-setup-engineer" target="_blank" rel="noopener noreferrer">GitHub</a></span></div><p><?= h(t('Teoría orientativa. Valida los cambios en el juego.')) ?></p></footer>
 
@@ -108,6 +104,7 @@ header('Referrer-Policy: same-origin');
     <div class="actions"><button id="apply-saved-setup" class="button" type="button"><?= h(t('Cargar reglaje')) ?></button><button id="use-manual-circuit" class="button secondary" type="button"><?= h(t('Usar circuito para valores manuales')) ?></button></div>
   </dialog>
   <dialog id="unsaved-dialog" aria-labelledby="unsaved-title"><h2 id="unsaved-title"><?= h(t('Cambios sin guardar')) ?></h2><p><?= h(t('Guarda los cambios antes de salir o se perderán.')) ?></p><div class="actions"><button id="unsaved-save" class="button" type="button"><?= h(t('Guardar cambios')) ?></button><button id="unsaved-discard" class="button secondary" type="button"><?= h(t('Salir sin guardar')) ?></button><button id="unsaved-cancel" class="text-button" type="button"><?= h(t('Seguir editando')) ?></button></div></dialog>
+  <dialog id="save-dialog" aria-labelledby="save-dialog-title"><form method="dialog" id="save-dialog-form"><h2 id="save-dialog-title"><?= h(t('Guardar reglaje')) ?></h2><label><?= h(t('Nombre del reglaje')) ?><input id="save-name" maxlength="120" required></label><label id="save-season-label"><?= h(t('Temporada')) ?><select id="save-season"><option value=""><?= h(t('Selecciona una temporada')) ?></option><option value="2025">2025</option><option value="2026">2026</option></select></label><label id="save-circuit-label"><?= h(t('Circuito')) ?><select id="save-circuit"></select></label><p id="save-dialog-error" class="error-text" role="alert"></p><div class="actions"><button class="button" type="submit"><?= h(t('Guardar')) ?></button><button id="save-cancel" class="button secondary" type="button"><?= h(t('Cancelar')) ?></button></div></form></dialog>
   <dialog id="import-dialog" aria-labelledby="import-title">
     <form method="dialog"><button class="dialog-close text-button" aria-label="<?= h(t('Cerrar importación')) ?>"><?= h(t('Cerrar ×')) ?></button></form>
     <p class="eyebrow"><?= h(t('IMPORTACIÓN CON VISTA PREVIA')) ?></p><h2 id="import-title"><?= h(t('Pegar JSON')) ?></h2><p id="import-help" class="subtle"></p>

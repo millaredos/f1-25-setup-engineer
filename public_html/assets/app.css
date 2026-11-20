@@ -838,6 +838,8 @@ dialog label {
 }
 .separated-workspace { display:block; }
 .workshop-heading-row { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.workshop-heading-actions { display:flex; justify-content:flex-end; flex-wrap:wrap; gap:16px; }
+@media (max-width:640px) { .workshop-heading-row { align-items:flex-start; flex-wrap:wrap; } .workshop-heading-actions { margin-left:auto; } }
 .workshop-heading h1 { margin:0 0 4px; font-size:25px; }
 .workshop-heading p { margin:0; color:var(--muted); }
 .workshop-editor { padding:20px; }

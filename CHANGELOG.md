@@ -4,7 +4,13 @@
 
 ## 0.4.0 — Unreleased
 
+- Move setup import into the workshop, remove the Versions section and request a name when saving a new setup.
+
+### 0.4.0-alpha.1
+
 - Create, edit and delete saved setups in the workshop, with group comments and unsaved-change prompts.
+- Load the assigned game preset for new setups when available, and allow empty values otherwise.
+- Export the active setup from the workshop.
 
 ## 0.3.1 — 2026-11-19
 

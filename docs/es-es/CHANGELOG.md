@@ -4,7 +4,13 @@
 
 ## 0.4.0 — Sin publicar
 
+- Trasladar la importación de reglajes al taller, eliminar el apartado Versiones y pedir un nombre al guardar un reglaje nuevo.
+
+### 0.4.0-alpha.1
+
 - Crear, editar y eliminar reglajes desde el taller, con comentarios por grupo y aviso de cambios sin guardar.
+- Cargar el predeterminado asignado al crear un reglaje cuando esté disponible y permitir valores vacíos en caso contrario.
+- Exportar el reglaje activo desde el taller.
 
 ## 0.3.1 — 2026-11-19
 

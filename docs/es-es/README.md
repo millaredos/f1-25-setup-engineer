@@ -104,9 +104,8 @@ Conserva el gestor PHP existente y publica únicamente la carpeta pública de la
 1. En **Circuitos**, selecciona la temporada y un circuito, y consulta su predeterminado o una versión guardada por categoría. Los valores predeterminados de 2025 aún no están disponibles.
 2. Usa **Añadir circuito** para descargar una plantilla JSON e importar [fichas adicionales](formato-circuito.md).
 3. En **Taller**, elige **Nuevo reglaje** y selecciona temporada y circuito, o usa **Editar reglaje** para abrir uno guardado. El nuevo reglaje parte del predeterminado del juego si está disponible; en caso contrario, introduce todos los valores.
-4. Modifica los valores, añade comentarios por categoría y guarda o elimina el reglaje en el taller. El resumen compara con los valores cargados. También puedes importar JSON de reglajes personales desde **Versiones**.
+4. Modifica los valores, añade comentarios por categoría y guarda o elimina el reglaje en el taller. El resumen compara con los valores cargados. Usa **Importar reglaje** para cargar un archivo JSON, revisarlo y guardarlo como un reglaje nuevo.
 5. En **Pruebas**, selecciona el comportamiento que notas en el coche.
-6. En **Versiones**, importa reglajes en JSON.
 
 Usa **Exportar JSON** en **Taller** para exportar el reglaje activo sin salir del editor.
 
