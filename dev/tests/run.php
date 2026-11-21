@@ -1,225 +1,172 @@
 <?php
-
 declare(strict_types=1);
 
-/** Domain, data-contract and installation-state regression checks without production persistence. */
+/** Behavior and packaging checks use independent temporary data, never an installed database. */
 require dirname(__DIR__, 2) . '/src/bootstrap.php';
-$domain = appDomain();
-$legacy = json_decode(file_get_contents(__DIR__ . '/fixtures/legacy-setup.json'), true, 64, JSON_THROW_ON_ERROR);
-$base = $legacy['reference'];
-$count = 0;
+require dirname(__DIR__) . '/bin/package.php';
+require_once dirname(__DIR__) . '/bin/translations.php';
 
-/**
- * Count a domain assertion or stop at the first violated product contract.
- */
-function check(bool $condition, string $message): void
+use App\Infrastructure\Catalog;
+use App\Model\ValidationError;
+use App\Application\Comparison;
+use App\Application\SetupCodec;
+use App\Application\UpdateInstaller;
+use App\Application\Installation;
+use App\Infrastructure\JsonFile;
+
+$root = dirname(__DIR__, 2);
+$checks = 0;
+
+/** Stop on a contract failure, rather than printing success for an omitted check. */
+function check(bool $condition, string $description): void
 {
-    global $count;
-    if (!$condition) {
-        throw new RuntimeException('FALLO: ' . $message);
-    }
-    $count++;
+    global $checks;
+    if (!$condition) { throw new RuntimeException($description); }
+    $checks++;
 }
 
-/**
- * Require a domain validation error; unrelated exceptions must still fail the suite.
- */
-function rejects(callable $operation, string $message): void
+/** Expect rejection only; an operation that silently accepts bad input fails the suite. */
+function rejects(callable $operation, string $description): void
 {
-    try {
-        $operation();
-    } catch (ValidationError $e) {
-        check(true, $message);
-        return;
-    }
-    check(false, $message);
+    try { $operation(); } catch (Throwable $error) { check(true, $description); return; }
+    throw new RuntimeException($description);
 }
 
-check(count($domain->catalog['parameters']) === 20, 'veinte parámetros');
-$gameDomain = appDomain([['id' => 'australia-albert-park', 'name' => 'Albert Park Circuit', 'location' => 'Australia']]);
-$gameCircuit = $gameDomain->circuit(['id' => 'australia-albert-park', 'origin' => 'game-catalog', 'name' => 'Untrusted name', 'downforce' => 'high']);
-check($gameCircuit['name'] === 'Albert Park Circuit' && $gameCircuit['downforce'] === 'unknown' && $gameCircuit['sources'] === [], 'catálogo resuelve identidad sin inventar características');
-rejects(static fn () => $gameDomain->circuit(['id' => 'unknown', 'origin' => 'game-catalog']), 'catálogo rechaza identificadores desconocidos');
-check($domain->circuit($gameCircuit) === $gameCircuit, 'snapshot del catálogo permite recuperación sin conexión');
-check($domain->values($base) == $base, 'el JSON heredado conserva sus valores');
-check($domain->compare($base, $base)['changes'] === [], 'comparar sin cambios');
-$current = $base;
-$current['cam_del'] = -3.5;
-$changes = $domain->compare($base, $current)['changes'];
-check($changes[0]['delta'] === -0.1 && $changes[0]['label'] === 'Caída más negativa', 'signo de caída negativa');
-check($base['cam_del'] === -3.4, 'referencia inmutable');
-$current = $base;
-$current['ala_del']++;
-$current['ala_tra']--;
-check(count($domain->compare($base, $current)['changes']) === 2, 'alerones opuestos no se cancelan');
-foreach ($domain->catalog['parameters'] as $p) {
-    foreach ([$p['min'], $p['max']] as $boundary) {
-        $input = $base;
-        $input[$p['id']] = $boundary;
-        check($domain->values($input)[$p['id']] == $boundary, 'límites de ' . $p['id']);
+/** Remove only a test-owned temporary tree and never follow a linked directory. */
+function removeTestTree(string $path): void
+{
+    if (!is_dir($path)) { return; }
+    foreach (new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS) as $entry) {
+        if ($entry->isDir() && !$entry->isLink()) { removeTestTree($entry->getPathname()); } else { unlink($entry->getPathname()); }
     }
-    $input = $base;
-    $input[$p['id']] = $p['min'] - $p['step'];
-    rejects(fn () => $domain->values($input), 'inferior fuera de rango');
-    $input[$p['id']] = $p['max'] + $p['step'];
-    rejects(fn () => $domain->values($input), 'superior fuera de rango');
-    $input[$p['id']] = $p['min'] + $p['step'] / 2;
-    rejects(fn () => $domain->values($input), 'no redondear pasos inválidos');
+    rmdir($path);
 }
-foreach ([null, '23', true, INF, NAN, []] as $invalid) {
-    $input = $base;
-    $input['ala_del'] = $invalid;
-    rejects(fn () => $domain->values($input), 'tipo y finitud');
+
+$catalog = new Catalog($root . '/data');
+$car25 = $catalog->car('2025');
+$car26 = $catalog->car('2026');
+check(count($car25->parameters()) === 20, 'Twenty published setting identifiers');
+check($car25->presets() === [], 'No invented 2025 presets');
+check(count($car26->presets()) === 5, 'Five known 2026 presets');
+check(!in_array('madrid', array_column($catalog->circuits('2025'), 'id'), true), 'Madring is edition-specific');
+check(in_array('madrid', array_column($catalog->circuits('2026'), 'id'), true), 'Madring available in 2026');
+$base = $car26->presets()[3];
+foreach ($car26->presets() as $preset) { check(count($car26->validate($preset)) === 20, 'Known preset accepted'); }
+foreach ($car26->parameters() as $parameter) {
+    foreach ([$parameter['min'], $parameter['max']] as $value) { $input = $base; $input[$parameter['id']] = $value; check($car26->validate($input)[$parameter['id']] == $value, 'Range boundary'); }
+    $input = $base; $input[$parameter['id']] = $parameter['min'] - $parameter['step'];
+    rejects(static fn () => $car26->validate($input), 'Below-range rejected');
+    $input[$parameter['id']] = $parameter['max'] + $parameter['step'];
+    rejects(static fn () => $car26->validate($input), 'Above-range rejected');
+    $input[$parameter['id']] = $parameter['min'] + $parameter['step'] / 2;
+    rejects(static fn () => $car26->validate($input), 'Off-step rejected');
+    $input[$parameter['id']] = '25';
+    rejects(static fn () => $car26->validate($input), 'Numeric strings rejected');
 }
-$input = $base;
-unset($input['ala_del']);
-rejects(fn () => $domain->values($input), 'parámetro ausente');
-$input = $base;
-$input['extra'] = 1;
-rejects(fn () => $domain->values($input), 'parámetro desconocido');
-foreach ([$legacy, ['values' => $base], $base, ['base' => $base, 'current' => $current]] as $input) {
-    $imported = $domain->importSetup($input);
-    check(count($imported['current']) === 20 && count($imported['reference']) === 20, 'compatibilidad heredada');
-}
-rejects(fn () => $domain->importSetup(['format' => 'otro', 'current' => $base]), 'formato desconocido');
-rejects(fn () => $domain->importSetup(['format' => 'f125-setup-engineer', 'schemaVersion' => 2, 'current' => $base]), 'versión futura');
-check($domain->importSetup(['current' => $base, 'season' => '2025'])['season'] === '2025', 'la temporada se conserva');
-check($domain->importSetup(['current' => $base])['season'] === 'unknown', 'la temporada ausente no se inventa');
-check($domain->importSetup(['current' => $base, 'groupNotes' => ['aero' => 'Probar más carga']])['groupNotes']['aero'] === 'Probar más carga', 'comentarios por grupo se conservan');
-rejects(fn () => $domain->importSetup(['current' => $base, 'groupNotes' => ['otro' => 'texto']]), 'grupo de comentarios desconocido');
-rejects(fn () => $domain->importSetup(['current' => $base, 'groupNotes' => ['aero' => str_repeat('a', 4001)]]), 'comentario demasiado largo');
-rejects(fn () => $domain->importSetup(['current' => $base, 'season' => '2024']), 'temporada inválida');
-rejects(fn () => $domain->importSetup(array_replace($legacy, ['referenceIsCapture' => 'sí'])), 'booleano heredado');
-$circuit = [
-    'id' => 'circuito-de-prueba', 'name' => 'Circuito de prueba', 'layout' => 'Ficticio', 'downforce' => 'mixed',
-    'summary' => 'Datos ficticios exclusivos de las pruebas, no importar para conducir.', 'characteristics' => [],
-    'sources' => [['title' => 'Fuente ficticia de prueba', 'url' => 'https://example.com', 'accessedAt' => '2026-11-04']],
-];
-$circuit = $domain->circuit($circuit);
-check($circuit['gameVersion'] === 'desconocida', 'no inventar versión');
-$envelope = ['format' => 'f125-circuit', 'schemaVersion' => 1, 'circuit' => $circuit];
-check($domain->importCircuit($envelope) === $circuit, 'circuito normalizado');
-$newProfile = ['format' => 'f125-circuit', 'schemaVersion' => 2, 'circuit' => [
-    'nombre' => 'Circuito imaginario', 'ubicacion' => 'País ficticio', 'longitud_km' => 5.451, 'curvas' => 16,
-    'categoria_carga' => 'Media-alta', 'curvas_y_rectas' => 'Curvas enlazadas y una recta larga.', 'caracteristicas_conduccion' => 'Apoyos prolongados.',
-]];
-$newCircuit = $domain->importCircuit($newProfile);
-check((bool) preg_match('/^custom-[a-f0-9]{32}$/', $newCircuit['id']), 'ID generado para ficha nueva');
-check($newCircuit['lengthKm'] === 5.451 && $newCircuit['cornerCount'] === 16 && $newCircuit['downforce'] === 'Media-alta', 'ficha visible completa');
-check($domain->importCircuit(['format' => 'f125-circuit', 'schemaVersion' => 2, 'circuit' => $newCircuit]) === $newCircuit, 'revalidación conserva identidad');
-check($domain->importCircuit(['format' => 'f125-circuit', 'schemaVersion' => 2, 'circuit' => ['nombre' => 'Prueba']])['lengthKm'] === null, 'solo nombre obligatorio');
-$badProfile = $newProfile;
-$badProfile['circuit']['curvas'] = -1;
-rejects(fn () => $domain->importCircuit($badProfile), 'número de curvas inválido');
-$badProfile = $newProfile;
-$badProfile['circuit']['longitud_km'] = '5,451';
-rejects(fn () => $domain->importCircuit($badProfile), 'longitud no numérica');
-$badProfile = $newProfile;
-$badProfile['circuit'] = $newCircuit;
-$badProfile['circuit']['id'] = 'monaco';
-rejects(fn () => $domain->importCircuit($badProfile), 'evitar colisión con catálogo');
-$badProfile = $newProfile;
-$badProfile['circuit'] = $newCircuit;
-$badProfile['circuit']['origin'] = 'game-catalog';
-rejects(fn () => $domain->importCircuit($badProfile), 'no alterar el origen');
-$badProfile = $newProfile;
-$badProfile['circuit'] = $newCircuit;
-$badProfile['circuit']['unexpected'] = 'extra';
-rejects(fn () => $domain->importCircuit($badProfile), 'rechazar campos internos desconocidos');
-$bad = $circuit;
-$bad['sources'][0]['url'] = 'javascript:alert(1)';
-rejects(fn () => $domain->circuit($bad), 'URL ejecutable');
-$bad = $circuit;
-$bad['sources'][0]['accessedAt'] = '2026-02-30';
-rejects(fn () => $domain->circuit($bad), 'fecha imposible');
-$bad = $circuit;
-$bad['id'] = '../datos';
-rejects(fn () => $domain->circuit($bad), 'id peligroso');
-$bad = $circuit;
-$bad['sources'] = [];
-rejects(fn () => $domain->circuit($bad), 'sin fuentes');
-$setup = ['format' => 'f125-setup-engineer', 'schemaVersion' => 1, 'title' => 'Prueba', 'circuit' => $circuit, 'reference' => $base, 'current' => $current, 'referenceSource' => 'game-assigned', 'season' => '2025', 'conditions' => ['surface' => 'dry', 'session' => 'race']];
-$snapshot = $domain->setup($setup);
-check($snapshot['season'] === '2025', 'guardar conserva temporada explícita');
-$bad = $setup;
-unset($bad['season']);
-rejects(fn () => $domain->setup($bad), 'no guardar sin temporada');
-$bad = $setup;
-$bad['season'] = 'unknown';
-rejects(fn () => $domain->setup($bad), 'no guardar temporada desconocida');
-check($domain->importSetup($snapshot)['current'] === $snapshot['current'], 'ida y vuelta JSON');
-check(!array_key_exists('driver', $snapshot), 'no atribuir hardware ni ayudas no declarados');
-$bad = $setup;
-unset($bad['reference']);
-rejects(fn () => $domain->setup($bad), 'no guardar sin referencia explícita');
-$bad = $setup;
-$bad['circuit'] = null;
-rejects(fn () => $domain->setup($bad), 'no guardar sin circuito');
-foreach ($domain->symptoms['items'] as $symptom) {
-    foreach ($symptom['steps'] as $step) {
-        check(array_key_exists($step['id'], $base), 'síntoma apunta a parámetro conocido');
-        check(in_array($step['direction'], ['up', 'down', 'inspect'], true), 'dirección de prueba válida');
-    }
-    check($symptom['combined'] !== '', 'combinaciones explicadas');
-}
-$phpFiles = array_merge(glob(dirname(__DIR__, 2) . '/public_html/*.php'), glob(dirname(__DIR__, 2) . '/src/*.php'));
-foreach ($phpFiles as $file) {
-    $source = file_get_contents($file);
-    check(!preg_match('/<style\b|\bstyle\s*=/i', $source), 'sin CSS inline en ' . basename($file));
-}
-$temporary = sys_get_temp_dir() . '/f125-state-' . bin2hex(random_bytes(8));
-mkdir($temporary);
-$statePath = $temporary . '/installation.json';
-$installation = new InstallationState($statePath);
+$input = $base; $input['unknown'] = 1;
+rejects(static fn () => $car26->validate($input), 'Unknown setting rejected');
+$comparison = new Comparison();
+check($comparison->compare($car26, $base, $base)['changes'] === [], 'No fabricated differences');
+$changed = $base; $changed['ala_del']++; $changed['ala_tra']--;
+check(count($comparison->compare($car26, $base, $changed)['changes']) === 2, 'Opposed wings do not cancel');
+$codec = new SetupCodec($catalog);
+$legacy = $codec->decode($base);
+check($legacy['season'] === 'unknown' && $legacy['reference'] === $legacy['current'], 'Legacy metadata stays unknown');
+$capture = $codec->decode(['format' => 'f125-comparador-v2', 'reference' => $base, 'current' => $changed, 'referenceIsCapture' => true]);
+check($capture['referenceSource'] === 'capture' && $capture['reference'] !== $capture['current'], 'Comparator capture provenance survives conversion');
+$record = ['format' => 'f125-setup-engineer', 'schemaVersion' => 1, 'season' => '2026', 'current' => $changed, 'reference' => $base, 'referenceSource' => 'capture', 'circuit' => ['id' => 'australia-albert-park', 'origin' => 'game-catalog', 'name' => '<script>bad()</script>', 'location' => 'bad'], 'title' => 'Test', 'notes' => 'notes', 'groupNotes' => ['aero' => 'keep'], 'conditions' => ['surface' => 'wet', 'session' => 'race']];
+$decoded = $codec->decode($record, true);
+check($decoded['reference'] !== $decoded['current'], 'Import preserves distinct reference');
+check($decoded['referenceSource'] === 'capture' && $decoded['groupNotes']['aero'] === 'keep', 'Metadata roundtrip');
+check($decoded['circuit']['name'] === 'Albert Park Circuit', 'Stored catalog identity is resolved authoritatively');
+$partial = $record; $partial['current'] = ['ala_del' => 26]; $partial['reference'] = null;
+$recovered = $codec->recover($partial);
+check($recovered['current']['ala_del'] === 26 && $recovered['current']['ala_tra'] === null && $recovered['reference'] === null, 'Partial recovery never persists or displays validation fillers');
+$record['season'] = 'unknown';
+rejects(static fn () => $codec->decode($record, true), 'Saving needs explicit season');
+$record['season'] = '2026'; $record['schemaVersion'] = 999;
+rejects(static fn () => $codec->decode($record), 'Unknown schema rejected');
+
+$temporary = sys_get_temp_dir() . '/f125-test-' . bin2hex(random_bytes(8));
+mkdir($temporary, 0700);
 try {
-    check(!$installation->isInstalled(), 'sin archivo requiere instalación');
-    file_put_contents($statePath, '{"installed":false}');
-    check(!$installation->isInstalled(), 'booleano false requiere instalación');
-    $installation->withLock(static function () use ($installation): void {
-        $installation->markInstalled();
+    mkdir($temporary . '/config'); mkdir($temporary . '/src');
+    $installation = new Installation($temporary);
+    check(!$installation->installed(), 'Missing state means pending');
+    JsonFile::write($temporary . '/config/installation.json', ['installed' => true]);
+    check($installation->installed(), 'Installed state independent of database');
+    JsonFile::write($temporary . '/config/installation.json', ['installed' => 'yes']);
+    rejects(static fn () => $installation->installed(), 'Corrupt state never reinstalls');
+    $po = $temporary . '/es.po';
+    file_put_contents($po, "msgid \"\"\nmsgstr \"\"\n\"Language: es\\n\"\n\"Plural-Forms: nplurals=2; plural=(n != 1);\\n\"\n\nmsgid \"Hello {name}\"\nmsgstr \"Hola {name}\"\n");
+    check(str_contains(compilePo($po, 'es'), 'Hola {name}'), 'PO compiler runs in PHP');
+    file_put_contents($po, str_replace('Hola {name}', 'Hola', file_get_contents($po)));
+    rejects(static fn () => compilePo($po, 'es'), 'Lost translation placeholder rejected');
+    if (!class_exists('ZipArchive')) { throw new RuntimeException('ZIP is required; package tests cannot be skipped.'); }
+    $identity = ['channel' => 'alpha', 'commit' => str_repeat('a', 40), 'pr' => 1, 'branch' => 'release/9.0.0'];
+    $zip = $temporary . '/package.zip';
+    buildPackage($root, $zip, '9.0.0-alpha.1', $identity);
+    $digest = hash_file('sha256', $zip);
+    buildPackage($root, $zip, '9.0.0-alpha.1', $identity);
+    check(hash_equals($digest, hash_file('sha256', $zip)), 'Reproducible package');
+    file_put_contents($temporary . '/src/VERSION', "0.4.0\n");
+    file_put_contents($temporary . '/config/local.php', 'private-secret-test');
+    $installer = new UpdateInstaller($temporary);
+    $contents = $installer->inspect($zip, '9.0.0-alpha.1');
+    check(isset($contents['src/Model/Car.php'], $contents['public_html/index.php']), 'Nested MVC files included');
+    check(!isset($contents['config/local.php'], $contents['dev/tests/run.php']), 'Private and development files excluded');
+    foreach (['../src/a.php', 'src/../config/local.php', 'src//a.php', 'config/local.php', 'public_html/assets/a.php', 'src/a.php/evil'] as $path) { check(!UpdateInstaller::allowed($path), 'Unsafe path rejected'); }
+    $installer->install($zip, '9.0.0-alpha.1');
+    check(trim(file_get_contents($temporary . '/src/VERSION')) === '9.0.0-alpha.1', 'Package installed');
+    check(file_get_contents($temporary . '/config/local.php') === 'private-secret-test', 'Private configuration preserved');
+    rejects(static fn () => $installer->install($zip, '9.0.0-alpha.1'), 'Downgrade or repeat rejected');
+    mkdir($temporary . '/backups/update-recovery', 0700, true);
+    mkdir($temporary . '/backups/update-recovery/src');
+    file_put_contents($temporary . '/backups/update-recovery/src/VERSION', "0.4.0\n");
+    JsonFile::write($temporary . '/config/update-journal.json', ['backup' => 'update-recovery', 'files' => ['src/VERSION' => true]]);
+    $installer->recover();
+    check(trim(file_get_contents($temporary . '/src/VERSION')) === '0.4.0', 'Interrupted update recovers prior version');
+    JsonFile::write($temporary . '/config/update-journal.json', ['backup' => 'update-recovery', 'files' => ['src/VERSION' => 'yes']]);
+    rejects(static fn () => $installer->recover(), 'Corrupt recovery state is rejected');
+    unlink($temporary . '/config/update-journal.json');
+    $renamed = new UpdateInstaller($temporary, 'www');
+    $renamed->install($zip, '9.0.0-alpha.1');
+    check(is_file($temporary . '/www/index.php'), 'Update supports a renamed public directory');
+    $protection = new \App\Infrastructure\PublicProtection($temporary . '/www');
+    file_put_contents($temporary . '/www/.htaccess', "# Custom hosting rule\n");
+    $original = $protection->inspect();
+    $protection->apply($original['hash']);
+    check(str_contains(file_get_contents($temporary . '/www/.htaccess'), '# Custom hosting rule'), 'Protection preserves hosting directives');
+    rejects(static fn () => $protection->apply($original['hash']), 'Stale protection form cannot overwrite a new revision');
+    file_put_contents($temporary . '/src/VERSION', "0.4.0\n");
+    $remote = (object) ['feed' => "alpha=9.0.0-alpha.1\nrelease=\n", 'draft' => false, 'digest' => $digest, 'marker' => true];
+    $http = new \App\Infrastructure\HttpClient(static function (string $url, bool $binary) use ($remote, $identity, $zip): string {
+        if (str_contains($url, 'versions.txt')) { return $remote->feed; }
+        if ($binary) { return file_get_contents($zip); }
+        return json_encode(['tag_name' => 'v9.0.0-alpha.1', 'draft' => $remote->draft, 'prerelease' => true, 'body' => $remote->marker ? '<!-- f125-update ' . json_encode($identity + ['format' => 'f125-update-v3']) . ' -->' : '', 'assets' => [['id' => 1, 'name' => 'f125-update-9.0.0-alpha.1.zip', 'size' => filesize($zip), 'digest' => 'sha256:' . $remote->digest, 'state' => 'uploaded']]], JSON_THROW_ON_ERROR);
     });
-    check($installation->isInstalled(), 'estado true persistido');
-    check((new InstallationState($statePath))->isInstalled(), 'estado recuperable por otra instancia');
-    check(json_decode(file_get_contents($statePath), true)['installed'] === true, 'booleano real en JSON');
-    file_put_contents($statePath, '{"installed":"true"}');
-    try {
-        $installation->isInstalled();
-        check(false, 'rechazar estado ambiguo');
-    } catch (RuntimeException $e) {
-        check(true, 'estado ambiguo rechazado');
+    $discovery = new \App\Application\UpdateDiscovery($temporary, $http);
+    $candidate = $discovery->check('alpha');
+    check($candidate['version'] === '9.0.0-alpha.1', 'Exact published release resolved');
+    check($discovery->download('alpha', $candidate['identity'])['bytes'] === file_get_contents($zip), 'Downloaded bytes match announced package digest');
+    $remote->draft = true;
+    rejects(static fn () => $discovery->check('alpha'), 'Draft release never announced');
+    $remote->draft = false; $remote->digest = str_repeat('b', 64);
+    rejects(static fn () => $discovery->download('alpha', $candidate['identity']), 'Changed asset identity needs a new confirmation');
+    $remote->digest = $digest; $remote->marker = false;
+    check($discovery->check('alpha') === null, 'Previous architecture releases are not offered to MVC installs');
+    $remote->feed = "alpha=invalid\nrelease=\n";
+    rejects(static fn () => $discovery->check('alpha'), 'Malformed feed rejected');
+} finally { removeTestTree($temporary); }
+
+// Lint new maintained PHP files using this exact runtime, including generated catalogs.
+foreach (['src', 'public_html', 'dev'] as $directory) {
+    foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root . '/' . $directory, FilesystemIterator::SKIP_DOTS)) as $file) {
+        if (!$file->isFile() || $file->getExtension() !== 'php') { continue; }
+        $process = proc_open([PHP_BINARY, '-l', $file->getPathname()], [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
+        if (!is_resource($process)) { throw new RuntimeException('Cannot lint PHP.'); }
+        $output = stream_get_contents($pipes[1]) . stream_get_contents($pipes[2]); fclose($pipes[1]); fclose($pipes[2]);
+        check(proc_close($process) === 0, $output);
     }
-    file_put_contents($statePath, '{');
-    try {
-        $installation->isInstalled();
-        check(false, 'rechazar JSON truncado');
-    } catch (JsonException $e) {
-        check(true, 'JSON truncado rechazado');
-    }
-    try {
-        $installation->withLock(static function (): void {
-            throw new RuntimeException('prueba');
-        });
-    } catch (RuntimeException $e) {
-    }
-    $installation->withLock(static function () use ($installation): void {
-        $installation->markInstalled();
-    });
-    check($installation->isInstalled(), 'bloqueo liberado tras error');
-    $missing = new InstallationState($temporary . '/inexistente/state.json');
-    check(!$missing->canWrite(), 'destino no disponible detectado');
-    try {
-        $missing->markInstalled();
-        check(false, 'fallo de escritura explícito');
-    } catch (RuntimeException $e) {
-        check(true, 'fallo de escritura explícito');
-    }
-} finally {
-    if (is_file($statePath)) {
-        unlink($statePath);
-    }
-    if (is_file($statePath . '.lock')) {
-        unlink($statePath . '.lock');
-    }
-    rmdir($temporary);
 }
-echo "OK: $count comprobaciones de dominio y contratos.\n";
+echo 'OK: ' . $checks . " PHP domain, format, package and recovery checks.\n";

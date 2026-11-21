@@ -1,14 +1,5 @@
 <?php
-
 declare(strict_types=1);
 
-/** Private configuration template; real credentials belong only in ignored local configuration. */
-// Copy to local.php and configure the database used by this installation.
-return [
-    'dsn' => 'mysql:host=127.0.0.1;dbname=APPLICATION_DATABASE;charset=utf8mb4',
-    'username' => 'APPLICATION_USER',
-    'password' => '',
-    // Optional: Contents:read and Pull requests:read for this private repository.
-    // Public repositories do not require a token. Alternatively use F125_GITHUB_TOKEN.
-    'github_token' => '',
-];
+// Copy to local.php outside the public directory and provide deployment-specific credentials.
+return ['dsn' => 'mysql:host=localhost;dbname=simracing;charset=utf8mb4', 'username' => '', 'password' => ''];

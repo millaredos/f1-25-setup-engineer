@@ -1,45 +1,9 @@
 [Versión en Español](es-es/traducciones.md)
 
-# Translations
+# Translation catalogs
 
-The interface currently ships in Spanish. **Opciones → Idioma de la aplicación** shows the available languages and saves the selection in a browser cookie scoped to this installation. The update channel remains an installation-wide setting.
+The current interface is Spanish. Only `es` is enabled; this rewrite does not claim complete support for a second language. Navigation messages use the catalog and remaining messages use their Spanish source text.
 
-## Catalogs
+Edit `languages/es.po`, then run `php dev/bin/translations.php`. The PHP compiler accepts singular entries and the Spanish two-form plural rule, checks placeholders and rejects duplicate, fuzzy or unsupported context entries. It generates the data-only `src/Translation/catalog_es.php`; do not edit generated output.
 
-Edit `languages/es.po` with a PO editor such as Poedit. It is the editable source; `src/locale_es.php` is generated and must not be edited manually. Its filename fits the paths accepted by existing Alpha updaters. No gettext extension or operating-system locale installation is required.
-
-PHP and JavaScript share the generated catalog through `Translation` and `public_html/i18n.php`. Output is escaped in HTML or inserted with `textContent`. Imported circuit descriptions, setup names, notes and original release notes retain their content.
-
-Bundled setting descriptions and handling advice pass through the translator while identifiers, numeric ranges, rules and import/export formats stay unchanged. `Domain` receives an optional translation callable and works independently of browser state.
-
-## Development workflow
-
-Install the development dependency once:
-
-```sh
-python -m pip install -r requirements-dev.txt
-```
-
-Use literal single-quoted messages in `t('Message')` in PHP and JavaScript, or `$this->tr('Message')` inside `Domain`. Use named placeholders for changing values, for example `t('Versión {version}', ['version' => appVersion()])` in PHP. Keep complete sentences together. Use `tn(one, many, count)` for plural messages.
-
-```sh
-python dev/bin/translations.py --extract
-# Translate the new entries in languages/es.po.
-python dev/bin/translations.py
-python dev/bin/translations.py --check
-php dev/tests/translations.php
-```
-
-Extraction updates the Spanish source catalog, preserving active translations and removing unused entries. It recognizes multiline literal calls and ignores comments. Dynamic messages from bundled data and updater errors are collected explicitly by the extraction tool. The package builder rejects stale generated catalogs, missing messages, incomplete or fuzzy translations, mismatched placeholders and unsupported plural rules. PO syntax and duplicate entries are checked with polib.
-
-Commit the PO source and generated PHP catalog together. The server loads the prepared files; it does not run Python, polib or conversion commands. A missing or invalid catalog falls back to source messages; a missing translated entry falls back to Spanish, then its source.
-
-## Add a language
-
-1. Copy `languages/es.po` to the new language code, for example `languages/en.po`, and update its `Language` header.
-2. Translate the entries, retaining message identifiers and named placeholders. Keep the catalogs complete when adding new messages.
-3. Generate and verify the catalogs with the commands above.
-4. Register the code and native display name in `Translation::LANGUAGES`.
-5. Review the complete interface, errors, number/date formatting and mobile layout; verify the saved cookie and the workshop's unsaved-change prompts.
-
-The current PHP and JavaScript plural implementation supports the Spanish/English rule `nplurals=2; plural=(n != 1);`. A language with another rule requires an explicit runtime change before it can be built. Adding a language does not require changing the database schema.
+Run `php dev/bin/translations.php --check` before packaging. CI checks that generated files match their source. Missing messages fall back to the source string. There is no automatic extraction command in the current tool. Register new messages explicitly when adding catalog-backed text. Adding another language requires complete message coverage, its plural rule and server/client integration; changing the allowed language list alone is insufficient.

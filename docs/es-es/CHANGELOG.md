@@ -1,32 +1,40 @@
 [English version](../../CHANGELOG.md)
 
-# Changelog
+# Registro de cambios
 
-Las categorías de cambios y la convención de commits se describen en el [flujo de releases](publicar-versiones.md#categorías-de-cambios-y-commits).
+Las categorías de cambios y commits se definen en el [procedimiento de publicación](publicar-versiones.md#categorías-de-cambios-y-commits).
 
-## Sin publicar
+## Sin publicar — 0.5.0
 
-### Corregido
+### Funcionalidades
 
-- Retirar de la página de inicio la nota sobre los reglajes predeterminados de 2025 pendientes de recopilar.
-- Conservar la referencia explícita y los metadatos al importar un reglaje en el taller.
-- Confirmar la sustitución por importación cuando un borrador sin valores contiene comentarios por grupo sin guardar.
-- Mantener la extracción de traducciones tras el formato multilínea y excluir los comentarios de la detección de mensajes.
+- Reconstruir la aplicación con un único controlador frontal público, vistas MVC privadas y modelos PHP orientados a objetos. Separar la validación del coche, las identidades de circuitos y las instantáneas de reglajes.
+- Cargar asignaciones de circuitos y valores predeterminados por temporada mediante un contrato común de coche. Dejar vacíos los valores de 2025 cuando no exista un predeterminado confirmado y compartir las fichas de circuitos independientemente de los reglajes.
+- Ofrecer consulta de circuitos, seis categorías de taller con explicaciones y comentarios por grupo, gestión de reglajes guardados, revisión de importaciones, exportación JSON, comparación y pruebas teóricas de conducción.
+- Conservar el borrador al navegar entre circuitos, taller y pruebas. Ofrecer recuperación explícita de borradores anteriores compatibles sin guardar silenciosamente nuevos borradores en el navegador.
+- Generar catálogos de traducción y paquetes de actualización reproducibles con herramientas PHP. Añadir automatización de versiones en PHP que prepara versiones Alpha y borradores estables.
 
-### Interno
+### Correcciones
 
-- Agrupar las herramientas de desarrollo, pruebas y fixtures en `dev/`.
-- Retirar los scripts de desarrollo Python y Node y el flujo automatizado de publicación; quedan pendientes sus sustitutos en PHP para publicación y generación de traducciones.
-- Generar el catálogo de migraciones con PHP.
-- Eliminar controles retirados del taller, estilos sin uso, traducciones obsoletas y datos de visualización de efectos sin consumidores.
-- Separar eventos del taller, validación por tipo de circuito y responsabilidades de validación y preparación de actualizaciones.
-- Mantener los metadatos del borrador en el estado del navegador y compartir el helper de escapado HTML entre páginas de mantenimiento.
-- Documentar responsabilidades del código y aplicar formato uniforme en PHP, JavaScript y CSS con configuraciones exclusivas de desarrollo.
+- Retirar de la página de inicio la nota sobre la recopilación pendiente de predeterminados de 2025.
+- Conservar las referencias importadas, su procedencia, condiciones y comentarios por grupo. Exigir asignación explícita de temporada cuando falte en archivos antiguos.
+- Confirmar la sustitución de borradores sin guardar, incluidos aquellos cuyos únicos cambios son comentarios.
+- Validar en servidor los veinte ajustes: identificadores admitidos, valores numéricos finitos, límites e incrementos. Resolver las identidades de circuitos distribuidos antes de guardar.
+- Rechazar respuestas de comparación desactualizadas y conservar el borrador cuando el almacenamiento no esté disponible.
+- Comprobar identidad, procedencia, digest y versión de las actualizaciones, también tras adquirir el bloqueo de instalación. Recuperar sustituciones interrumpidas mediante un registro persistente y conservar la configuración privada.
+
+### Refactorización
+
+- Sustituir la implementación anterior por controladores, servicios de aplicación, objetos de dominio, repositorios PDO y plantillas privadas. Conservar el esquema publicado de datos personales y los adaptadores JSON explícitos.
+- Separar transporte HTTP, borrador y coordinación de pantallas en el navegador. Separar variables CSS, componentes reutilizables y distribución del taller sin compilación.
+- Reunir herramientas y pruebas de desarrollo en `dev/`. Retirar las herramientas Python y Node y los artefactos generados anteriores.
+- Sustituir los catálogos distribuidos almacenados en base de datos por archivos versionados, sin alterar los registros personales ni eliminar las tablas de catálogo anteriores.
 
 ### Documentación
 
-- Definir las categorías de cambios y la convención de commits en el flujo de releases.
-- Añadir convenciones de código y actualizar las guías de arquitectura, traducción y pruebas.
+- Reescribir las guías de arquitectura, instalación y uso en inglés y español, incluidos contratos JSON, verificación y convenciones de publicación.
+- Documentar responsabilidades e invariantes no evidentes junto al código, configuración y pruebas mantenidos.
+- Documentar como manual la primera transición desde la arquitectura anterior. Los paquetes MVC usan el formato `f125-update-v3` y no deben instalarse con el actualizador anterior.
 
 ## 0.4.0 — 2026-11-20
 
