@@ -2,6 +2,42 @@
 
 # Changelog
 
+Change and commit categories are defined in the [release workflow](docs/releasing.md#change-and-commit-categories).
+
+## Unreleased — 0.5.0
+
+### Features
+
+- Rebuild the application around a single public front controller, private MVC views and object-oriented PHP models. Car validation, circuit identities and setup snapshots have separate responsibilities.
+- Load edition-specific circuit assignments and preset values through a shared car contract. Keep 2025 inputs empty when no confirmed preset exists; share circuit descriptions independently of setup values.
+- Provide circuit browsing, six workshop categories with parameter explanations and group comments, saved setup management, import review, JSON export, comparison and theoretical handling tests.
+- Keep the working draft while navigating circuits, workshop and tests. Offer explicit recovery of supported previous browser drafts without silently writing new drafts to browser storage.
+- Generate translation catalogs and reproducible update packages with PHP tools. Add PHP-only release automation that prepares Alpha releases and stable drafts.
+
+### Fixes
+
+- Restore browser updates from 0.4.0 using a compatible transport and a PHP ZIP transition. Back up and remove explicitly retired files, preserve private state, recover both journal formats and remove the temporary adapter after success.
+
+- Remove the pending 2025 preset collection note from the home page.
+- Preserve imported reference values, reference provenance, conditions and group comments. Require explicit season assignment when legacy files lack it.
+- Confirm replacement of unsaved drafts, including drafts whose only changes are notes.
+- Validate all twenty parameters on the server, including allowed IDs, finite numeric values, limits and increments. Resolve distributed circuit identities before saving.
+- Reject stale comparison responses and retain the draft when storage is unavailable.
+- Check update identity, source, digest and version, including after acquiring the installation lock. Recover interrupted replacements from a durable journal and preserve private configuration.
+
+### Refactoring
+
+- Replace the previous flat implementation with controllers, application services, domain objects, PDO repositories and private templates. Retain the published personal storage schema and explicit JSON adapters.
+- Separate browser HTTP transport, draft ownership and screen coordination. Separate CSS tokens, reusable components and workshop layout without a compilation step.
+- Keep development tools and tests under `dev/`. Remove the Python and Node toolchains and previous generated artifacts.
+- Replace database-backed distributed catalogs with versioned data files; leave existing personal records and previous catalog tables untouched.
+
+### Documentation
+
+- Rewrite architecture, installation and operation guidance in English and Spanish, including JSON contracts, verification and release conventions.
+- Document responsibilities and non-obvious invariants alongside maintained code, configuration and tests.
+- Document the automatic 0.4-to-MVC transition and its recovery, cleanup and transport contracts.
+
 ## 0.4.0 — 2026-11-20
 
 ### 0.4.0-alpha.3

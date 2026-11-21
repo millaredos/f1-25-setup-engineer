@@ -1,0 +1,4 @@
+{
+  "2025": {"name": "2025", "game": "f1-25", "parameters": "parameters", "presets": null, "excludedCircuits": ["madrid"], "theory": "shared-unverified"},
+  "2026": {"name": "2026 Season Pack", "game": "f1-25", "parameters": "parameters", "presets": "presets-2026", "excludedCircuits": [], "theory": "shared-unverified"}
+}

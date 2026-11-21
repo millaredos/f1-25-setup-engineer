@@ -1,6 +1,42 @@
 [English version](../../CHANGELOG.md)
 
-# Changelog
+# Registro de cambios
+
+Las categorías de cambios y commits se definen en el [procedimiento de publicación](publicar-versiones.md#categorías-de-cambios-y-commits).
+
+## Sin publicar — 0.5.0
+
+### Funcionalidades
+
+- Reconstruir la aplicación con un único controlador frontal público, vistas MVC privadas y modelos PHP orientados a objetos. Separar la validación del coche, las identidades de circuitos y las instantáneas de reglajes.
+- Cargar asignaciones de circuitos y valores predeterminados por temporada mediante un contrato común de coche. Dejar vacíos los valores de 2025 cuando no exista un predeterminado confirmado y compartir las fichas de circuitos independientemente de los reglajes.
+- Ofrecer consulta de circuitos, seis categorías de taller con explicaciones y comentarios por grupo, gestión de reglajes guardados, revisión de importaciones, exportación JSON, comparación y pruebas teóricas de conducción.
+- Conservar el borrador al navegar entre circuitos, taller y pruebas. Ofrecer recuperación explícita de borradores anteriores compatibles sin guardar silenciosamente nuevos borradores en el navegador.
+- Generar catálogos de traducción y paquetes de actualización reproducibles con herramientas PHP. Añadir automatización de versiones en PHP que prepara versiones Alpha y borradores estables.
+
+### Correcciones
+
+- Restablecer la actualización desde 0.4.0 mediante el navegador, con transporte compatible y transición PHP ZIP. Copiar y retirar archivos obsoletos explícitos, conservar el estado privado, recuperar ambos formatos de diario y eliminar el adaptador temporal al terminar.
+
+- Retirar de la página de inicio la nota sobre la recopilación pendiente de predeterminados de 2025.
+- Conservar las referencias importadas, su procedencia, condiciones y comentarios por grupo. Exigir asignación explícita de temporada cuando falte en archivos antiguos.
+- Confirmar la sustitución de borradores sin guardar, incluidos aquellos cuyos únicos cambios son comentarios.
+- Validar en servidor los veinte ajustes: identificadores admitidos, valores numéricos finitos, límites e incrementos. Resolver las identidades de circuitos distribuidos antes de guardar.
+- Rechazar respuestas de comparación desactualizadas y conservar el borrador cuando el almacenamiento no esté disponible.
+- Comprobar identidad, procedencia, digest y versión de las actualizaciones, también tras adquirir el bloqueo de instalación. Recuperar sustituciones interrumpidas mediante un registro persistente y conservar la configuración privada.
+
+### Refactorización
+
+- Sustituir la implementación anterior por controladores, servicios de aplicación, objetos de dominio, repositorios PDO y plantillas privadas. Conservar el esquema publicado de datos personales y los adaptadores JSON explícitos.
+- Separar transporte HTTP, borrador y coordinación de pantallas en el navegador. Separar variables CSS, componentes reutilizables y distribución del taller sin compilación.
+- Reunir herramientas y pruebas de desarrollo en `dev/`. Retirar las herramientas Python y Node y los artefactos generados anteriores.
+- Sustituir los catálogos distribuidos almacenados en base de datos por archivos versionados, sin alterar los registros personales ni eliminar las tablas de catálogo anteriores.
+
+### Documentación
+
+- Reescribir las guías de arquitectura, instalación y uso en inglés y español, incluidos contratos JSON, verificación y convenciones de publicación.
+- Documentar responsabilidades e invariantes no evidentes junto al código, configuración y pruebas mantenidos.
+- Documentar la transición automática de 0.4 a MVC y sus contratos de recuperación, limpieza y transporte.
 
 ## 0.4.0 — 2026-11-20
 

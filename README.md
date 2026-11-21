@@ -1,190 +1,67 @@
 [Versión en Español](docs/es-es/README.md)
 
-![MillasGamin — Simracing, F1, gameplay and competition](media/MillasGamin%20banner.png)
-
-<p align="center">
-  <img src="media/logo.png" alt="MillasGamin logo" width="112">
-</p>
-
 # F1 25 / 26 Setup Engineer
 
-A self-hosted web application for editing, comparing and saving setups for **F1 25** and its **2026 Season Pack**. Start from the game preset when available and review changes before testing them on track.
+A self-hosted PHP application to consult circuits, edit and compare setups, prepare theoretical handling tests, and save or export personal setups for F1 25 and its 2026 Season Pack.
 
-Built with PHP, MariaDB, vanilla JavaScript and plain CSS.
+Development version: **0.5.0-alpha.0**. This source rewrite is not a published release.
 
-[Installation](#installation) · [Usage](#usage) · [Updating](#updating) · [Documentation](#documentation) · [Development](#development)
+## Architecture
 
-## Features
+The application uses MVC and object-oriented PHP without a framework, Composer packages or a frontend build step. The public front controller composes controllers; models validate cars, circuits and setups; repositories own PDO queries; private views render prepared values. Browser modules separate draft ownership, transport and screen coordination. CSS separates shared tokens, components and workshop layout.
 
-- Twenty settings grouped by category, with explanations of their effects.
-- Compare edits with the values loaded into the workshop.
-- Suggested tests for eight handling symptoms.
-- JSON import for circuit profiles and setups.
-- Saved setups with group comments and a circuit profile.
-- JSON import and export.
-- Season selection for 2025 and 2026; 2025 game preset values are pending collection and verification.
-- Versioned database migrations with five 2026 car game presets and confirmed assignments for the 24 championship circuits plus Imola.
-
-The circuit selector includes the bundled game catalog and imported profiles for additional circuits. Setup explanations are guidance to test in the game.
-
-**Development version: 0.4.0-alpha.0.** See [CHANGELOG.md](CHANGELOG.md).
-
-## Requirements
-
-- Apache with PHP 8.0 or later, using a maintained PHP branch.
-- JSON, sessions, PDO and PDO_MYSQL extensions.
-- MariaDB with InnoDB.
-- A modern browser with JavaScript.
-- The PHP ZIP and cURL extensions to use the updater.
-
-The application has no user accounts. Configure authentication on the web server or proxy before allowing access over the Internet.
+```text
+public_html/       HTTP entry points and browser assets
+src/Controller/    Request coordination
+src/Model/         Car, circuit and setup rules
+src/Application/   Import, comparison, installation and update operations
+src/Persistence/   MariaDB repositories
+src/Infrastructure/ Catalogs, private state, HTTPS and locking
+src/Http/          Request, response, sessions and rendering
+src/View/          Private templates
+data/             Versioned catalogs and source descriptions
+languages/        Editable PO catalogs
+dev/              PHP development tools and tests
+config/           Private installation configuration
+```
 
 ## Installation
 
-Installation is completed in the browser. Prepare the files, permissions and database using your hosting tools.
+Requires PHP 8.0+, PDO_MYSQL and MariaDB. ZIP and cURL are required for updates. Serve **only** `public_html/`; source, data, configuration and backups must remain outside the webroot. Root and subdirectory installs are supported.
 
-1. Download the source and arrange the directories as follows. Only expose `public_html/` over HTTP:
+Copy `config/local.example.php` to `config/local.php` and set the database DSN, username and password. Alternatively provide `F125_DSN`, `F125_DB_USER` and `F125_DB_PASSWORD` in the server environment. Open the application and explicitly complete installation in the browser. No PHP command is required for the end user.
 
-   ```text
-   application-directory/
-   ├── public_html/
-   ├── src/
-   ├── data/
-   └── config/
-   ```
+Installation state is stored separately from the database. A later database outage does not restart installation. CSRF protects mutations; authentication, if needed, remains the hosting server's responsibility.
 
-   If your host calls its public directory `www`, `public` or another name, rename `public_html` to match. Keep `src/`, `data/` and `config/` as sibling directories outside the public directory.
+## Use
 
-2. Create a MariaDB database and account. Copy `config/local.example.php` to `config/local.php` and fill in the connection details:
+Select a season and circuit. The 2026 catalog contains five known presets and their assignments. The 2025 preset catalog is empty until values are collected. New drafts therefore remain empty when no confirmed preset exists.
 
-   ```php
-   <?php
-   return [
-       'dsn' => 'mysql:host=127.0.0.1;dbname=f125;charset=utf8mb4',
-       'username' => 'application_user',
-       'password' => 'REPLACE_ON_THE_SERVER',
-   ];
-   ```
+The workshop edits an in-memory draft. Save, replace, delete, import and export are explicit actions. Browsing circuits and theoretical tests preserves the draft. Leaving the workspace with pending edits requires a discard decision.
 
-3. Give PHP write access to `config/` and open the application URL.
-4. Review the requirements and click **Instalar**. The installer prepares the tables and opens the home screen.
+The twenty published setting IDs and supported JSON formats remain accepted. Imported references remain distinct from current values. Missing seasons remain unknown until explicitly selected. Explanations are theoretical and are not physical simulation or lap-time predictions. The current shared explanatory catalog has not been independently verified for both seasons.
 
-The application works at a site root or under a subdirectory such as `https://example.com/setups/`. Use the directory URL with a trailing slash or `index.php`; the server must map that location to the public directory.
+## Existing installations
 
-The [installation guide](docs/installation.md) covers permissions, environment variables and data recovery.
+The personal `f125_circuits`, `f125_setups` and schema-1 tables are retained. The rewrite reads their existing payloads. Distributed season data is now separate from those personal tables; older catalog tables are not deleted.
 
-### Nginx
-
-The documented installation uses Apache; this project has not yet verified installation with Nginx. Nginx does not read Apache `.htaccess` files. For a virtual host dedicated to this application, add the following **inside its existing `server` block**, before other regular-expression `location` blocks:
-
-```nginx
-autoindex off;
-
-# Deny hidden files and directories.
-location ~ (^|/)\. {
-    deny all;
-}
-
-# Deny common editor and backup files.
-location ~* (\.(bak|old|orig|save|swp|sql|log)|~)$ {
-    deny all;
-}
-
-error_page 404 = @f125_not_found;
-location @f125_not_found {
-    default_type text/plain;
-    return 404 "Page not found.\n";
-}
-```
-
-Keep the existing PHP handler and expose only the application’s public directory; `src/`, `data/`, `config/` and backups must stay outside every public mapping. The fragment applies to the whole virtual host. Review existing exact-match and `^~` locations, nested locations, ACME challenges under `.well-known`, and `error_page` or FastCGI/proxy error interception: they can alter which rules run or replace API JSON errors. After adding it, validate the configuration and verify PHP execution, 404 status, API JSON errors, denied files and private paths. Test separately if the application shares a virtual host or runs under a subdirectory.
-
-## Usage
-
-The interface is currently in Spanish. The names below match its menus and buttons.
-
-1. In **Circuitos**, select a season and circuit, then browse the game preset or a saved version by category. The 2025 game preset values are not yet available.
-2. Use **Añadir circuito** to download a JSON template and import [additional circuit profiles](docs/json-formats.md).
-3. In **Taller**, choose **Nuevo reglaje** and select a season and circuit, or choose **Editar reglaje** to open a saved setup. A new setup starts with the game preset where available; otherwise enter all values.
-4. Edit values, add comments for each category and save or delete the setup in the workshop. The summary compares against the values loaded. Use **Importar reglaje** to load a JSON file for review and save it as a new setup.
-5. In **Pruebas**, select the handling symptom you notice.
-
-Use **Exportar JSON** in **Taller** to export the active setup without leaving the editor.
-
-Open the version menu at the top right for **Opciones** and **Actualizaciones**. A dot marks a newer version for the selected channel. **Opciones → Idioma de la aplicación** currently offers **Español** and remembers the selection in this browser.
-
-Leaving the workshop with unsaved changes offers to save, discard or continue editing. Saving an existing setup updates it in MariaDB.
-
-Circuit browsing does not modify saved setups. The editing dialog lists setups for the selected circuit and season; game presets are available for 2026 only. Existing imported or saved conditions remain in their JSON.
-
-Imports support `f125-setup-engineer` and `f125-comparador-v2` JSON formats and validate the values before opening them in the workshop.
-
-## Updating
-
-Choose **Alpha** or **Estable** in **Opciones → Actualizaciones → Canal**. Alpha receives successful builds from the active release PR; Estable receives published stable versions. The application detects new versions after publication and displays available updates in the background. Click **Actualizar** to download, verify and install a build, with a private backup and recovery journal.
-
-See the [updating guide](docs/updating.md). Public repositories need no token; private repositories require a read-only GitHub token configured once on the server. There is no separate updater password or manual ZIP upload.
-
-For a complete backup, also back up MariaDB and `config/`. See [backup and restore](docs/installation.md#backup).
-
-## Documentation
-
-| Guide | Contents |
-| --- | --- |
-| [Installation](docs/installation.md) | Configuration, permissions, backup and restore. |
-| [JSON formats](docs/json-formats.md) | Circuit profiles and supported setup formats. |
-| [Circuit profiles](docs/circuit-profiles.md) | Track characteristics and sources for the bundled circuits. |
-| [Updating](docs/updating.md) | Packages and file recovery. |
-| [Release workflow](docs/releasing.md) | One PR per release, Alpha builds and stable publication. |
-| [Architecture](docs/architecture.md) | Stack, layers, dependencies and storage. |
-| [Translations](docs/translations.md) | PO catalogs and adding a language. |
-| [Testing](docs/testing.md) | Commands, results and limitations. |
-| [Roadmap](ROADMAP.md) | Ideas for future development. |
+Updates from 0.4.0 use the browser updater. Release packages retain its v2 transport contract and contain a hashed MVC ZIP. After the authorized installation, the redirect completes extraction under the update lock, backs up replacements and deletes only explicitly retired application files. Private configuration, installation state, database contents, hosting directives and unrelated files are preserved. Failed replacements restore a retryable state. The temporary adapter removes itself when complete; no file upload or shell command is required.
 
 ## Development
 
-A PHP monolith with separate presentation, domain and persistence layers. The frontend uses HTML, vanilla JavaScript and CSS in separate files.
-
-```text
-public_html/   Interface, HTTP API and static assets
-src/           PHP classes and bootstrap
-data/          Settings and handling-test catalogs
-languages/     Editable PO translation catalogs
-config/        Installation configuration
-tests/         Tests and fixtures
-bin/           Development tools
-docs/          Documentation; Spanish versions in es-es/
-media/         Logo and banner
-```
-
-Run the domain and updater tests:
+Only PHP is needed for project tools. There are no Python, Node, npm or browser automation packages in the project.
 
 ```sh
-python -m pip install -r requirements-dev.txt
-python bin/translations.py --check
-php tests/translations.php
-php tests/run.php
-php tests/updater.php
-php tests/updates.php
-python -m unittest discover -s tests -p 'test_*.py'
+php dev/bin/translations.php
+php dev/bin/translations.php --check
+php dev/tests/run.php
+php dev/tests/http.php
 ```
 
-The PHP update tests require ZIP. Browser tests use Node, Playwright and Edge or Chromium. Persistence tests require an empty test MariaDB database; see [testing](docs/testing.md).
-
-Local development server:
+Real MariaDB integration requires a dedicated empty database named `f125_test_*` and explicit test environment variables; see [testing](docs/testing.md). Inspect the UI with a temporary PHP server and a browser:
 
 ```sh
 php -d register_argc_argv=0 -d display_errors=0 -S 127.0.0.1:8125 -t public_html
 ```
 
-Open `http://127.0.0.1:8125/` and complete the installer. Node and Python are used for testing and packaging respectively; neither is required in production.
-
-### Contributing
-
-When reporting a bug, include the version, environment, steps and expected result. Remove credentials and private data from examples.
-
-Changes to settings and explanations should include sources and preserve the existing identifiers and JSON formats.
-
-## License
-
-[MIT](LICENSE). An independent project, not affiliated with EA, Codemasters or Formula 1.
+[Architecture](docs/architecture.md) · [Formats](docs/json-formats.md) · [Release procedure](docs/releasing.md) · [Changelog](CHANGELOG.md)

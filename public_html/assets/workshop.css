@@ -1,0 +1,19 @@
+/* Workshop uses shared components, adding only the layout needed by editor fields and cards. */
+.fields, .parameter-grid, .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1rem; }
+.section-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.parameter { padding: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius); }
+.parameter h3 { margin-top: 0; font-size: 1rem; }
+.parameter p { font-size: 0.85rem; }
+.parameter .reference { font-size: 0.8rem; color: var(--color-muted); }
+.parameter-group { margin: 1rem 0; }
+.parameter-group textarea { margin-top: 0.5rem; }
+.change { padding: 0.75rem 0; border-bottom: 1px solid var(--color-border); }
+.change strong { display: block; }
+.editor-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr); gap: 1.25rem; align-items: start; }
+#parameter-info { position: sticky; top: 1rem; }
+.tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.tab { border: 1px solid var(--color-border); border-radius: 0.4rem; padding: 0.6rem; color: var(--color-accent); background: var(--color-surface); }
+.tab[aria-pressed="true"] { background: var(--color-accent); color: white; }
+dl dt { font-weight: 700; margin-top: 0.75rem; }
+dl dd { margin: 0.25rem 0 0.5rem; }
+@media (max-width: 760px) { .editor-layout { grid-template-columns: 1fr; } #parameter-info { position: static; } }
