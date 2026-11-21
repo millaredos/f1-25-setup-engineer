@@ -4,6 +4,29 @@
 
 Use one `release/X.Y.Z` branch and one PR to `main` for the entire release. Add every Alpha increment to that PR. Keep its description current: it becomes the release notes.
 
+## Change and commit categories
+
+Record every change in the English and Spanish changelogs when it is made. Place unpublished work under `Unreleased` / `Sin publicar` and group entries under the applicable headings below. Describe the result in plain language; omit empty headings. Move entries into the actual Alpha or release section when its version is known. Existing release history keeps its original format.
+
+| Commit type | Changelog heading (English / Spanish) | Use |
+| --- | --- | --- |
+| `feat` | Added / Añadido | New user-facing functionality or capability. |
+| `fix` | Fixed / Corregido | Correction of a defect, including incorrect interface text. |
+| `hotfix` | Fixed / Corregido | Urgent correction of a critical production defect that cannot wait for the normal release cycle. |
+| `change` | Changed / Cambiado | A deliberate change to existing behavior or presentation that is not a fix. |
+| `remove` | Removed / Eliminado | Removal of existing functionality or content, unless the removal corrects a defect. |
+| `docs` | Documentation / Documentación | Documentation changes. |
+| `refactor` | Internal / Interno | Code restructuring without an intended behavior change. |
+| `perf` | Performance / Rendimiento | Performance improvement. |
+| `test` | Tests / Pruebas | Tests or test infrastructure. |
+| `style` | Internal / Interno | Formatting or import ordering without a logic change. |
+| `build` | Build / Compilación | Package or build system changes. |
+| `ci` | CI / Integración continua | Continuous integration and publication workflows. |
+| `chore` | Maintenance / Mantenimiento | Routine repository or tool maintenance without production code or test changes. |
+| `revert` | Reverted / Revertido | Reversal of an earlier change or commit. |
+
+Use English commit subjects in the form `type: short description`, for example `fix: remove outdated home page note`. Choose the type by intent, not by the files touched. A change that removes incorrect text is a `fix`; deleting a feature is `remove`. Use `build` for dependency changes affecting the build or package, and `chore` for routine development-tool maintenance. Group related changes in a commit, and describe any additional impact in its body when needed. These prefixes classify work; they do not automatically determine the next version or publish a release. A `hotfix` still follows the release and approval process. Apply the version policy below separately. For incompatible changes, state the affected contract and upgrade or recovery steps in the changelog and release notes.
+
 ## Version policy
 
 Versions use `MAJOR.MINOR.PATCH`, with `-alpha.N` for test builds. The current development target is `0.4.0`; its Alpha builds use `0.4.0-alpha.N`. Their build number is an identifier, not a readiness score.

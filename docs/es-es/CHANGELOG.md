@@ -2,6 +2,18 @@
 
 # Changelog
 
+Las categorías de cambios y la convención de commits se describen en el [flujo de releases](publicar-versiones.md#categorías-de-cambios-y-commits).
+
+## Sin publicar
+
+### Corregido
+
+- Retirar de la página de inicio la nota sobre los reglajes predeterminados de 2025 pendientes de recopilar.
+
+### Documentación
+
+- Definir las categorías de cambios y la convención de commits en el flujo de releases.
+
 ## 0.4.0 — 2026-11-20
 
 ### 0.4.0-alpha.3

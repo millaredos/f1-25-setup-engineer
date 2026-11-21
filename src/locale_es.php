@@ -149,7 +149,7 @@ return [
         'Conoce el circuito' => 'Conoce el circuito',
         'Conserva tus reglajes' => 'Conserva tus reglajes',
         'Consulta la ficha del circuito y el compromiso entre curvas rápidas y rectas. No se calcula velocidad perdida.' => 'Consulta la ficha del circuito y el compromiso entre curvas rápidas y rectas. No se calcula velocidad perdida.',
-        'Consulta los reglajes predeterminados de Codemasters y utiliza el que el juego asigna al circuito como punto de partida. También puedes recuperar un reglaje guardado y seguir trabajando con él. Los predeterminados del coche de 2025 están pendientes de recopilar.' => 'Consulta los reglajes predeterminados de Codemasters y utiliza el que el juego asigna al circuito como punto de partida. También puedes recuperar un reglaje guardado y seguir trabajando con él. Los predeterminados del coche de 2025 están pendientes de recopilar.',
+        'Consulta los reglajes predeterminados de Codemasters y utiliza el que el juego asigna al circuito como punto de partida. También puedes recuperar un reglaje guardado y seguir trabajando con él.' => 'Consulta los reglajes predeterminados de Codemasters y utiliza el que el juego asigna al circuito como punto de partida. También puedes recuperar un reglaje guardado y seguir trabajando con él.',
         'Contenido JSON' => 'Contenido JSON',
         'Contexto de {name}: {text}' => 'Contexto de {name}: {text}',
         'Convergencia trasera' => 'Convergencia trasera',

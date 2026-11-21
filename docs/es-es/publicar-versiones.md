@@ -4,6 +4,29 @@
 
 Utiliza una rama `release/X.Y.Z` y una única PR hacia `main` para toda la release. Añade cada incremento Alpha a esa PR. Mantén su descripción actualizada: se convertirá en las notas de la release.
 
+## Categorías de cambios y commits
+
+Registra cada cambio en los changelogs inglés y español al realizarlo. Sitúa el trabajo pendiente bajo `Unreleased` / `Sin publicar` y agrupa las entradas con los encabezados correspondientes de la tabla. Describe el resultado con claridad y omite los encabezados vacíos. Traslada las entradas a la sección de la Alpha o release real cuando se conozca su versión. Las versiones anteriores conservan su formato original.
+
+| Tipo de commit | Encabezado del changelog (inglés / español) | Uso |
+| --- | --- | --- |
+| `feat` | Added / Añadido | Nueva función o capacidad visible para el usuario. |
+| `fix` | Fixed / Corregido | Corrección de un fallo, incluido un texto incorrecto de la interfaz. |
+| `hotfix` | Fixed / Corregido | Corrección urgente de un fallo crítico en producción que no puede esperar al ciclo normal de lanzamiento. |
+| `change` | Changed / Cambiado | Cambio deliberado en un comportamiento o presentación existentes que no corrige un fallo. |
+| `remove` | Removed / Eliminado | Eliminación de funciones o contenido, salvo cuando corrige un fallo. |
+| `docs` | Documentation / Documentación | Cambios de documentación. |
+| `refactor` | Internal / Interno | Reorganización del código sin cambios de comportamiento previstos. |
+| `perf` | Performance / Rendimiento | Mejora de rendimiento. |
+| `test` | Tests / Pruebas | Pruebas o infraestructura de pruebas. |
+| `style` | Internal / Interno | Formato u orden de importaciones sin cambios de lógica. |
+| `build` | Build / Compilación | Cambios en el paquete o el sistema de compilación. |
+| `ci` | CI / Integración continua | Flujos de integración continua y publicación. |
+| `chore` | Maintenance / Mantenimiento | Mantenimiento rutinario del repositorio o herramientas sin cambios en código de producción ni pruebas. |
+| `revert` | Reverted / Revertido | Reversión de un cambio o commit anterior. |
+
+Escribe los asuntos de los commits en inglés con el formato `tipo: descripción breve`, por ejemplo `fix: remove outdated home page note`. Elige el tipo por la intención, no por los archivos modificados. Quitar un texto incorrecto es `fix`; eliminar una función es `remove`. Usa `build` para dependencias que afectan a la compilación o al paquete, y `chore` para mantenimiento rutinario de herramientas de desarrollo. Agrupa cambios relacionados en un commit y explica los efectos adicionales en su cuerpo cuando haga falta. Estos prefijos clasifican el trabajo; no determinan automáticamente la versión ni publican una release. Un `hotfix` también sigue el proceso de release y aprobación. Aplica por separado la política de versiones siguiente. En cambios incompatibles, indica el contrato afectado y los pasos de actualización o recuperación en el changelog y las notas de release.
+
 ## Política de versiones
 
 Las versiones siguen `MAYOR.MENOR.PARCHE`, con `-alpha.N` para las compilaciones de prueba. El objetivo de desarrollo actual es `0.4.0`; sus compilaciones Alpha usan `0.4.0-alpha.N`. El número de compilación identifica una entrega, no su grado de madurez.

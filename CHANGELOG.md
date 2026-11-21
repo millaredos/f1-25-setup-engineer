@@ -2,6 +2,18 @@
 
 # Changelog
 
+Change categories and commit conventions are described in the [release workflow](docs/releasing.md#change-and-commit-categories).
+
+## Unreleased
+
+### Fixed
+
+- Remove the pending 2025 presets note from the home page.
+
+### Documentation
+
+- Define change categories and commit conventions in the release workflow.
+
 ## 0.4.0 — 2026-11-20
 
 ### 0.4.0-alpha.3

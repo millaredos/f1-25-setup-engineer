@@ -32,7 +32,7 @@ header('Referrer-Policy: same-origin');
         <section><h2><?= h(t('Conoce el circuito')) ?></h2>
           <p><?= h(t('Cada circuito plantea retos diferentes. Consulta su ficha para conocer el trazado, sus curvas y rectas, la carga aerodinámica orientativa y otras características que pueden influir en la conducción.')) ?></p></section>
         <section><h2><?= h(t('Parte de un reglaje')) ?></h2>
-          <p><?= h(t('Consulta los reglajes predeterminados de Codemasters y utiliza el que el juego asigna al circuito como punto de partida. También puedes recuperar un reglaje guardado y seguir trabajando con él. Los predeterminados del coche de 2025 están pendientes de recopilar.')) ?></p></section>
+          <p><?= h(t('Consulta los reglajes predeterminados de Codemasters y utiliza el que el juego asigna al circuito como punto de partida. También puedes recuperar un reglaje guardado y seguir trabajando con él.')) ?></p></section>
         <section><h2><?= h(t('Entiende los cambios')) ?></h2>
           <p><?= h(t('Cada ajuste incluye una explicación de cómo podría influir en el comportamiento del coche. Al modificarlo, puedes comparar sus valores con los iniciales y revisar los posibles efectos.')) ?></p>
           <p><?= h(t('Los ajustes no actúan siempre de forma aislada: un cambio puede reforzar, contrarrestar o dificultar el efecto de otro. Las explicaciones orientan tus pruebas; el resultado depende del conjunto del reglaje y de lo que notes al conducir.')) ?></p></section>
