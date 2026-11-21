@@ -40,6 +40,7 @@ Thumbs.db
 .DS_Store
 
 /dist/
+/dev/tools/
 __pycache__/
 *.pyc
 /referencia/

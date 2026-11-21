@@ -1,19 +1,55 @@
 <?php
+
 declare(strict_types=1);
-require dirname(__DIR__) . '/src/bootstrap.php';
+
+/** Offline channel, release identity, rate limit and integrity tests with injected HTTP responses. */
+require dirname(__DIR__, 2) . '/src/bootstrap.php';
 require __DIR__ . '/fixtures/github.php';
-if (!class_exists('ZipArchive')) { fwrite(STDERR, "ZIP is required for update tests.\n"); exit(2); }
+if (!class_exists('ZipArchive')) {
+    fwrite(STDERR, "ZIP is required for update tests.\n");
+    exit(2);
+}
 $root = sys_get_temp_dir() . '/f125-channels-' . bin2hex(random_bytes(6));
-mkdir($root, 0700); mkdir($root . '/config'); mkdir($root . '/src'); file_put_contents($root . '/src/VERSION', "0.3.0-alpha.0\n"); $checks = 0;
-function testUpdate(bool $ok, string $message): void { global $checks; if (!$ok) { throw new RuntimeException($message); } $checks++; }
-function rejectUpdate(callable $call, string $message): void { try { $call(); } catch (Throwable $e) { testUpdate(true, $message); return; } testUpdate(false, $message); }
+mkdir($root, 0700);
+mkdir($root . '/config');
+mkdir($root . '/src');
+file_put_contents($root . '/src/VERSION', "0.3.0-alpha.0\n");
+$checks = 0;
+/**
+ * Count a discovery/integrity assertion against the injected offline transport.
+ */
+function testUpdate(bool $ok, string $message): void
+{
+    global $checks;
+    if (!$ok) {
+        throw new RuntimeException($message);
+    }
+    $checks++;
+}
+/**
+ * Require rejection of an invalid release, channel or download operation.
+ */
+function rejectUpdate(callable $call, string $message): void
+{
+    try {
+        $call();
+    } catch (Throwable $e) {
+        testUpdate(true, $message);
+        return;
+    } testUpdate(false, $message);
+}
 try {
     $settings = new UpdateSettings($root);
     testUpdate($settings->channel() === 'release', 'Release is the default');
-    $settings->save('alpha'); testUpdate((new UpdateSettings($root))->channel() === 'alpha', 'Channel is persistent');
-    rejectUpdate(fn() => $settings->save('main'), 'Unknown channel rejected');
-    foreach (['0.3.0-alpha.1', '0.3.0-alpha.12', '1.2.3'] as $version) { testUpdate(Updater::validVersion($version), 'Version accepted'); }
-    foreach (['v0.3.0', '0.3', '0.3.0-beta.1', '0.3.0-alpha.01', '../main'] as $version) { testUpdate(!Updater::validVersion($version), 'Version rejected'); }
+    $settings->save('alpha');
+    testUpdate((new UpdateSettings($root))->channel() === 'alpha', 'Channel is persistent');
+    rejectUpdate(fn () => $settings->save('main'), 'Unknown channel rejected');
+    foreach (['0.3.0-alpha.1', '0.3.0-alpha.12', '1.2.3'] as $version) {
+        testUpdate(Updater::validVersion($version), 'Version accepted');
+    }
+    foreach (['v0.3.0', '0.3', '0.3.0-beta.1', '0.3.0-alpha.01', '../main'] as $version) {
+        testUpdate(!Updater::validVersion($version), 'Version rejected');
+    }
     testUpdate(version_compare('0.3.0-alpha.12', '0.3.0-alpha.2', '>'), 'Alpha ordering is numeric');
     testUpdate(version_compare('0.3.0', '0.3.0-alpha.12', '>'), 'Stable supersedes its alpha');
     fixturePackage($root . '/package.zip', '0.3.0-alpha.2');
@@ -23,7 +59,8 @@ try {
     $alpha = $service->check('alpha');
     testUpdate($alpha['candidate']['version'] === '0.3.0-alpha.2', 'Alpha follows release PR builds');
     $requests = count($log->requests);
-    $service->check('alpha'); $service->check('alpha', true);
+    $service->check('alpha');
+    $service->check('alpha', true);
     testUpdate(count($log->requests) === $requests, 'Shared cache and forced-check throttle');
     $stable = $service->check('release');
     testUpdate($stable['candidate'] === null && $stable['available'] === '0.2.0', 'Older stable does not query GitHub or offer a downgrade');
@@ -35,13 +72,25 @@ try {
     };
     foreach (['draft', 'missingDigest', 'missingAsset', 'wrongChannel', 'badTag', 'unpublished'] as $case) {
         $release = $makeRelease();
-        if ($case === 'draft') { $release['draft'] = true; }
-        if ($case === 'missingDigest') { unset($release['assets'][0]['digest']); }
-        if ($case === 'missingAsset') { $release['assets'] = []; }
-        if ($case === 'wrongChannel') { $release['prerelease'] = false; }
-        if ($case === 'badTag') { $release['tag_name'] = 'main'; }
-        if ($case === 'unpublished') { $release['published_at'] = null; }
-        rejectUpdate(fn() => $service->candidate($release, 'alpha'), $case . ' rejected');
+        if ($case === 'draft') {
+            $release['draft'] = true;
+        }
+        if ($case === 'missingDigest') {
+            unset($release['assets'][0]['digest']);
+        }
+        if ($case === 'missingAsset') {
+            $release['assets'] = [];
+        }
+        if ($case === 'wrongChannel') {
+            $release['prerelease'] = false;
+        }
+        if ($case === 'badTag') {
+            $release['tag_name'] = 'main';
+        }
+        if ($case === 'unpublished') {
+            $release['published_at'] = null;
+        }
+        rejectUpdate(fn () => $service->candidate($release, 'alpha'), $case . ' rejected');
     }
     $redirectLog = [];
     $redirectClient = new GitHubClient('secret-test-token', static function ($url, $headers) use (&$redirectLog) {
@@ -50,10 +99,14 @@ try {
     });
     $redirectClient->get('/repos/' . GitHubClient::REPOSITORY . '/releases/assets/102', true);
     testUpdate(str_contains(implode(' ', $redirectLog[0]), 'secret-test-token') && !str_contains(implode(' ', $redirectLog[1]), 'secret-test-token'), 'Token never forwarded to storage hosts');
-    $badRedirect = new GitHubClient('', static fn() => ['status' => 302, 'headers' => ['location' => 'http://127.0.0.1/secret'], 'body' => '']);
-    rejectUpdate(fn() => $badRedirect->get('/repos/' . GitHubClient::REPOSITORY . '/releases/assets/102', true), 'Unsafe redirect rejected');
+    $badRedirect = new GitHubClient('', static fn () => ['status' => 302, 'headers' => ['location' => 'http://127.0.0.1/secret'], 'body' => '']);
+    rejectUpdate(fn () => $badRedirect->get('/repos/' . GitHubClient::REPOSITORY . '/releases/assets/102', true), 'Unsafe redirect rejected');
     foreach ([403, 429, 500] as $status) {
-        $errorRoot = $root . '/error-' . $status; mkdir($errorRoot); mkdir($errorRoot . '/config'); mkdir($errorRoot . '/src'); file_put_contents($errorRoot . '/src/VERSION', "0.2.0\n");
+        $errorRoot = $root . '/error-' . $status;
+        mkdir($errorRoot);
+        mkdir($errorRoot . '/config');
+        mkdir($errorRoot . '/src');
+        file_put_contents($errorRoot . '/src/VERSION', "0.2.0\n");
         $errorLog = (object) ['requests' => []];
         $failed = new GitHubUpdates($errorRoot, new GitHubClient('', fixtureGitHub('', ['status' => $status, 'stableVersion' => '0.3.0'], $errorLog)));
         $failedCheck = $failed->check('release');
@@ -70,18 +123,28 @@ try {
         [429, ['retry-after' => '30', 'x-ratelimit-reset' => (string) (time() + 3600)], 30],
         [429, [], 60],
     ] as [$status, $headers, $seconds]) {
-        $limited = new GitHubClient('', static fn() => ['status' => $status, 'headers' => $headers, 'body' => '']);
+        $limited = new GitHubClient('', static fn () => ['status' => $status, 'headers' => $headers, 'body' => '']);
         $started = time();
-        try { $limited->get('/repos/' . GitHubClient::REPOSITORY . '/releases/latest'); testUpdate(false, 'Rate limit must throw'); }
-        catch (GitHubRetry $error) {
+        try {
+            $limited->get('/repos/' . GitHubClient::REPOSITORY . '/releases/latest');
+            testUpdate(false, 'Rate limit must throw');
+        } catch (GitHubRetry $error) {
             testUpdate(abs($error->retryAt - ($started + $seconds)) <= 2, 'GitHub retry time honored without an extra hour');
             testUpdate(str_contains($error->getMessage(), 'request limit'), 'Rate limit has a specific message');
         }
     }
-    $denied = new GitHubClient('', static fn() => ['status' => 403, 'headers' => [], 'body' => '{"message":"Resource not accessible"}']);
-    try { $denied->get('/repos/' . GitHubClient::REPOSITORY . '/releases/latest'); testUpdate(false, 'Denied access must throw'); }
-    catch (RuntimeException $error) { testUpdate(!$error instanceof GitHubRetry && str_contains($error->getMessage(), 'denied access'), 'Permission denial is not mislabeled as a rate limit'); }
-    $retryRoot = $root . '/expired-retry'; mkdir($retryRoot); mkdir($retryRoot . '/config'); mkdir($retryRoot . '/src'); file_put_contents($retryRoot . '/src/VERSION', "0.3.0-alpha.0\n");
+    $denied = new GitHubClient('', static fn () => ['status' => 403, 'headers' => [], 'body' => '{"message":"Resource not accessible"}']);
+    try {
+        $denied->get('/repos/' . GitHubClient::REPOSITORY . '/releases/latest');
+        testUpdate(false, 'Denied access must throw');
+    } catch (RuntimeException $error) {
+        testUpdate(!$error instanceof GitHubRetry && str_contains($error->getMessage(), 'denied access'), 'Permission denial is not mislabeled as a rate limit');
+    }
+    $retryRoot = $root . '/expired-retry';
+    mkdir($retryRoot);
+    mkdir($retryRoot . '/config');
+    mkdir($retryRoot . '/src');
+    file_put_contents($retryRoot . '/src/VERSION', "0.3.0-alpha.0\n");
     $retryClient = new GitHubClient('', fixtureGitHub($root . '/package.zip'));
     Updater::atomicJson($retryRoot . '/config/update-cache.json', [$retryClient->cacheKey() . ':alpha' =>
         ['checked' => time(), 'installed' => '0.3.0-alpha.0', 'retryAt' => time() - 1, 'error' => 'Previous rate limit', 'candidate' => null]]);
@@ -91,9 +154,12 @@ try {
     foreach (["", "alpha=0.3.0-alpha.2\n", "alpha=0.3.0-alpha.2\nalpha=\n", "alpha=0.3.0\nrelease=\n",
         "alpha=\nrelease=0.3.0-alpha.2\n", "alpha=0.3.0-alpha.02\nrelease=\n", "alpha=../bad\nrelease=\n",
         "alpha=\nrelease=\nother=x\n", str_repeat('x', 2049)] as $badFeed) {
-        rejectUpdate(fn() => GitHubClient::parseVersions($badFeed), 'Malformed version service rejected');
+        rejectUpdate(fn () => GitHubClient::parseVersions($badFeed), 'Malformed version service rejected');
     }
-    $feedRoot = $root . '/feed'; mkdir($feedRoot); mkdir($feedRoot . '/config'); mkdir($feedRoot . '/src');
+    $feedRoot = $root . '/feed';
+    mkdir($feedRoot);
+    mkdir($feedRoot . '/config');
+    mkdir($feedRoot . '/src');
     file_put_contents($feedRoot . '/src/VERSION', "0.3.0-alpha.2\n");
     $feedLog = (object) ['requests' => []];
     $feedClient = new GitHubClient('private-token', fixtureGitHub($root . '/package.zip', [], $feedLog));
@@ -111,14 +177,22 @@ try {
     file_put_contents($feedRoot . '/src/VERSION', "0.3.0-alpha.1\n");
     $newer = $feedService->check('alpha');
     testUpdate($newer['candidate']['version'] === '0.3.0-alpha.2', 'New release resolved after installed-version change');
-    $apiRequests = array_values(array_filter($feedLog->requests, fn($request) => str_starts_with($request['url'], 'https://api.github.com/')));
+    $apiRequests = array_values(array_filter($feedLog->requests, fn ($request) => str_starts_with($request['url'], 'https://api.github.com/')));
     testUpdate(count($apiRequests) === 1 && str_contains($apiRequests[0]['url'], '/releases/tags/v0.3.0-alpha.2'), 'Newer version needs one exact-release API lookup');
-    $cache = json_decode(file_get_contents($cacheFile), true); foreach ($cache as &$entry) { $entry['checked'] = time() - 301; } unset($entry);
+    $cache = json_decode(file_get_contents($cacheFile), true);
+    foreach ($cache as &$entry) {
+        $entry['checked'] = time() - 301;
+    } unset($entry);
     Updater::atomicJson($cacheFile, $cache);
-    $beforeRefresh = count($feedLog->requests); $feedService->check('alpha');
+    $beforeRefresh = count($feedLog->requests);
+    $feedService->check('alpha');
     testUpdate(count($feedLog->requests) === $beforeRefresh + 1, 'Known release metadata reused across version-feed refreshes');
     foreach ([['feedStatus' => 503], ['feedStatus' => 302], ['feed' => "invalid\n"]] as $options) {
-        $failureRoot = $root . '/feed-failure-' . bin2hex(random_bytes(3)); mkdir($failureRoot); mkdir($failureRoot . '/config'); mkdir($failureRoot . '/src'); file_put_contents($failureRoot . '/src/VERSION', "0.3.0-alpha.0\n");
+        $failureRoot = $root . '/feed-failure-' . bin2hex(random_bytes(3));
+        mkdir($failureRoot);
+        mkdir($failureRoot . '/config');
+        mkdir($failureRoot . '/src');
+        file_put_contents($failureRoot . '/src/VERSION', "0.3.0-alpha.0\n");
         $failureLog = (object) ['requests' => []];
         $failure = (new GitHubUpdates($failureRoot, new GitHubClient('', fixtureGitHub('', $options, $failureLog))))->check('alpha');
         testUpdate(isset($failure['error']) && count($failureLog->requests) === 1, 'Feed outage/redirect/malformed response never falls back to GitHub polling');
@@ -131,14 +205,19 @@ try {
     $switching = new GitHubUpdates($feedRoot, $switchingClient);
     $switchingCandidate = $switching->check('alpha')['candidate'];
     $changedFeed = "alpha=0.3.0-alpha.3\nrelease=\n";
-    rejectUpdate(fn() => $switching->install('alpha', $switchingCandidate['identity'], 'www'), 'Superseded announcement rejected before installation');
-    rejectUpdate(fn() => $service->install('alpha', str_repeat('0', 64), 'www'), 'Stale or forged selection rejected');
+    rejectUpdate(fn () => $switching->install('alpha', $switchingCandidate['identity'], 'www'), 'Superseded announcement rejected before installation');
+    rejectUpdate(fn () => $service->install('alpha', str_repeat('0', 64), 'www'), 'Stale or forged selection rejected');
     $damaged = new GitHubUpdates($root, new GitHubClient('damaged-test', fixtureGitHub($root . '/package.zip', ['download' => 'altered'])));
     $damagedCandidate = $damaged->check('alpha')['candidate'];
-    rejectUpdate(fn() => $damaged->install('alpha', $damagedCandidate['identity'], 'www'), 'Corrupt GitHub download rejected');
+    rejectUpdate(fn () => $damaged->install('alpha', $damagedCandidate['identity'], 'www'), 'Corrupt GitHub download rejected');
     // Install into a renamed public directory, preserving private state.
-    foreach (['src', 'data', 'www', 'www/assets'] as $dir) { if (!is_dir($root . '/' . $dir)) { mkdir($root . '/' . $dir, 0700, true); } }
-    $zip = new ZipArchive(); $zip->open($root . '/package.zip');
+    foreach (['src', 'data', 'www', 'www/assets'] as $dir) {
+        if (!is_dir($root . '/' . $dir)) {
+            mkdir($root . '/' . $dir, 0700, true);
+        }
+    }
+    $zip = new ZipArchive();
+    $zip->open($root . '/package.zip');
     foreach (json_decode($zip->getFromName('manifest.json'), true)['files'] as $path => $hash) {
         $target = $root . '/' . (str_starts_with($path, 'public_html/') ? 'www' . substr($path, 11) : $path);
         file_put_contents($target, $zip->getFromName($path));
@@ -148,12 +227,20 @@ try {
     file_put_contents($root . '/config/installation.json', '{"installed":true}');
     foreach (['schema', 'php', 'commit'] as $field) {
         $badManifest = fixturePackage($root . '/incompatible.zip', '0.3.0-alpha.2');
-        if ($field === 'schema') { $badManifest['requires']['schema'] = 999; }
-        if ($field === 'php') { $badManifest['requires']['php'] = PHP_VERSION_ID + 10000; }
-        if ($field === 'commit') { $badManifest['build']['commit'] = str_repeat('b', 40); }
-        $badZip = new ZipArchive(); $badZip->open($root . '/incompatible.zip');
-        $badZip->addFromString('manifest.json', json_encode($badManifest)); $badZip->close();
-        rejectUpdate(fn() => (new Updater($root, 'www'))->apply($root . '/incompatible.zip', $candidate), 'Incompatible ' . $field . ' rejected');
+        if ($field === 'schema') {
+            $badManifest['requires']['schema'] = 999;
+        }
+        if ($field === 'php') {
+            $badManifest['requires']['php'] = PHP_VERSION_ID + 10000;
+        }
+        if ($field === 'commit') {
+            $badManifest['build']['commit'] = str_repeat('b', 40);
+        }
+        $badZip = new ZipArchive();
+        $badZip->open($root . '/incompatible.zip');
+        $badZip->addFromString('manifest.json', json_encode($badManifest));
+        $badZip->close();
+        rejectUpdate(fn () => (new Updater($root, 'www'))->apply($root . '/incompatible.zip', $candidate), 'Incompatible ' . $field . ' rejected');
         testUpdate(trim(file_get_contents($root . '/src/VERSION')) === '0.2.0', 'Rejected package leaves installation untouched');
     }
     $backup = $service->install('alpha', $candidate['identity'], 'www');
@@ -162,7 +249,7 @@ try {
     testUpdate($settings->channel() === 'alpha', 'Channel preserved');
     testUpdate(file_get_contents($root . '/config/installation.json') === '{"installed":true}', 'Installation state preserved');
     testUpdate(trim(file_get_contents($root . '/backups/' . $backup . '/src/VERSION')) === '0.2.0', 'Original version backed up');
-    rejectUpdate(fn() => $service->install('alpha', $candidate['identity'], 'www'), 'Reinstallation rejected');
+    rejectUpdate(fn () => $service->install('alpha', $candidate['identity'], 'www'), 'Reinstallation rejected');
     testUpdate(!is_file($root . '/config/update-journal.json'), 'Completed journal cleaned');
     fixturePackage($root . '/stable.zip', '0.3.0', 'release');
     $fallback = new GitHubUpdates($root, new GitHubClient('fallback-test', fixtureGitHub($root . '/stable.zip', ['pulls' => [], 'stableVersion' => '0.3.0'])));
@@ -178,15 +265,20 @@ try {
     file_put_contents($root . '/src/new-file.php', 'partial');
     Updater::atomicJson($root . '/config/update-journal.json', ['phase' => 'replacing', 'public' => 'www', 'backup' => $backupName,
         'files' => ['src/VERSION' => ['existed' => true, 'oldHash' => hash('sha256', "0.2.0\n"), 'temp' => ''], 'src/new-file.php' => ['existed' => false, 'temp' => '']]]);
-    Updater::guard($root); Updater::releaseRequestLock();
+    Updater::guard($root);
+    Updater::releaseRequestLock();
     testUpdate(trim(file_get_contents($root . '/src/VERSION')) === '0.2.0' && !is_file($root . '/src/new-file.php'), 'Interrupted update recovered before loading application');
-    $lock = fopen($root . '/config/update.lock', 'c'); flock($lock, LOCK_EX);
-    rejectUpdate(fn() => Updater::guard($root), 'Requests blocked during replacement');
-    flock($lock, LOCK_UN); fclose($lock);
+    $lock = fopen($root . '/config/update.lock', 'c');
+    flock($lock, LOCK_EX);
+    rejectUpdate(fn () => Updater::guard($root), 'Requests blocked during replacement');
+    flock($lock, LOCK_UN);
+    fclose($lock);
     echo "OK: $checks channel, GitHub, integrity, recovery and renamed-directory checks.\n";
 } finally {
     Updater::releaseRequestLock();
     $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST);
-    foreach ($iterator as $file) { $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getPathname()); }
+    foreach ($iterator as $file) {
+        $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getPathname());
+    }
     rmdir($root);
 }

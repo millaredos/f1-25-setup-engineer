@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+
+/** Browser installation boundary; schema creation is explicit and installed state is published last. */
 ini_set('display_errors', '0');
 require dirname(__DIR__) . '/src/bootstrap.php';
 redirectForInstallation(true);
@@ -11,11 +13,6 @@ header('Referrer-Policy: same-origin');
 session_name('f125_session');
 session_start(['use_strict_mode' => 1, 'cookie_httponly' => true, 'cookie_samesite' => 'Strict', 'cookie_secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off']);
 $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
-
-function escapeInstall(string $text): string
-{
-    return htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-}
 
 $requirements = [
     t('PHP 8.0 o posterior') => PHP_VERSION_ID >= 80000,
@@ -50,7 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = t('La sesión del formulario no es válida. Recarga esta página e inténtalo de nuevo.');
     } elseif ($store === null || in_array(false, $requirements, true)) {
         http_response_code(422);
-        if ($error === '') { $error = t('Completa los requisitos antes de instalar.'); }
+        if ($error === '') {
+            $error = t('Completa los requisitos antes de instalar.');
+        }
     } else {
         try {
             // GET solo comprueba. Las tablas se crean exclusivamente al pulsar el botón.
@@ -60,8 +59,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 try {
                     $protection = new ApacheProtection(__DIR__);
                     $protectionStatus = $protection->inspect()['state'];
-                    if ($protectionStatus === 'missing') { $protection->apply('missing'); }
-                    elseif ($protectionStatus !== 'current') { $reviewProtection = true; }
+                    if ($protectionStatus === 'missing') {
+                        $protection->apply('missing');
+                    } elseif ($protectionStatus !== 'current') {
+                        $reviewProtection = true;
+                    }
                 } catch (Throwable $protectionError) {
                     error_log('F125 Apache protection: ' . $protectionError->getMessage());
                     $_SESSION['update_result'] = t('Instalación terminada. Revisa la protección de Apache en Actualizaciones.');
@@ -84,36 +86,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!doctype html>
 <html lang="<?= h(appTranslation()->language()) ?>">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><?= h(t('Instalar · F1 25 / 26 Setup Engineer')) ?></title>
-  <link rel="stylesheet" href="assets/app.css">
-</head>
-<body>
-<main class="installation">
-  <p class="eyebrow">F1 25 / 26 SETUP ENGINEER</p>
-  <h1><?= h(t('Instalación')) ?></h1>
-  <?php if ($error !== ''): ?><p class="status error" role="alert"><?= escapeInstall($error) ?></p><?php endif; ?>
-  <section class="panel">
-    <h2><?= h(t('Comprobaciones previas')) ?></h2>
-    <p class="subtle">PHP <?= escapeInstall(PHP_VERSION) ?></p>
-    <?php if ($databaseLabel !== ''): ?><p><?= h(t('Base de datos configurada:')) ?> <strong><?= escapeInstall($databaseLabel) ?></strong>.</p><?php endif; ?>
-    <ul class="installation-checks">
-      <?php foreach ($requirements as $name => $ok): ?>
-        <li><strong><?= escapeInstall($ok ? t('Correcto') : t('Pendiente')) ?></strong> · <?= escapeInstall(t($name)) ?></li>
-      <?php endforeach; ?>
-      <li><strong><?= escapeInstall($store !== null ? t('Correcto') : t('Pendiente')) ?></strong> <?= h(t('· Conexión con MariaDB')) ?></li>
-    </ul>
-    <?php if ($store !== null && !in_array(false, $requirements, true)): ?>
-      <form method="post" action="install.php">
-        <input type="hidden" name="csrf" value="<?= escapeInstall($_SESSION['csrf']) ?>">
-        <button class="button" type="submit"><?= h(t('Instalar')) ?></button>
-      </form>
-    <?php else: ?>
-      <p><?= h(t('Resuelve los puntos pendientes y recarga la página.')) ?></p>
-    <?php endif; ?>
-  </section>
-</main>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><?= h(t('Instalar · F1 25 / 26 Setup Engineer')) ?></title>
+    <link rel="stylesheet" href="assets/app.css" />
+  </head>
+  <body>
+    <main class="installation">
+      <p class="eyebrow">F1 25 / 26 SETUP ENGINEER</p>
+      <h1><?= h(t('Instalación')) ?></h1>
+      <?php if ($error !== ''): ?>
+      <p class="status error" role="alert"><?= h($error) ?></p>
+      <?php endif; ?>
+      <section class="panel">
+        <h2><?= h(t('Comprobaciones previas')) ?></h2>
+        <p class="subtle">PHP <?= h(PHP_VERSION) ?></p>
+        <?php if ($databaseLabel !== ''): ?>
+        <p>
+          <?= h(t('Base de datos configurada:')) ?>
+          <strong><?= h($databaseLabel) ?></strong>
+          .
+        </p>
+        <?php endif; ?>
+        <ul class="installation-checks">
+          <?php foreach ($requirements as $name => $ok): ?>
+          <li>
+            <strong><?= h($ok ? t('Correcto') : t('Pendiente')) ?></strong>
+            · <?= h(t($name)) ?>
+          </li>
+          <?php endforeach; ?>
+          <li>
+            <strong><?= h($store !== null ? t('Correcto') : t('Pendiente')) ?></strong>
+            <?= h(t('· Conexión con MariaDB')) ?>
+          </li>
+        </ul>
+        <?php if ($store !== null && !in_array(false, $requirements, true)): ?>
+        <form method="post" action="install.php">
+          <input type="hidden" name="csrf" value="<?= h($_SESSION['csrf']) ?>" />
+          <button class="button" type="submit"><?= h(t('Instalar')) ?></button>
+        </form>
+        <?php else: ?>
+        <p><?= h(t('Resuelve los puntos pendientes y recarga la página.')) ?></p>
+        <?php endif; ?>
+      </section>
+    </main>
+  </body>
 </html>

@@ -29,12 +29,12 @@ Escribe los asuntos de los commits en inglés con el formato `tipo: descripción
 
 ## Política de versiones
 
-Las versiones siguen `MAYOR.MENOR.PARCHE`, con `-alpha.N` para las compilaciones de prueba. El objetivo de desarrollo actual es `0.4.0`; sus compilaciones Alpha usan `0.4.0-alpha.N`. El número de compilación identifica una entrega, no su grado de madurez.
+Las versiones siguen `MAYOR.MENOR.PARCHE`, con `-alpha.N` para las compilaciones de prueba. Para un objetivo `X.Y.Z`, las compilaciones Alpha usan `X.Y.Z-alpha.N`. El número de compilación identifica una entrega, no su grado de madurez.
 
-| Cambio posterior a una estable | Siguiente objetivo desde `0.3.1` | Ejemplos |
+| Cambio posterior a una estable | Siguiente objetivo desde `0.4.0` | Ejemplos |
 | --- | --- | --- |
-| Corrección compatible o ajuste visual pequeño | `0.3.2` | Corregir un fallo al guardar, una etiqueta incorrecta o un defecto de maquetación. |
-| Nueva funcionalidad o rediseño importante de interfaz o flujo | `0.4.0` | Añadir comparación de sesiones o rediseñar la preparación y prueba de reglajes. |
+| Corrección compatible o ajuste visual pequeño | `0.4.1` | Corregir un fallo al guardar, una etiqueta incorrecta o un defecto de maquetación. |
+| Nueva funcionalidad o rediseño importante de interfaz o flujo | `0.5.0` | Añadir comparación de sesiones o rediseñar la preparación y prueba de reglajes. |
 | Cambio incompatible | Nueva menor antes de `1.0.0`; nueva mayor desde `1.0.0` | Cambiar un contrato de importación o exigir una migración. Documentar compatibilidad y recuperación antes de publicar. |
 | Solo documentación o mantenimiento de desarrollo | Sin versión de la app | Actualizar una guía o eliminar notas locales ignoradas. |
 
@@ -53,7 +53,7 @@ Para publicar una estable deben cumplirse todos estos puntos:
 
 Tras aprobarla, se fusiona la PR. CI prueba el commit de fusión y prepara un borrador estable. Se revisa el paquete y se publica el borrador como última estable. La publicación ofrece esa versión al canal Estable. El canal Alpha también puede avanzar a esa estable; la selección de canal no cambia.
 
-La PR de release permanece abierta mientras se prueba `0.4.0-alpha.N`. Tras publicar la estable, se elige un nuevo objetivo y una PR según la tabla. No se fusiona una PR de release para publicar otra Alpha.
+La PR de release permanece abierta mientras se prueba `X.Y.Z-alpha.N`. Tras publicar la estable, se elige un nuevo objetivo y una PR según la tabla. No se fusiona una PR de release para publicar otra Alpha.
 
 ## Cambios que no publican Alpha
 
@@ -108,7 +108,7 @@ Una marca legible por el actualizador en las notas relaciona el archivo de GitHu
 Para generar un paquete local de pruebas:
 
 ```sh
-python bin/package.py --pr 1 --branch release/0.4.0
+python dev/bin/package.py --pr 1 --branch release/0.4.0
 ```
 
 Se crea en `dist/`, excluido de Git; este comando no publica nada.

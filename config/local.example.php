@@ -1,4 +1,8 @@
 <?php
+
+declare(strict_types=1);
+
+/** Private configuration template; real credentials belong only in ignored local configuration. */
 // Copy to local.php and configure the database used by this installation.
 return [
     'dsn' => 'mysql:host=127.0.0.1;dbname=APPLICATION_DATABASE;charset=utf8mb4',

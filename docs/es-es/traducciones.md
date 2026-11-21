@@ -23,14 +23,14 @@ python -m pip install -r requirements-dev.txt
 Utiliza mensajes literales con comillas simples en `t('Mensaje')` en PHP y JavaScript, o `$this->tr('Mensaje')` dentro de `Domain`. Para los valores variables utiliza marcadores con nombre; por ejemplo, `t('Versión {version}', ['version' => appVersion()])` en PHP. Mantén las frases completas. Usa `tn(singular, plural, cantidad)` para mensajes con plural.
 
 ```sh
-python bin/translations.py --extract
+python dev/bin/translations.py --extract
 # Traduce las entradas nuevas en languages/es.po.
-python bin/translations.py
-python bin/translations.py --check
-php tests/translations.php
+python dev/bin/translations.py
+python dev/bin/translations.py --check
+php dev/tests/translations.php
 ```
 
-La extracción actualiza el catálogo español, conserva las traducciones existentes y marca como obsoletas las entradas que ya no se usan. La herramienta recoge explícitamente los mensajes dinámicos de los datos incluidos y los errores del actualizador. El generador de paquetes rechaza catálogos generados desactualizados, mensajes ausentes, traducciones incompletas o pendientes de revisión, marcadores distintos y reglas de plural no admitidas. Polib comprueba la sintaxis PO y los duplicados.
+La extracción actualiza el catálogo español, conserva las traducciones activas y elimina las entradas sin uso. Reconoce llamadas literales multilínea e ignora comentarios. La herramienta recoge explícitamente los mensajes dinámicos de los datos incluidos y los errores del actualizador. El generador de paquetes rechaza catálogos generados desactualizados, mensajes ausentes, traducciones incompletas o pendientes de revisión, marcadores distintos y reglas de plural no admitidas. Polib comprueba la sintaxis PO y los duplicados.
 
 Versiona juntos el PO y el catálogo PHP generado. El servidor carga los archivos preparados; no ejecuta Python, polib ni comandos de conversión. Un catálogo ausente o no válido permite volver a los mensajes originales; una entrada sin traducción utiliza el español y después su texto original.
 

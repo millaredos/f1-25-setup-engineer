@@ -1,5 +1,8 @@
 <?php
+
 declare(strict_types=1);
+
+/** HTTP/CSRF/size boundary for pure domain validation and MariaDB persistence. */
 require dirname(__DIR__) . '/src/bootstrap.php';
 ini_set('display_errors', '0');
 header('Content-Type: application/json; charset=utf-8');
@@ -9,6 +12,9 @@ session_name('f125_session');
 session_start(['use_strict_mode' => 1, 'cookie_httponly' => true, 'cookie_samesite' => 'Strict', 'cookie_secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off']);
 $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
 
+/**
+ * Serialize a JSON response with the chosen HTTP status and stop request processing.
+ */
 function respond(array $data, int $status = 200): void
 {
     http_response_code($status);
@@ -38,12 +44,16 @@ try {
     }
     $domain = appDomain();
     if ($method === 'GET' && $action === 'bootstrap') {
-        $circuits = []; $setups = []; $storageReady = false; $databaseUpdateRequired = false;
+        $circuits = [];
+        $setups = [];
+        $storageReady = false;
+        $databaseUpdateRequired = false;
         $gameCatalog = ['circuits' => [], 'presets' => []];
         try {
             $store = new Store(appConfig());
             $store->ready();
-            $circuits = $store->circuits(); $setups = $store->setups();
+            $circuits = $store->circuits();
+            $setups = $store->setups();
             $databaseUpdateRequired = count($store->pendingMigrations()) > 0;
             if (!$databaseUpdateRequired) {
                 $gameCatalog = $store->gameCatalog();
@@ -60,7 +70,9 @@ try {
         $circuitDescriptions = require dirname(__DIR__) . '/src/circuit_profiles.php';
         respond(['csrf' => $_SESSION['csrf'], 'catalog' => $domain->catalog, 'symptoms' => $domain->symptoms, 'circuits' => $circuits, 'setups' => $setups, 'gameCatalog' => $gameCatalog, 'circuitDescriptions' => $circuitDescriptions, 'storageReady' => $storageReady, 'databaseUpdateRequired' => $databaseUpdateRequired]);
     }
-    if ($method !== 'POST') { respond(['error' => t('Método no admitido.')], 405); }
+    if ($method !== 'POST') {
+        respond(['error' => t('Método no admitido.')], 405);
+    }
     if (!hash_equals($_SESSION['csrf'], $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '')) {
         respond(['error' => t('Sesión caducada. Recarga antes de continuar; exporta tu borrador si lo necesitas.')], 403);
     }
@@ -68,30 +80,49 @@ try {
         respond(['error' => t('Se necesita contenido application/json.')], 415);
     }
     $raw = file_get_contents('php://input', false, null, 0, 262145);
-    if (strlen($raw) > 262144) { respond(['error' => t('El JSON supera 256 KiB.')], 413); }
+    if (strlen($raw) > 262144) {
+        respond(['error' => t('El JSON supera 256 KiB.')], 413);
+    }
     $body = json_decode($raw, true, 64, JSON_THROW_ON_ERROR);
-    if (!is_array($body)) { throw new ValidationError(t('Se necesita un objeto JSON.')); }
+    if (!is_array($body)) {
+        throw new ValidationError(t('Se necesita un objeto JSON.'));
+    }
     $inputCircuit = $action === 'update-setup' ? ($body['setup']['circuit'] ?? null) : ($body['circuit'] ?? null);
     if (is_array($inputCircuit) && ($inputCircuit['origin'] ?? null) === 'game-catalog') {
         try {
-            $gameStore = new Store(appConfig()); $gameStore->ready();
+            $gameStore = new Store(appConfig());
+            $gameStore->ready();
             $domain = appDomain($gameStore->gameCatalog()['circuits']);
         } catch (Throwable $error) {
             // Recovery/export can validate snapshots while offline. Persistence always needs the registry.
-            if ($action !== 'import-setup') { throw $error; }
+            if ($action !== 'import-setup') {
+                throw $error;
+            }
         }
     }
-    if ($action === 'compare') { respond($domain->compare($body['reference'] ?? null, $body['current'] ?? null)); }
-    if ($action === 'import-setup') { respond($domain->importSetup($body)); }
-    if ($action === 'import-circuit') { respond(['circuit' => $domain->importCircuit($body)]); }
+    if ($action === 'compare') {
+        respond($domain->compare($body['reference'] ?? null, $body['current'] ?? null));
+    }
+    if ($action === 'import-setup') {
+        respond($domain->importSetup($body));
+    }
+    if ($action === 'import-circuit') {
+        respond(['circuit' => $domain->importCircuit($body)]);
+    }
 
     if (!in_array($action, ['save-circuit', 'save-setup', 'load-setup', 'update-setup', 'delete-setup'], true)) {
         respond(['error' => t('Acción desconocida.')], 404);
     }
     $validated = null;
-    if ($action === 'save-circuit') { $validated = $domain->importCircuit($body); }
-    if ($action === 'save-setup') { $validated = $domain->setup($body); }
-    if ($action === 'update-setup') { $validated = $domain->setup($body['setup'] ?? null); }
+    if ($action === 'save-circuit') {
+        $validated = $domain->importCircuit($body);
+    }
+    if ($action === 'save-setup') {
+        $validated = $domain->setup($body);
+    }
+    if ($action === 'update-setup') {
+        $validated = $domain->setup($body['setup'] ?? null);
+    }
     $store = $gameStore ?? new Store(appConfig());
     $store->ready();
     if ($action === 'save-circuit') {
@@ -103,13 +134,20 @@ try {
         respond(['id' => $id, 'circuits' => $store->circuits(), 'setups' => $store->setups()], 201);
     }
     if ($action === 'load-setup') {
-        if (!is_string($body['id'] ?? null)) { throw new ValidationError(t('ID inválido.')); }
+        if (!is_string($body['id'] ?? null)) {
+            throw new ValidationError(t('ID inválido.'));
+        }
         respond($store->loadSetup($body['id']));
     }
     if (in_array($action, ['update-setup', 'delete-setup'], true)) {
-        if (!is_string($body['id'] ?? null) || !preg_match('/^[a-f0-9]{32}$/D', $body['id'])) { throw new ValidationError(t('ID inválido.')); }
-        if ($action === 'update-setup') { $store->updateSetup($body['id'], $validated); }
-        else { $store->deleteSetup($body['id']); }
+        if (!is_string($body['id'] ?? null) || !preg_match('/^[a-f0-9]{32}$/D', $body['id'])) {
+            throw new ValidationError(t('ID inválido.'));
+        }
+        if ($action === 'update-setup') {
+            $store->updateSetup($body['id'], $validated);
+        } else {
+            $store->deleteSetup($body['id']);
+        }
         respond(['setups' => $store->setups(), 'circuits' => $store->circuits()]);
     }
     respond(['error' => t('Acción desconocida.')], 404);

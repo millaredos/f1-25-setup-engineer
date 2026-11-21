@@ -135,8 +135,9 @@ Para una copia completa, respalda también MariaDB y `config/`. Las instruccione
 | [Actualización](actualizacion.md) | Paquetes y recuperación de archivos. |
 | [Flujo de releases](publicar-versiones.md) | Una PR por release, compilaciones Alpha y publicación estable. |
 | [Arquitectura](arquitectura.md) | Stack, capas, dependencias y almacenamiento. |
+| [Convenciones de código](convenciones-codigo.md) | Responsabilidades, nombres, comentarios, seguridad y mantenimiento. |
 | [Traducciones](traducciones.md) | Catálogos PO y alta de idiomas. |
-| [Pruebas](verificacion.md) | Ejecución, resultados y limitaciones. |
+| [Pruebas](verificacion.md) | Ejecución, cobertura y limitaciones. |
 | [Hoja de ruta](ROADMAP.md) | Ideas para el desarrollo futuro. |
 
 ## Desarrollo
@@ -149,8 +150,7 @@ src/           Clases PHP y arranque
 data/          Catálogos de ajustes y pruebas de conducción
 languages/     Catálogos PO editables de traducción
 config/        Configuración de la instalación
-tests/         Pruebas y fixtures
-bin/           Herramientas de desarrollo
+dev/           Herramientas de desarrollo, pruebas y fixtures
 docs/          Documentación; versiones en español en es-es/
 media/         Logo y banner
 ```
@@ -158,16 +158,14 @@ media/         Logo y banner
 Para ejecutar las pruebas de dominio y del actualizador:
 
 ```sh
-python -m pip install -r requirements-dev.txt
-python bin/translations.py --check
-php tests/translations.php
-php tests/run.php
-php tests/updater.php
-php tests/updates.php
-python -m unittest discover -s tests -p 'test_*.py'
+php dev/bin/migrations.php --check
+php dev/tests/translations.php
+php dev/tests/run.php
+php dev/tests/updater.php
+php dev/tests/updates.php
 ```
 
-Las pruebas PHP de actualización requieren ZIP. Las de navegador utilizan Node, Playwright y Edge o Chromium. Las de persistencia necesitan una base MariaDB vacía de pruebas; consulta [verificación](verificacion.md).
+Las pruebas PHP de actualización requieren ZIP. Las de persistencia necesitan una base MariaDB vacía de pruebas; consulta [verificación](verificacion.md). La generación de traducciones y el empaquetado están pendientes de sustitución y no están disponibles actualmente.
 
 Servidor local de desarrollo:
 
@@ -175,7 +173,7 @@ Servidor local de desarrollo:
 php -d register_argc_argv=0 -d display_errors=0 -S 127.0.0.1:8125 -t public_html
 ```
 
-Abre `http://127.0.0.1:8125/` y completa el instalador. Node y Python se usan para pruebas y empaquetado, respectivamente; no se necesitan en producción.
+Abre `http://127.0.0.1:8125/` y completa el instalador.
 
 ### Contribuir
 

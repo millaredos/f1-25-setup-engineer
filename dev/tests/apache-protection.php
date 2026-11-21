@@ -1,10 +1,23 @@
 <?php
+
 declare(strict_types=1);
-require dirname(__DIR__) . '/src/ApacheProtection.php';
+
+/** Temporary-file tests for managed block creation, preservation and stale confirmation rejection. */
+require dirname(__DIR__, 2) . '/src/ApacheProtection.php';
 $root = sys_get_temp_dir() . '/f125-apache-test-' . bin2hex(random_bytes(6));
-mkdir($root); mkdir($root . '/config'); mkdir($root . '/www');
+mkdir($root);
+mkdir($root . '/config');
+mkdir($root . '/www');
 $path = $root . '/www/.htaccess';
-function verifyApache(bool $value, string $message): void { if (!$value) { throw new RuntimeException($message); } }
+/**
+ * Fail the isolated protection test with its preservation or safety requirement.
+ */
+function verifyApache(bool $value, string $message): void
+{
+    if (!$value) {
+        throw new RuntimeException($message);
+    }
+}
 try {
     $protection = new ApacheProtection($root . '/www');
     verifyApache($protection->inspect()['state'] === 'missing', 'missing file');
@@ -14,8 +27,12 @@ try {
     file_put_contents($path, "# admin configuration\n");
     $state = $protection->inspect();
     verifyApache($state['state'] === 'custom', 'custom file');
-    try { $protection->apply(str_repeat('0', 64)); throw new RuntimeException('stale hash accepted'); }
-    catch (RuntimeException $error) { verifyApache($error->getMessage() !== 'stale hash accepted', 'stale hash rejected'); }
+    try {
+        $protection->apply(str_repeat('0', 64));
+        throw new RuntimeException('stale hash accepted');
+    } catch (RuntimeException $error) {
+        verifyApache($error->getMessage() !== 'stale hash accepted', 'stale hash rejected');
+    }
     verifyApache(file_get_contents($path) === "# admin configuration\n", 'stale content preserved');
     $protection->apply($state['hash']);
     verifyApache(str_starts_with(file_get_contents($path), "# admin configuration\n"), 'custom content preserved');
@@ -26,11 +43,21 @@ try {
     verifyApache($protection->inspect()['state'] === 'current', 'outdated block replaced');
     verifyApache(str_starts_with(file_get_contents($path), "# admin configuration\n"), 'admin content preserved');
     file_put_contents($path, '# BEGIN F125 SETUP ENGINEER');
-    try { $protection->inspect(); throw new RuntimeException('malformed block accepted'); }
-    catch (RuntimeException $error) { verifyApache($error->getMessage() !== 'malformed block accepted', 'malformed block rejected'); }
+    try {
+        $protection->inspect();
+        throw new RuntimeException('malformed block accepted');
+    } catch (RuntimeException $error) {
+        verifyApache($error->getMessage() !== 'malformed block accepted', 'malformed block rejected');
+    }
     echo "OK: Apache protection creation, preservation and stale changes.\n";
 } finally {
-    if (is_file($path)) { unlink($path); }
-    if (is_file($root . '/config/installation.json.lock')) { unlink($root . '/config/installation.json.lock'); }
-    rmdir($root . '/www'); rmdir($root . '/config'); rmdir($root);
+    if (is_file($path)) {
+        unlink($path);
+    }
+    if (is_file($root . '/config/installation.json.lock')) {
+        unlink($root . '/config/installation.json.lock');
+    }
+    rmdir($root . '/www');
+    rmdir($root . '/config');
+    rmdir($root);
 }

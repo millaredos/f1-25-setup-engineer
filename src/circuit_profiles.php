@@ -1,5 +1,8 @@
 <?php
+
 declare(strict_types=1);
+
+/** Sourced circuit descriptions, separate from preset assignments and editable setup values. */
 
 // Profiles describe the circuit independently of saved setups.
 return [

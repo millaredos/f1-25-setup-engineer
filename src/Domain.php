@@ -1,7 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
-final class ValidationError extends RuntimeException {}
+/** Pure validation and theoretical comparison, independent of HTTP, PDO and user hardware. */
+
+/** Expected input rejection; HTTP callers map this to a public validation response. */
+final class ValidationError extends RuntimeException
+{
+}
 
 /** Reglas puras: no conoce HTTP ni escribe datos. */
 final class Domain
@@ -12,12 +18,17 @@ final class Domain
     private Closure $translate;
     private ?array $gameCircuits;
 
+    /**
+     * Load versioned rules and optionally resolve catalog identities without requiring storage.
+     */
     public function __construct(string $directory, ?callable $translate = null, ?array $gameCircuits = null)
     {
         $this->gameCircuits = $gameCircuits === null ? null : array_column($gameCircuits, null, 'id');
         $this->translate = Closure::fromCallable($translate ?? static function (string $message, array $values = []): string {
             $replace = [];
-            foreach ($values as $key => $value) { $replace['{' . $key . '}'] = (string) $value; }
+            foreach ($values as $key => $value) {
+                $replace['{' . $key . '}'] = (string) $value;
+            }
             return strtr($message, $replace);
         });
         $this->catalog = json_decode(file_get_contents($directory . '/parameters.json'), true, 64, JSON_THROW_ON_ERROR);
@@ -26,19 +37,33 @@ final class Domain
         $this->symptoms = $this->translatedData($this->symptoms);
     }
 
-    private function tr(string $message, array $values = []): string { return ($this->translate)($message, $values); }
+    /**
+     * Translate bundled messages through the injected translator; imported user text stays unchanged.
+     */
+    private function tr(string $message, array $values = []): string
+    {
+        return ($this->translate)($message, $values);
+    }
 
     /** Only bundled descriptive fields are translated; IDs, rules, URLs and imported data stay intact. */
-    private function translatedData(array $data, string $parent = ''): array
+    private function translatedData(array $data): array
     {
         $fields = ['notice', 'category', 'name', 'phase', 'what', 'up', 'down', 'up_label', 'down_label', 'note', 'label', 'check', 'why', 'cost', 'combined'];
         foreach ($data as $key => $value) {
-            if (is_array($value)) { $data[$key] = $this->translatedData($value, is_string($key) ? $key : $parent); }
-            elseif (is_string($value) && (in_array($key, $fields, true) || (in_array($parent, ['up_imp', 'down_imp'], true) && $key === 1))) { $data[$key] = $this->tr($value); }
+            if (is_array($value)) {
+                $data[$key] = $this->translatedData($value);
+            } elseif (is_string($value) && in_array($key, $fields, true)) {
+                $data[$key] = $this->tr($value);
+            }
         }
         return $data;
     }
 
+    /**
+     * Validate exactly twenty finite settings, rejecting unknown keys, ranges and invalid steps.
+     * @throws ValidationError
+     * @return array<string, float|int>
+     */
     public function values(mixed $input): array
     {
         if (!is_array($input)) {
@@ -69,6 +94,10 @@ final class Domain
         return $result;
     }
 
+    /**
+     * Describe independent theoretical changes; never sum them into a physical score.
+     * @return array{changes: array, notice: string}
+     */
     public function compare(mixed $reference, mixed $current): array
     {
         $reference = $this->values($reference);
@@ -94,6 +123,11 @@ final class Domain
         ];
     }
 
+    /**
+     * Adapt supported JSON formats to one validated snapshot without persisting or inventing metadata.
+     * @throws ValidationError
+     * @return array{format: string, schemaVersion: int, reference: array, current: array, warnings: array, circuit: ?array, referenceSource: string, conditions: array, title: string, notes: string, season: string, groupNotes: array}
+     */
     public function importSetup(mixed $input): array
     {
         if (!is_array($input)) {
@@ -143,17 +177,25 @@ final class Domain
         ];
     }
 
+    /**
+     * Adapt external v1/v2 circuit envelopes and assign an internal identity only to new custom profiles.
+     * @throws ValidationError
+     */
     public function importCircuit(mixed $input): array
     {
         if (!is_array($input) || ($input['format'] ?? null) !== 'f125-circuit' || !in_array($input['schemaVersion'] ?? null, [1, 2], true)) {
             throw new ValidationError($this->tr('Se necesita format f125-circuit y una versión de esquema admitida.'));
         }
         if ($input['schemaVersion'] === 2) {
-            if (!is_array($input['circuit'] ?? null)) { throw new ValidationError($this->tr('Falta la ficha del circuito.')); }
+            if (!is_array($input['circuit'] ?? null)) {
+                throw new ValidationError($this->tr('Falta la ficha del circuito.'));
+            }
             $circuit = $input['circuit'];
             if (!isset($circuit['origin'])) {
                 $allowed = ['nombre', 'ubicacion', 'longitud_km', 'curvas', 'categoria_carga', 'curvas_y_rectas', 'caracteristicas_conduccion'];
-                if (array_diff(array_keys($circuit), $allowed)) { throw new ValidationError($this->tr('La ficha contiene campos desconocidos.')); }
+                if (array_diff(array_keys($circuit), $allowed)) {
+                    throw new ValidationError($this->tr('La ficha contiene campos desconocidos.'));
+                }
                 $circuit = ['name' => $circuit['nombre'] ?? '', 'location' => $circuit['ubicacion'] ?? '',
                     'lengthKm' => $circuit['longitud_km'] ?? null, 'cornerCount' => $circuit['curvas'] ?? null,
                     'downforce' => $circuit['categoria_carga'] ?? '', 'cornersAndStraights' => $circuit['curvas_y_rectas'] ?? '',
@@ -168,6 +210,10 @@ final class Domain
         return $this->circuit($input['circuit'] ?? null);
     }
 
+    /**
+     * Validate custom profiles, catalog identities and supported v1 snapshots without guessing track data.
+     * @throws ValidationError
+     */
     public function circuit(mixed $input): array
     {
         if (!is_array($input)) {
@@ -178,37 +224,59 @@ final class Domain
             throw new ValidationError($this->tr('El ID del circuito admite minúsculas, números y guiones (máximo 80).'));
         }
         if (($input['origin'] ?? null) === 'custom-profile') {
-            if (!preg_match('/^custom-[a-f0-9]{32}$/D', $id)) { throw new ValidationError($this->tr('ID inválido.')); }
-            $length = $input['lengthKm'] ?? null;
-            $corners = $input['cornerCount'] ?? null;
-            if ($length !== null && (!is_numeric($length) || is_string($length) || !is_finite((float) $length) || $length <= 0 || $length > 1000)) {
-                throw new ValidationError($this->tr('Longitud del circuito inválida.'));
-            }
-            if ($corners !== null && (!is_int($corners) || $corners < 1 || $corners > 1000)) {
-                throw new ValidationError($this->tr('Número de curvas inválido.'));
-            }
-            return [
-                'id' => $id, 'origin' => 'custom-profile',
-                'name' => $this->text($input['name'] ?? '', 'Circuito', 120),
-                'location' => $this->text($input['location'] ?? '', $this->tr('Ubicación'), 80, true),
-                'lengthKm' => $length === null ? null : (float) $length,
-                'cornerCount' => $corners,
-                'downforce' => $this->text($input['downforce'] ?? '', 'Carga', 100, true),
-                'cornersAndStraights' => $this->text($input['cornersAndStraights'] ?? '', 'Curvas y rectas', 4000, true),
-                'drivingCharacteristics' => $this->text($input['drivingCharacteristics'] ?? '', 'Características de conducción', 4000, true),
-            ];
+            return $this->customCircuit($input, $id);
         }
         if (($input['origin'] ?? null) === 'game-catalog') {
-            // Offline imports retain a validated identity snapshot; saves resolve against the live catalog.
-            $record = $this->gameCircuits === null ? $input : ($this->gameCircuits[$id] ?? null);
-            if ($record === null) { throw new ValidationError($this->tr('Ese circuito no está en el catálogo del juego.')); }
-            // A catalog entry identifies a circuit; it does not invent a technical profile or sources.
-            return ['id' => $id, 'name' => $this->text($record['name'] ?? null, 'Circuito', 120),
-                'origin' => 'game-catalog', 'location' => $this->text($record['location'] ?? null, $this->tr('Ubicación'), 80),
-                'layout' => '', 'gameVersion' => 'unknown', 'downforce' => 'unknown', 'summary' => '',
-                'characteristics' => array_fill_keys(['corners', 'straights', 'braking', 'traction', 'kerbs', 'aero'], ''),
-                'sources' => [], 'hypotheses' => ''];
+            return $this->catalogCircuit($input, $id);
         }
+        return $this->legacyCircuit($input, $id);
+    }
+
+    /** Validate the editable v2 profile without deriving settings or sources from its descriptions. */
+    private function customCircuit(array $input, string $id): array
+    {
+        if (!preg_match('/^custom-[a-f0-9]{32}$/D', $id)) {
+            throw new ValidationError($this->tr('ID inválido.'));
+        }
+        $length = $input['lengthKm'] ?? null;
+        $corners = $input['cornerCount'] ?? null;
+        if ($length !== null && (!is_numeric($length) || is_string($length) || !is_finite((float) $length) || $length <= 0 || $length > 1000)) {
+            throw new ValidationError($this->tr('Longitud del circuito inválida.'));
+        }
+        if ($corners !== null && (!is_int($corners) || $corners < 1 || $corners > 1000)) {
+            throw new ValidationError($this->tr('Número de curvas inválido.'));
+        }
+        return [
+            'id' => $id, 'origin' => 'custom-profile',
+            'name' => $this->text($input['name'] ?? '', 'Circuito', 120),
+            'location' => $this->text($input['location'] ?? '', $this->tr('Ubicación'), 80, true),
+            'lengthKm' => $length === null ? null : (float) $length,
+            'cornerCount' => $corners,
+            'downforce' => $this->text($input['downforce'] ?? '', 'Carga', 100, true),
+            'cornersAndStraights' => $this->text($input['cornersAndStraights'] ?? '', 'Curvas y rectas', 4000, true),
+            'drivingCharacteristics' => $this->text($input['drivingCharacteristics'] ?? '', 'Características de conducción', 4000, true),
+        ];
+    }
+
+    /** Resolve catalog identity for persistence, or validate an offline import snapshot. */
+    private function catalogCircuit(array $input, string $id): array
+    {
+        // Offline imports retain a validated identity snapshot; saves resolve against the live catalog.
+        $record = $this->gameCircuits === null ? $input : ($this->gameCircuits[$id] ?? null);
+        if ($record === null) {
+            throw new ValidationError($this->tr('Ese circuito no está en el catálogo del juego.'));
+        }
+        // A catalog entry identifies a circuit; it does not invent a technical profile or sources.
+        return ['id' => $id, 'name' => $this->text($record['name'] ?? null, 'Circuito', 120),
+            'origin' => 'game-catalog', 'location' => $this->text($record['location'] ?? null, $this->tr('Ubicación'), 80),
+            'layout' => '', 'gameVersion' => 'unknown', 'downforce' => 'unknown', 'summary' => '',
+            'characteristics' => array_fill_keys(['corners', 'straights', 'braking', 'traction', 'kerbs', 'aero'], ''),
+            'sources' => [], 'hypotheses' => ''];
+    }
+
+    /** Preserve the supported v1 circuit contract, including mandatory validated source evidence. */
+    private function legacyCircuit(array $input, string $id): array
+    {
         $characteristics = $input['characteristics'] ?? [];
         if (!is_array($characteristics)) {
             throw new ValidationError($this->tr('Características debe ser un objeto.'));
@@ -247,6 +315,10 @@ final class Domain
         ];
     }
 
+    /**
+     * Require a named, season-specific circuit setup with an explicit reference before storage.
+     * @throws ValidationError
+     */
     public function setup(mixed $input): array
     {
         if (!is_array($input)) {
@@ -269,6 +341,10 @@ final class Domain
         return $data;
     }
 
+    /**
+     * Preserve declared conditions while defaulting absent metadata to unknown.
+     * @return array{surface: string, session: string}
+     */
     private function conditions(mixed $input): array
     {
         if (!is_array($input)) {
@@ -280,6 +356,9 @@ final class Domain
         ];
     }
 
+    /**
+     * Reject values outside a closed domain enumeration instead of silently coercing them.
+     */
     private function choice(mixed $value, array $allowed, string $name): string
     {
         if (!is_string($value) || !in_array($value, $allowed, true)) {
@@ -288,6 +367,9 @@ final class Domain
         return $value;
     }
 
+    /**
+     * Enforce a byte limit and required content before trimming user-provided text.
+     */
     private function text(mixed $value, string $name, int $max, bool $empty = false): string
     {
         if (!is_string($value) || strlen($value) > $max || (!$empty && trim($value) === '')) {

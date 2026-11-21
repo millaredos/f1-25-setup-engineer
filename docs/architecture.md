@@ -54,7 +54,9 @@ flowchart LR
 | `f125_game_presets` | Five bundled presets with twenty numeric settings each. |
 | `f125_game_circuits` | Official circuit names, display order and confirmed preset assignments. |
 
-Creating a setup inserts a record; saving an opened setup updates that record, and deletion removes it. Its JSON contains reference and current values, conditions, notes, comments per group and a copy of the circuit profile. Creating a circuit profile together with its setup runs within a transaction. The current workshop changes are unreleased and MariaDB integration remains unverified.
+Creating a setup inserts a record; saving an opened setup updates that record, and deletion removes it. Its JSON contains reference and current values, conditions, notes, comments per group and a copy of the circuit profile. Creating a circuit profile together with its setup runs within a transaction.
+
+The browser keeps title, notes and settings in draft state, independently of circuit browsing. Event registration is grouped by editing, loading, importing, browsing and recovery. Import retains an explicit reference from the file; opening a saved setup for editing starts comparison from its saved current values. A successful save starts a new in-memory comparison baseline. See [code conventions](coding-standards.md).
 
 The game catalog is separate from imported circuit profiles and personal setups. Names alone do not constitute technical profiles. `Migrations` applies versioned SQL with a database-specific advisory lock and records each data transaction's checksum. See [database migrations](database-migrations.md).
 

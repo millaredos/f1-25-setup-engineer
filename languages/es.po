@@ -14,9 +14,6 @@ msgstr ". Recarga esta página después de esa hora. La versión instalada se co
 msgid "ASISTENTE DE PRUEBAS · SIN IA"
 msgstr "ASISTENTE DE PRUEBAS · SIN IA"
 
-msgid "Absorción de pianos"
-msgstr "Absorción de pianos"
-
 msgid "Acción desconocida."
 msgstr "Acción desconocida."
 
@@ -38,30 +35,8 @@ msgstr "Actualizando la lectura teórica de los valores actuales…"
 msgid "Actualizar"
 msgstr "Actualizar"
 
-msgid ""
-"Admite el JSON del comparador anterior, mapas de veinte valores y el formato nuevo. Revisa la "
-"referencia antes de aplicar."
-msgstr ""
-"Admite el JSON del comparador anterior, mapas de veinte valores y el formato nuevo. Revisa la "
-"referencia antes de aplicar."
-
 msgid "Aerodinámica"
 msgstr "Aerodinámica"
-
-msgid "Agarre delantero mecánico"
-msgstr "Agarre delantero mecánico"
-
-msgid "Agarre en baches"
-msgstr "Agarre en baches"
-
-msgid "Agarre lateral delantero"
-msgstr "Agarre lateral delantero"
-
-msgid "Agarre trasero"
-msgstr "Agarre trasero"
-
-msgid "Agarre: verificar"
-msgstr "Agarre: verificar"
 
 msgid "Al bajar el número: {effect}"
 msgstr "Al bajar el número: {effect}"
@@ -102,20 +77,8 @@ msgstr "Aplicar importación"
 msgid "Apoyo / alta velocidad"
 msgstr "Apoyo / alta velocidad"
 
-msgid "Apoyo / curvas lentas-medias"
-msgstr "Apoyo / curvas lentas-medias"
-
 msgid "Apoyo / lenta o media"
 msgstr "Apoyo / lenta o media"
-
-msgid "Apoyo en frenada recta"
-msgstr "Apoyo en frenada recta"
-
-msgid "Apoyo lateral / frenada"
-msgstr "Apoyo lateral / frenada"
-
-msgid "Apoyo lateral / tracción"
-msgstr "Apoyo lateral / tracción"
 
 msgid "Application file replacement failed."
 msgstr "No se pudieron sustituir los archivos de la aplicación."
@@ -128,9 +91,6 @@ msgstr "Aumentar {name}"
 
 msgid "Bajar demasiado puede empeorar el tiempo por contactos con el asfalto."
 msgstr "Bajar demasiado puede empeorar el tiempo por contactos con el asfalto."
-
-msgid "Balance aero / recta / pianos"
-msgstr "Balance aero / recta / pianos"
 
 msgid "Barra estabilizadora delantera"
 msgstr "Barra estabilizadora delantera"
@@ -146,9 +106,6 @@ msgstr "Barra más rígida"
 
 msgid "Base de datos configurada:"
 msgstr "Base de datos configurada:"
-
-msgid "Bloqueo"
-msgstr "Bloqueo"
 
 msgid "Borrador recuperado; todavía no es una versión guardada en MariaDB."
 msgstr "Borrador recuperado; todavía no es una versión guardada en MariaDB."
@@ -227,14 +184,8 @@ msgstr "Carga alta"
 msgid "Carga baja"
 msgstr "Carga baja"
 
-msgid "Carga delantera"
-msgstr "Carga delantera"
-
 msgid "Carga media"
 msgstr "Carga media"
-
-msgid "Carga trasera"
-msgstr "Carga trasera"
 
 msgid "Caída delantera"
 msgstr "Caída delantera"
@@ -385,9 +336,6 @@ msgstr "Correcto"
 msgid "Curvas"
 msgstr "Curvas"
 
-msgid "Curvas rápidas / rectas"
-msgstr "Curvas rápidas / rectas"
-
 msgid "Cuánto apuntan hacia dentro las ruedas traseras vistas desde arriba."
 msgstr "Cuánto apuntan hacia dentro las ruedas traseras vistas desde arriba."
 
@@ -406,9 +354,6 @@ msgstr ""
 
 msgid "Descartarlo"
 msgstr "Descartarlo"
-
-msgid "Desgaste: verificar"
-msgstr "Desgaste: verificar"
 
 msgid ""
 "Después compara el diferencial con gas en pruebas separadas. Más bloqueo puede reducir patinaje "
@@ -566,9 +511,6 @@ msgstr "Entrada / frenada"
 msgid "Entrada más estable, pero menos rotación y mayor tendencia al subviraje."
 msgstr "Entrada más estable, pero menos rotación y mayor tendencia al subviraje."
 
-msgid "Equilibrio aerodinámico"
-msgstr "Equilibrio aerodinámico"
-
 msgid "Es un compromiso entre estabilidad y resistencia, no una mejora gratuita."
 msgstr "Es un compromiso entre estabilidad y resistencia, no una mejora gratuita."
 
@@ -577,21 +519,6 @@ msgstr "Ese ID corresponde a otra ficha del circuito. Usa un ID nuevo para la re
 
 msgid "Esta importación sustituirá el borrador en pantalla. ¿Continuar?"
 msgstr "Esta importación sustituirá el borrador en pantalla. ¿Continuar?"
-
-msgid "Estabilidad / rectas"
-msgstr "Estabilidad / rectas"
-
-msgid "Estabilidad de entrada"
-msgstr "Estabilidad de entrada"
-
-msgid "Estabilidad en frenada"
-msgstr "Estabilidad en frenada"
-
-msgid "Estabilidad rápida"
-msgstr "Estabilidad rápida"
-
-msgid "Estabilidad trasera"
-msgstr "Estabilidad trasera"
 
 msgid "Estable"
 msgstr "Estable"
@@ -603,14 +530,8 @@ msgstr ""
 "Estable recibe versiones publicadas como estables. Alpha recibe versiones de prueba y puede "
 "incluir cambios sin terminar."
 
-msgid "Este JSON no incluye circuito. Al aplicar lo asociarás a la ficha seleccionada: {name}."
-msgstr "Este JSON no incluye circuito. Al aplicar lo asociarás a la ficha seleccionada: {name}."
-
 msgid "Este JSON no incluye circuito: tendrás que asociar una ficha antes de guardar."
 msgstr "Este JSON no incluye circuito: tendrás que asociar una ficha antes de guardar."
-
-msgid "Exigencia del neumático"
-msgstr "Exigencia del neumático"
 
 msgid "Exportar JSON"
 msgstr "Exportar JSON"
@@ -632,12 +553,6 @@ msgstr "Formato de reglaje desconocido."
 
 msgid "Formato heredado: circuito y condiciones no se deducen del archivo."
 msgstr "Formato heredado: circuito y condiciones no se deducen del archivo."
-
-msgid "Frenada / dosificación"
-msgstr "Frenada / dosificación"
-
-msgid "Frenada / entrada"
-msgstr "Frenada / entrada"
 
 msgid "Frenada más estable; mayor riesgo de bloqueo delantero y subviraje al entrar."
 msgstr "Frenada más estable; mayor riesgo de bloqueo delantero y subviraje al entrar."
@@ -663,17 +578,11 @@ msgstr "Fuente inválida."
 msgid "Fuentes y fecha de consulta"
 msgstr "Fuentes y fecha de consulta"
 
-msgid "Fuerza de frenado"
-msgstr "Fuerza de frenado"
-
 msgid "Ganancia/fuerza máxima del sistema de frenos frente a la orden del pedal."
 msgstr "Ganancia/fuerza máxima del sistema de frenos frente a la orden del pedal."
 
 msgid "Geometría de suspensión"
 msgstr "Geometría de suspensión"
-
-msgid "Giro rápido"
-msgstr "Giro rápido"
 
 msgid ""
 "GitHub denied access (HTTP 403). Check the server token permissions if a token is configured."
@@ -770,9 +679,6 @@ msgstr "Instalada:"
 msgid "Instalar"
 msgstr "Instalar"
 
-msgid "Introduce los veinte valores que te asigna el juego o importa un reglaje."
-msgstr "Introduce los veinte valores que te asigna el juego o importa un reglaje."
-
 msgid "Invalid GitHub metadata."
 msgstr "Los metadatos de GitHub no son válidos."
 
@@ -842,9 +748,6 @@ msgstr "La ficha necesita entre una y veinte fuentes."
 msgid "La fuente necesita una URL HTTP o HTTPS válida."
 msgstr "La fuente necesita una URL HTTP o HTTPS válida."
 
-msgid "La referencia se conserva al editar. Solo cambia mediante una acción explícita."
-msgstr "La referencia se conserva al editar. Solo cambia mediante una acción explícita."
-
 msgid "La sesión del formulario no es válida. Recarga esta página e inténtalo de nuevo."
 msgstr "La sesión del formulario no es válida. Recarga esta página e inténtalo de nuevo."
 
@@ -864,9 +767,6 @@ msgid ""
 msgstr ""
 "Las comprobaciones se conservan cinco minutos en Alpha y seis horas en Estable. La instalación "
 "empieza al pulsar Actualizar."
-
-msgid "Margen sobre pianos"
-msgstr "Margen sobre pianos"
 
 msgid "Mayor margen en baches/pianos; posible pérdida de eficiencia del fondo delantero."
 msgstr "Mayor margen en baches/pianos; posible pérdida de eficiencia del fondo delantero."
@@ -1160,14 +1060,8 @@ msgstr ""
 msgid "Porcentaje de fuerza que se envía al eje delantero; el resto actúa atrás."
 msgstr "Porcentaje de fuerza que se envía al eje delantero; el resto actúa atrás."
 
-msgid "Potencial de carga del fondo"
-msgstr "Potencial de carga del fondo"
-
 msgid "Potencial mejora de eficiencia aerodinámica; mayor riesgo de tocar suelo."
 msgstr "Potencial mejora de eficiencia aerodinámica; mayor riesgo de tocar suelo."
-
-msgid "Precisión de respuesta"
-msgstr "Precisión de respuesta"
 
 msgid "Presión de frenos"
 msgstr "Presión de frenos"
@@ -1252,16 +1146,6 @@ msgstr "Puede reducir la rotación y hacer que el coche abra trayectoria."
 msgid "Puede volver nerviosa la parte trasera."
 msgstr "Puede volver nerviosa la parte trasera."
 
-msgid "Rake"
-msgstr "Rake"
-
-msgid ""
-"Rangos heredados del comparador; pendientes de confirmar en tu versión del juego. Los valores de "
-"las capturas son un ejemplo, no el reglaje asignado a un circuito."
-msgstr ""
-"Rangos heredados del comparador; pendientes de confirmar en tu versión del juego. Los valores de "
-"las capturas son un ejemplo, no el reglaje asignado a un circuito."
-
 msgid "Rectas"
 msgstr "Rectas"
 
@@ -1277,14 +1161,8 @@ msgstr "Ref. —"
 msgid "Referencia"
 msgstr "Referencia"
 
-msgid "Referencia fijada. Los siguientes cambios se compararán con estos valores."
-msgstr "Referencia fijada. Los siguientes cambios se compararán con estos valores."
-
 msgid "Referencia pendiente"
 msgstr "Referencia pendiente"
-
-msgid "Referencia: {source}"
-msgstr "Referencia: {source}"
 
 msgid "Reglaje importado"
 msgstr "Reglaje importado"
@@ -1297,21 +1175,6 @@ msgstr "Reglaje sin nombre"
 
 msgid "Reparto de frenada delantera"
 msgstr "Reparto de frenada delantera"
-
-msgid "Resistencia"
-msgstr "Resistencia"
-
-msgid "Respuesta / pianos"
-msgstr "Respuesta / pianos"
-
-msgid "Respuesta de giro"
-msgstr "Respuesta de giro"
-
-msgid "Respuesta de giro / rectas"
-msgstr "Respuesta de giro / rectas"
-
-msgid "Respuesta inicial"
-msgstr "Respuesta inicial"
 
 msgid "Respuesta inicial menos inmediata."
 msgstr "Respuesta inicial menos inmediata."
@@ -1334,24 +1197,6 @@ msgstr "Resumen no disponible"
 msgid "Revisa los valores"
 msgstr "Revisa los valores"
 
-msgid "Riesgo bloqueo delantero"
-msgstr "Riesgo bloqueo delantero"
-
-msgid "Riesgo bloqueo trasero"
-msgstr "Riesgo bloqueo trasero"
-
-msgid "Riesgo de bloqueo"
-msgstr "Riesgo de bloqueo"
-
-msgid "Riesgo de patinaje interior"
-msgstr "Riesgo de patinaje interior"
-
-msgid "Riesgo de sobreviraje"
-msgstr "Riesgo de sobreviraje"
-
-msgid "Riesgo de tocar suelo"
-msgstr "Riesgo de tocar suelo"
-
 msgid "Rigidez frente al balanceo del eje delantero."
 msgstr "Rigidez frente al balanceo del eje delantero."
 
@@ -1366,26 +1211,8 @@ msgstr ""
 msgid "Rigidez vertical del eje trasero, muy relevante para seguir el asfalto bajo aceleración."
 msgstr "Rigidez vertical del eje trasero, muy relevante para seguir el asfalto bajo aceleración."
 
-msgid "Rotación"
-msgstr "Rotación"
-
-msgid "Rotación con gas"
-msgstr "Rotación con gas"
-
-msgid "Rotación de entrada"
-msgstr "Rotación de entrada"
-
-msgid "Rotación en apoyo"
-msgstr "Rotación en apoyo"
-
-msgid "Rozamiento"
-msgstr "Rozamiento"
-
 msgid "Salida / con gas"
 msgstr "Salida / con gas"
-
-msgid "Salida de curva / con gas"
-msgstr "Salida de curva / con gas"
 
 msgid "Se descoloca sobre los pianos"
 msgstr "Se descoloca sobre los pianos"
@@ -1529,18 +1356,6 @@ msgstr ""
 msgid "Subir solo el trasero desplaza el equilibrio aerodinámico hacia atrás."
 msgstr "Subir solo el trasero desplaza el equilibrio aerodinámico hacia atrás."
 
-msgid "Subviraje con gas"
-msgstr "Subviraje con gas"
-
-msgid "Subviraje de entrada"
-msgstr "Subviraje de entrada"
-
-msgid "Subviraje en apoyo"
-msgstr "Subviraje en apoyo"
-
-msgid "Suelo / curvas rápidas / pianos"
-msgstr "Suelo / curvas rápidas / pianos"
-
 msgid "Superficie"
 msgstr "Superficie"
 
@@ -1558,12 +1373,6 @@ msgstr "No se permiten enlaces simbólicos en las rutas de actualización."
 
 msgid "Taller"
 msgstr "Taller"
-
-msgid "Temperatura (tendencia en F1 25)"
-msgstr "Temperatura (tendencia en F1 25)"
-
-msgid "Temperatura / apoyo / desgaste"
-msgstr "Temperatura / apoyo / desgaste"
 
 msgid ""
 "Ten en cuenta las ayudas que utilizas. Mantén las mismas condiciones y prueba cada variable por "
@@ -1632,9 +1441,6 @@ msgstr "Esta versión ya no es la actualización vigente. Vuelve a buscar actual
 msgid "This package needs a different PHP version or database schema."
 msgstr "Este paquete necesita otra versión de PHP o del esquema de la base de datos."
 
-msgid "Todavía no has fijado una referencia."
-msgstr "Todavía no has fijado una referencia."
-
 msgid "Todavía no hay versiones guardadas"
 msgstr "Todavía no hay versiones guardadas"
 
@@ -1643,18 +1449,6 @@ msgstr "GitHub ha devuelto demasiadas redirecciones."
 
 msgid "Tracción"
 msgstr "Tracción"
-
-msgid "Tracción / salida / pianos"
-msgstr "Tracción / salida / pianos"
-
-msgid "Tracción longitudinal"
-msgstr "Tracción longitudinal"
-
-msgid "Tracción si patina la interior"
-msgstr "Tracción si patina la interior"
-
-msgid "Tracción sobre irregularidades"
-msgstr "Tracción sobre irregularidades"
 
 msgid "Transmisión"
 msgstr "Transmisión"
@@ -1702,22 +1496,6 @@ msgstr "Usar como borrador"
 msgid "Validar y previsualizar"
 msgstr "Validar y previsualizar"
 
-msgid "Valores actuales restaurados desde la referencia."
-msgstr "Valores actuales restaurados desde la referencia."
-
-msgid ""
-"Vas a sustituir la referencia del borrador por los valores actuales. Las versiones guardadas se "
-"conservan. ¿Continuar?"
-msgstr ""
-"Vas a sustituir la referencia del borrador por los valores actuales. Las versiones guardadas se "
-"conservan. ¿Continuar?"
-
-msgid "Velocidad punta"
-msgstr "Velocidad punta"
-
-msgid "Versiones"
-msgstr "Versiones"
-
 msgid "Versión de almacenamiento no compatible."
 msgstr "Versión de almacenamiento no compatible."
 
@@ -1740,17 +1518,8 @@ msgstr ""
 msgid "Ya existe ese ID de circuito. No se ha sobrescrito; usa otro ID para una ficha revisada."
 msgstr "Ya existe ese ID de circuito. No se ha sobrescrito; usa otro ID para una ficha revisada."
 
-msgid "capturas / ejemplo"
-msgstr "capturas / ejemplo"
-
-msgid "origen desconocido"
-msgstr "origen desconocido"
-
 msgid "referenceIsCapture debe ser booleano."
 msgstr "referenceIsCapture debe ser booleano."
-
-msgid "reglaje personal"
-msgstr "reglaje personal"
 
 msgid "{count} de 20 modificado"
 msgid_plural "{count} de 20 modificados"
@@ -1783,9 +1552,6 @@ msgstr "· Conexión con MariaDB"
 
 msgid "¿Descartar el borrador anterior de este navegador?"
 msgstr "¿Descartar el borrador anterior de este navegador?"
-
-msgid "¿Descartar los cambios de los veinte parámetros y volver a la referencia?"
-msgstr "¿Descartar los cambios de los veinte parámetros y volver a la referencia?"
 
 msgid "¿Quieres más idiomas? Apoya el proyecto con una estrella en GitHub."
 msgstr "¿Quieres más idiomas? Apoya el proyecto con una estrella en GitHub."
@@ -1865,9 +1631,6 @@ msgstr "Selecciona un circuito"
 
 msgid "Teoría orientativa. Valida los cambios en el juego."
 msgstr "Teoría orientativa. Valida los cambios en el juego."
-
-msgid "predeterminado del juego"
-msgstr "predeterminado del juego"
 
 msgid "Ubicación"
 msgstr "Ubicación"
@@ -2572,9 +2335,6 @@ msgstr "Reglajes"
 msgid "Cerrar"
 msgstr "Cerrar"
 
-msgid "Usar circuito para valores manuales"
-msgstr "Usar circuito para valores manuales"
-
 msgid "Selecciona un reglaje"
 msgstr "Selecciona un reglaje"
 
@@ -2583,12 +2343,6 @@ msgstr "Selecciona un circuito."
 
 msgid "No hay reglajes disponibles para este circuito y temporada."
 msgstr "No hay reglajes disponibles para este circuito y temporada."
-
-msgid "¿Asociar el borrador actual a otro circuito?"
-msgstr "¿Asociar el borrador actual a otro circuito?"
-
-msgid "Circuito asociado al borrador. Puedes introducir los valores manualmente."
-msgstr "Circuito asociado al borrador. Puedes introducir los valores manualmente."
 
 msgid "El reglaje ya no corresponde al circuito o la temporada seleccionados."
 msgstr "El reglaje ya no corresponde al circuito o la temporada seleccionados."
@@ -2730,942 +2484,5 @@ msgstr "Indica nombre, temporada y circuito."
 msgid "Reglaje importado. Revisa los valores y guárdalo cuando quieras."
 msgstr "Reglaje importado. Revisa los valores y guárdalo cuando quieras."
 
-msgid "JSON del comparador anterior"
-msgstr "JSON del comparador anterior"
-
 msgid "Selecciona un archivo JSON de reglaje para revisarlo en el taller."
 msgstr "Selecciona un archivo JSON de reglaje para revisarlo en el taller."
-
-#~ msgid "Importar reglaje personal"
-#~ msgstr "Importar reglaje personal"
-
-#~ msgid "Introduce un nombre para el reglaje."
-#~ msgstr "Introduce un nombre para el reglaje."
-
-#~ msgid "Reglaje importado como borrador. Revisa circuito y temporada antes de guardar."
-#~ msgstr "Reglaje importado como borrador. Revisa circuito y temporada antes de guardar."
-
-#~ msgid "Ej.: primera prueba en seco"
-#~ msgstr "Ej.: primera prueba en seco"
-
-#~ msgid "Importar y exportar reglajes"
-#~ msgstr "Importar y exportar reglajes"
-
-#~ msgid "02 / REGLAJES"
-#~ msgstr "02 / REGLAJES"
-
-#~ msgid "03 / LECTURA DE LOS CAMBIOS"
-#~ msgstr "03 / LECTURA DE LOS CAMBIOS"
-
-#~ msgid "04 / CONSERVA EL PUNTO DE PARTIDA"
-#~ msgstr "04 / CONSERVA EL PUNTO DE PARTIDA"
-
-#~ msgid "Abrir como borrador"
-#~ msgstr "Abrir como borrador"
-
-#~ msgid "Abrir esta versión sustituirá el borrador en pantalla. ¿Continuar?"
-#~ msgstr "Abrir esta versión sustituirá el borrador en pantalla. ¿Continuar?"
-
-#~ msgid "Al cambiar de circuito se vaciará el borrador para no atribuirle otro reglaje. ¿Continuar?"
-#~ msgstr "Al cambiar de circuito se vaciará el borrador para no atribuirle otro reglaje. ¿Continuar?"
-
-#~ msgid "Cada guardado crea una copia nueva, con referencia, valores actuales y ficha del circuito."
-#~ msgstr "Cada guardado crea una copia nueva, con referencia, valores actuales y ficha del circuito."
-
-#~ msgid "Circuito y referencia"
-#~ msgstr "Circuito y referencia"
-
-#~ msgid "Entiende cada cambio."
-#~ msgstr "Entiende cada cambio."
-
-#~ msgid "Ficha guardada en MariaDB. Introduce ahora los valores que el juego asigna a este circuito."
-#~ msgstr "Ficha guardada en MariaDB. Introduce ahora los valores que el juego asigna a este circuito."
-
-#~ msgid "Fija una referencia antes de exportar."
-#~ msgstr "Fija una referencia antes de exportar."
-
-#~ msgid "Fija una referencia antes de guardar."
-#~ msgstr "Fija una referencia antes de guardar."
-
-#~ msgid "Guarda una versión."
-#~ msgstr "Guarda una versión."
-
-#~ msgid "Guardar ficha y seleccionar circuito"
-#~ msgstr "Guardar ficha y seleccionar circuito"
-
-#~ msgid "Guardar versión"
-#~ msgstr "Guardar versión"
-
-#~ msgid "Introduce los valores iniciales y fija la referencia para comparar."
-#~ msgstr "Introduce los valores iniciales y fija la referencia para comparar."
-
-#~ msgid "Lo que has cambiado, en teoría."
-#~ msgstr "Lo que has cambiado, en teoría."
-
-#~ msgid "No se pudo conservar el borrador en este navegador. Exporta JSON para conservarlo."
-#~ msgstr "No se pudo conservar el borrador en este navegador. Exporta JSON para conservarlo."
-
-#~ msgid ""
-#~ "No sumamos alerones como si fueran fuerzas equivalentes. Cada ajuste tiene su compromiso y los "
-#~ "cambios pueden interactuar."
-#~ msgstr ""
-#~ "No sumamos alerones como si fueran fuerzas equivalentes. Cada ajuste tiene su compromiso y los "
-#~ "cambios pueden interactuar."
-
-#~ msgid "Nueva versión guardada en MariaDB. La referencia y las versiones anteriores se conservan."
-#~ msgstr "Nueva versión guardada en MariaDB. La referencia y las versiones anteriores se conservan."
-
-#~ msgid "OBSERVA. AJUSTA. PRUEBA."
-#~ msgstr "OBSERVA. AJUSTA. PRUEBA."
-
-#~ msgid "Parte del reglaje del juego. Ajusta con una idea, compruébala en pista."
-#~ msgstr "Parte del reglaje del juego. Ajusta con una idea, compruébala en pista."
-
-#~ msgid ""
-#~ "Pega el bloque f125-circuit preparado en la conversación. Se validará antes de guardarlo en "
-#~ "MariaDB."
-#~ msgstr ""
-#~ "Pega el bloque f125-circuit preparado en la conversación. Se validará antes de guardarlo en "
-#~ "MariaDB."
-
-#~ msgid "Qué implica subir o bajar"
-#~ msgstr "Qué implica subir o bajar"
-
-#~ msgid "Qué quieres comprobar, combustible, compuesto…"
-#~ msgstr "Qué quieres comprobar, combustible, compuesto…"
-
-#~ msgid "Ref. {value}"
-#~ msgstr "Ref. {value}"
-
-#~ msgid "Reglaje importado como borrador. Revisa origen de referencia, circuito y condiciones."
-#~ msgstr "Reglaje importado como borrador. Revisa origen de referencia, circuito y condiciones."
-
-#~ msgid "Se necesita format f125-circuit y schemaVersion 1."
-#~ msgstr "Se necesita format f125-circuit y schemaVersion 1."
-
-#~ msgid "Selecciona una versión guardada."
-#~ msgstr "Selecciona una versión guardada."
-
-#~ msgid "Siempre teoría"
-#~ msgstr "Siempre teoría"
-
-#~ msgid "Sin cambios respecto a la referencia."
-#~ msgstr "Sin cambios respecto a la referencia."
-
-#~ msgid "Sin predicciones de rendimiento"
-#~ msgstr "Sin predicciones de rendimiento"
-
-#~ msgid "Una variable, una idea."
-#~ msgstr "Una variable, una idea."
-
-#~ msgid "Volver a la referencia"
-#~ msgstr "Volver a la referencia"
-
-#~ msgid "¿Asociar los valores de este borrador a {name}? Comprueba que corresponden a ese circuito."
-#~ msgstr "¿Asociar los valores de este borrador a {name}? Comprueba que corresponden a ese circuito."
-
-#~ msgid "Predeterminado {number} · {name}"
-#~ msgstr "Predeterminado {number} · {name}"
-
-#~ msgid "Selecciona un circuito con un predeterminado asignado."
-#~ msgstr "Selecciona un circuito con un predeterminado asignado."
-
-#~ msgid "Usar actuales como referencia"
-#~ msgstr "Usar actuales como referencia"
-
-#~ msgid "El borrador abierto corresponde a la temporada {season}."
-#~ msgstr "El borrador abierto corresponde a la temporada {season}."
-
-#~ msgid "El borrador abierto no tiene temporada indicada."
-#~ msgstr "El borrador abierto no tiene temporada indicada."
-
-#~ msgid ""
-#~ "Cada ajuste incluye una explicación de cómo podría influir en el comportamiento del coche. Al "
-#~ "modificarlo, puedes comparar sus valores con los de tu referencia y revisar los posibles efectos."
-#~ msgstr ""
-#~ "Cada ajuste incluye una explicación de cómo podría influir en el comportamiento del coche. Al "
-#~ "modificarlo, puedes comparar sus valores con los de tu referencia y revisar los posibles efectos."
-
-#~ msgid ""
-#~ "Guarda versiones en la base de datos con un nombre y notas para recordar qué querías probar o qué "
-#~ "observaste. Puedes recuperar una versión anterior, crear otra a partir de ella y exportar tus "
-#~ "reglajes en JSON."
-#~ msgstr ""
-#~ "Guarda versiones en la base de datos con un nombre y notas para recordar qué querías probar o qué "
-#~ "observaste. Puedes recuperar una versión anterior, crear otra a partir de ella y exportar tus "
-#~ "reglajes en JSON."
-
-#~ msgid "Cambia pocas variables y comprueba el resultado conduciendo en las mismas condiciones."
-#~ msgstr "Cambia pocas variables y comprueba el resultado conduciendo en las mismas condiciones."
-
-#~ msgid "Del reglaje inicial a tu siguiente prueba"
-#~ msgstr "Del reglaje inicial a tu siguiente prueba"
-
-#~ msgid ""
-#~ "Edita los veinte ajustes por categorías. Consulta sus efectos habituales y el resumen de cambios "
-#~ "respecto a tu referencia."
-#~ msgstr ""
-#~ "Edita los veinte ajustes por categorías. Consulta sus efectos habituales y el resumen de cambios "
-#~ "respecto a tu referencia."
-
-#~ msgid "Edita los veinte ajustes, compara sus diferencias y guarda variantes con tus observaciones."
-#~ msgstr "Edita los veinte ajustes, compara sus diferencias y guarda variantes con tus observaciones."
-
-#~ msgid ""
-#~ "El borrador se conserva al cambiar de apartado. Guárdalo en Versiones para conservarlo en la base "
-#~ "de datos."
-#~ msgstr ""
-#~ "El borrador se conserva al cambiar de apartado. Guárdalo en Versiones para conservarlo en la base "
-#~ "de datos."
-
-#~ msgid ""
-#~ "Elige Alpha para probar novedades o Estable para versiones estables. Accede a Opciones y "
-#~ "Actualizaciones desde el menú de la versión, arriba a la derecha."
-#~ msgstr ""
-#~ "Elige Alpha para probar novedades o Estable para versiones estables. Accede a Opciones y "
-#~ "Actualizaciones desde el menú de la versión, arriba a la derecha."
-
-#~ msgid ""
-#~ "Guarda variantes con nombre y notas, abre una versión como borrador o expórtala en JSON. Cada "
-#~ "guardado conserva las versiones anteriores."
-#~ msgstr ""
-#~ "Guarda variantes con nombre y notas, abre una versión como borrador o expórtala en JSON. Cada "
-#~ "guardado conserva las versiones anteriores."
-
-#~ msgid "La prueba está en la pista"
-#~ msgstr "La prueba está en la pista"
-
-#~ msgid ""
-#~ "Las explicaciones y propuestas son orientativas. La app no calcula un reglaje óptimo ni simula la "
-#~ "física del coche."
-#~ msgstr ""
-#~ "Las explicaciones y propuestas son orientativas. La app no calcula un reglaje óptimo ni simula la "
-#~ "física del coche."
-
-#~ msgid ""
-#~ "Parte de un reglaje, conserva una referencia y entiende cada cambio antes de probarlo en pista."
-#~ msgstr ""
-#~ "Parte de un reglaje, conserva una referencia y entiende cada cambio antes de probarlo en pista."
-
-#~ msgid "Prepara y compara tus reglajes"
-#~ msgstr "Prepara y compara tus reglajes"
-
-#~ msgid ""
-#~ "Selecciona el problema que notas al conducir y revisa qué ajustes conviene ensayar. Prueba cada "
-#~ "propuesta en pista."
-#~ msgstr ""
-#~ "Selecciona el problema que notas al conducir y revisa qué ajustes conviene ensayar. Prueba cada "
-#~ "propuesta en pista."
-
-#~ msgid "Tu espacio de trabajo"
-#~ msgstr "Tu espacio de trabajo"
-
-#~ msgid "Un recorrido por las herramientas de la aplicación."
-#~ msgstr "Un recorrido por las herramientas de la aplicación."
-
-#~ msgid "y"
-#~ msgstr "y"
-
-#~ msgid ""
-#~ "Empieza con los valores del juego o un reglaje propio. Las características del circuito dan "
-#~ "contexto a tus pruebas."
-#~ msgstr ""
-#~ "Empieza con los valores del juego o un reglaje propio. Las características del circuito dan "
-#~ "contexto a tus pruebas."
-
-#~ msgid ""
-#~ "Selecciona un circuito y consulta sus características, o abre un reglaje guardado. Conserva una "
-#~ "referencia para comparar los cambios en Taller."
-#~ msgstr ""
-#~ "Selecciona un circuito y consulta sus características, o abre un reglaje guardado. Conserva una "
-#~ "referencia para comparar los cambios en Taller."
-
-#~ msgid "Carga aerodinámica orientativa"
-#~ msgstr "Carga aerodinámica orientativa"
-
-#~ msgid "Curvas de velocidad variada, incluidas varias largas y rápidas."
-#~ msgstr "Curvas de velocidad variada, incluidas varias largas y rápidas."
-
-#~ msgid "Curvas enlazadas de velocidad baja y media y rectas relativamente cortas."
-#~ msgstr "Curvas enlazadas de velocidad baja y media y rectas relativamente cortas."
-
-#~ msgid "Curvas lentas y medias entre muros, con frenadas y cambios de dirección frecuentes."
-#~ msgstr "Curvas lentas y medias entre muros, con frenadas y cambios de dirección frecuentes."
-
-#~ msgid "Curvas medias y rápidas enlazadas y una larga recta principal."
-#~ msgstr "Curvas medias y rápidas enlazadas y una larga recta principal."
-
-#~ msgid "Curvas muy lentas y estrechas entre barreras, con tramos breves de aceleración."
-#~ msgstr "Curvas muy lentas y estrechas entre barreras, con tramos breves de aceleración."
-
-#~ msgid "Curvas rápidas enlazadas y frenadas para giros más lentos."
-#~ msgstr "Curvas rápidas enlazadas y frenadas para giros más lentos."
-
-#~ msgid "Curvas rápidas entre muros y algunas frenadas fuertes."
-#~ msgstr "Curvas rápidas entre muros y algunas frenadas fuertes."
-
-#~ msgid "Eses rápidas, cambios de dirección y una horquilla lenta."
-#~ msgstr "Eses rápidas, cambios de dirección y una horquilla lenta."
-
-#~ msgid "Eses rápidas, una recta larga y una sección final más lenta."
-#~ msgstr "Eses rápidas, una recta larga y una sección final más lenta."
-
-#~ msgid "Frenadas fuertes y curvas lentas alternan con tramos rápidos."
-#~ msgstr "Frenadas fuertes y curvas lentas alternan con tramos rápidos."
-
-#~ msgid "Frenadas fuertes y curvas lentas seguidas de curvas rápidas."
-#~ msgstr "Frenadas fuertes y curvas lentas seguidas de curvas rápidas."
-
-#~ msgid "Permanente"
-#~ msgstr "Permanente"
-
-#~ msgid "Recta larga, frenadas fuertes y una sección técnica de curvas lentas."
-#~ msgstr "Recta larga, frenadas fuertes y una sección técnica de curvas lentas."
-
-#~ msgid "Rectas largas y curvas lentas entre muros, incluida una zona estrecha."
-#~ msgstr "Rectas largas y curvas lentas entre muros, incluida una zona estrecha."
-
-#~ msgid "Rectas largas, curvas rápidas y cambios de altura, con una chicane lenta."
-#~ msgstr "Rectas largas, curvas rápidas y cambios de altura, con una chicane lenta."
-
-#~ msgid "Rectas largas, curvas rápidas y una sección lenta y estrecha."
-#~ msgstr "Rectas largas, curvas rápidas y una sección lenta y estrecha."
-
-#~ msgid "Rectas largas, frenadas para curvas lentas y una sección final de curvas enlazadas."
-#~ msgstr "Rectas largas, frenadas para curvas lentas y una sección final de curvas enlazadas."
-
-#~ msgid "Rectas muy largas y curvas lentas entre barreras."
-#~ msgstr "Rectas muy largas y curvas lentas entre barreras."
-
-#~ msgid "Secuencias de curvas rápidas y cambios de dirección, con algunas curvas lentas."
-#~ msgstr "Secuencias de curvas rápidas y cambios de dirección, con algunas curvas lentas."
-
-#~ msgid "Semipermanente"
-#~ msgstr "Semipermanente"
-
-#~ msgid "Tipo de circuito"
-#~ msgstr "Tipo de circuito"
-
-#~ msgid "Urbano"
-#~ msgstr "Urbano"
-
-#~ msgid "Chicanes de velocidad media y una horquilla lenta, separadas por rectas y frenadas."
-#~ msgstr "Chicanes de velocidad media y una horquilla lenta, separadas por rectas y frenadas."
-
-#~ msgid "Chicanes lentas y curvas rápidas, con cambios de altura y frenadas en bajada."
-#~ msgstr "Chicanes lentas y curvas rápidas, con cambios de altura y frenadas en bajada."
-
-#~ msgid "Curvas del trazado"
-#~ msgstr "Curvas del trazado"
-
-#~ msgid "Curvas largas de velocidad media y una horquilla lenta, junto a una recta extensa."
-#~ msgstr "Curvas largas de velocidad media y una horquilla lenta, junto a una recta extensa."
-
-#~ msgid ""
-#~ "Curvas lentas en secciones estrechas y tramos rápidos, incluida la curva peraltada La Monumental. "
-#~ "Requiere el paquete 2026 y sus coches."
-#~ msgstr ""
-#~ "Curvas lentas en secciones estrechas y tramos rápidos, incluida la curva peraltada La Monumental. "
-#~ "Requiere el paquete 2026 y sus coches."
-
-#~ msgid "Curvas lentas y medias enlazadas, cambios de altura y una subida prolongada hacia meta."
-#~ msgstr "Curvas lentas y medias enlazadas, cambios de altura y una subida prolongada hacia meta."
-
-#~ msgid "Curvas rápidas y chicanes lentas, con rectas largas y frenadas fuertes."
-#~ msgstr "Curvas rápidas y chicanes lentas, con rectas largas y frenadas fuertes."
-
-#~ msgid "Curvas rápidas y medias enlazadas, cambios de altura y dos curvas peraltadas."
-#~ msgstr "Curvas rápidas y medias enlazadas, cambios de altura y dos curvas peraltadas."
-
-#~ msgid "Curvas basadas en una guía de 2025; trazado de 2026 pendiente de contraste."
-#~ msgstr "Curvas basadas en una guía de 2025; trazado de 2026 pendiente de contraste."
-
-#~ msgid "Pendiente de contrastar para el coche de 2026"
-#~ msgstr "Pendiente de contrastar para el coche de 2026"
-
-#~ msgid "{location} · Predeterminado {number}: {name} · coche 2026"
-#~ msgstr "{location} · Predeterminado {number}: {name} · coche 2026"
-
-#~ msgid "Pendiente de contrastar para el coche de 2025"
-#~ msgstr "Pendiente de contrastar para el coche de 2025"
-
-#~ msgid "Predeterminado {number} · {name} (juego, coche 2026)"
-#~ msgstr "Predeterminado {number} · {name} (juego, coche 2026)"
-
-#~ msgid "Actualizaciones · F1 25"
-#~ msgstr "Actualizaciones · F1 25"
-
-#~ msgid "F1 25 · Taller de reglajes"
-#~ msgstr "F1 25 · Taller de reglajes"
-
-#~ msgid "Instalar · F1 25 Setup Engineer"
-#~ msgstr "Instalar · F1 25 Setup Engineer"
-
-#~ msgid "Tu taller de F1 25"
-#~ msgstr "Tu taller de F1 25"
-
-#~ msgid "{location} · Predeterminado {number}: {name}"
-#~ msgstr "{location} · Predeterminado {number}: {name}"
-
-#~ msgid "Carga orientativa en seco; puede variar con el coche, las condiciones y el reglaje."
-#~ msgstr "Carga orientativa en seco; puede variar con el coche, las condiciones y el reglaje."
-
-#~ msgid "Muy alta"
-#~ msgstr "Muy alta"
-
-#~ msgid "Pendiente de contrastar"
-#~ msgstr "Pendiente de contrastar"
-
-#~ msgid "Cambios de altura, curvas enlazadas y una subida prolongada hacia meta."
-#~ msgstr "Cambios de altura, curvas enlazadas y una subida prolongada hacia meta."
-
-#~ msgid "Chicanes, curvas rápidas, cambios de altura y frenadas en bajada."
-#~ msgstr "Chicanes, curvas rápidas, cambios de altura y frenadas en bajada."
-
-#~ msgid "Curvas enlazadas, cambios de altura y dos curvas peraltadas."
-#~ msgstr "Curvas enlazadas, cambios de altura y dos curvas peraltadas."
-
-#~ msgid "Curvas largas de radio variable, horquillas y una recta extensa."
-#~ msgstr "Curvas largas de radio variable, horquillas y una recta extensa."
-
-#~ msgid "Rectas largas, frenadas fuertes y chicanes, con curvas rápidas."
-#~ msgstr "Rectas largas, frenadas fuertes y chicanes, con curvas rápidas."
-
-#~ msgid "Rectas y frenadas para chicanes y una horquilla lenta."
-#~ msgstr "Rectas y frenadas para chicanes y una horquilla lenta."
-
-#~ msgid ""
-#~ "Secciones urbanas estrechas, tramos rápidos y la curva peraltada La Monumental. Requiere el "
-#~ "paquete 2026 y sus coches."
-#~ msgstr ""
-#~ "Secciones urbanas estrechas, tramos rápidos y la curva peraltada La Monumental. Requiere el "
-#~ "paquete 2026 y sus coches."
-
-#~ msgid "Cargando reglaje?"
-#~ msgstr "Cargando reglaje?"
-
-#~ msgid "Categor?as del reglaje"
-#~ msgstr "Categor?as del reglaje"
-
-#~ msgid "Cargar reglaje guardado"
-#~ msgstr "Cargar reglaje guardado"
-
-#~ msgid "01 / PUNTO DE PARTIDA"
-#~ msgstr "01 / PUNTO DE PARTIDA"
-
-#~ msgid "Asignados por el juego (aportados por mí)"
-#~ msgstr "Asignados por el juego (aportados por mí)"
-
-#~ msgid "Capturas"
-#~ msgstr "Capturas"
-
-#~ msgid "Cargando el taller…"
-#~ msgstr "Cargando el taller…"
-
-#~ msgid "Cargar ejemplo de las capturas"
-#~ msgstr "Cargar ejemplo de las capturas"
-
-#~ msgid "Desconocido"
-#~ msgstr "Desconocido"
-
-#~ msgid "Ejemplo de capturas cargado. No es el reglaje que el juego asigna al circuito."
-#~ msgstr "Ejemplo de capturas cargado. No es el reglaje que el juego asigna al circuito."
-
-#~ msgid "El ejemplo sustituirá los valores y la referencia del borrador. ¿Continuar?"
-#~ msgstr "El ejemplo sustituirá los valores y la referencia del borrador. ¿Continuar?"
-
-#~ msgid "Fijar actuales como referencia"
-#~ msgstr "Fijar actuales como referencia"
-
-#~ msgid "Origen de los valores que vas a fijar"
-#~ msgstr "Origen de los valores que vas a fijar"
-
-#~ msgid "Reglaje personal"
-#~ msgstr "Reglaje personal"
-
-#~ msgid "Selecciona o importa una ficha"
-#~ msgstr "Selecciona o importa una ficha"
-
-#~ msgid ""
-#~ "Teoría orientativa. Las fuentes pueden discrepar, especialmente sobre presiones. Valida en tu "
-#~ "juego y sesión."
-#~ msgstr ""
-#~ "Teoría orientativa. Las fuentes pueden discrepar, especialmente sobre presiones. Valida en tu "
-#~ "juego y sesión."
-
-#~ msgid "Un taller para comprender y experimentar."
-#~ msgstr "Un taller para comprender y experimentar."
-
-#~ msgid "Versión abierta como borrador. Guardar creará otra versión."
-#~ msgstr "Versión abierta como borrador. Guardar creará otra versión."
-
-#~ msgid "asignados por el juego, aportados por ti"
-#~ msgstr "asignados por el juego, aportados por ti"
-
-#~ msgid ""
-#~ "Elige un circuito para consultar sus características y cargar su punto de partida, o abre uno de "
-#~ "tus reglajes guardados."
-#~ msgstr ""
-#~ "Elige un circuito para consultar sus características y cargar su punto de partida, o abre uno de "
-#~ "tus reglajes guardados."
-
-#~ msgid "Taller listo. Elige un circuito o abre un reglaje guardado."
-#~ msgstr "Taller listo. Elige un circuito o abre un reglaje guardado."
-
-#~ msgid "Referencia e importación manual"
-#~ msgstr "Referencia e importación manual"
-
-#~ msgid ""
-#~ "Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. Puedes "
-#~ "importar fichas para añadir otros circuitos, incluidos los de mods."
-#~ msgstr ""
-#~ "Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. Puedes "
-#~ "importar fichas para añadir otros circuitos, incluidos los de mods."
-
-#~ msgid ""
-#~ "Catálogo inicial: 24 circuitos oficiales. Las asignaciones sin confirmar permanecen pendientes."
-#~ msgstr ""
-#~ "Catálogo inicial: 24 circuitos oficiales. Las asignaciones sin confirmar permanecen pendientes."
-
-#~ msgid ""
-#~ "Incorpora el catálogo de cinco predeterminados, los 24 circuitos oficiales y las asignaciones "
-#~ "confirmadas disponibles. Los reglajes personales se conservan."
-#~ msgstr ""
-#~ "Incorpora el catálogo de cinco predeterminados, los 24 circuitos oficiales y las asignaciones "
-#~ "confirmadas disponibles. Los reglajes personales se conservan."
-
-#~ msgid ""
-#~ "Añade los cinco predeterminados del juego, los 24 circuitos oficiales y la asignación de Albert "
-#~ "Park al predeterminado 3. Los reglajes personales se conservan."
-#~ msgstr ""
-#~ "Añade los cinco predeterminados del juego, los 24 circuitos oficiales y la asignación de Albert "
-#~ "Park al predeterminado 3. Los reglajes personales se conservan."
-
-#~ msgid ""
-#~ "Catálogo inicial: 24 circuitos oficiales. Albert Park utiliza el predeterminado 3; las demás "
-#~ "asignaciones están pendientes."
-#~ msgstr ""
-#~ "Catálogo inicial: 24 circuitos oficiales. Albert Park utiliza el predeterminado 3; las demás "
-#~ "asignaciones están pendientes."
-
-#~ msgid ""
-#~ "Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. La "
-#~ "asignación de cada circuito se incorporará cuando esté comprobada."
-#~ msgstr ""
-#~ "Los predeterminados del juego no distinguen entre seco o mojado ni entre tipos de sesión. La "
-#~ "asignación de cada circuito se incorporará cuando esté comprobada."
-
-#~ msgid "Carrera"
-#~ msgstr "Carrera"
-
-#~ msgid "Condiciones"
-#~ msgstr "Condiciones"
-
-#~ msgid "Contrarreloj"
-#~ msgstr "Contrarreloj"
-
-#~ msgid ""
-#~ "Empieza con los valores del juego o un reglaje propio. La ficha del circuito y las condiciones dan"
-#~ " contexto a tus pruebas."
-#~ msgstr ""
-#~ "Empieza con los valores del juego o un reglaje propio. La ficha del circuito y las condiciones dan"
-#~ " contexto a tus pruebas."
-
-#~ msgid ""
-#~ "Importa la ficha y el reglaje inicial, o introduce sus valores en Taller. Indica las condiciones y"
-#~ " fija la referencia que usarás para comparar."
-#~ msgstr ""
-#~ "Importa la ficha y el reglaje inicial, o introduce sus valores en Taller. Indica las condiciones y"
-#~ " fija la referencia que usarás para comparar."
-
-#~ msgid "La aplicación se está actualizando o recuperando. Vuelve a intentarlo en unos instantes."
-#~ msgstr "La aplicación se está actualizando o recuperando. Vuelve a intentarlo en unos instantes."
-
-#~ msgid "Mojado"
-#~ msgstr "Mojado"
-
-#~ msgid "Seco"
-#~ msgstr "Seco"
-
-#~ msgid "Taller listo. Selecciona el circuito y aporta los valores que te asigna el juego."
-#~ msgstr "Taller listo. Selecciona el circuito y aporta los valores que te asigna el juego."
-
-#~ msgid "Versiones guardadas"
-#~ msgstr "Versiones guardadas"
-
-#~ msgid "Alta: el agarre en curva y la respuesta del coche pesan más que la velocidad punta."
-#~ msgstr "Alta: el agarre en curva y la respuesta del coche pesan más que la velocidad punta."
-
-#~ msgid "Alta: el apoyo en las curvas rápidas debe compensarse con velocidad en la recta."
-#~ msgstr "Alta: el apoyo en las curvas rápidas debe compensarse con velocidad en la recta."
-
-#~ msgid ""
-#~ "Alta: favorece el agarre en el sector técnico; controla también la velocidad en las zonas rápidas."
-#~ msgstr ""
-#~ "Alta: favorece el agarre en el sector técnico; controla también la velocidad en las zonas rápidas."
-
-#~ msgid "Alta: se prioriza el apoyo y la estabilidad durante las curvas prolongadas."
-#~ msgstr "Alta: se prioriza el apoyo y la estabilidad durante las curvas prolongadas."
-
-#~ msgid "Alta: se prioriza el control en curva y frenada sobre la velocidad punta."
-#~ msgstr "Alta: se prioriza el control en curva y frenada sobre la velocidad punta."
-
-#~ msgid "Alta: se priorizan el control en curva y la respuesta frente a la velocidad punta."
-#~ msgstr "Alta: se priorizan el control en curva y la respuesta frente a la velocidad punta."
-
-#~ msgid "Baja-media: la velocidad en recta compite con el apoyo necesario en el sector central."
-#~ msgstr "Baja-media: la velocidad en recta compite con el apoyo necesario en el sector central."
-
-#~ msgid ""
-#~ "Baja-media: las rectas favorecen poca resistencia, pero el sector lento necesita un coche "
-#~ "manejable."
-#~ msgstr ""
-#~ "Baja-media: las rectas favorecen poca resistencia, pero el sector lento necesita un coche "
-#~ "manejable."
-
-#~ msgid "Baja-media: prioriza la velocidad en las rectas sin perder confianza en las curvas rápidas."
-#~ msgstr "Baja-media: prioriza la velocidad en las rectas sin perder confianza en las curvas rápidas."
-
-#~ msgid "Baja: la recta premia la velocidad punta; conserva suficiente control en la zona estrecha."
-#~ msgstr "Baja: la recta premia la velocidad punta; conserva suficiente control en la zona estrecha."
-
-#~ msgid ""
-#~ "Baja: la velocidad punta tiene mucho peso, pero hace falta estabilidad al frenar y en las curvas "
-#~ "rápidas."
-#~ msgstr ""
-#~ "Baja: la velocidad punta tiene mucho peso, pero hace falta estabilidad al frenar y en las curvas "
-#~ "rápidas."
-
-#~ msgid ""
-#~ "Baja: las rectas favorecen poca resistencia, aunque hay que mantener control en las frenadas."
-#~ msgstr ""
-#~ "Baja: las rectas favorecen poca resistencia, aunque hay que mantener control en las frenadas."
-
-#~ msgid ""
-#~ "Busca estabilidad en los cambios de dirección y controla el esfuerzo lateral de los neumáticos."
-#~ msgstr ""
-#~ "Busca estabilidad en los cambios de dirección y controla el esfuerzo lateral de los neumáticos."
-
-#~ msgid "Chicanes de velocidad media y una horquilla lenta separadas por rectas."
-#~ msgstr "Chicanes de velocidad media y una horquilla lenta separadas por rectas."
-
-#~ msgid "Chicanes lentas, curvas rápidas, cambios de altura y frenadas en bajada."
-#~ msgstr "Chicanes lentas, curvas rápidas, cambios de altura y frenadas en bajada."
-
-#~ msgid ""
-#~ "Combina curvas estrechas y una sección técnica con La Monumental, una curva rápida y peraltada."
-#~ msgstr ""
-#~ "Combina curvas estrechas y una sección técnica con La Monumental, una curva rápida y peraltada."
-
-#~ msgid "Combina curvas rápidas y largas con otras medias y lentas."
-#~ msgstr "Combina curvas rápidas y largas con otras medias y lentas."
-
-#~ msgid "Completo y exigente en curva"
-#~ msgstr "Completo y exigente en curva"
-
-#~ msgid ""
-#~ "Comprueba la estabilidad al frenar y la tracción al salir de las curvas lentas cuesta arriba."
-#~ msgstr ""
-#~ "Comprueba la estabilidad al frenar y la tracción al salir de las curvas lentas cuesta arriba."
-
-#~ msgid "Comprueba la estabilidad en curvas rápidas y la tracción al salir de las curvas lentas."
-#~ msgstr "Comprueba la estabilidad en curvas rápidas y la tracción al salir de las curvas lentas."
-
-#~ msgid ""
-#~ "Comprueba la estabilidad en los cambios de dirección y la tracción a la salida del sector lento."
-#~ msgstr ""
-#~ "Comprueba la estabilidad en los cambios de dirección y la tracción a la salida del sector lento."
-
-#~ msgid ""
-#~ "Cuida el agarre de los neumáticos en las curvas largas y la estabilidad al frenar para la "
-#~ "horquilla."
-#~ msgstr ""
-#~ "Cuida el agarre de los neumáticos en las curvas largas y la estabilidad al frenar para la "
-#~ "horquilla."
-
-#~ msgid "Cuida la frenada fuerte y la tracción al acelerar desde las curvas lentas."
-#~ msgstr "Cuida la frenada fuerte y la tracción al acelerar desde las curvas lentas."
-
-#~ msgid "Curvas largas de velocidad media, cambios de dirección y una horquilla lenta."
-#~ msgstr "Curvas largas de velocidad media, cambios de dirección y una horquilla lenta."
-
-#~ msgid "Curvas lentas al comienzo y varias curvas rápidas en la parte final."
-#~ msgstr "Curvas lentas al comienzo y varias curvas rápidas en la parte final."
-
-#~ msgid "Curvas lentas y medias enlazadas dejan poco descanso entre apoyos."
-#~ msgstr "Curvas lentas y medias enlazadas dejan poco descanso entre apoyos."
-
-#~ msgid "Curvas medias y rápidas enlazadas con algunas frenadas y giros lentos."
-#~ msgstr "Curvas medias y rápidas enlazadas con algunas frenadas y giros lentos."
-
-#~ msgid "Curvas medias y rápidas enlazadas y una recta principal larga."
-#~ msgstr "Curvas medias y rápidas enlazadas y una recta principal larga."
-
-#~ msgid "Curvas medias y rápidas enlazadas, cambios de altura y curvas peraltadas."
-#~ msgstr "Curvas medias y rápidas enlazadas, cambios de altura y curvas peraltadas."
-
-#~ msgid "Curvas muy lentas y estrechas entre barreras, con rectas cortas."
-#~ msgstr "Curvas muy lentas y estrechas entre barreras, con rectas cortas."
-
-#~ msgid "Curvas rápidas enlazadas y algunas frenadas fuertes para giros más lentos."
-#~ msgstr "Curvas rápidas enlazadas y algunas frenadas fuertes para giros más lentos."
-
-#~ msgid ""
-#~ "En La Monumental comprueba que el fondo no roce; en las curvas estrechas importan la frenada y la "
-#~ "tracción."
-#~ msgstr ""
-#~ "En La Monumental comprueba que el fondo no roce; en las curvas estrechas importan la frenada y la "
-#~ "tracción."
-
-#~ msgid "Eses rápidas y medias, curvas prolongadas y una horquilla lenta."
-#~ msgstr "Eses rápidas y medias, curvas prolongadas y una horquilla lenta."
-
-#~ msgid "Eses rápidas, una recta larga y un sector final más lento."
-#~ msgstr "Eses rápidas, una recta larga y un sector final más lento."
-
-#~ msgid ""
-#~ "Evita un coche nervioso en las eses y conserva tracción al salir de la horquilla y la chicane."
-#~ msgstr ""
-#~ "Evita un coche nervioso en las eses y conserva tracción al salir de la horquilla y la chicane."
-
-#~ msgid "Fluido y con peraltes"
-#~ msgstr "Fluido y con peraltes"
-
-#~ msgid "Frenada, tracción y neumáticos"
-#~ msgstr "Frenada, tracción y neumáticos"
-
-#~ msgid "Frenadas fuertes y giros lentos alternan con curvas de velocidad media y tramos rápidos."
-#~ msgstr "Frenadas fuertes y giros lentos alternan con curvas de velocidad media y tramos rápidos."
-
-#~ msgid "Frenadas fuertes, paso por pianos y tracción al salir de la horquilla condicionan la vuelta."
-#~ msgstr ""
-#~ "Frenadas fuertes, paso por pianos y tracción al salir de la horquilla condicionan la vuelta."
-
-#~ msgid "Giros lentos entre muros y una sección muy estrecha contrastan con una recta prolongada."
-#~ msgstr "Giros lentos entre muros y una sección muy estrecha contrastan con una recta prolongada."
-
-#~ msgid "La estabilidad al frenar y la tracción a la salida de curvas lentas son importantes."
-#~ msgstr "La estabilidad al frenar y la tracción a la salida de curvas lentas son importantes."
-
-#~ msgid ""
-#~ "La estabilidad al frenar y la tracción a la salida de las curvas lentas ayudan a encadenar "
-#~ "sectores."
-#~ msgstr ""
-#~ "La estabilidad al frenar y la tracción a la salida de las curvas lentas ayudan a encadenar "
-#~ "sectores."
-
-#~ msgid ""
-#~ "La frenada en línea recta, el paso por pianos y la tracción a la salida de las chicanes son "
-#~ "esenciales."
-#~ msgstr ""
-#~ "La frenada en línea recta, el paso por pianos y la tracción a la salida de las chicanes son "
-#~ "esenciales."
-
-#~ msgid ""
-#~ "La frenada estable y la tracción al salir de las curvas lentas ayudan a llegar con velocidad a las"
-#~ " zonas rápidas."
-#~ msgstr ""
-#~ "La frenada estable y la tracción al salir de las curvas lentas ayudan a llegar con velocidad a las"
-#~ " zonas rápidas."
-
-#~ msgid ""
-#~ "La precisión, la tracción a baja velocidad y la capacidad de absorber pianos y baches son "
-#~ "importantes."
-#~ msgstr ""
-#~ "La precisión, la tracción a baja velocidad y la capacidad de absorber pianos y baches son "
-#~ "importantes."
-
-#~ msgid "La tracción a la salida de curvas lentas y el cuidado de los neumáticos traseros son claves."
-#~ msgstr ""
-#~ "La tracción a la salida de curvas lentas y el cuidado de los neumáticos traseros son claves."
-
-#~ msgid "La tracción en la última curva y la estabilidad al frenar en bajada influyen en la vuelta."
-#~ msgstr "La tracción en la última curva y la estabilidad al frenar en bajada influyen en la vuelta."
-
-#~ msgid "Las frenadas fuertes y la tracción a la salida de las curvas lentas son decisivas."
-#~ msgstr "Las frenadas fuertes y la tracción a la salida de las curvas lentas son decisivas."
-
-#~ msgid "Lento y muy revirado"
-#~ msgstr "Lento y muy revirado"
-
-#~ msgid "Lento y revirado"
-#~ msgstr "Lento y revirado"
-
-#~ msgid "Media-alta: busca apoyo en la sección técnica sin perder de vista la recta principal."
-#~ msgstr "Media-alta: busca apoyo en la sección técnica sin perder de vista la recta principal."
-
-#~ msgid "Media-alta: busca apoyo en las eses sin descuidar la velocidad en la recta larga."
-#~ msgstr "Media-alta: busca apoyo en las eses sin descuidar la velocidad en la recta larga."
-
-#~ msgid ""
-#~ "Media-alta: busca apoyo en los cambios rápidos de dirección sin perder demasiada velocidad en las "
-#~ "rectas."
-#~ msgstr ""
-#~ "Media-alta: busca apoyo en los cambios rápidos de dirección sin perder demasiada velocidad en las "
-#~ "rectas."
-
-#~ msgid ""
-#~ "Media-alta: el apoyo en las curvas largas se equilibra con la velocidad en la recta principal."
-#~ msgstr ""
-#~ "Media-alta: el apoyo en las curvas largas se equilibra con la velocidad en la recta principal."
-
-#~ msgid ""
-#~ "Media-alta: el apoyo y la estabilidad en los cambios de dirección pesan frente a la velocidad "
-#~ "punta."
-#~ msgstr ""
-#~ "Media-alta: el apoyo y la estabilidad en los cambios de dirección pesan frente a la velocidad "
-#~ "punta."
-
-#~ msgid "Media-alta: necesitas apoyo en las secuencias rápidas sin perder demasiado en las rectas."
-#~ msgstr "Media-alta: necesitas apoyo en las secuencias rápidas sin perder demasiado en las rectas."
-
-#~ msgid "Media-alta: prioriza la confianza en curva sin perder demasiada velocidad en las rectas."
-#~ msgstr "Media-alta: prioriza la confianza en curva sin perder demasiada velocidad en las rectas."
-
-#~ msgid "Media-baja: favorece la velocidad en recta sin sacrificar la estabilidad en las chicanes."
-#~ msgstr "Media-baja: favorece la velocidad en recta sin sacrificar la estabilidad en las chicanes."
-
-#~ msgid "Media: busca estabilidad en curva sin penalizar las rectas."
-#~ msgstr "Media: busca estabilidad en curva sin penalizar las rectas."
-
-#~ msgid "Media: busca un equilibrio entre velocidad en recta y agarre en el sector final."
-#~ msgstr "Media: busca un equilibrio entre velocidad en recta y agarre en el sector final."
-
-#~ msgid "Media: equilibra el agarre del sector interior con la velocidad en la subida y la recta."
-#~ msgstr "Media: equilibra el agarre del sector interior con la velocidad en la subida y la recta."
-
-#~ msgid "Media: equilibra el apoyo en las curvas largas con la velocidad al final de la recta."
-#~ msgstr "Media: equilibra el apoyo en las curvas largas con la velocidad al final de la recta."
-
-#~ msgid "Media: las rectas piden velocidad, mientras el último sector exige apoyo."
-#~ msgstr "Media: las rectas piden velocidad, mientras el último sector exige apoyo."
-
-#~ msgid "Muy rápido con giros lentos"
-#~ msgstr "Muy rápido con giros lentos"
-
-#~ msgid "Muy rápido entre muros"
-#~ msgstr "Muy rápido entre muros"
-
-#~ msgid "Muy rápido y fluido"
-#~ msgstr "Muy rápido y fluido"
-
-#~ msgid "Muy rápido, con chicanes"
-#~ msgstr "Muy rápido, con chicanes"
-
-#~ msgid "Necesitas estabilidad al frenar, buena tracción y un coche que pueda pasar por los pianos."
-#~ msgstr "Necesitas estabilidad al frenar, buena tracción y un coche que pueda pasar por los pianos."
-
-#~ msgid "Necesitas estabilidad en los cambios de dirección y precisión al frenar cerca de los muros."
-#~ msgstr "Necesitas estabilidad en los cambios de dirección y precisión al frenar cerca de los muros."
-
-#~ msgid "Observa el desgaste por apoyo lateral y la estabilidad al pasar por los peraltes."
-#~ msgstr "Observa el desgaste por apoyo lateral y la estabilidad al pasar por los peraltes."
-
-#~ msgid "Predominan las curvas rápidas y los cambios de dirección, con algunas curvas lentas."
-#~ msgstr "Predominan las curvas rápidas y los cambios de dirección, con algunas curvas lentas."
-
-#~ msgid ""
-#~ "Prueba la estabilidad al frenar y la tracción al salir del sector lento hacia la recta larga."
-#~ msgstr ""
-#~ "Prueba la estabilidad al frenar y la tracción al salir del sector lento hacia la recta larga."
-
-#~ msgid "Recta larga y sector técnico"
-#~ msgstr "Recta larga y sector técnico"
-
-#~ msgid "Recta muy larga y curvas lentas"
-#~ msgstr "Recta muy larga y curvas lentas"
-
-#~ msgid "Rectas largas y curvas rápidas contrastan con el sector central y una chicane lenta."
-#~ msgstr "Rectas largas y curvas rápidas contrastan con el sector central y una chicane lenta."
-
-#~ msgid "Rectas largas y curvas rápidas contrastan con un tramo lento y estrecho."
-#~ msgstr "Rectas largas y curvas rápidas contrastan con un tramo lento y estrecho."
-
-#~ msgid "Rectas largas y curvas rápidas interrumpidas por chicanes lentas."
-#~ msgstr "Rectas largas y curvas rápidas interrumpidas por chicanes lentas."
-
-#~ msgid "Rectas largas, frenadas para giros lentos y un sector final de curvas enlazadas."
-#~ msgstr "Rectas largas, frenadas para giros lentos y un sector final de curvas enlazadas."
-
-#~ msgid "Rectas y chicanes"
-#~ msgstr "Rectas y chicanes"
-
-#~ msgid "Rectas y curvas lentas"
-#~ msgstr "Rectas y curvas lentas"
-
-#~ msgid "Revirado y exigente"
-#~ msgstr "Revirado y exigente"
-
-#~ msgid "Rápido con cambios de altura"
-#~ msgstr "Rápido con cambios de altura"
-
-#~ msgid "Rápido con frenadas fuertes"
-#~ msgstr "Rápido con frenadas fuertes"
-
-#~ msgid "Rápido con sección técnica"
-#~ msgstr "Rápido con sección técnica"
-
-#~ msgid "Rápido y de curvas prolongadas"
-#~ msgstr "Rápido y de curvas prolongadas"
-
-#~ msgid "Rápido y fluido"
-#~ msgstr "Rápido y fluido"
-
-#~ msgid "Rápido y técnico"
-#~ msgstr "Rápido y técnico"
-
-#~ msgid ""
-#~ "Trabaja la tracción y la estabilidad en frenada; los pianos y baches pueden descolocar el coche."
-#~ msgstr ""
-#~ "Trabaja la tracción y la estabilidad en frenada; los pianos y baches pueden descolocar el coche."
-
-#~ msgid "Técnico con curva peraltada rápida"
-#~ msgstr "Técnico con curva peraltada rápida"
-
-#~ msgid "Técnico y con desniveles"
-#~ msgstr "Técnico y con desniveles"
-
-#~ msgid ""
-#~ "Una buena tracción y un coche que cambie de dirección con facilidad ayudan a mantener el ritmo."
-#~ msgstr ""
-#~ "Una buena tracción y un coche que cambie de dirección con facilidad ayudan a mantener el ritmo."
-
-#~ msgid "Una recta larga da paso a frenadas fuertes y curvas de velocidad lenta y media."
-#~ msgstr "Una recta larga da paso a frenadas fuertes y curvas de velocidad lenta y media."
-
-#~ msgid "Variado y con desniveles"
-#~ msgstr "Variado y con desniveles"
-
-#~ msgid "Variado y técnico"
-#~ msgstr "Variado y técnico"
-
-#~ msgid "Variado, con recta larga"
-#~ msgstr "Variado, con recta larga"
-
-#~ msgid "Variado, con rectas largas"
-#~ msgstr "Variado, con rectas largas"
-
-#~ msgid ""
-#~ "Vigila el equilibrio en curva prolongada y el desgaste de los neumáticos al encadenar apoyos."
-#~ msgstr ""
-#~ "Vigila el equilibrio en curva prolongada y el desgaste de los neumáticos al encadenar apoyos."
-
-#~ msgid "Vigila la estabilidad en apoyo sostenido y el esfuerzo lateral de los neumáticos."
-#~ msgstr "Vigila la estabilidad en apoyo sostenido y el esfuerzo lateral de los neumáticos."
-
-#~ msgid ""
-#~ "Completa ID, nombre, versión del juego, carga, resumen y al menos una fuente con título, URL y "
-#~ "fecha (AAAA-MM-DD). La carga admite low, medium, high o mixed. Los demás campos son opcionales."
-#~ msgstr ""
-#~ "Completa ID, nombre, versión del juego, carga, resumen y al menos una fuente con título, URL y "
-#~ "fecha (AAAA-MM-DD). La carga admite low, medium, high o mixed. Los demás campos son opcionales."
-
-#~ msgid ""
-#~ "Modifica los reglajes y consulta los efectos teóricos de cada cambio. Puedes cargar un reglaje o "
-#~ "introducir los valores desde cero."
-#~ msgstr ""
-#~ "Modifica los reglajes y consulta los efectos teóricos de cada cambio. Puedes cargar un reglaje o "
-#~ "introducir los valores desde cero."
-
-#~ msgid "Sin circuito asociado. Puedes seleccionarlo en Cargar reglaje."
-#~ msgstr "Sin circuito asociado. Puedes seleccionarlo en Cargar reglaje."

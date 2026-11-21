@@ -54,4 +54,4 @@ Conserva la copia si falla la recuperación automática. Restaura los archivos e
 
 ## Generar y publicar
 
-Consulta [el flujo de releases](publicar-versiones.md). Los paquetes se generan con `bin/package.py` y se adjuntan a las releases de GitHub; el ZIP genérico del código fuente no sirve como paquete de actualización.
+Consulta [el flujo de releases](publicar-versiones.md). Los paquetes se generan con `dev/bin/package.py` y se adjuntan a las releases de GitHub; el ZIP genérico del código fuente no sirve como paquete de actualización.

@@ -1,11 +1,21 @@
 <?php
+
 declare(strict_types=1);
-require dirname(__DIR__) . '/src/Translation.php';
-require dirname(__DIR__) . '/src/Domain.php';
+
+/** Translation fallback, interpolation and escaping regression tests with isolated malformed catalogs. */
+require dirname(__DIR__, 2) . '/src/Translation.php';
+require dirname(__DIR__, 2) . '/src/Domain.php';
 $checks = 0;
-function translationCheck(bool $condition, string $message): void {
-    global $checks; $checks++;
-    if (!$condition) { throw new RuntimeException($message); }
+/**
+ * Count a translation contract assertion and fail with its diagnostic label.
+ */
+function translationCheck(bool $condition, string $message): void
+{
+    global $checks;
+    $checks++;
+    if (!$condition) {
+        throw new RuntimeException($message);
+    }
 }
 $translation = new Translation('es');
 translationCheck($translation->language() === 'es', 'Spanish is available');
@@ -31,12 +41,14 @@ try {
     unlink($root . '/locale_es.php');
     translationCheck((new Translation('es', $root))->text('Ausente') === 'Ausente', 'Missing catalog falls back safely');
 } finally {
-    if (is_file($root . '/locale_es.php')) { unlink($root . '/locale_es.php'); }
+    if (is_file($root . '/locale_es.php')) {
+        unlink($root . '/locale_es.php');
+    }
     rmdir($root);
 }
 
-$source = new Domain(dirname(__DIR__) . '/data');
-$localized = new Domain(dirname(__DIR__) . '/data', static fn(string $text, array $values = []): string => 'TEST: ' . $text);
+$source = new Domain(dirname(__DIR__, 2) . '/data');
+$localized = new Domain(dirname(__DIR__, 2) . '/data', static fn (string $text, array $values = []): string => 'TEST: ' . $text);
 translationCheck($localized->catalog['parameters'][0]['name'] === 'TEST: ' . $source->catalog['parameters'][0]['name'], 'Parameter descriptions are translated');
 translationCheck($localized->catalog['parameters'][0]['id'] === $source->catalog['parameters'][0]['id'], 'Parameter identifiers stay stable');
 translationCheck($localized->catalog['parameters'][0]['min'] === $source->catalog['parameters'][0]['min'], 'Numeric rules stay stable');

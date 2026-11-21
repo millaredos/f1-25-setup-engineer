@@ -54,7 +54,9 @@ flowchart LR
 | `f125_game_presets` | Cinco predeterminados con veinte ajustes numéricos cada uno. |
 | `f125_game_circuits` | Nombres oficiales, orden y asignaciones de predeterminados confirmadas. |
 
-Crear un reglaje inserta un registro; guardar uno abierto actualiza ese registro y eliminarlo lo borra. Su JSON contiene referencia, valores actuales, condiciones, notas, comentarios por grupo y una copia de la ficha del circuito. El alta de una ficha junto con su reglaje se ejecuta en una transacción. Los cambios actuales del taller están sin publicar y su integración con MariaDB sigue sin verificar.
+Crear un reglaje inserta un registro; guardar uno abierto actualiza ese registro y eliminarlo lo borra. Su JSON contiene referencia, valores actuales, condiciones, notas, comentarios por grupo y una copia de la ficha del circuito. El alta de una ficha junto con su reglaje se ejecuta en una transacción.
+
+El navegador conserva nombre, notas y ajustes en el estado del borrador, independiente de la consulta de circuitos. El registro de eventos se agrupa por edición, carga, importación, consulta y recuperación. La importación conserva la referencia explícita del archivo; abrir un reglaje guardado para editar compara desde sus valores actuales guardados. Un guardado correcto inicia otra referencia de comparación en memoria. Consulta las [convenciones de código](convenciones-codigo.md).
 
 El catálogo del juego está separado de las fichas importadas y los reglajes personales. Los nombres por sí solos no forman fichas técnicas. `Migrations` aplica SQL versionado con un bloqueo de la base y registra la huella de cada transacción de datos. Consulta [migraciones de base de datos](migraciones-base-datos.md).
 

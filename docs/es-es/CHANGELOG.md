@@ -9,10 +9,24 @@ Las categorías de cambios y la convención de commits se describen en el [flujo
 ### Corregido
 
 - Retirar de la página de inicio la nota sobre los reglajes predeterminados de 2025 pendientes de recopilar.
+- Conservar la referencia explícita y los metadatos al importar un reglaje en el taller.
+- Confirmar la sustitución por importación cuando un borrador sin valores contiene comentarios por grupo sin guardar.
+- Mantener la extracción de traducciones tras el formato multilínea y excluir los comentarios de la detección de mensajes.
+
+### Interno
+
+- Agrupar las herramientas de desarrollo, pruebas y fixtures en `dev/`.
+- Retirar los scripts de desarrollo Python y Node y el flujo automatizado de publicación; quedan pendientes sus sustitutos en PHP para publicación y generación de traducciones.
+- Generar el catálogo de migraciones con PHP.
+- Eliminar controles retirados del taller, estilos sin uso, traducciones obsoletas y datos de visualización de efectos sin consumidores.
+- Separar eventos del taller, validación por tipo de circuito y responsabilidades de validación y preparación de actualizaciones.
+- Mantener los metadatos del borrador en el estado del navegador y compartir el helper de escapado HTML entre páginas de mantenimiento.
+- Documentar responsabilidades del código y aplicar formato uniforme en PHP, JavaScript y CSS con configuraciones exclusivas de desarrollo.
 
 ### Documentación
 
 - Definir las categorías de cambios y la convención de commits en el flujo de releases.
+- Añadir convenciones de código y actualizar las guías de arquitectura, traducción y pruebas.
 
 ## 0.4.0 — 2026-11-20
 

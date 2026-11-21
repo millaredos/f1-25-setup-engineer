@@ -137,8 +137,9 @@ For a complete backup, also back up MariaDB and `config/`. See [backup and resto
 | [Updating](docs/updating.md) | Packages and file recovery. |
 | [Release workflow](docs/releasing.md) | One PR per release, Alpha builds and stable publication. |
 | [Architecture](docs/architecture.md) | Stack, layers, dependencies and storage. |
+| [Code conventions](docs/coding-standards.md) | Responsibilities, names, comments, security and maintenance. |
 | [Translations](docs/translations.md) | PO catalogs and adding a language. |
-| [Testing](docs/testing.md) | Commands, results and limitations. |
+| [Testing](docs/testing.md) | Commands, coverage and limitations. |
 | [Roadmap](ROADMAP.md) | Ideas for future development. |
 
 ## Development
@@ -151,8 +152,7 @@ src/           PHP classes and bootstrap
 data/          Settings and handling-test catalogs
 languages/     Editable PO translation catalogs
 config/        Installation configuration
-tests/         Tests and fixtures
-bin/           Development tools
+dev/           Development tools, tests and fixtures
 docs/          Documentation; Spanish versions in es-es/
 media/         Logo and banner
 ```
@@ -160,16 +160,14 @@ media/         Logo and banner
 Run the domain and updater tests:
 
 ```sh
-python -m pip install -r requirements-dev.txt
-python bin/translations.py --check
-php tests/translations.php
-php tests/run.php
-php tests/updater.php
-php tests/updates.php
-python -m unittest discover -s tests -p 'test_*.py'
+php dev/bin/migrations.php --check
+php dev/tests/translations.php
+php dev/tests/run.php
+php dev/tests/updater.php
+php dev/tests/updates.php
 ```
 
-The PHP update tests require ZIP. Browser tests use Node, Playwright and Edge or Chromium. Persistence tests require an empty test MariaDB database; see [testing](docs/testing.md).
+The PHP update tests require ZIP. Persistence tests require an empty test MariaDB database; see [testing](docs/testing.md). Translation generation and release packaging are being replaced and are not currently available.
 
 Local development server:
 
@@ -177,7 +175,7 @@ Local development server:
 php -d register_argc_argv=0 -d display_errors=0 -S 127.0.0.1:8125 -t public_html
 ```
 
-Open `http://127.0.0.1:8125/` and complete the installer. Node and Python are used for testing and packaging respectively; neither is required in production.
+Open `http://127.0.0.1:8125/` and complete the installer.
 
 ### Contributing
 

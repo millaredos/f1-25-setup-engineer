@@ -1,7 +1,13 @@
 <?php
+
 declare(strict_types=1);
-if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
-require dirname(__DIR__) . '/src/bootstrap.php';
+
+/** Development CLI initialization; end-user installation remains the browser installer. */
+if (PHP_SAPI !== 'cli') {
+    http_response_code(404);
+    exit;
+}
+require dirname(__DIR__, 2) . '/src/bootstrap.php';
 try {
     $config = appConfig();
     $store = new Store($config);

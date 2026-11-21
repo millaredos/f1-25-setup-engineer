@@ -24,6 +24,6 @@ Applied SQL checksums are immutable. A checksum mismatch or an unknown migration
 
 Edit versioned sources under `data/migrations/`. Each migration has a `.schema.sql` file for DDL and a `.data.sql` file for transactional statements. Separate statements using a `-- statement` line. Add future changes as new migrations instead of changing an applied file.
 
-Run `python bin/migrations.py` to generate `src/migration_catalog.php`; `--check` verifies it. The generated PHP embeds SQL so existing updaters can distribute it through their existing path allowlist. No SQL parser or Python runtime is required in production. Package creation rejects a stale generated catalog.
+Run `python dev/bin/migrations.py` to generate `src/migration_catalog.php`; `--check` verifies it. The generated PHP embeds SQL so existing updaters can distribute it through their existing path allowlist. No SQL parser or Python runtime is required in production. Package creation rejects a stale generated catalog.
 
-`php tests/migrations.php` checks bundled values and migration control flow through a recording PDO connection. `tests/integration.php` exercises the actual SQL, reapplication, existing setups, rollback and retry only when an empty MariaDB test database is explicitly configured. See [testing](testing.md).
+`php dev/tests/migrations.php` checks bundled values and migration control flow through a recording PDO connection. `dev/tests/integration.php` exercises the actual SQL, reapplication, existing setups, rollback and retry only when an empty MariaDB test database is explicitly configured. See [testing](testing.md).

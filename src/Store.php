@@ -1,12 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/Migrations.php';
 
+/** MariaDB persistence for validated snapshots; SQL values always use bound parameters. */
 final class Store
 {
     private PDO $db;
 
+    /**
+     * Open MariaDB with native prepared statements and exception-based errors.
+     * @param array{dsn: string, username: ?string, password: ?string}
+     $config
+     */
     public function __construct(array $config)
     {
         $driver = explode(':', $config['dsn'], 2)[0];
@@ -17,6 +24,9 @@ final class Store
         $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
 
+    /**
+     * Create the compatible base tables and apply catalog migrations; never replace existing setups.
+     */
     public function initialize(): void
     {
         // DDL separado de las transacciones de datos: MySQL hace commit implícito.
@@ -30,6 +40,9 @@ final class Store
         $this->migrate();
     }
 
+    /**
+     * Check schema identity and required tables; a connection failure must not trigger reinstallation.
+     */
     public function ready(): void
     {
         if ($this->db->query('SELECT version FROM f125_schema_meta')->fetchAll(PDO::FETCH_COLUMN) != [1]) {
@@ -39,30 +52,48 @@ final class Store
         $this->db->query('SELECT id, circuit_id, title, payload, created_at FROM f125_setups LIMIT 0');
     }
 
+    /**
+     * Read stored circuit snapshots; authoritative catalog identities are supplied separately.
+     * @return list<array>
+     */
     public function circuits(): array
     {
-        return array_map(static fn(array $row) => json_decode($row['payload'], true, 64, JSON_THROW_ON_ERROR), $this->db->query('SELECT payload FROM f125_circuits ORDER BY id')->fetchAll());
+        return array_map(static fn (array $row) => json_decode($row['payload'], true, 64, JSON_THROW_ON_ERROR), $this->db->query('SELECT payload FROM f125_circuits ORDER BY id')->fetchAll());
     }
 
+    /**
+     * Delegate ledger verification and return only unapplied migration identifiers.
+     * @return list<string>
+     */
     public function pendingMigrations(): array
     {
         return (new Migrations($this->db))->pending();
     }
 
+    /**
+     * Validate the base schema before applying the migration catalog.
+     */
     public function migrate(): void
     {
         $this->ready();
         (new Migrations($this->db))->apply();
     }
 
+    /**
+     * Read game presets and circuit assignments only after all catalog migrations are present.
+     * @return array{presets: array, circuits: array}
+     */
     public function gameCatalog(): array
     {
-        if ($this->pendingMigrations()) { throw new RuntimeException('Actualiza la base de datos para cargar el catálogo del juego.'); }
+        if ($this->pendingMigrations()) {
+            throw new RuntimeException('Actualiza la base de datos para cargar el catálogo del juego.');
+        }
         $presets = $this->db->query('SELECT * FROM f125_game_presets ORDER BY id')->fetchAll();
         foreach ($presets as &$preset) {
-            $id = (int) $preset['id']; $name = $preset['name'];
+            $id = (int) $preset['id'];
+            $name = $preset['name'];
             unset($preset['id'], $preset['name']);
-            $values = array_map(static fn($value) => (float) $value, $preset);
+            $values = array_map(static fn ($value) => (float) $value, $preset);
             $preset = ['id' => $id, 'name' => $name, 'values' => $values];
         }
         unset($preset);
@@ -74,6 +105,9 @@ final class Store
         return ['presets' => $presets, 'circuits' => $circuits];
     }
 
+    /**
+     * Insert a validated circuit snapshot and reject identity conflicts rather than overwrite it.
+     */
     public function saveCircuit(array $circuit): void
     {
         $stmt = $this->db->prepare('INSERT INTO f125_circuits (id,payload,created_at) VALUES (?,?,?)');
@@ -87,6 +121,10 @@ final class Store
         }
     }
 
+    /**
+     * Insert a setup and its missing circuit in one transaction; conflicting snapshots roll back.
+     * @return string New setup identifier.
+     */
     public function saveSetup(array $data): string
     {
         $id = bin2hex(random_bytes(16));
@@ -113,6 +151,10 @@ final class Store
         return $id;
     }
 
+    /**
+     * Return selection metadata without transferring every setup payload.
+     * @return list<array>
+     */
     public function setups(): array
     {
         $rows = $this->db->query('SELECT id,circuit_id,title,created_at,payload FROM f125_setups ORDER BY created_at DESC,id DESC')->fetchAll();
@@ -124,6 +166,9 @@ final class Store
         return $rows;
     }
 
+    /**
+     * Update the selected record while retaining its circuit identity; verify unchanged-row results.
+     */
     public function updateSetup(string $id, array $data): void
     {
         $stmt = $this->db->prepare('UPDATE f125_setups SET title = ?, payload = ? WHERE id = ? AND circuit_id = ?');
@@ -136,13 +181,21 @@ final class Store
         }
     }
 
+    /**
+     * Delete exactly one selected setup or report that it no longer exists.
+     */
     public function deleteSetup(string $id): void
     {
         $stmt = $this->db->prepare('DELETE FROM f125_setups WHERE id = ?');
         $stmt->execute([$id]);
-        if ($stmt->rowCount() !== 1) { throw new ValidationError('No existe ese reglaje guardado.'); }
+        if ($stmt->rowCount() !== 1) {
+            throw new ValidationError('No existe ese reglaje guardado.');
+        }
     }
 
+    /**
+     * Read one full snapshot by a bound identifier; report a missing record explicitly.
+     */
     public function loadSetup(string $id): array
     {
         $stmt = $this->db->prepare('SELECT payload FROM f125_setups WHERE id = ?');
@@ -154,6 +207,9 @@ final class Store
         return json_decode($row['payload'], true, 64, JSON_THROW_ON_ERROR);
     }
 
+    /**
+     * Encode validated storage data as UTF-8 JSON and propagate serialization failures.
+     */
     private function encode(array $data): string
     {
         return json_encode($data, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);

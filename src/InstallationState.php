@@ -1,16 +1,23 @@
 <?php
+
 declare(strict_types=1);
 
-/** El estado del sitio vive fuera del directorio público y de Git. */
+/** Atomic private installation state outside HTTP/Git; database outages cannot reopen the installer. */
 final class InstallationState
 {
     private string $path;
 
+    /**
+     * Bind state operations to the private installation file supplied by the bootstrap.
+     */
     public function __construct(string $path)
     {
         $this->path = $path;
     }
 
+    /**
+     * Treat missing state as pending; malformed state is an error, never permission to reinstall.
+     */
     public function isInstalled(): bool
     {
         if (!file_exists($this->path)) {
@@ -27,11 +34,17 @@ final class InstallationState
         return $data['installed'];
     }
 
+    /**
+     * Report whether PHP can create the private state file in its parent directory.
+     */
     public function canWrite(): bool
     {
         return is_writable(dirname($this->path));
     }
 
+    /**
+     * Atomically mark installation complete only after the caller has verified the schema.
+     */
     public function markInstalled(): void
     {
         if (!$this->canWrite()) {
@@ -47,10 +60,16 @@ final class InstallationState
                 throw new RuntimeException('No se pudo guardar el estado de instalación.');
             }
         } finally {
-            if (is_file($temporary)) { unlink($temporary); }
+            if (is_file($temporary)) {
+                unlink($temporary);
+            }
         }
     }
 
+    /**
+     * Serialize installation mutations and release the lock even when the operation throws.
+     * @param callable(): void $operation
+     */
     public function withLock(callable $operation): void
     {
         $lock = fopen($this->path . '.lock', 'c');

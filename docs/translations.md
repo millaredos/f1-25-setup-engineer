@@ -23,14 +23,14 @@ python -m pip install -r requirements-dev.txt
 Use literal single-quoted messages in `t('Message')` in PHP and JavaScript, or `$this->tr('Message')` inside `Domain`. Use named placeholders for changing values, for example `t('Versión {version}', ['version' => appVersion()])` in PHP. Keep complete sentences together. Use `tn(one, many, count)` for plural messages.
 
 ```sh
-python bin/translations.py --extract
+python dev/bin/translations.py --extract
 # Translate the new entries in languages/es.po.
-python bin/translations.py
-python bin/translations.py --check
-php tests/translations.php
+python dev/bin/translations.py
+python dev/bin/translations.py --check
+php dev/tests/translations.php
 ```
 
-Extraction updates the Spanish source catalog, preserving existing translations and marking unused entries obsolete. Dynamic messages from bundled data and updater errors are collected explicitly by the extraction tool. The package builder rejects stale generated catalogs, missing messages, incomplete or fuzzy translations, mismatched placeholders and unsupported plural rules. PO syntax and duplicate entries are checked with polib.
+Extraction updates the Spanish source catalog, preserving active translations and removing unused entries. It recognizes multiline literal calls and ignores comments. Dynamic messages from bundled data and updater errors are collected explicitly by the extraction tool. The package builder rejects stale generated catalogs, missing messages, incomplete or fuzzy translations, mismatched placeholders and unsupported plural rules. PO syntax and duplicate entries are checked with polib.
 
 Commit the PO source and generated PHP catalog together. The server loads the prepared files; it does not run Python, polib or conversion commands. A missing or invalid catalog falls back to source messages; a missing translated entry falls back to Spanish, then its source.
 

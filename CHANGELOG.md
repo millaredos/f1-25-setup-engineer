@@ -9,10 +9,24 @@ Change categories and commit conventions are described in the [release workflow]
 ### Fixed
 
 - Remove the pending 2025 presets note from the home page.
+- Preserve explicit reference values and metadata when importing a setup into the workshop.
+- Confirm import replacement when an otherwise empty draft contains unsaved group comments.
+- Keep translation extraction accurate after multiline formatting and exclude comments from message discovery.
+
+### Internal
+
+- Group development scripts, tests and fixtures under `dev/`.
+- Remove Python and Node development scripts and their automated release workflow; release automation and translation generation are pending PHP replacements.
+- Generate the migration catalog with PHP.
+- Remove retired workshop controls, unused styles and obsolete translations and impact-display data.
+- Separate workshop event handlers, circuit validation paths and update validation/staging responsibilities.
+- Keep draft metadata in browser state and share the HTML escaping helper across maintenance pages.
+- Document code responsibilities and apply consistent PHP, JavaScript and CSS formatting with development-only configurations.
 
 ### Documentation
 
 - Define change categories and commit conventions in the release workflow.
+- Add coding conventions and update architecture, translation and testing guides.
 
 ## 0.4.0 — 2026-11-20
 

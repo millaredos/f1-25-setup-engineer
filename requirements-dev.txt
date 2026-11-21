@@ -1,2 +1,0 @@
-# PO parsing and catalog generation; not needed on the application server.
-polib==1.2.0
