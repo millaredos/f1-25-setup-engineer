@@ -50,7 +50,9 @@ final class UpdateDiscovery
         }
         if (!preg_match('/<!-- f125-update (\{[^\r\n]*\}) -->/', $release['body'] ?? '', $marker)) { return null; }
         $build = json_decode($marker[1], true, 16, JSON_THROW_ON_ERROR);
-        if (($build['format'] ?? '') !== 'f125-update-v3') { return null; }
+        $mvc = ($build['format'] ?? '') === 'f125-update-v3';
+        $transition = ($build['format'] ?? '') === 'f125-update-v2' && ($build['payloadFormat'] ?? '') === 'f125-update-v3';
+        if (!$mvc && !$transition) { return null; }
         if (!preg_match('/^[a-f0-9]{40}$/D', $build['commit'] ?? '') || !is_int($build['pr'] ?? null) || $build['pr'] < 1 || !preg_match('/^release\/\d+\.\d+\.\d+$/D', $build['branch'] ?? '')) { throw new \RuntimeException('Invalid published build identity.'); }
         foreach ($release['assets'] ?? [] as $asset) {
             if (($asset['name'] ?? '') !== 'f125-update-' . $version . '.zip') {

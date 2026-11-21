@@ -89,9 +89,9 @@ function publish(): void
     $temp = tempnam(sys_get_temp_dir(), 'f125-package-');
     if (!$temp) { throw new RuntimeException('Cannot prepare package.'); }
     try {
-        buildPackage($root, $temp, $version, $identity);
+        buildReleasePackage($root, $temp, $version, $identity);
         $digest = hash_file('sha256', $temp);
-        $marker = '<!-- f125-update ' . json_encode($identity + ['format' => 'f125-update-v3'], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR) . ' -->';
+        $marker = '<!-- f125-update ' . json_encode($identity + ['format' => 'f125-update-v2', 'payloadFormat' => 'f125-update-v3'], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR) . ' -->';
         $release = $existing ?? github('POST', 'releases', ['tag_name' => 'v' . $version, 'target_commitish' => $commit, 'name' => ($stable ? 'Release ' : 'Alpha ') . $version, 'body' => ($live['body'] ?? $pr['title']) . "\n\n" . $marker, 'draft' => true, 'prerelease' => !$stable]);
         if (($release['target_commitish'] ?? '') !== $commit) { throw new RuntimeException('Version already belongs to another commit.'); }
         $name = 'f125-update-' . $version . '.zip';

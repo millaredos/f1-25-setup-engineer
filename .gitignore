@@ -4,6 +4,7 @@
 /config/installation.json
 /config/*.lock
 /config/update*.json
+/config/mvc-transition.*
 /backups/
 /dist/
 /dev/tools/

@@ -16,6 +16,8 @@ Change and commit categories are defined in the [release workflow](docs/releasin
 
 ### Fixes
 
+- Restore browser updates from 0.4.0 using a compatible transport and a PHP ZIP transition. Back up and remove explicitly retired files, preserve private state, recover both journal formats and remove the temporary adapter after success.
+
 - Remove the pending 2025 preset collection note from the home page.
 - Preserve imported reference values, reference provenance, conditions and group comments. Require explicit season assignment when legacy files lack it.
 - Confirm replacement of unsaved drafts, including drafts whose only changes are notes.
@@ -34,7 +36,7 @@ Change and commit categories are defined in the [release workflow](docs/releasin
 
 - Rewrite architecture, installation and operation guidance in English and Spanish, including JSON contracts, verification and release conventions.
 - Document responsibilities and non-obvious invariants alongside maintained code, configuration and tests.
-- Record the first transition from the previous architecture as a manual migration. MVC update packages use format `f125-update-v3` and must not be installed through the previous updater.
+- Document the automatic 0.4-to-MVC transition and its recovery, cleanup and transport contracts.
 
 ## 0.4.0 — 2026-11-20
 

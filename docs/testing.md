@@ -28,3 +28,9 @@ Run `php dev/tests/integration.php`. It refuses databases whose name does not st
 Use the available browser with a temporary PHP site to inspect desktop/mobile layouts, imports, category controls, unsaved decisions and circuit source links. Browser checks and live MariaDB results must be reported separately from model and HTTP checks. No browser automation package is installed in this repository.
 
 Also check PHP 8.0 compatibility; a pass on a newer development runtime does not prove minimum-version behavior. GitHub publication, real installation upgrades and power-loss recovery are distinct from offline package tests.
+
+## Transition regression
+
+Run `php dev/tests/transition.php` after fetching the fixed public 0.4 commit `c166bf04d50cd12c640434ade7fa7cda16919f48`. The test loads its actual updater and discovery classes unchanged from Git as temporary regression fixtures. CI fetches that commit explicitly. These sources are not included in production packages.
+
+The test follows the 0.4 service installation and the redirect that installs MVC, at root and under a subdirectory with a renamed public folder. It verifies both journal formats, a forced replacement failure and retry, explicit file removal, private configuration and hosting-file preservation, and a subsequent MVC update using the same release transport. HTTPS responses are deterministic test fixtures; actual database migration and power-loss testing remain separate checks.

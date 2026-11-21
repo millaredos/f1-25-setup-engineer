@@ -115,6 +115,11 @@ try {
     $contents = $installer->inspect($zip, '9.0.0-alpha.1');
     check(isset($contents['src/Model/Car.php'], $contents['public_html/index.php']), 'Nested MVC files included');
     check(!isset($contents['config/local.php'], $contents['dev/tests/run.php']), 'Private and development files excluded');
+    $wrapped = $temporary . '/wrapped.zip';
+    buildReleasePackage($root, $wrapped, '9.0.0-alpha.1', $identity);
+    $embedded = \App\Application\LegacyPackage::embedded($wrapped);
+    check(hash_equals(hash_file('sha256', $zip), hash('sha256', $embedded)), 'Wrapped payload matches reproducible MVC archive exactly');
+    rejects(static fn () => \App\Application\LegacyPackage::decode(['archive' => base64_encode($embedded . 'damage'), 'sha256' => hash('sha256', $embedded)]), 'Damaged nested payload rejected before extraction');
     foreach (['../src/a.php', 'src/../config/local.php', 'src//a.php', 'config/local.php', 'public_html/assets/a.php', 'src/a.php/evil'] as $path) { check(!UpdateInstaller::allowed($path), 'Unsafe path rejected'); }
     $installer->install($zip, '9.0.0-alpha.1');
     check(trim(file_get_contents($temporary . '/src/VERSION')) === '9.0.0-alpha.1', 'Package installed');
@@ -126,6 +131,12 @@ try {
     JsonFile::write($temporary . '/config/update-journal.json', ['backup' => 'update-recovery', 'files' => ['src/VERSION' => true]]);
     $installer->recover();
     check(trim(file_get_contents($temporary . '/src/VERSION')) === '0.4.0', 'Interrupted update recovers prior version');
+    file_put_contents($temporary . '/src/retired.php', 'replacement');
+    file_put_contents($temporary . '/backups/update-recovery/src/retired.php', 'original');
+    JsonFile::write($temporary . '/config/update-journal.json', ['backup' => 'update-recovery', 'files' => ['src/retired.php' => true, 'src/VERSION' => true], 'hashes' => ['src/retired.php' => hash('sha256', 'original'), 'src/VERSION' => str_repeat('f', 64)]]);
+    rejects(static fn () => $installer->recover(), 'Damaged backup blocks recovery before any file is changed');
+    check(file_get_contents($temporary . '/src/retired.php') === 'replacement', 'Recovery preflights the complete backup set');
+    unlink($temporary . '/config/update-journal.json');
     JsonFile::write($temporary . '/config/update-journal.json', ['backup' => 'update-recovery', 'files' => ['src/VERSION' => 'yes']]);
     rejects(static fn () => $installer->recover(), 'Corrupt recovery state is rejected');
     unlink($temporary . '/config/update-journal.json');

@@ -16,6 +16,8 @@ Las categorías de cambios y commits se definen en el [procedimiento de publicac
 
 ### Correcciones
 
+- Restablecer la actualización desde 0.4.0 mediante el navegador, con transporte compatible y transición PHP ZIP. Copiar y retirar archivos obsoletos explícitos, conservar el estado privado, recuperar ambos formatos de diario y eliminar el adaptador temporal al terminar.
+
 - Retirar de la página de inicio la nota sobre la recopilación pendiente de predeterminados de 2025.
 - Conservar las referencias importadas, su procedencia, condiciones y comentarios por grupo. Exigir asignación explícita de temporada cuando falte en archivos antiguos.
 - Confirmar la sustitución de borradores sin guardar, incluidos aquellos cuyos únicos cambios son comentarios.
@@ -34,7 +36,7 @@ Las categorías de cambios y commits se definen en el [procedimiento de publicac
 
 - Reescribir las guías de arquitectura, instalación y uso en inglés y español, incluidos contratos JSON, verificación y convenciones de publicación.
 - Documentar responsabilidades e invariantes no evidentes junto al código, configuración y pruebas mantenidos.
-- Documentar como manual la primera transición desde la arquitectura anterior. Los paquetes MVC usan el formato `f125-update-v3` y no deben instalarse con el actualizador anterior.
+- Documentar la transición automática de 0.4 a MVC y sus contratos de recuperación, limpieza y transporte.
 
 ## 0.4.0 — 2026-11-20
 

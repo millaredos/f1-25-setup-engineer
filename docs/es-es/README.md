@@ -45,7 +45,7 @@ Se mantienen los veinte IDs publicados y los formatos JSON admitidos. Las refere
 
 Se conservan las tablas personales `f125_circuits`, `f125_setups` y el esquema 1. La reconstrucción lee sus datos JSON. Los datos distribuidos de temporada están separados de esas tablas; no se eliminan los catálogos antiguos de la base.
 
-**La primera migración desde la arquitectura anterior es manual.** Guarda copias de archivos y MariaDB, conserva la configuración privada y el estado de instalación, sustituye el árbol de aplicación por estas fuentes y publica el nuevo directorio público. No instales un paquete MVC con el actualizador anterior. El nuevo actualizador solo admite paquetes completos `f125-update-v3` y no ofrece paquetes de la arquitectura antigua. Desarrollar estas fuentes no ha migrado ninguna instalación real.
+Desde 0.4.0 se actualiza mediante el navegador. Los paquetes conservan el transporte v2 que admite ese actualizador e incluyen un ZIP MVC con su hash. Tras la instalación autorizada, la redirección completa la extracción bajo bloqueo, copia los archivos sustituidos y elimina únicamente archivos de aplicación retirados expresamente. Conserva configuración privada, estado de instalación, base de datos, directivas del alojamiento y archivos ajenos. Si falla la sustitución, restaura un estado que permite reintentar. El adaptador temporal se elimina al terminar; no hay que subir archivos ni ejecutar comandos.
 
 ## Desarrollo
 

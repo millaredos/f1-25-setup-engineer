@@ -29,7 +29,7 @@ The workflow checks out the exact PR or merge commit using Git, installs PHP ext
 
 Documentation-only work must not trigger an Alpha. Use the PR marker `<!-- stable-release-only -->` when preparing only the stable draft; otherwise accumulate documentation with the next functional delivery.
 
-Packages are `f125-update-v3`, including version, channel, commit, PR, branch, minimum PHP/schema and per-file SHA-256. GitHub confirms the uploaded ZIP digest before publication. Already published content cannot be replaced. Only complete published packages may be announced through the established channel procedure.
+MVC payloads use `f125-update-v3`, including version, channel, commit, PR, branch, minimum PHP/schema and per-file SHA-256. `buildReleasePackage` wraps that ZIP in the v2 transport accepted by the original 0.4 updater. Its bounded JSON envelope carries the inner digest and identical identity. Release metadata identifies format v2 and payloadFormat v3. GitHub confirms the outer ZIP digest before publication. Already published content cannot be replaced; only verified complete packages are announced.
 
 For a local test package, provide an explicit destination and source identity:
 
@@ -37,4 +37,4 @@ For a local test package, provide an explicit destination and source identity:
 php dev/bin/package.php --version=0.5.0-alpha.1 --channel=alpha --commit=FULL_COMMIT_SHA --pr=1 --branch=release/0.5.0 --output=/ABSOLUTE/PATH/f125-update-0.5.0-alpha.1.zip
 ```
 
-This command does not publish anything. The first move from the old application to MVC is manual; the previous updater cannot install the nested MVC package. Preserve private configuration, installation state, backups and MariaDB. No database data is deleted by the new application.
+This command builds an unwrapped MVC test package and does not publish anything. The release workflow builds the compatibility transport automatically. Its envelope is capped below the 0.4 per-file limit; oversized payloads fail before publication. The original 0.5.0-alpha.1 package lacked this transport and is superseded for upgrades from 0.4.0.

@@ -29,7 +29,7 @@ El workflow obtiene con Git el commit exacto de PR o fusión, instala extensione
 
 La documentación aislada no debe provocar Alpha. Usa la marca de PR `<!-- stable-release-only -->` si solo preparas el borrador estable; en otros casos acumula la documentación con la siguiente entrega funcional.
 
-Los paquetes `f125-update-v3` incluyen versión, canal, commit, PR, rama, mínimo PHP/esquema y SHA-256 por archivo. GitHub confirma el digest del ZIP antes de publicar. No se sustituye contenido publicado. Solo se anuncian paquetes publicados y completos mediante el procedimiento de canales establecido.
+El contenido MVC usa `f125-update-v3`, con versión, canal, commit, PR, rama, mínimo PHP/esquema y SHA-256 por archivo. `buildReleasePackage` envuelve ese ZIP en el transporte v2 que admite el actualizador original de 0.4. Su envoltura JSON limitada contiene el digest interior y la misma identidad. Los metadatos de la release identifican format v2 y payloadFormat v3. GitHub confirma el digest del ZIP exterior antes de publicar. No se sustituye contenido publicado y solo se anuncian paquetes completos verificados.
 
 Para un paquete local de pruebas, indica destino e identidad:
 
@@ -37,4 +37,4 @@ Para un paquete local de pruebas, indica destino e identidad:
 php dev/bin/package.php --version=0.5.0-alpha.1 --channel=alpha --commit=SHA_COMPLETO --pr=1 --branch=release/0.5.0 --output=/RUTA/ABSOLUTA/f125-update-0.5.0-alpha.1.zip
 ```
 
-El comando no publica. La primera transición a MVC es manual: el actualizador anterior no admite este paquete con subcarpetas. Conserva configuración privada, estado de instalación, backups y MariaDB. La aplicación nueva no elimina datos de la base.
+El comando genera un paquete MVC de prueba sin envoltura y no publica. El workflow construye automáticamente el transporte compatible. Su envoltura está limitada por debajo del máximo por archivo de 0.4; un contenido excesivo falla antes de publicar. El paquete original 0.5.0-alpha.1 carecía de ese transporte y queda sustituido para actualizar desde 0.4.0.

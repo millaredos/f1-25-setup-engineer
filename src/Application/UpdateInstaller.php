@@ -100,6 +100,7 @@ final class UpdateInstaller
                 'src/Application/SetupCodec.php',
                 'src/Application/UpdateDiscovery.php',
                 'src/Application/UpdateInstaller.php',
+                'src/Application/LegacyPackage.php',
                 'src/Application/UpdateStatus.php',
                 'src/Model/Car.php',
                 'src/Model/F1Car.php',
@@ -158,6 +159,24 @@ final class UpdateInstaller
     /** Install only a newer selected package; preserve backups and recover all replacements on failure. */
     public function install(string $archive, string $version, ?array $expected = null): string
     {
+        $embedded = LegacyPackage::embedded($archive);
+        if ($embedded !== null) {
+            $temp = tempnam($this->root . '/config', '.mvc-download-');
+            if (!$temp) {
+                throw new \RuntimeException('Cannot stage MVC payload.');
+            }
+            try {
+                if (file_put_contents($temp, $embedded) !== strlen($embedded) || !chmod($temp, 0600)) {
+                    throw new \RuntimeException('Cannot save MVC payload.');
+                }
+                if (LegacyPackage::embedded($temp) !== null) {
+                    throw new \RuntimeException('Nested update containers are not supported.');
+                }
+                return $this->install($temp, $version, $expected);
+            } finally {
+                if (is_file($temp)) { unlink($temp); }
+            }
+        }
         if (!self::validVersion($version) || !version_compare($version, trim(file_get_contents($this->root . '/src/VERSION')), '>')) {
             throw new \RuntimeException('Automatic downgrades are disabled.');
         }
@@ -172,42 +191,81 @@ final class UpdateInstaller
             if (!version_compare($version, trim(file_get_contents($this->root . '/src/VERSION')), '>')) {
                 throw new \RuntimeException('Automatic downgrades are disabled.');
             }
-            $backup = $this->root . '/backups/update-' . gmdate('Ymd-His') . '-' . bin2hex(random_bytes(4));
-            if (!mkdir($backup, 0700, true)) {
-                throw new \RuntimeException('Cannot create private backup.');
-            }
-            $journal = ['backup' => basename($backup), 'files' => []];
-            foreach ($contents as $path => $bytes) {
-                $target = $this->target($path);
-                $exists = is_file($target);
-                if ($exists) {
-                    $saved = $backup . '/' . $path;
-                    if (!is_dir(dirname($saved)) && !mkdir(dirname($saved), 0700, true)) {
-                        throw new \RuntimeException('Cannot prepare backup.');
-                    }
-                    if (!copy($target, $saved)) {
-                        throw new \RuntimeException('Cannot backup application file.');
-                    }
-                }
-                $journal['files'][$path] = $exists;
-            }
-            JsonFile::write($this->root . '/config/update-journal.json', $journal);
-            try {
-                foreach ($contents as $path => $bytes) {
-                    $this->replace($this->target($path), $bytes);
-                }
-                if (!unlink($this->root . '/config/update-journal.json')) {
-                    throw new \RuntimeException('Cannot complete update journal.');
-                }
-            } catch (\Throwable $error) {
-                $this->recover();
-                throw $error;
-            }
-            return basename($backup);
+            return $this->replaceSet($contents);
         } finally {
             flock($lock, LOCK_UN);
             fclose($lock);
         }
+    }
+
+    /**
+     * Complete the POST-authorized 0.4 transport under its bootstrap's exclusive update lock.
+     * The outer installer already stamped VERSION; only this explicit transition permits equality.
+     * @param array{channel:string,commit:string,pr:int,branch:string} $expected
+     */
+    public function completeLegacyTransition(string $archive, string $version, array $expected): string
+    {
+        $this->recover();
+        if (!is_file($this->root . '/src/MvcTransition.php') || !self::validVersion($version) || trim(file_get_contents($this->root . '/src/VERSION')) !== $version) {
+            throw new \RuntimeException('Not a pending legacy transition.');
+        }
+        return $this->replaceSet($this->inspect($archive, $version, $expected));
+    }
+
+    /** Back up replacements and explicit retirements together before any application file changes. */
+    private function replaceSet(array $contents): string
+    {
+        $removed = array_diff(LegacyPackage::retired(), array_keys($contents));
+        $changes = $contents + array_fill_keys($removed, null);
+        $backup = $this->root . '/backups/update-' . gmdate('Ymd-His') . '-' . bin2hex(random_bytes(4));
+        if (is_link($this->root . '/backups') || !mkdir($backup, 0700, true)) {
+            throw new \RuntimeException('Cannot create private backup.');
+        }
+        $journal = ['backup' => basename($backup), 'files' => [], 'hashes' => [], 'phase' => 'replacing'];
+        foreach ($changes as $path => $bytes) {
+            $target = $this->target($path);
+            if (file_exists($target) && !is_file($target)) {
+                throw new \RuntimeException('Application target is not a regular file.');
+            }
+            $exists = is_file($target);
+            if ($exists) {
+                $saved = $backup . '/' . $path;
+                if ((!is_dir(dirname($saved)) && !mkdir(dirname($saved), 0700, true)) || !copy($target, $saved)) {
+                    throw new \RuntimeException('Cannot back up application file.');
+                }
+                $journal['hashes'][$path] = hash_file('sha256', $saved);
+            }
+            $journal['files'][$path] = $exists;
+        }
+        JsonFile::write($this->root . '/config/update-journal.json', $journal);
+        try {
+            // Keep the transition bootstrap available until all nested files and retirements are ready.
+            $order = array_diff(array_keys($changes), ['src/MvcTransition.php', 'src/bootstrap.php', 'src/VERSION']);
+            $order = array_merge($order, ['src/bootstrap.php', 'src/VERSION', 'src/MvcTransition.php']);
+            foreach ($order as $path) {
+                $target = $this->target($path);
+                if ($changes[$path] === null) {
+                    if (is_file($target) && !unlink($target)) {
+                        throw new \RuntimeException('Cannot retire application file.');
+                    }
+                } else {
+                    $this->replace($target, $changes[$path]);
+                }
+                if (function_exists('opcache_invalidate')) { opcache_invalidate($target, true); }
+            }
+            $journal['phase'] = 'committed';
+            JsonFile::write($this->root . '/config/update-journal.json', $journal);
+            $this->recover();
+        } catch (\Throwable $error) {
+            $this->recover();
+            throw $error;
+        }
+        // Remove known empty application directories only; personal files prevent their removal.
+        $retiredDirectory = $this->root . '/data/migrations';
+        if (is_dir($retiredDirectory) && !is_link($retiredDirectory) && count(scandir($retiredDirectory)) === 2) {
+            rmdir($retiredDirectory);
+        }
+        return basename($backup);
     }
 
     /** Recover an interrupted installation under the caller's exclusive update lock. */
@@ -221,30 +279,63 @@ final class UpdateInstaller
         if (!preg_match('/^update-[a-zA-Z0-9-]+$/D', $journal['backup'] ?? '') || !is_array($journal['files'] ?? null)) {
             throw new \RuntimeException('Invalid recovery journal.');
         }
+        if (isset($journal['public']) && $journal['public'] !== $this->public) {
+            throw new \RuntimeException('Recovery public directory mismatch.');
+        }
+        // A crash during the outer 0.4 installation leaves its original journal shape.
+        $temporaries = [];
+        foreach ($journal['files'] as $name => $entry) {
+            if (is_array($entry)) {
+                if (!is_bool($entry['existed'] ?? null) || ($entry['existed'] && !preg_match('/^[a-f0-9]{64}$/D', $entry['oldHash'] ?? ''))) {
+                    throw new \RuntimeException('Invalid legacy recovery entry.');
+                }
+                $journal['files'][$name] = $entry['existed'];
+                if ($entry['existed']) { $journal['hashes'][$name] = $entry['oldHash']; }
+                if (is_string($entry['temp'] ?? null) && str_starts_with($entry['temp'], '.update-') && basename($entry['temp']) === $entry['temp']) {
+                    $temporaries[] = dirname($this->target($name)) . '/' . $entry['temp'];
+                }
+            }
+        }
+        $backupRoot = $this->root . '/backups/' . $journal['backup'];
+        if (is_link($this->root . '/backups') || is_link($backupRoot)) {
+            throw new \RuntimeException('Invalid backup path.');
+        }
+        // Validate the complete recovery set before restoring even its first file.
         foreach ($journal['files'] as $name => $existed) {
             if (!is_bool($existed)) {
                 throw new \RuntimeException('Invalid recovery file state.');
             }
-            $target = $this->target($name);
-            if ($existed === true) {
-                $backup = $this->root . '/backups/' . $journal['backup'] . '/' . $name;
-                if (!is_file($backup)) {
+            $this->target($name);
+            if ($existed && ($journal['phase'] ?? '') !== 'committed') {
+                $backup = $backupRoot . '/' . $name;
+                if (!is_file($backup) || (isset($journal['hashes'][$name]) && !hash_equals($journal['hashes'][$name], hash_file('sha256', $backup)))) {
                     throw new \RuntimeException('Recovery backup is missing.');
                 }
-                $this->replace($target, file_get_contents($backup));
-            } elseif ($existed === false && is_file($target) && !unlink($target)) {
-                throw new \RuntimeException('Cannot remove interrupted file.');
+            }
+        }
+        if (($journal['phase'] ?? '') !== 'committed') {
+            foreach (array_reverse($journal['files'], true) as $name => $existed) {
+                $target = $this->target($name);
+                if ($existed) {
+                    $this->replace($target, file_get_contents($backupRoot . '/' . $name));
+                } elseif (is_file($target) && !unlink($target)) {
+                    throw new \RuntimeException('Cannot remove interrupted file.');
+                }
+                if (function_exists('opcache_invalidate')) { opcache_invalidate($target, true); }
             }
         }
         if (!unlink($path)) {
             throw new \RuntimeException('Cannot clear recovery journal.');
+        }
+        foreach ($temporaries as $temp) {
+            if (is_file($temp) && !unlink($temp)) { throw new \RuntimeException('Cannot remove legacy recovery staging.'); }
         }
     }
 
     /** Resolve only validated application paths and reject symlinked parents. */
     private function target(string $path): string
     {
-        if (!self::allowed($path)) {
+        if (!self::allowed($path) && !in_array($path, LegacyPackage::retired(), true)) {
             throw new \RuntimeException('Disallowed update target.');
         }
         if (str_starts_with($path, 'public_html/')) { $path = $this->public . substr($path, 11); }

@@ -45,7 +45,7 @@ The twenty published setting IDs and supported JSON formats remain accepted. Imp
 
 The personal `f125_circuits`, `f125_setups` and schema-1 tables are retained. The rewrite reads their existing payloads. Distributed season data is now separate from those personal tables; older catalog tables are not deleted.
 
-**The first migration from the previous flat architecture is manual.** Back up files and MariaDB, preserve private configuration and installation state, replace the application tree with this source, and expose the new public directory. Do not install an MVC package through the previous updater. The new updater accepts only complete `f125-update-v3` packages and does not offer older architecture packages. No live migration has been performed by developing this source.
+Updates from 0.4.0 use the browser updater. Release packages retain its v2 transport contract and contain a hashed MVC ZIP. After the authorized installation, the redirect completes extraction under the update lock, backs up replacements and deletes only explicitly retired application files. Private configuration, installation state, database contents, hosting directives and unrelated files are preserved. Failed replacements restore a retryable state. The temporary adapter removes itself when complete; no file upload or shell command is required.
 
 ## Development
 

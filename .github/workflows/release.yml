@@ -25,6 +25,8 @@ jobs:
           git init .
           git fetch --depth=1 https://github.com/millaredos/f1-25-setup-engineer.git "$SOURCE_SHA"
           git checkout --detach FETCH_HEAD
+          # Released source is an immutable regression fixture, not a production dependency.
+          git fetch --depth=1 https://github.com/millaredos/f1-25-setup-engineer.git c166bf04d50cd12c640434ade7fa7cda16919f48
       - name: Install PHP tools
         run: |
           sudo apt-get update -qq
@@ -34,6 +36,7 @@ jobs:
           php dev/bin/translations.php --check
           php dev/tests/run.php
           php dev/tests/http.php
+          php dev/tests/transition.php
       - name: Publish Alpha or prepare stable draft
         if: github.event.action == 'closed' || !contains(github.event.pull_request.body, '<!-- stable-release-only -->')
         env:
